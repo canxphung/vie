@@ -5,6 +5,7 @@
 
 import { motion } from 'motion/react';
 import { TravelHandbook } from '@/features/tours/TravelHandbook';
+import { Container } from '@/components/ui';
 import { useI18n } from '@/hooks';
 
 export default function HandbookPage() {
@@ -15,9 +16,11 @@ export default function HandbookPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            className="max-w-7xl mx-auto px-4 py-8"
+            className="py-8"
           >
-            <TravelHandbook language={language} />
+            <Container>
+              <TravelHandbook language={language} />
+            </Container>
           </motion.div>
   );
 }

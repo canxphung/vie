@@ -72,7 +72,7 @@ export function AdminDashboard({
   const pendingPartnershipsCount = applications.filter(a => a.status === 'pending').length;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 text-natural-text">
+    <div className="space-y-8 text-natural-text">
       {/* Admin Title Banner */}
       <div className="bg-natural-text text-white p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-xl">
         <div className="space-y-1">

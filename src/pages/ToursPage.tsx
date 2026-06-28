@@ -5,6 +5,7 @@
 
 import { motion } from 'motion/react';
 import { TourCombos } from '@/features/tours/TourCombos';
+import { Container } from '@/components/ui';
 import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function ToursPage() {
@@ -18,19 +19,21 @@ export default function ToursPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            className="max-w-7xl mx-auto px-4 py-8"
+            className="py-8"
           >
-            <TourCombos 
-              language={language}
-              onAddToCart={(item) => {
-                handleAddToCart(item);
-                setShowPaymentModal(true);
-              }}
-              onNavigateHome={() => setView('regions')}
-              onViewItem={handleViewItem}
-              favorites={favorites}
-              onToggleFavorite={handleToggleFavorite}
-            />
+            <Container>
+              <TourCombos
+                language={language}
+                onAddToCart={(item) => {
+                  handleAddToCart(item);
+                  setShowPaymentModal(true);
+                }}
+                onNavigateHome={() => setView('regions')}
+                onViewItem={handleViewItem}
+                favorites={favorites}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            </Container>
           </motion.div>
   );
 }

@@ -74,7 +74,7 @@ export function PersonalProfile({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 text-natural-text">
+    <div className="space-y-8 text-natural-text">
       {/* Profile Header Block */}
       <div className="bg-natural-beige border border-natural-border rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col sm:flex-row items-center gap-6">

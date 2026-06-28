@@ -5,6 +5,7 @@
 
 import { motion } from 'motion/react';
 import { TaxiBooking } from '@/features/transport/TaxiBooking';
+import { Container } from '@/components/ui';
 import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function TaxiPage() {
@@ -18,16 +19,18 @@ export default function TaxiPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            className="max-w-7xl mx-auto px-4 py-8"
+            className="py-8"
           >
-            <TaxiBooking 
-              language={language}
-              onAddToCart={(item) => {
-                handleAddToCart(item);
-                setShowPaymentModal(true);
-              }}
-              onNavigateHome={() => setView('regions')}
-            />
+            <Container>
+              <TaxiBooking
+                language={language}
+                onAddToCart={(item) => {
+                  handleAddToCart(item);
+                  setShowPaymentModal(true);
+                }}
+                onNavigateHome={() => setView('regions')}
+              />
+            </Container>
           </motion.div>
   );
 }

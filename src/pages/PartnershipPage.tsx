@@ -5,6 +5,7 @@
 
 import { motion } from 'motion/react';
 import { PartnershipForm } from '@/features/partnership/PartnershipForm';
+import { Container } from '@/components/ui';
 import { useI18n, useAuth, useCatalog } from '@/hooks';
 
 export default function PartnershipPage() {
@@ -17,13 +18,15 @@ export default function PartnershipPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            className="max-w-7xl mx-auto px-4 py-8"
+            className="py-8"
           >
-            <PartnershipForm 
-              language={language}
-              onRegisterApplication={(app) => addApplication(app)}
-              applications={applications.filter(a => a.email === currentUser?.email)}
-            />
+            <Container>
+              <PartnershipForm
+                language={language}
+                onRegisterApplication={(app) => addApplication(app)}
+                applications={applications.filter(a => a.email === currentUser?.email)}
+              />
+            </Container>
           </motion.div>
   );
 }

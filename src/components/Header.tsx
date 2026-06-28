@@ -7,6 +7,7 @@ import React from 'react';
 import { Globe, ShoppingBag, Landmark, Sparkles, User, LogOut, Settings, Key, BookOpen, Car, Gift, HelpCircle, Clock, Hotel, ChevronDown, Compass } from 'lucide-react';
 import type { Language, UserAccount } from '../types';
 import { dictionaries } from '../data';
+import { Container } from '@/components/ui';
 import type { ViewId } from '@/constants/views';
 
 interface HeaderProps {
@@ -42,7 +43,7 @@ export default function Header({
   return (
     <header className="w-full bg-natural-bg text-natural-text border-b border-natural-border">
       {/* Mini top bar */}
-      <div className="max-w-7xl mx-auto px-4 py-1.5 flex flex-wrap justify-between items-center text-xs border-b border-natural-border bg-natural-beige text-natural-text">
+      <Container className="py-1.5 flex flex-wrap justify-between items-center text-xs border-b border-natural-border bg-natural-beige text-natural-text">
         <div className="flex gap-4 items-center font-medium">
           <button onClick={onNavigateHome} className="hover:text-natural-accent transition flex items-center gap-1">
             <Landmark className="w-3.5 h-3.5 text-natural-accent" />
@@ -102,11 +103,11 @@ export default function Header({
             </div>
           )}
         </div>
-      </div>
+      </Container>
 
       {/* Main navigation in the exact photo style */}
       <div className="bg-natural-bg border-b border-natural-border">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
+        <Container className="py-4 flex flex-wrap justify-between items-center">
           {/* Logo brand */}
           <div onClick={onNavigateHome} className="flex items-center gap-2.5 cursor-pointer group">
             <div className="p-2 rounded-lg bg-natural-accent text-white shadow-md group-hover:bg-natural-olive transition">
@@ -282,7 +283,7 @@ export default function Header({
               )}
             </button>
           </div>
-        </div>
+        </Container>
       </div>
     </header>
   );

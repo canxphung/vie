@@ -5,6 +5,7 @@
 
 import { motion } from 'motion/react';
 import { Clock } from 'lucide-react';
+import { Container } from '@/components/ui';
 import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function RecentlyViewedPage() {
@@ -17,8 +18,9 @@ export default function RecentlyViewedPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            className="max-w-7xl mx-auto px-4 py-12 space-y-8"
+            className="py-12"
           >
+            <Container className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-natural-border pb-6 gap-4">
               <div>
                 <span className="text-xs font-bold text-natural-accent uppercase tracking-widest">{isVi ? 'Nhật ký lữ hành' : 'Travel History Log'}</span>
@@ -127,6 +129,7 @@ export default function RecentlyViewedPage() {
                 })}
               </div>
             )}
+            </Container>
           </motion.div>
   );
 }

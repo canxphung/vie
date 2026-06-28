@@ -6,6 +6,7 @@
 import { motion } from 'motion/react';
 import { ShieldAlert } from 'lucide-react';
 import { AdminDashboard } from '@/features/admin/AdminDashboard';
+import { Container } from '@/components/ui';
 import { useI18n, useAuth, useCatalog, useUI } from '@/hooks';
 
 export default function AdminPage() {
@@ -19,8 +20,9 @@ export default function AdminPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            className="max-w-7xl mx-auto px-4 py-8"
+            className="py-8"
           >
+            <Container>
             {currentUser?.role === 'admin' ? (
               <AdminDashboard 
                 language={language}
@@ -44,6 +46,7 @@ export default function AdminPage() {
                 </button>
               </div>
             )}
+            </Container>
           </motion.div>
   );
 }

@@ -60,7 +60,7 @@ export function TourCombos({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 text-natural-text space-y-10">
+    <div className="text-natural-text space-y-10">
       <div className="text-center space-y-2 max-w-2xl mx-auto">
         <span className="bg-natural-gold text-natural-text text-[10px] uppercase font-black tracking-widest px-3.5 py-1 rounded-full">
           EXCLUSIVE HERITAGE BUNDLES
