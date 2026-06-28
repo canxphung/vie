@@ -1,0 +1,8 @@
+{
+  "name": "VietCharm Portal",
+  "description": "Hệ thống du lịch lữ hành kết nối đặt tour trực tuyến, lưu trú phòng, thuê phương tiện liên tỉnh miền Trung kèm bản đồ thời gian thực và trợ lý AI tối ưu chi phí.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
