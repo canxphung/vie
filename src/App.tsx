@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import { Language, BookingCartItem } from './types';
 import Header from './components/Header';
 import RegionSelector from './components/RegionSelector';
 import ProvinceDashboard from './components/ProvinceDashboard';
@@ -15,221 +14,66 @@ import BlindTravel from './components/BlindTravel';
 import HelpPromoCenter from './components/HelpPromoCenter';
 import ServiceDetails from './components/ServiceDetails';
 
-// Import newly implemented rich modules (STT 1-14)
-import { 
-  UserAccount, PartnershipApplication, PromoVoucher, SystemBooking,
-  DEFAULT_USERS, DEFAULT_PARTNERSHIPS, DEFAULT_VOUCHERS, DEFAULT_SYSTEM_BOOKINGS,
+// Feature components (still hosted in VietCharmExtraFeatures until split into features/)
+import {
   UserAuthModal, PersonalProfile, TaxiBooking, TourCombos, TravelHandbook, PartnershipForm, AdminDashboard
 } from './components/VietCharmExtraFeatures';
 import NearbyPlaces from './components/NearbyPlaces';
 import AllServicesView from './components/AllServicesView';
 
-import { attractionsByProvince, dictionaries } from './data';
+import { attractionsByProvince } from './data';
+import { useI18n, useAuth, useCatalog, useCart, useUI } from '@/hooks';
 import { Star, ShieldAlert, ArrowRight, Sparkles, MapPin, Calendar, HelpCircle, Navigation2, Users, Compass, BookOpen, Car, Gift, Settings, Sparkle, Clock, ChevronDown, Heart, Facebook, Instagram, Youtube, Phone, Mail, ShieldCheck, Headphones, Award, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
-  const [language, setLanguage] = React.useState<Language>('vi');
-  
-  // Expanded routing view states to support all 14 requested national level functionalities
-  const [view, setView] = React.useState<
-    'regions' | 'provinces' | 'province' | 'ai-explorer' | 'blind-travel' | 'trip-room' | 'group-blind-travel' |
-    'profile' | 'taxi' | 'tours' | 'handbook' | 'partnership-register' | 'admin' | 'recently-viewed' | 'nearby-places' |
-    'all-services'
-  >('regions');
-  
-  const [allServicesTab, setAllServicesTab] = React.useState<'attractions' | 'hotels' | 'vehicles' | 'activities'>('attractions');
-  
-  const [selectedProvinceId, setSelectedProvinceId] = React.useState('quang-nam');
-  
-  // Extra features persistent collections states with seed fallbacks
-  const [users, setUsers] = React.useState<UserAccount[]>(() => {
-    try {
-      const saved = localStorage.getItem('vc_users');
-      return saved ? JSON.parse(saved) : DEFAULT_USERS;
-    } catch {
-      return DEFAULT_USERS;
-    }
-  });
+  const { language, setLanguage, t, isVi } = useI18n();
+  const {
+    view, setView, activeSubView, allServicesTab, setAllServicesTab,
+    selectedProvinceId, setSelectedProvinceId, selectProvince,
+    selectedItem, viewItem, clearSelectedItem,
+    recentlyViewed, clearRecentlyViewed, favorites, toggleFavorite,
+    scrollToSection, changeHeaderView, navigateHome,
+  } = useUI();
+  const {
+    currentUser, users, isAuthModalOpen, openAuthModal, closeAuthModal,
+    login, register, logout, updateProfile, setUserRole,
+  } = useAuth();
+  const {
+    applications, vouchers, bookings,
+    addApplication, setApplicationStatus, setBookingStatus, addVoucher, deleteVoucher,
+  } = useCatalog();
+  const {
+    items: cartItems, cartCount, isPaymentOpen, openPayment, closePayment,
+    addItem: handleAddToCart, addCombo: handleAddAIComboToCart,
+    removeItem: handleRemoveFromCart, clearCart: handleClearCart,
+  } = useCart();
 
-  const [applications, setApplications] = React.useState<PartnershipApplication[]>(() => {
-    try {
-      const saved = localStorage.getItem('vc_applications');
-      return saved ? JSON.parse(saved) : DEFAULT_PARTNERSHIPS;
-    } catch {
-      return DEFAULT_PARTNERSHIPS;
-    }
-  });
-
-  const [vouchers, setVouchers] = React.useState<PromoVoucher[]>(() => {
-    try {
-      const saved = localStorage.getItem('vc_vouchers');
-      return saved ? JSON.parse(saved) : DEFAULT_VOUCHERS;
-    } catch {
-      return DEFAULT_VOUCHERS;
-    }
-  });
-
-  const [bookings, setBookings] = React.useState<SystemBooking[]>(() => {
-    try {
-      const saved = localStorage.getItem('vc_bookings');
-      return saved ? JSON.parse(saved) : DEFAULT_SYSTEM_BOOKINGS;
-    } catch {
-      return DEFAULT_SYSTEM_BOOKINGS;
-    }
-  });
-
-  const [currentUser, setCurrentUser] = React.useState<UserAccount | null>(() => {
-    try {
-      const saved = localStorage.getItem('vc_current_user');
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
-
-  const [showAuthModal, setShowAuthModal] = React.useState(false);
-
-  // Synchronize collections with localStorage on changes
-  React.useEffect(() => {
-    localStorage.setItem('vc_users', JSON.stringify(users));
-  }, [users]);
-
-  React.useEffect(() => {
-    localStorage.setItem('vc_applications', JSON.stringify(applications));
-  }, [applications]);
-
-  React.useEffect(() => {
-    localStorage.setItem('vc_vouchers', JSON.stringify(vouchers));
-  }, [vouchers]);
-
-  React.useEffect(() => {
-    localStorage.setItem('vc_bookings', JSON.stringify(bookings));
-  }, [bookings]);
-
-  React.useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem('vc_current_user', JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem('vc_current_user');
-    }
-  }, [currentUser]);
-  
-  // Booking Cart & Escrow State
-  const [cartItems, setCartItems] = React.useState<BookingCartItem[]>([]);
-  const [showPaymentModal, setShowPaymentModal] = React.useState(false);
-  const [showAIPlanner, setShowAIPlanner] = React.useState(false);
-  const [activeSubView, setActiveSubView] = React.useState<string>('spots');
-  const [selectedItem, setSelectedItem] = React.useState<any | null>(null);
-
-  // Recently Viewed state with local storage persistence
-  const [recentlyViewed, setRecentlyViewed] = React.useState<any[]>(() => {
-    try {
-      const saved = localStorage.getItem('vc_recently_viewed');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  React.useEffect(() => {
-    localStorage.setItem('vc_recently_viewed', JSON.stringify(recentlyViewed));
-  }, [recentlyViewed]);
-
-  // Favorites (Yêu thích) state with local storage persistence
-  const [favorites, setFavorites] = React.useState<any[]>(() => {
-    try {
-      const saved = localStorage.getItem('vc_favorites');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  React.useEffect(() => {
-    localStorage.setItem('vc_favorites', JSON.stringify(favorites));
-  }, [favorites]);
-
-  const handleToggleFavorite = (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => {
-    setFavorites((prev) => {
-      const exists = prev.some((x) => x.id === item.id);
-      if (exists) {
-        return prev.filter((x) => x.id !== item.id);
-      } else {
-        return [...prev, item];
-      }
-    });
-  };
-
-  const handleViewItem = (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => {
-    setRecentlyViewed((prev) => {
-      const filtered = prev.filter((x) => x.id !== item.id);
-      return [{ ...item, timestamp: Date.now() }, ...filtered].slice(0, 24);
-    });
-    setSelectedItem(item);
-  };
-
-  const t = dictionaries[language];
-  const isVi = language === 'vi';
+  // Aliases so the existing JSX keeps working while state now lives in contexts.
+  const handleViewItem = viewItem;
+  const handleToggleFavorite = toggleFavorite;
+  const handleScrollToSection = scrollToSection;
   const selectedAttractions = attractionsByProvince[selectedProvinceId] || [];
+  const showPaymentModal = isPaymentOpen;
+  const setShowPaymentModal = (open: boolean) => (open ? openPayment() : closePayment());
+  const showAuthModal = isAuthModalOpen;
+  const setShowAuthModal = (open: boolean) => (open ? openAuthModal() : closeAuthModal());
 
-  // Local newsletter input state
+  // Local-only UI state (search widget + newsletter on the province detail view).
   const [newsletterEmail, setNewsletterEmail] = React.useState('');
   const [subscribedMsg, setSubscribedMsg] = React.useState(false);
-
-  // Search input widget state
   const [searchQuery, setSearchQuery] = React.useState('');
   const [guestsCount, setGuestsCount] = React.useState(1);
   const [roomsCount, setRoomsCount] = React.useState(1);
   const [showGuestsDropdown, setShowGuestsDropdown] = React.useState(false);
-
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
-  const handleAddToCart = (item: BookingCartItem) => {
-    setCartItems((prev) => {
-      const exists = prev.find((x) => x.id === item.id);
-      if (exists) {
-        return prev.map((x) => x.id === item.id ? { ...x, quantity: x.quantity + 1 } : x);
-      }
-      return [...prev, item];
-    });
-  };
-
-  const handleRemoveFromCart = (id: string) => {
-    setCartItems((prev) => prev.filter((x) => x.id !== id));
-  };
-
-  const handleClearCart = () => {
-    setCartItems([]);
-  };
-
-  const handleAddAIComboToCart = (items: BookingCartItem[]) => {
-    setCartItems((prev) => {
-      const filtered = prev.filter((x) => !items.some((aiItem) => aiItem.id.startsWith('ai-')));
-      return [...filtered, ...items];
-    });
-  };
 
   const handleSubscribeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newsletterEmail.trim()) {
       setSubscribedMsg(true);
       setNewsletterEmail('');
-      setTimeout(() => {
-        setSubscribedMsg(false);
-      }, 4000);
+      setTimeout(() => setSubscribedMsg(false), 4000);
     }
-  };
-
-  // Safe coordinate scrolling to sections on detail page
-  const handleScrollToSection = (sectionId: string) => {
-    setView('province');
-    setTimeout(() => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 150);
   };
 
   return (
@@ -243,53 +87,12 @@ export default function App() {
         onOpenCart={() => setShowPaymentModal(true)}
         onNavigateHome={() => setView('regions')}
         currentView={view === 'province' ? activeSubView : view}
-        onChangeView={(targetView) => {
-          if (targetView === 'spots') {
-            setActiveSubView('spots');
-            setView('provinces');
-          } else if (targetView === 'blind-travel') {
-            setView('blind-travel');
-          } else if (targetView === 'trip-room' || targetView === 'group-blind-travel') {
-            setView('trip-room');
-          } else if (targetView === 'profile' || targetView === 'taxi' || targetView === 'tours' || targetView === 'handbook' || targetView === 'partnership-register' || targetView === 'admin' || targetView === 'recently-viewed' || targetView === 'nearby-places') {
-            setView(targetView as any);
-          } else if (targetView === 'hotels') {
-            setActiveSubView('hotels');
-            if (view !== 'province') {
-              setView('province');
-              setTimeout(() => {
-                handleScrollToSection('hotels-section');
-              }, 300);
-            } else {
-              handleScrollToSection('hotels-section');
-            }
-          } else if (targetView === 'rentals') {
-            setActiveSubView('rentals');
-            if (view !== 'province') {
-              setView('province');
-              setTimeout(() => {
-                handleScrollToSection('rentals-section');
-              }, 300);
-            } else {
-              handleScrollToSection('rentals-section');
-            }
-          } else if (targetView === 'experiences') {
-            setActiveSubView('experiences');
-            if (view !== 'province') {
-              setView('province');
-              setTimeout(() => {
-                handleScrollToSection('experiences-section');
-              }, 300);
-            } else {
-              handleScrollToSection('experiences-section');
-            }
-          }
-        }}
+        onChangeView={changeHeaderView}
         currentUser={currentUser}
         onOpenAuthModal={() => setShowAuthModal(true)}
         onLogout={() => {
-          setCurrentUser(null);
-          setView('regions');
+          logout();
+          navigateHome();
         }}
       />
 
@@ -306,8 +109,8 @@ export default function App() {
           >
             <ServiceDetails 
               language={language}
-              item={selectedItem}
-              onBack={() => setSelectedItem(null)}
+              item={selectedItem as any}
+              onBack={() => clearSelectedItem()}
               onAddToCart={handleAddToCart}
               onRemoveFromCart={handleRemoveFromCart}
               onCheckout={() => {
@@ -346,11 +149,7 @@ export default function App() {
           >
             <ProvinceDashboard 
               language={language}
-              onSelectProvince={(provId) => {
-                setSelectedProvinceId(provId);
-                setActiveSubView('spots');
-                setView('province');
-              }}
+              onSelectProvince={(provId) => selectProvince(provId)}
               onBackToHome={() => setView('regions')}
             />
           </motion.div>
@@ -799,10 +598,7 @@ export default function App() {
             <PersonalProfile 
               language={language}
               user={currentUser}
-              onUpdateProfile={(updated) => {
-                setCurrentUser(updated);
-                setUsers(prev => prev.map(u => u.id === updated.id ? updated : u));
-              }}
+              onUpdateProfile={(updated) => updateProfile(updated)}
               bookings={bookings.filter(b => b.userEmail === currentUser?.email)}
               vouchers={vouchers}
               onNavigateHome={() => setView('regions')}
@@ -895,7 +691,7 @@ export default function App() {
 
               {recentlyViewed.length > 0 && (
                 <button
-                  onClick={() => setRecentlyViewed([])}
+                  onClick={() => clearRecentlyViewed()}
                   className="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer"
                 >
                   🗑️ {isVi ? 'Xóa toàn bộ lịch sử' : 'Clear Browser History'}
@@ -1021,9 +817,7 @@ export default function App() {
           >
             <PartnershipForm 
               language={language}
-              onRegisterApplication={(app) => {
-                setApplications(prev => [app, ...prev]);
-              }}
+              onRegisterApplication={(app) => addApplication(app)}
               applications={applications.filter(a => a.email === currentUser?.email)}
             />
           </motion.div>
@@ -1042,27 +836,14 @@ export default function App() {
               <AdminDashboard 
                 language={language}
                 users={users}
-                onUpdateUserRole={(userId, newRole) => {
-                  setUsers(prev => prev.map(u => u.id === userId ? { ...u, role: newRole } : u));
-                  if (currentUser.id === userId) {
-                    setCurrentUser(prev => prev ? { ...prev, role: newRole } : null);
-                  }
-                }}
+                onUpdateUserRole={(userId, newRole) => setUserRole(userId, newRole)}
                 applications={applications}
-                onUpdateApplicationStatus={(appId, newStatus) => {
-                  setApplications(prev => prev.map(a => a.id === appId ? { ...a, status: newStatus } : a));
-                }}
+                onUpdateApplicationStatus={(appId, newStatus) => setApplicationStatus(appId, newStatus)}
                 bookings={bookings}
-                onUpdateBookingStatus={(bkId, newStatus) => {
-                  setBookings(prev => prev.map(b => b.id === bkId ? { ...b, status: newStatus } : b));
-                }}
+                onUpdateBookingStatus={(bkId, newStatus) => setBookingStatus(bkId, newStatus)}
                 vouchers={vouchers}
-                onAddNewVoucher={(newV) => {
-                  setVouchers(prev => [newV, ...prev]);
-                }}
-                onDeleteVoucher={(vCode) => {
-                  setVouchers(prev => prev.filter(v => v.code !== vCode));
-                }}
+                onAddNewVoucher={(newV) => addVoucher(newV)}
+                onDeleteVoucher={(vCode) => deleteVoucher(vCode)}
               />
             ) : (
               <div className="text-center py-16 bg-white border border-stone-200 rounded-3xl p-6 space-y-4">
@@ -1125,16 +906,13 @@ export default function App() {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         onLoginSuccess={(user) => {
-          setCurrentUser(user);
-          setShowAuthModal(false);
-          setView('regions');
+          login(user);
+          navigateHome();
         }}
         users={users}
         onRegisterNew={(newU) => {
-          setUsers(prev => [...prev, newU]);
-          setCurrentUser(newU);
-          setShowAuthModal(false);
-          setView('regions');
+          register(newU);
+          navigateHome();
         }}
       />
 
