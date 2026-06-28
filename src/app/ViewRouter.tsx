@@ -5,21 +5,21 @@
 
 import { AnimatePresence } from 'motion/react';
 import { useUI } from '@/hooks';
-import ServiceDetailsPage from '@/pages/ServiceDetailsPage';
-import RegionsPage from '@/pages/RegionsPage';
-import ProvincesPage from '@/pages/ProvincesPage';
-import ProvinceDetailPage from '@/pages/ProvinceDetailPage';
-import TripRoomPage from '@/pages/TripRoomPage';
-import BlindTravelPage from '@/pages/BlindTravelPage';
-import ProfilePage from '@/pages/ProfilePage';
-import TaxiPage from '@/pages/TaxiPage';
-import ToursPage from '@/pages/ToursPage';
-import HandbookPage from '@/pages/HandbookPage';
-import RecentlyViewedPage from '@/pages/RecentlyViewedPage';
-import NearbyPlacesPage from '@/pages/NearbyPlacesPage';
-import PartnershipPage from '@/pages/PartnershipPage';
-import AdminPage from '@/pages/AdminPage';
-import AllServicesPage from '@/pages/AllServicesPage';
+import ProfilePage from '@/pages/account/ProfilePage';
+import AdminPage from '@/pages/admin/AdminPage';
+import AllServicesPage from '@/pages/catalog/AllServicesPage';
+import NearbyPlacesPage from '@/pages/catalog/NearbyPlacesPage';
+import RecentlyViewedPage from '@/pages/catalog/RecentlyViewedPage';
+import ProvincesPage from '@/pages/home/ProvincesPage';
+import RegionsPage from '@/pages/home/RegionsPage';
+import PartnershipPage from '@/pages/partner/PartnershipPage';
+import ProvinceDetailPage from '@/pages/province/ProvinceDetailPage';
+import ServiceDetailsPage from '@/pages/province/ServiceDetailsPage';
+import BlindTravelPage from '@/pages/travel/BlindTravelPage';
+import HandbookPage from '@/pages/travel/HandbookPage';
+import TaxiPage from '@/pages/travel/TaxiPage';
+import ToursPage from '@/pages/travel/ToursPage';
+import TripRoomPage from '@/pages/travel/TripRoomPage';
 
 /** Renders the active view. The item-details overlay takes precedence over `view`. */
 export default function ViewRouter() {
