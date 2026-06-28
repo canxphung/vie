@@ -16,6 +16,16 @@
   --color-natural-beige: #F5F2ED;
   --color-natural-beige-light: #F9F7F2;
   --color-natural-gold: #E3B04B;
+
+  /* Extended palette (covers previously hardcoded hex values) */
+  --color-natural-cream: #FAF8F5;
+  --color-natural-sand: #FAF6ED;
+  --color-natural-border-light: #EAE5D5;
+  --color-natural-bronze: #9E763A;
+  --color-natural-gold-dark: #C99030;
+  --color-natural-gold-deep: #D9A040;
+  --color-natural-ink: #1E1D15;
+  --color-natural-ink-soft: #3A3845;
 }
 
 body {
