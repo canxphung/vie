@@ -145,18 +145,18 @@ export default function AuthPage({ mode }: AuthPageProps) {
 
   const copy = {
     login: {
-      title: isVi ? 'Đăng nhập VietCharm' : 'Sign In To VietCharm',
-      subtitle: isVi ? 'Tiếp tục đặt dịch vụ, lưu hành trình và quản lý hồ sơ.' : 'Continue booking, saving trips and managing your profile.',
-      button: isVi ? 'Đăng nhập ngay' : 'Sign In',
+      title: isVi ? 'Đăng nhập' : 'Sign In',
+      subtitle: isVi ? 'Đăng nhập để tiếp tục đặt dịch vụ, lưu hành trình và quản lý hồ sơ của bạn.' : 'Sign in to keep booking, save trips and manage your profile.',
+      button: isVi ? 'Đăng nhập' : 'Sign In',
     },
     register: {
-      title: isVi ? 'Đăng ký tài khoản' : 'Create Your Account',
-      subtitle: isVi ? 'Tạo hồ sơ thành viên để nhận ưu đãi và gợi ý phù hợp.' : 'Create a member profile for perks and tailored suggestions.',
-      button: isVi ? 'Hoàn tất đăng ký' : 'Complete Registration',
+      title: isVi ? 'Tạo tài khoản' : 'Create Account',
+      subtitle: isVi ? 'Tạo tài khoản để nhận ưu đãi riêng và gợi ý hành trình phù hợp với bạn.' : 'Create an account to unlock member perks and trip suggestions made for you.',
+      button: isVi ? 'Tạo tài khoản' : 'Create Account',
     },
     'forgot-password': {
-      title: isVi ? 'Khôi phục mật khẩu' : 'Reset Password',
-      subtitle: isVi ? 'Xác minh Gmail và đặt mật khẩu mới cho tài khoản.' : 'Verify your Gmail and set a new password.',
+      title: isVi ? 'Quên mật khẩu' : 'Forgot Password',
+      subtitle: isVi ? 'Nhập Gmail đã đăng ký để nhận mã xác nhận và đặt lại mật khẩu.' : 'Enter your registered Gmail to receive a code and reset your password.',
       button: isVi ? 'Tiếp tục' : 'Continue',
     },
   } satisfies Record<AuthRouteMode, { title: string; subtitle: string; button: string }>;
@@ -178,7 +178,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
       return;
     }
 
-    setSuccessMsg(isVi ? `Đăng nhập thành công! Chào mừng ${matched.fullName}.` : `Welcome back, ${matched.fullName}!`);
+    setSuccessMsg(isVi ? `Chào mừng trở lại, ${matched.fullName}!` : `Welcome back, ${matched.fullName}!`);
     setTimeout(() => {
       login(matched);
       navigateHome();
@@ -205,13 +205,13 @@ export default function AuthPage({ mode }: AuthPageProps) {
       fullName: fullName.trim() || username.trim(),
       email: email.trim(),
       phone: phone.trim(),
-      bio: isVi ? 'Thành viên tự hào của VietCharm Hoi An.' : 'Proud member of VietCharm Hoi An.',
+      bio: isVi ? 'Thành viên của cộng đồng du lịch VietCharm.' : 'Member of the VietCharm travel community.',
       role,
       avatar: `https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 999999)}?auto=format&fit=crop&w=150&q=80`,
       createdAt: new Date().toISOString().split('T')[0],
     };
 
-    setSuccessMsg(isVi ? 'Đăng ký thành công! Đang đưa bạn về trang chủ...' : 'Account created! Taking you home...');
+    setSuccessMsg(isVi ? 'Tạo tài khoản thành công! Đang đưa bạn về trang chủ...' : 'Account created! Taking you home...');
     setTimeout(() => {
       register(newUser);
       navigateHome();
@@ -226,7 +226,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
       fullName: platform === 'Google' ? `Google User #${randomSuffix}` : `Facebook User #${randomSuffix}`,
       email: `${platform.toLowerCase()}.${randomSuffix}@st.uel.edu.vn`,
       phone: `0987${randomSuffix}244`,
-      bio: isVi ? `Đăng nhập liên kết thành công qua tài khoản ${platform}.` : `Linked and authenticated securely via ${platform}.`,
+      bio: isVi ? `Tài khoản đăng nhập qua ${platform}.` : `Linked and authenticated securely via ${platform}.`,
       role: 'user',
       avatar:
         platform === 'Google'
@@ -235,7 +235,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
       createdAt: new Date().toISOString().split('T')[0],
     };
 
-    setSuccessMsg(isVi ? `Ủy quyền ${platform} thành công!` : `Authorized with ${platform}!`);
+    setSuccessMsg(isVi ? `Đã liên kết với ${platform} thành công!` : `Authorized with ${platform}!`);
     setTimeout(() => {
       register(socialUser);
       navigateHome();
@@ -252,7 +252,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setSentCode(code);
     setForgotStep('verify-code');
-    setSuccessMsg(isVi ? `Mã khôi phục đã gửi. Mã mẫu: ${code}` : `Recovery code sent. Demo code: ${code}`);
+    setSuccessMsg(isVi ? `Đã gửi mã xác nhận đến Gmail của bạn. Mã mẫu: ${code}` : `Verification code sent to your Gmail. Demo code: ${code}`);
   };
 
   const handleVerifyForgotCode = (e: React.FormEvent) => {
@@ -299,12 +299,12 @@ export default function AuthPage({ mode }: AuthPageProps) {
               VietCharm Portal
             </span>
             <h1 className="font-serif text-4xl font-black leading-tight sm:text-5xl">
-              {isVi ? 'Tài khoản du lịch cho cả hành trình miền Trung.' : 'Your Central Vietnam travel account.'}
+              {isVi ? 'Một tài khoản cho trọn vẹn hành trình miền Trung.' : 'One account for your whole Central Vietnam journey.'}
             </h1>
             <p className="mt-5 max-w-lg text-sm leading-7 text-white/78">
               {isVi
-                ? 'Đăng nhập hoặc tạo tài khoản để lưu hồ sơ, quản lý dịch vụ và nhận các ưu đãi phù hợp với chuyến đi.'
-                : 'Sign in or create an account to save your profile, manage bookings and receive travel perks.'}
+                ? 'Đăng nhập hoặc tạo tài khoản để lưu hồ sơ, quản lý đặt chỗ và nhận ưu đãi phù hợp với chuyến đi của bạn.'
+                : 'Sign in or create an account to save your profile, manage bookings and unlock travel perks.'}
             </p>
 
             <div className="mt-8 grid max-w-lg gap-3 sm:grid-cols-3">

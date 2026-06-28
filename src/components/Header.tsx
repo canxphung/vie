@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Globe, ShoppingBag, Landmark, Sparkles, User, LogOut, Settings, Key, BookOpen, Car, Gift, HelpCircle, Clock, Hotel, ChevronDown, Compass } from 'lucide-react';
+import { Globe, ShoppingBag, Landmark, LogOut, Settings, Key, BookOpen, Car, Gift, Phone, Handshake, Clock, Hotel, ChevronDown, Compass } from 'lucide-react';
 import type { Language, UserAccount } from '../types';
 import { dictionaries } from '../data';
 import { Container } from '@/components/ui';
@@ -46,20 +46,38 @@ export default function Header({
     <header className="w-full bg-natural-bg text-natural-text border-b border-natural-border">
       {/* Mini top bar */}
       <Container className="py-1.5 flex flex-wrap justify-between items-center text-xs border-b border-natural-border bg-natural-beige text-natural-text">
-        <div className="flex gap-4 items-center font-medium">
-          <button onClick={onNavigateHome} className="hover:text-natural-accent transition flex items-center gap-1">
-            <Landmark className="w-3.5 h-3.5 text-natural-accent" />
+        <div className="flex gap-3 items-center font-medium flex-wrap">
+          <button onClick={onNavigateHome} className="font-bold text-natural-accent hover:text-natural-olive transition flex items-center gap-1 cursor-pointer">
+            <Landmark className="w-3.5 h-3.5" />
             VietCharm Portal
           </button>
           <span className="text-natural-border">|</span>
-          <span className="text-stone-600">{t.promo}</span>
+          <button onClick={() => onChangeView('tours')} className="text-stone-600 hover:text-natural-accent transition flex items-center gap-1 cursor-pointer">
+            <Gift className="w-3.5 h-3.5 text-natural-gold" />
+            {t.promo}
+          </button>
           <span className="text-natural-border">|</span>
-          <span className="text-stone-600">{t.partner}</span>
+          <button onClick={() => onChangeView('partnership-register')} className="text-stone-600 hover:text-natural-accent transition flex items-center gap-1 cursor-pointer">
+            <Handshake className="w-3.5 h-3.5 text-natural-gold" />
+            {t.partner}
+          </button>
           <span className="text-natural-border">|</span>
-          <span className="text-stone-600">{t.support}</span>
+          <a href="tel:19005040" className="text-stone-600 hover:text-natural-accent transition flex items-center gap-1">
+            <Phone className="w-3.5 h-3.5 text-natural-gold" />
+            {t.support}
+          </a>
         </div>
 
-        <div className="flex items-center gap-4 mt-1 sm:mt-0 font-medium font-sans">
+        <div className="flex items-center gap-3 mt-1 sm:mt-0 font-medium font-sans">
+          <button
+            onClick={() => setLanguage(isVi ? 'en' : 'vi')}
+            className="flex items-center gap-1 text-stone-600 hover:text-natural-accent transition text-[11px] font-bold cursor-pointer"
+            title={isVi ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
+          >
+            <Globe className="w-3.5 h-3.5" />
+            {isVi ? 'EN' : 'VI'}
+          </button>
+          <span className="text-natural-border">|</span>
           {currentUser ? (
             <div className="flex items-center gap-3 text-stone-800">
               <button
@@ -196,7 +214,7 @@ export default function Header({
             >
               <button 
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${['tours', 'handbook', 'partnership-register', 'nearby-places'].includes(currentView) ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
+                className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${['handbook', 'nearby-places'].includes(currentView) ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
               >
                 <span>{language === 'vi' ? 'Xem thêm' : 'More'}</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showMoreMenu ? 'rotate-180' : ''}`} />
@@ -215,17 +233,7 @@ export default function Header({
                       <Compass className="w-3.5 h-3.5 text-natural-gold" />
                       <span>{language === 'vi' ? 'Địa điểm lân cận' : 'Nearby Places'}</span>
                     </button>
-                    <button 
-                      onClick={() => {
-                        onChangeView('tours');
-                        setShowMoreMenu(false);
-                      }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'tours' ? 'text-natural-accent' : 'text-natural-text'}`}
-                    >
-                      <Gift className="w-3.5 h-3.5 text-natural-gold" />
-                      <span>Combo Tour</span>
-                    </button>
-                    <button 
+                    <button
                       onClick={() => {
                         onChangeView('handbook');
                         setShowMoreMenu(false);
@@ -233,17 +241,7 @@ export default function Header({
                       className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'handbook' ? 'text-natural-accent' : 'text-natural-text'}`}
                     >
                       <BookOpen className="w-3.5 h-3.5 text-natural-accent" />
-                      <span>{language === 'vi' ? 'Cẩm nang' : 'Handbook'}</span>
-                    </button>
-                    <button 
-                      onClick={() => {
-                        onChangeView('partnership-register');
-                        setShowMoreMenu(false);
-                      }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'partnership-register' ? 'text-natural-accent' : 'text-natural-text'}`}
-                    >
-                      <Landmark className="w-3.5 h-3.5 text-natural-accent" />
-                      <span>{language === 'vi' ? 'Hợp tác' : 'Partnership'}</span>
+                      <span>{language === 'vi' ? 'Cẩm nang du lịch' : 'Travel Handbook'}</span>
                     </button>
                   </div>
                 </div>
