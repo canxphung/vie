@@ -46,6 +46,10 @@ export default function AllServicesView({
   const [sortBy, setSortBy] = React.useState<SortBy>('default');
   const [selectedActivityCategory, setSelectedActivityCategory] = React.useState<ActivityCategory>('all');
 
+  // How many cards to show before the "Show more" button (avoids dumping the whole list).
+  const PAGE_SIZE = 8;
+  const [visibleCount, setVisibleCount] = React.useState(PAGE_SIZE);
+
   // Reset filters when switching tabs
   React.useEffect(() => {
     setSearchQuery('');
@@ -53,6 +57,11 @@ export default function AllServicesView({
     setSortBy('default');
     setSelectedActivityCategory('all');
   }, [activeTab]);
+
+  // Collapse back to the first page whenever the tab or any filter changes.
+  React.useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [activeTab, searchQuery, selectedProvince, sortBy, selectedActivityCategory]);
 
   const isItemInCart = (id: string) => {
     return cartItems.some((item) => item.id === id);
@@ -190,55 +199,21 @@ export default function AllServicesView({
     <div id="all-services-view" className="w-full min-h-screen bg-natural-bg py-8 px-4">
       <div className="max-w-7xl mx-auto space-y-8">
         
-        {/* Navigation back and header banner */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-natural-border pb-6">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onBack}
-              className="p-2.5 rounded-full bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive transition shadow-xs cursor-pointer flex items-center justify-center"
-              id="back-to-home-btn"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </button>
-            <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-natural-accent block">VietCharm Services</span>
-              <h1 className="text-xl md:text-2xl font-serif font-bold text-natural-text">
-                {isVi ? 'Danh Mục Toàn Bộ Dịch Vụ Hệ Thống' : 'System Wide Services Catalog'}
-              </h1>
-            </div>
-          </div>
-
-          {/* Quick stats banner */}
-          <div className="bg-natural-cream border border-natural-border rounded-2xl p-3 flex gap-6 text-xs text-stone-600">
-            <div>
-              <span className="font-bold text-natural-accent block text-base leading-none">
-                {Object.values(attractionsByProvince).reduce((acc, curr) => acc + curr.length, 0)}
-              </span>
-              <span>{isVi ? 'Điểm Đến' : 'Attractions'}</span>
-            </div>
-            <div className="border-l border-stone-200"></div>
-            <div>
-              <span className="font-bold text-natural-accent block text-base leading-none">
-                {Object.values(hotelsByProvince).reduce((acc, curr) => acc + curr.length, 0)}
-              </span>
-              <span>{isVi ? 'Khách Sạn' : 'Hotels'}</span>
-            </div>
-            <div className="border-l border-stone-200"></div>
-            <div>
-              <span className="font-bold text-natural-accent block text-base leading-none">
-                {Object.values(activitiesByProvince).reduce((acc, curr) => acc + curr.length, 0)}
-              </span>
-              <span>{isVi ? 'Trải Nghiệm' : 'Activities'}</span>
-            </div>
-            <div className="border-l border-stone-200"></div>
-            <div>
-              <span className="font-bold text-natural-accent block text-base leading-none">{vehicles.length}</span>
-              <span>{isVi ? 'Thuê Xe' : 'Vehicles'}</span>
-            </div>
-          </div>
+        {/* Navigation back and page title */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onBack}
+            className="p-2.5 rounded-full bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive transition shadow-xs cursor-pointer flex items-center justify-center"
+            id="back-to-home-btn"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          <h1 className="text-xl md:text-2xl font-serif font-bold text-natural-text">
+            {isVi ? 'Tất cả dịch vụ' : 'All services'}
+          </h1>
         </div>
 
-        {/* Categories Tab Navigation exactly styled as premium buttons */}
+        {/* Category tabs */}
         <div className="flex flex-wrap gap-2.5 border-b border-natural-border pb-4">
           <button
             onClick={() => setActiveTab('attractions')}
@@ -249,7 +224,7 @@ export default function AllServicesView({
             }`}
           >
             <Compass className="w-4 h-4" />
-            <span>{isVi ? 'Điểm Đến Nổi Bật' : 'Featured Spots'}</span>
+            <span>{isVi ? 'Điểm đến' : 'Attractions'}</span>
           </button>
 
           <button
@@ -261,7 +236,7 @@ export default function AllServicesView({
             }`}
           >
             <Hotel className="w-4 h-4" />
-            <span>{isVi ? 'Khách Sạn Ưa Thích' : 'Loved Hotels'}</span>
+            <span>{isVi ? 'Khách sạn' : 'Hotels'}</span>
           </button>
 
           <button
@@ -273,7 +248,7 @@ export default function AllServicesView({
             }`}
           >
             <Landmark className="w-4 h-4" />
-            <span>{isVi ? 'Hoạt Động & Trải Nghiệm' : 'Experiences & Tours'}</span>
+            <span>{isVi ? 'Trải nghiệm' : 'Experiences'}</span>
           </button>
 
           <button
@@ -285,7 +260,7 @@ export default function AllServicesView({
             }`}
           >
             <Car className="w-4 h-4" />
-            <span>{isVi ? 'Dịch Vụ Cho Thuê Xe' : 'Vehicle Rentals'}</span>
+            <span>{isVi ? 'Thuê xe' : 'Rentals'}</span>
           </button>
         </div>
 
@@ -294,7 +269,7 @@ export default function AllServicesView({
           {/* Search Input */}
           <div className="space-y-1.5 col-span-1 md:col-span-2">
             <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
-              {isVi ? 'Tìm kiếm tên dịch vụ hoặc địa điểm:' : 'Search service name or keyword:'}
+              {isVi ? 'Tìm kiếm' : 'Search'}
             </label>
             <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
@@ -312,7 +287,7 @@ export default function AllServicesView({
           {activeTab !== 'vehicles' ? (
             <div className="space-y-1.5">
               <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
-                {isVi ? 'Bộ lọc theo tỉnh miền Trung:' : 'Filter by Province:'}
+                {isVi ? 'Tỉnh thành' : 'Province'}
               </label>
               <select
                 value={selectedProvince}
@@ -331,7 +306,7 @@ export default function AllServicesView({
             /* Motorbike vs Car type filter for vehicles */
             <div className="space-y-1.5">
               <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
-                {isVi ? 'Thời gian thuê tối thiểu:' : 'Rental Duration:'}
+                {isVi ? 'Thời gian thuê' : 'Duration'}
               </label>
               <div className="text-xs bg-white border border-stone-200 rounded-xl py-2 px-3 text-stone-500 font-medium">
                 {isVi ? 'Không giới hạn ngày thuê' : 'Unlimited rental days'}
@@ -342,7 +317,7 @@ export default function AllServicesView({
           {/* Sort option */}
           <div className="space-y-1.5">
             <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
-              {isVi ? 'Sắp xếp hiển thị:' : 'Sort by:'}
+              {isVi ? 'Sắp xếp' : 'Sort'}
             </label>
             <select
               value={sortBy}
@@ -387,8 +362,20 @@ export default function AllServicesView({
           </div>
         )}
 
+        {/* Result count */}
+        <p className="text-xs text-stone-500">
+          {(() => {
+            const count =
+              activeTab === 'attractions' ? filteredAttractions.length
+              : activeTab === 'hotels' ? filteredHotels.length
+              : activeTab === 'activities' ? filteredActivities.length
+              : filteredVehicles.length;
+            return isVi ? `${count} kết quả` : `${count} results`;
+          })()}
+        </p>
+
         {/* Display grids according to selected tab */}
-        
+
         {/* TAB 1: ATTRACTIONS GRID */}
         {activeTab === 'attractions' && (
           <div>
@@ -396,7 +383,7 @@ export default function AllServicesView({
               <NoResults isVi={isVi} />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {filteredAttractions.map((spot) => (
+                {filteredAttractions.slice(0, visibleCount).map((spot) => (
                   <div
                     key={spot.id}
                     onClick={() =>
@@ -466,6 +453,9 @@ export default function AllServicesView({
                 ))}
               </div>
             )}
+            {filteredAttractions.length > visibleCount && (
+              <ShowMore isVi={isVi} remaining={filteredAttractions.length - visibleCount} onClick={() => setVisibleCount((c) => c + PAGE_SIZE)} />
+            )}
           </div>
         )}
 
@@ -476,7 +466,7 @@ export default function AllServicesView({
               <NoResults isVi={isVi} />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {filteredHotels.map((hotel) => {
+                {filteredHotels.slice(0, visibleCount).map((hotel) => {
                   const inCart = isItemInCart(hotel.id);
                   return (
                     <div
@@ -535,7 +525,7 @@ export default function AllServicesView({
                           <h4 className="font-serif font-bold text-natural-text text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
                             {hotel.name}
                           </h4>
-                          <p className="text-[11px] text-natural-text/80 line-clamp-3 mt-1 leading-relaxed">
+                          <p className="text-[11px] text-natural-text/80 line-clamp-2 mt-1 leading-relaxed">
                             {hotel.description}
                           </p>
                         </div>
@@ -585,6 +575,9 @@ export default function AllServicesView({
                 })}
               </div>
             )}
+            {filteredHotels.length > visibleCount && (
+              <ShowMore isVi={isVi} remaining={filteredHotels.length - visibleCount} onClick={() => setVisibleCount((c) => c + PAGE_SIZE)} />
+            )}
           </div>
         )}
 
@@ -595,7 +588,7 @@ export default function AllServicesView({
               <NoResults isVi={isVi} />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {filteredActivities.map((act) => {
+                {filteredActivities.slice(0, visibleCount).map((act) => {
                   const inCart = isItemInCart(act.id);
                   return (
                     <div
@@ -654,7 +647,7 @@ export default function AllServicesView({
                           <h4 className="font-serif font-bold text-natural-text text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
                             {act.name}
                           </h4>
-                          <p className="text-[11px] text-natural-text/80 line-clamp-3 mt-1 leading-relaxed">
+                          <p className="text-[11px] text-natural-text/80 line-clamp-2 mt-1 leading-relaxed">
                             {act.description}
                           </p>
                         </div>
@@ -703,6 +696,9 @@ export default function AllServicesView({
                 })}
               </div>
             )}
+            {filteredActivities.length > visibleCount && (
+              <ShowMore isVi={isVi} remaining={filteredActivities.length - visibleCount} onClick={() => setVisibleCount((c) => c + PAGE_SIZE)} />
+            )}
           </div>
         )}
 
@@ -713,7 +709,7 @@ export default function AllServicesView({
               <NoResults isVi={isVi} />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredVehicles.map((veh) => {
+                {filteredVehicles.slice(0, visibleCount).map((veh) => {
                   const inCart = isItemInCart(veh.id);
                   return (
                     <div
@@ -815,10 +811,27 @@ export default function AllServicesView({
                 })}
               </div>
             )}
+            {filteredVehicles.length > visibleCount && (
+              <ShowMore isVi={isVi} remaining={filteredVehicles.length - visibleCount} onClick={() => setVisibleCount((c) => c + PAGE_SIZE)} />
+            )}
           </div>
         )}
 
       </div>
+    </div>
+  );
+}
+
+// "Show more" button shown when a list has more items than are currently visible
+function ShowMore({ isVi, remaining, onClick }: { isVi: boolean; remaining: number; onClick: () => void }) {
+  return (
+    <div className="flex justify-center pt-8">
+      <button
+        onClick={onClick}
+        className="bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-xs transition cursor-pointer"
+      >
+        {isVi ? `Xem thêm (${remaining})` : `Show more (${remaining})`}
+      </button>
     </div>
   );
 }

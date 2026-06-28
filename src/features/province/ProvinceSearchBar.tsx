@@ -4,8 +4,21 @@
  */
 
 import React from 'react';
-import { Calendar, ChevronDown } from 'lucide-react';
-import { Container } from '@/components/ui';
+import { ChevronDown } from 'lucide-react';
+import { Container, DateField } from '@/components/ui';
+
+function formatDateInput(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function addDays(date: Date, days: number): Date {
+  const next = new Date(date);
+  next.setDate(next.getDate() + days);
+  return next;
+}
 
 interface ProvinceSearchBarProps {
   isVi: boolean;
@@ -21,10 +34,34 @@ interface ProvinceSearchBarProps {
 }
 
 export function ProvinceSearchBar({ isVi, labels, onSearch }: ProvinceSearchBarProps) {
+  const initialDates = React.useMemo(() => {
+    const today = new Date();
+    const checkIn = addDays(today, 1);
+    const checkOut = addDays(checkIn, 4);
+    return {
+      checkIn: formatDateInput(checkIn),
+      checkOut: formatDateInput(checkOut),
+      minCheckIn: formatDateInput(today),
+    };
+  }, []);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [checkInDate, setCheckInDate] = React.useState(initialDates.checkIn);
+  const [checkOutDate, setCheckOutDate] = React.useState(initialDates.checkOut);
   const [guestsCount, setGuestsCount] = React.useState(1);
   const [roomsCount, setRoomsCount] = React.useState(1);
   const [showGuestsDropdown, setShowGuestsDropdown] = React.useState(false);
+  const minCheckOutDate = React.useMemo(() => {
+    const parsedCheckIn = new Date(`${checkInDate}T00:00:00`);
+    return formatDateInput(addDays(parsedCheckIn, 1));
+  }, [checkInDate]);
+
+  const handleCheckInChange = (value: string) => {
+    setCheckInDate(value);
+    if (checkOutDate <= value) {
+      const parsedCheckIn = new Date(`${value}T00:00:00`);
+      setCheckOutDate(formatDateInput(addDays(parsedCheckIn, 1)));
+    }
+  };
 
   return (
     <Container className="-translate-y-10 sm:-translate-y-14 relative z-30">
@@ -44,18 +81,26 @@ export function ProvinceSearchBar({ isVi, labels, onSearch }: ProvinceSearchBarP
 
         <div className="flex-1 space-y-1 border-b md:border-b-0 md:border-r border-stone-150 pb-3 md:pb-0 md:px-4">
           <span className="text-[10px] uppercase font-black text-stone-400 block tracking-wider">{labels.checkIn}</span>
-          <div className="flex items-center gap-1.5 cursor-pointer">
-            <Calendar className="w-4 h-4 text-amber-500" />
-            <span className="text-xs sm:text-sm font-bold text-stone-700">22 / 06 / 2026</span>
-          </div>
+          <DateField
+            value={checkInDate}
+            min={initialDates.minCheckIn}
+            onChange={handleCheckInChange}
+            isVi={isVi}
+            ariaLabel={labels.checkIn}
+            className="flex w-full items-center gap-1.5 text-xs sm:text-sm font-bold text-stone-700 cursor-pointer"
+          />
         </div>
 
         <div className="flex-1 space-y-1 border-b md:border-b-0 md:border-r border-stone-150 pb-3 md:pb-0 md:px-4">
           <span className="text-[10px] uppercase font-black text-stone-400 block tracking-wider">{labels.checkOut}</span>
-          <div className="flex items-center gap-1.5 cursor-pointer">
-            <Calendar className="w-4 h-4 text-amber-500" />
-            <span className="text-xs sm:text-sm font-bold text-stone-700">26 / 06 / 2026</span>
-          </div>
+          <DateField
+            value={checkOutDate}
+            min={minCheckOutDate}
+            onChange={setCheckOutDate}
+            isVi={isVi}
+            ariaLabel={labels.checkOut}
+            className="flex w-full items-center gap-1.5 text-xs sm:text-sm font-bold text-stone-700 cursor-pointer"
+          />
         </div>
 
         <div className="flex-1 space-y-1 border-b md:border-b-0 pb-3 md:pb-0 md:px-4 relative">

@@ -9,6 +9,7 @@ import { User, Lock, MapPin, Phone, Mail, Award, Key, Calendar, ShieldCheck, Dat
 import type { Language, BookingCartItem, UserAccount, PartnershipApplication, PromoVoucher, SystemBooking, ViewableItem } from '@/types';
 import { TOURIST_LOCATIONS } from '@/constants/seed/touristLocations';
 import { PREDEFINED_COMBOS } from '@/constants/seed/tourCombos';
+import { DateField } from '@/components/ui';
 
 // 3. COMPONENT: TAXI & TRANSPORT ENGINE WITH DISTANCE ESTIMATOR
 // ==========================================
@@ -24,7 +25,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
   const [pickup, setPickup] = React.useState(TOURIST_LOCATIONS[0].id);
   const [dropoff, setDropoff] = React.useState(TOURIST_LOCATIONS[2].id);
   const [vehicleType, setVehicleType] = React.useState<'vios-4' | 'xpander-7' | 'sirius-moto'>('vios-4');
-  const [bookingDate, setBookingDate] = React.useState('2026-06-25');
+  const [bookingDate, setBookingDate] = React.useState(() => new Date().toISOString().split('T')[0]);
   const [bookingTime, setBookingTime] = React.useState('14:00');
   const [specialNote, setSpecialNote] = React.useState('');
   const [bookedMsg, setBookedMsg] = React.useState(false);
@@ -126,12 +127,13 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block font-bold text-stone-600 uppercase mb-1">{isVi ? 'Ngày đưa đón' : 'Date'}</label>
-                <input 
-                  type="date"
+                <DateField
                   value={bookingDate}
-                  onChange={(e) => setBookingDate(e.target.value)}
-                  className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 text-stone-800 outline-none"
-                  required
+                  min={new Date().toISOString().split('T')[0]}
+                  onChange={setBookingDate}
+                  isVi={isVi}
+                  ariaLabel={isVi ? 'Ngày đưa đón' : 'Date'}
+                  className="flex w-full items-center gap-1.5 border border-natural-border bg-natural-cream rounded-xl px-3 py-2 text-stone-800 cursor-pointer"
                 />
               </div>
               <div>

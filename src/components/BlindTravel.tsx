@@ -18,6 +18,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { BookingCartItem } from '../types';
+import { DateField } from '@/components/ui';
 
 interface MysteryDestination {
   regionVi: string;
@@ -288,12 +289,13 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                 {/* Departure date */}
                 <div>
                   <label className="block text-[11px] font-bold text-natural-accent uppercase mb-1">{isVi ? 'Ngày đi dự kiến' : 'Target Date'}</label>
-                  <input 
-                    type="date"
+                  <DateField
                     value={departureDate}
-                    onChange={(e) => setDepartureDate(e.target.value)}
-                    className="w-full text-xs font-bold bg-natural-sand text-natural-text border border-natural-border rounded-xl p-2.5 focus:border-natural-accent outline-none"
-                    required
+                    min={new Date().toISOString().split('T')[0]}
+                    onChange={setDepartureDate}
+                    isVi={isVi}
+                    ariaLabel={isVi ? 'Ngày đi dự kiến' : 'Target Date'}
+                    className="flex w-full items-center gap-1.5 text-xs font-bold bg-natural-sand text-natural-text border border-natural-border rounded-xl p-2.5 cursor-pointer"
                   />
                 </div>
               </div>

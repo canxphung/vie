@@ -46,6 +46,14 @@ export default function BookingDetails({
   const [selectedCategory, setSelectedCategory] = React.useState<ActivityCategory>('all');
   const [selectedPriceTier, setSelectedPriceTier] = React.useState<PriceTier>('all');
 
+  // Each section shows a short preview first; "Show more" expands the rest in place.
+  const HOTELS_PREVIEW = 4;
+  const VEHICLES_PREVIEW = 6;
+  const ACTIVITIES_PREVIEW = 10;
+  const [showAllHotels, setShowAllHotels] = React.useState(false);
+  const [showAllVehicles, setShowAllVehicles] = React.useState(false);
+  const [showAllActivities, setShowAllActivities] = React.useState(false);
+
   const filteredActivities = React.useMemo(() => {
     return activities.filter((act) => {
       // Category mapping based on ID
@@ -128,7 +136,7 @@ export default function BookingDetails({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {hotels.map((hotel) => {
+            {(showAllHotels ? hotels : hotels.slice(0, HOTELS_PREVIEW)).map((hotel) => {
               const inCart = isItemInCart(hotel.id);
               return (
                 <div 
@@ -238,6 +246,14 @@ export default function BookingDetails({
               );
             })}
           </div>
+          {hotels.length > HOTELS_PREVIEW && (
+            <SectionToggle
+              isVi={isVi}
+              expanded={showAllHotels}
+              remaining={hotels.length - HOTELS_PREVIEW}
+              onToggle={() => setShowAllHotels((v) => !v)}
+            />
+          )}
         </section>
 
         {/* Section: RENTALS (Cho thuê ô tô, xe máy) - requested feature */}
@@ -248,7 +264,7 @@ export default function BookingDetails({
                 {t.rentVehicles}
               </h3>
               <p className="text-natural-text/70 text-xs mt-1">
-                {isVi ? 'Hệ thống cho thuê xe tự lái hoặc xe kèm tài xế an toàn bảo mật tuyệt đối' : 'Highly reliable private car transits & daily scooters'}
+                {isVi ? 'Ô tô tự lái và xe máy đời mới, bảo dưỡng kỹ, giao xe tận nơi.' : 'Late-model self-drive cars & scooters, well-maintained and delivered to you.'}
               </p>
             </div>
             <span 
@@ -261,7 +277,7 @@ export default function BookingDetails({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {vehicles.map((veh) => {
+            {(showAllVehicles ? vehicles : vehicles.slice(0, VEHICLES_PREVIEW)).map((veh) => {
               const inCart = isItemInCart(veh.id);
               return (
                 <div 
@@ -369,6 +385,14 @@ export default function BookingDetails({
               );
             })}
           </div>
+          {vehicles.length > VEHICLES_PREVIEW && (
+            <SectionToggle
+              isVi={isVi}
+              expanded={showAllVehicles}
+              remaining={vehicles.length - VEHICLES_PREVIEW}
+              onToggle={() => setShowAllVehicles((v) => !v)}
+            />
+          )}
         </section>
 
         {/* Section: EXPERIENCES (Hoạt động & Trải nghiệm) in exact photo layout */}
@@ -459,7 +483,7 @@ export default function BookingDetails({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-              {filteredActivities.map((act) => {
+              {(showAllActivities ? filteredActivities : filteredActivities.slice(0, ACTIVITIES_PREVIEW)).map((act) => {
                 const inCart = isItemInCart(act.id);
                 return (
                   <div 
@@ -562,6 +586,14 @@ export default function BookingDetails({
                 );
               })}
             </div>
+          )}
+          {filteredActivities.length > ACTIVITIES_PREVIEW && (
+            <SectionToggle
+              isVi={isVi}
+              expanded={showAllActivities}
+              remaining={filteredActivities.length - ACTIVITIES_PREVIEW}
+              onToggle={() => setShowAllActivities((v) => !v)}
+            />
           )}
         </section>
 
@@ -680,6 +712,30 @@ export default function BookingDetails({
         </section>
 
       </div>
+    </div>
+  );
+}
+
+// Per-section "Show more / Collapse" toggle for in-place list expansion
+function SectionToggle({
+  isVi,
+  expanded,
+  remaining,
+  onToggle,
+}: {
+  isVi: boolean;
+  expanded: boolean;
+  remaining: number;
+  onToggle: () => void;
+}) {
+  return (
+    <div className="flex justify-center pt-8">
+      <button
+        onClick={onToggle}
+        className="bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-xs transition cursor-pointer"
+      >
+        {expanded ? (isVi ? 'Thu gọn' : 'Show less') : isVi ? `Xem thêm (${remaining})` : `Show more (${remaining})`}
+      </button>
     </div>
   );
 }

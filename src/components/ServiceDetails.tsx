@@ -5,6 +5,7 @@ import {
   CheckCircle, Landmark, Sparkles, Navigation, Info, ChevronRight, Check
 } from 'lucide-react';
 import { Language, BookingCartItem, ViewableItem } from '../types';
+import { DateField } from '@/components/ui';
 
 type ServiceDetailsItem = ViewableItem & {
   rating?: number;
@@ -467,13 +468,12 @@ export default function ServiceDetails({
                       <Calendar className="w-3 h-3 text-natural-accent" />
                       <span>{item.type === 'hotel' ? (isVi ? 'Ngày Check-in:' : 'Check-in Date:') : (isVi ? 'Ngày nhận xe:' : 'Pickup Date:')}</span>
                     </label>
-                    <input 
-                      type="date"
-                      required
-                      min={new Date().toISOString().split('T')[0]}
+                    <DateField
                       value={checkInDate}
-                      onChange={(e) => {
-                        const newCheckIn = e.target.value;
+                      min={new Date().toISOString().split('T')[0]}
+                      isVi={isVi}
+                      showIcon={false}
+                      onChange={(newCheckIn) => {
                         setCheckInDate(newCheckIn);
                         // Ensure check-out is at least the day after check-in
                         const nextDay = new Date(newCheckIn);
@@ -483,7 +483,7 @@ export default function ServiceDetails({
                           setCheckOutDate(nextDayStr);
                         }
                       }}
-                      className="w-full bg-white border border-natural-border rounded-xl p-2.5 text-xs font-bold text-stone-700 focus:outline-none focus:border-natural-accent"
+                      className="flex w-full items-center bg-white border border-natural-border rounded-xl p-2.5 text-xs font-bold text-stone-700 cursor-pointer"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -491,21 +491,20 @@ export default function ServiceDetails({
                       <Calendar className="w-3 h-3 text-natural-accent" />
                       <span>{item.type === 'hotel' ? (isVi ? 'Ngày Check-out:' : 'Check-out Date:') : (isVi ? 'Ngày trả xe:' : 'Return Date:')}</span>
                     </label>
-                    <input 
-                      type="date"
-                      required
+                    <DateField
+                      value={checkOutDate}
+                      align="right"
                       min={checkInDate ? (() => {
                         const nextDay = new Date(checkInDate);
                         nextDay.setDate(nextDay.getDate() + 1);
                         return nextDay.toISOString().split('T')[0];
                       })() : new Date().toISOString().split('T')[0]}
-                      value={checkOutDate}
-                      onChange={(e) => {
-                        if (e.target.value > checkInDate) {
-                          setCheckOutDate(e.target.value);
-                        }
+                      isVi={isVi}
+                      showIcon={false}
+                      onChange={(value) => {
+                        if (value > checkInDate) setCheckOutDate(value);
                       }}
-                      className="w-full bg-white border border-natural-border rounded-xl p-2.5 text-xs font-bold text-stone-700 focus:outline-none focus:border-natural-accent"
+                      className="flex w-full items-center bg-white border border-natural-border rounded-xl p-2.5 text-xs font-bold text-stone-700 cursor-pointer"
                     />
                   </div>
                 </div>
@@ -515,13 +514,13 @@ export default function ServiceDetails({
                     <Calendar className="w-3.5 h-3.5 text-natural-accent" />
                     <span>{isVi ? 'Vui lòng chọn ngày khởi hành:' : 'Please Select Departure Date:'}</span>
                   </label>
-                  <input 
-                    type="date"
-                    required
-                    min={new Date().toISOString().split('T')[0]}
+                  <DateField
                     value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                    className="w-full bg-natural-cream border border-natural-border rounded-2xl p-3 text-xs font-bold text-stone-700 focus:outline-none focus:border-natural-accent"
+                    min={new Date().toISOString().split('T')[0]}
+                    isVi={isVi}
+                    showIcon={false}
+                    onChange={setSelectedDate}
+                    className="flex w-full items-center bg-natural-cream border border-natural-border rounded-2xl p-3 text-xs font-bold text-stone-700 cursor-pointer"
                   />
                 </div>
               )}

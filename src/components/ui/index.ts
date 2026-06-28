@@ -9,4 +9,5 @@ export { Card } from './Card';
 export { Button } from './Button';
 export { IconButton } from './IconButton';
 export { Badge } from './Badge';
+export { DateField } from './DateField';
 export * from './motion-presets';
