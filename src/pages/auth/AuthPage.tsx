@@ -146,12 +146,12 @@ export default function AuthPage({ mode }: AuthPageProps) {
   const copy = {
     login: {
       title: isVi ? 'Đăng nhập' : 'Sign In',
-      subtitle: isVi ? 'Đăng nhập để tiếp tục đặt dịch vụ, lưu hành trình và quản lý hồ sơ của bạn.' : 'Sign in to keep booking, save trips and manage your profile.',
+      subtitle: isVi ? 'Chào mừng trở lại — hành trình khám phá miền Trung vẫn đang chờ bạn phía trước.' : 'Welcome back — your Central Vietnam adventure is waiting right where you left it.',
       button: isVi ? 'Đăng nhập' : 'Sign In',
     },
     register: {
       title: isVi ? 'Tạo tài khoản' : 'Create Account',
-      subtitle: isVi ? 'Tạo tài khoản để nhận ưu đãi riêng và gợi ý hành trình phù hợp với bạn.' : 'Create an account to unlock member perks and trip suggestions made for you.',
+      subtitle: isVi ? 'Mở tài khoản, mở lối đến những vùng đất di sản, ưu đãi riêng và hành trình dành riêng cho bạn.' : 'Open an account and unlock heritage lands, member perks and journeys made just for you.',
       button: isVi ? 'Tạo tài khoản' : 'Create Account',
     },
     'forgot-password': {

@@ -40,7 +40,7 @@ export default function ProvinceDetailPage() {
       <ProvinceHero
         provinceId={selectedProvinceId}
         exploreLabel={t.exploreNow}
-        onExplore={() => handleScrollToSection('itinerary-map-section')}
+        onExplore={() => handleScrollToSection('featured-attractions-section')}
       />
 
       <ProvinceSearchBar

@@ -4,7 +4,7 @@
  */
 
 import { useI18n, useUI } from '@/hooks';
-import { Facebook, Instagram, Youtube, Phone, Mail, MapPin, ShieldCheck, Headphones, Award, Compass, Clock } from 'lucide-react';
+import { Facebook, Instagram, Youtube, Phone, Mail, MapPin, ShieldCheck, Headphones, Award, Landmark, Clock } from 'lucide-react';
 
 export default function Footer() {
   const { language } = useI18n();
@@ -19,7 +19,7 @@ export default function Footer() {
               {/* Logo */}
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-natural-gold/10 rounded-xl border border-natural-gold/30">
-                  <Compass className="w-8 h-8 text-natural-gold" />
+                  <Landmark className="w-8 h-8 text-natural-gold" />
                 </div>
                 <div>
                   <h4 className="font-serif font-black text-xl text-natural-bg tracking-wider leading-none">VIET CHARM</h4>
@@ -265,11 +265,11 @@ export default function Footer() {
                 </li>
                 <li className="flex gap-2.5 items-center">
                   <Phone className="w-4 h-4 text-natural-gold shrink-0" />
-                  <span>Hotline: 1900 1234</span>
+                  <a href="tel:19005040" className="hover:text-natural-gold transition">Hotline: 1900 5040</a>
                 </li>
                 <li className="flex gap-2.5 items-center">
                   <Mail className="w-4 h-4 text-natural-gold shrink-0" />
-                  <span className="break-all">Email: info@vietcharm.com</span>
+                  <a href="mailto:info@vietcharm.com" className="break-all hover:text-natural-gold transition">Email: info@vietcharm.com</a>
                 </li>
                 <li className="flex gap-2.5 items-center">
                   <Clock className="w-4 h-4 text-natural-gold shrink-0" />
@@ -289,8 +289,8 @@ export default function Footer() {
             <div className="space-y-1 text-center xl:text-left">
               <p className="font-medium text-stone-300">
                 {language === 'vi' 
-                  ? '© 2024 VietCharm Hội An. All rights reserved.' 
-                  : '© 2024 VietCharm Hoi An. All rights reserved.'}
+                  ? '© 2026 VietCharm Hội An. All rights reserved.'
+                  : '© 2026 VietCharm Hoi An. All rights reserved.'}
               </p>
               <p className="text-[10px] text-natural-beige/40 leading-relaxed max-w-md">
                 {language === 'vi'

@@ -114,14 +114,19 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   }, []);
 
   // Navigate to province detail, then smooth-scroll to the target section once it mounts.
+  // Offsets by the live sticky-header height so the section heading isn't hidden behind it.
   const scrollToSection = (sectionId: string) => {
     setViewState('province');
     viewRef.current = 'province';
     syncUrl('province', selectedProvinceIdRef.current);
     setTimeout(() => {
       const element = document.getElementById(sectionId);
-      if (element) element.scrollIntoView({ behavior: 'smooth' });
-    }, 150);
+      if (!element) return;
+      const header = document.querySelector('header');
+      const headerOffset = header ? header.getBoundingClientRect().height : 0;
+      const top = element.getBoundingClientRect().top + window.scrollY - headerOffset - 12;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }, 200);
   };
 
   const changeHeaderView = (target: string) => {
@@ -140,28 +145,13 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
       setView(target as ViewId);
     } else if (target === 'hotels') {
       setActiveSubView('hotels');
-      if (view !== 'province') {
-        setView('province');
-        setTimeout(() => scrollToSection('hotels-section'), 300);
-      } else {
-        scrollToSection('hotels-section');
-      }
+      scrollToSection('hotels-section');
     } else if (target === 'rentals') {
       setActiveSubView('rentals');
-      if (view !== 'province') {
-        setView('province');
-        setTimeout(() => scrollToSection('rentals-section'), 300);
-      } else {
-        scrollToSection('rentals-section');
-      }
+      scrollToSection('rentals-section');
     } else if (target === 'experiences') {
       setActiveSubView('experiences');
-      if (view !== 'province') {
-        setView('province');
-        setTimeout(() => scrollToSection('experiences-section'), 300);
-      } else {
-        scrollToSection('experiences-section');
-      }
+      scrollToSection('experiences-section');
     }
   };
 

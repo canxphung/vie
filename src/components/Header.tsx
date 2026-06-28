@@ -4,7 +4,28 @@
  */
 
 import React from 'react';
-import { Globe, ShoppingBag, Landmark, LogOut, Settings, Key, BookOpen, Car, Gift, Phone, Handshake, Clock, Hotel, ChevronDown, Compass } from 'lucide-react';
+import {
+  BookOpen,
+  Car,
+  ChevronDown,
+  Clock,
+  Compass,
+  Gift,
+  Globe,
+  Handshake,
+  Hotel,
+  Key,
+  Landmark,
+  LogOut,
+  MapPin,
+  Phone,
+  Route,
+  Settings,
+  ShoppingBag,
+  Sparkles,
+  UserRound,
+  UsersRound,
+} from 'lucide-react';
 import type { Language, UserAccount } from '../types';
 import { dictionaries } from '../data';
 import { Container } from '@/components/ui';
@@ -24,6 +45,75 @@ interface HeaderProps {
   onLogout: () => void;
 }
 
+type IconComponent = React.ComponentType<{ className?: string }>;
+
+interface HeaderLinkProps {
+  active?: boolean;
+  icon?: IconComponent;
+  children: React.ReactNode;
+  onClick: () => void;
+}
+
+function HeaderLink({ active = false, icon: Icon, children, onClick }: HeaderLinkProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex h-12 items-center justify-center gap-2 px-3 text-sm font-black transition cursor-pointer ${
+        active ? 'text-white' : 'text-white/88 hover:text-white'
+      }`}
+    >
+      {Icon && <Icon className="h-4 w-4 shrink-0 text-natural-gold" />}
+      <span>{children}</span>
+    </button>
+  );
+}
+
+interface NavItemProps {
+  active: boolean;
+  icon?: IconComponent;
+  children: React.ReactNode;
+  onClick: () => void;
+}
+
+function NavItem({ active, icon: Icon, children, onClick }: NavItemProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`relative inline-flex h-9 items-center justify-center gap-1.5 px-4 text-sm font-medium transition cursor-pointer ${
+        active ? 'text-natural-accent' : 'text-natural-ink hover:text-natural-accent'
+      }`}
+    >
+      {Icon && <Icon className="h-4 w-4 shrink-0 text-natural-accent" />}
+      <span>{children}</span>
+      {active && <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-natural-accent" />}
+    </button>
+  );
+}
+
+interface DropdownItemProps {
+  active: boolean;
+  icon: IconComponent;
+  label: string;
+  onClick: () => void;
+}
+
+function DropdownItem({ active, icon: Icon, label, onClick }: DropdownItemProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex w-full items-center gap-2 px-4 py-2.5 text-left text-xs font-bold uppercase tracking-wide transition hover:bg-natural-accent/10 cursor-pointer ${
+        active ? 'text-natural-accent' : 'text-natural-text'
+      }`}
+    >
+      <Icon className="h-3.5 w-3.5 shrink-0 text-natural-gold" />
+      <span>{label}</span>
+    </button>
+  );
+}
+
 export default function Header({
   language,
   setLanguage,
@@ -40,249 +130,207 @@ export default function Header({
   const t = dictionaries[language];
   const isVi = language === 'vi';
   const [showMoreMenu, setShowMoreMenu] = React.useState(false);
-  const [showTransportMenu, setShowTransportMenu] = React.useState(false);
+
+  const isExploreActive = ['spots', 'regions', 'provinces', 'province'].includes(currentView);
+  const isMoreActive = ['handbook', 'nearby-places'].includes(currentView);
 
   return (
-    <header className="w-full bg-natural-bg text-natural-text border-b border-natural-border">
-      {/* Mini top bar */}
-      <Container className="py-1.5 flex flex-wrap justify-between items-center text-xs border-b border-natural-border bg-natural-beige text-natural-text">
-        <div className="flex gap-3 items-center font-medium flex-wrap">
-          <button onClick={onNavigateHome} className="font-bold text-natural-accent hover:text-natural-olive transition flex items-center gap-1 cursor-pointer">
-            <Landmark className="w-3.5 h-3.5" />
-            VietCharm Portal
-          </button>
-          <span className="text-natural-border">|</span>
-          <button onClick={() => onChangeView('tours')} className="text-stone-600 hover:text-natural-accent transition flex items-center gap-1 cursor-pointer">
-            <Gift className="w-3.5 h-3.5 text-natural-gold" />
-            {t.promo}
-          </button>
-          <span className="text-natural-border">|</span>
-          <button onClick={() => onChangeView('partnership-register')} className="text-stone-600 hover:text-natural-accent transition flex items-center gap-1 cursor-pointer">
-            <Handshake className="w-3.5 h-3.5 text-natural-gold" />
-            {t.partner}
-          </button>
-          <span className="text-natural-border">|</span>
-          <a href="tel:19005040" className="text-stone-600 hover:text-natural-accent transition flex items-center gap-1">
-            <Phone className="w-3.5 h-3.5 text-natural-gold" />
-            {t.support}
-          </a>
-        </div>
-
-        <div className="flex items-center gap-3 mt-1 sm:mt-0 font-medium font-sans">
+    <header className="sticky top-0 z-40 w-full border-b border-[#d8c8a7] bg-natural-bg text-natural-text shadow-sm">
+      <div className="bg-[#73551F] text-white">
+        <Container className="flex min-h-16 flex-wrap items-center gap-x-6 gap-y-2 py-2 lg:flex-nowrap lg:py-0">
           <button
-            onClick={() => setLanguage(isVi ? 'en' : 'vi')}
-            className="flex items-center gap-1 text-stone-600 hover:text-natural-accent transition text-[11px] font-bold cursor-pointer"
-            title={isVi ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
+            type="button"
+            onClick={onNavigateHome}
+            className="group flex shrink-0 items-center gap-2.5 cursor-pointer"
           >
-            <Globe className="w-3.5 h-3.5" />
-            {isVi ? 'EN' : 'VI'}
-          </button>
-          <span className="text-natural-border">|</span>
-          {currentUser ? (
-            <div className="flex items-center gap-3 text-stone-800">
-              <button
-                onClick={() => onChangeView('profile')}
-                className="bg-natural-cream hover:bg-natural-beige px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1.5 border border-natural-border text-natural-accent transition cursor-pointer"
-                title={isVi ? 'Quản lý Hồ sơ' : 'Manage Profile'}
-              >
-                <img src={currentUser.avatar} alt="Avatar" className="w-4.5 h-4.5 rounded-full object-cover border border-natural-accent" />
-                <span className="font-sans font-bold">{currentUser.fullName}</span>
-              </button>
-              {currentUser.role === 'admin' && (
-                <button
-                  onClick={() => onChangeView('admin')}
-                  className="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-3 py-1.5 rounded-full text-[10px] font-black flex items-center gap-1 transition uppercase animate-pulse shadow-sm cursor-pointer"
-                  title={isVi ? 'Trang Quản trị' : 'Admin Panel'}
-                >
-                  <Settings className="w-3 h-3 text-red-600" />
-                  <span>{isVi ? 'QUẢN TRỊ' : 'ADMIN'}</span>
-                </button>
-              )}
-              <button 
-                onClick={onLogout}
-                className="text-natural-accent hover:text-red-700 font-bold flex items-center gap-0.5 transition cursor-pointer"
-                title={isVi ? 'Đăng xuất' : 'Log out'}
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <button 
-                onClick={onOpenLogin}
-                className="bg-white hover:bg-natural-beige text-natural-accent px-3.5 py-1 rounded-full text-[11px] font-bold transition shadow-xs border border-natural-border cursor-pointer"
-              >
-                {t.login}
-              </button>
-              <button 
-                onClick={onOpenRegister}
-                className="bg-natural-accent hover:bg-natural-olive text-white px-3.5 py-1 rounded-full text-[11px] font-bold transition cursor-pointer"
-              >
-                {t.register}
-              </button>
-            </div>
-          )}
-        </div>
-      </Container>
-
-      {/* Main navigation in the exact photo style */}
-      <div className="bg-natural-bg border-b border-natural-border">
-        <Container className="py-4 flex flex-wrap justify-between items-center">
-          {/* Logo brand */}
-          <div onClick={onNavigateHome} className="flex items-center gap-2.5 cursor-pointer group">
-            <div className="p-2 rounded-lg bg-natural-accent text-white shadow-md group-hover:bg-natural-olive transition">
-              <Landmark className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-2xl font-serif font-black tracking-tight text-natural-accent flex items-center gap-1">
-                VIET<span className="text-natural-accent-light">CHARM</span>
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/30 text-natural-gold transition group-hover:bg-white/10">
+              <Landmark className="h-6 w-6" />
+            </span>
+            <span className="text-left">
+              <span className="block font-serif text-xl font-black leading-none tracking-wide text-white">
+                VIET CHARM
               </span>
-              <p className="text-[9px] text-natural-accent-light tracking-[0.2em] uppercase font-bold">Heritage & Travel</p>
-            </div>
+              <span className="mt-1 block text-[9px] font-black uppercase tracking-[0.24em] text-natural-gold">
+                Heritage & Travel
+              </span>
+            </span>
+          </button>
+
+          <nav className="order-3 flex w-full flex-wrap items-center gap-x-4 gap-y-1 lg:order-none lg:w-auto lg:flex-1 lg:justify-center">
+            <HeaderLink active={currentView === 'tours'} icon={Gift} onClick={() => onChangeView('tours')}>
+              {isVi ? 'Khuyến mãi' : 'Promotions'}
+            </HeaderLink>
+            <HeaderLink
+              active={currentView === 'partnership-register'}
+              icon={Handshake}
+              onClick={() => onChangeView('partnership-register')}
+            >
+              {isVi ? 'Hợp tác với chúng tôi' : 'Partner with us'}
+            </HeaderLink>
+            <a
+              href="tel:19005040"
+              className="inline-flex h-12 items-center justify-center gap-2 px-3 text-sm font-black text-white/88 transition hover:text-white"
+            >
+              <Phone className="h-4 w-4 shrink-0 text-natural-gold" />
+              <span>{isVi ? 'Hỗ trợ' : 'Support'}</span>
+            </a>
+            <HeaderLink active={currentView === 'recently-viewed'} icon={Clock} onClick={() => onChangeView('recently-viewed')}>
+              {isVi ? 'Xem gần đây' : 'Recent'}
+            </HeaderLink>
+          </nav>
+
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setLanguage(isVi ? 'en' : 'vi')}
+              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-full px-2.5 text-[11px] font-black uppercase text-white/85 transition hover:bg-white/10 hover:text-white cursor-pointer"
+              title={isVi ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
+            >
+              <Globe className="h-3.5 w-3.5" />
+              {isVi ? 'EN' : 'VI'}
+            </button>
+
+            {currentUser ? (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => onChangeView('profile')}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-3 text-[11px] font-black text-[#73551F] transition hover:bg-natural-beige cursor-pointer"
+                  title={isVi ? 'Quản lý hồ sơ' : 'Manage profile'}
+                >
+                  <img src={currentUser.avatar} alt="Avatar" className="h-5 w-5 rounded-full object-cover" />
+                  <span className="hidden max-w-28 truncate sm:inline">{currentUser.fullName}</span>
+                </button>
+                {currentUser.role === 'admin' && (
+                  <button
+                    type="button"
+                    onClick={() => onChangeView('admin')}
+                    className="inline-flex h-9 items-center gap-1 rounded-full bg-red-50 px-3 text-[10px] font-black uppercase text-red-700 transition hover:bg-red-100 cursor-pointer"
+                    title={isVi ? 'Trang quản trị' : 'Admin panel'}
+                  >
+                    <Settings className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline">{isVi ? 'Quản trị' : 'Admin'}</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={onLogout}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white/90 transition hover:bg-white/10 hover:text-white cursor-pointer"
+                  title={isVi ? 'Đăng xuất' : 'Log out'}
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  onClick={onOpenLogin}
+                  className="inline-flex h-10 min-w-28 items-center justify-center rounded-full bg-white px-5 text-sm font-black text-stone-950 shadow-sm transition hover:bg-natural-beige cursor-pointer"
+                >
+                  {t.login}
+                </button>
+                <button
+                  type="button"
+                  onClick={onOpenRegister}
+                  className="inline-flex h-10 min-w-28 items-center justify-center rounded-full bg-natural-gold px-5 text-sm font-black text-white shadow-sm transition hover:bg-natural-gold-dark cursor-pointer"
+                >
+                  {t.register}
+                </button>
+              </div>
+            )}
           </div>
+        </Container>
+      </div>
 
-          {/* Navigation Links inside image style (STT 1-14) */}
-          <nav className="flex flex-wrap gap-2 md:gap-4 text-xs sm:text-[13px] font-bold uppercase tracking-wider my-2 md:my-0 items-center">
-            <button 
-              onClick={() => onChangeView('spots')}
-              className={`pb-1 px-1 transition relative cursor-pointer ${currentView === 'spots' || currentView === 'regions' || currentView === 'provinces' || currentView === 'province' ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
-            >
-              {language === 'vi' ? 'Khám phá' : 'Explore'}
-            </button>
-            <button 
-              onClick={() => onChangeView('hotels')}
-              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'hotels' ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
-            >
-              <Hotel className="w-3.5 h-3.5 text-natural-gold" />
-              <span>{language === 'vi' ? 'Khách sạn' : 'Hotels'}</span>
-            </button>
-            <button 
-              onClick={() => onChangeView('experiences')}
-              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'experiences' ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
-            >
-              <Compass className="w-3.5 h-3.5 text-natural-gold" />
-              <span>{language === 'vi' ? 'Trải nghiệm' : 'Experiences'}</span>
-            </button>
-            {/* "Phương tiện di chuyển" dropdown grouping Rentals and Taxi */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setShowTransportMenu(true)}
-              onMouseLeave={() => setShowTransportMenu(false)}
-            >
-              <button 
-                onClick={() => setShowTransportMenu(!showTransportMenu)}
-                className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${['rentals', 'taxi'].includes(currentView) ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
-              >
-                <Car className="w-3.5 h-3.5 text-natural-gold" />
-                <span>{language === 'vi' ? 'Phương tiện di chuyển' : 'Transportation'}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showTransportMenu ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {showTransportMenu && (
-                <div className="absolute left-0 top-full pt-1 w-52 z-50">
-                  <div className="bg-natural-bg border border-natural-border rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <button 
-                      onClick={() => {
-                        onChangeView('rentals');
-                        setShowTransportMenu(false);
-                      }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'rentals' ? 'text-natural-accent' : 'text-natural-text'}`}
-                    >
-                      <Key className="w-3.5 h-3.5 text-natural-accent" />
-                      <span>{language === 'vi' ? 'Thuê xe tự lái' : 'Self-drive Rentals'}</span>
-                    </button>
-                    <button 
-                      onClick={() => {
-                        onChangeView('taxi');
-                        setShowTransportMenu(false);
-                      }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'taxi' ? 'text-natural-accent' : 'text-natural-text'}`}
-                    >
-                      <Car className="w-3.5 h-3.5 text-natural-accent" />
-                      <span>{language === 'vi' ? 'Đặt Taxi' : 'Taxi Booking'}</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+      <div className="border-t border-[#8A6A2D]/35 bg-[#FFF8E9]">
+        <Container className="flex min-h-9 flex-wrap items-center justify-center gap-x-7 gap-y-1 py-1 lg:flex-nowrap">
+          <nav className="flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
+            <NavItem active={isExploreActive} icon={Compass} onClick={() => onChangeView('spots')}>
+              {isVi ? 'Khám phá' : 'Explore'}
+            </NavItem>
+            <NavItem active={currentView === 'hotels'} icon={Hotel} onClick={() => onChangeView('hotels')}>
+              {isVi ? 'Khách sạn' : 'Hotels'}
+            </NavItem>
+            <NavItem active={currentView === 'rentals'} icon={Key} onClick={() => onChangeView('rentals')}>
+              {isVi ? 'Thuê xe' : 'Rentals'}
+            </NavItem>
+            <NavItem active={currentView === 'experiences'} icon={Route} onClick={() => onChangeView('experiences')}>
+              {isVi ? 'Hoạt động & Vui chơi' : 'Activities'}
+            </NavItem>
+            <NavItem active={currentView === 'trip-room'} icon={UsersRound} onClick={() => onChangeView('trip-room')}>
+              Trip Room
+            </NavItem>
+            <NavItem active={currentView === 'blind-travel'} icon={Sparkles} onClick={() => onChangeView('blind-travel')}>
+              {isVi ? 'Hành trình ẩn số' : 'Blind Travel'}
+            </NavItem>
 
-            {/* "More" dropdown grouping Tours, Handbook, Partnership, Nearby Places */}
-            <div 
+            <div
               className="relative"
               onMouseEnter={() => setShowMoreMenu(true)}
               onMouseLeave={() => setShowMoreMenu(false)}
             >
-              <button 
-                onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${['handbook', 'nearby-places'].includes(currentView) ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
+              <button
+                type="button"
+                onClick={() => setShowMoreMenu((open) => !open)}
+                className={`relative inline-flex h-9 items-center justify-center gap-1.5 px-4 text-sm font-medium transition cursor-pointer ${
+                  isMoreActive ? 'text-natural-accent' : 'text-natural-ink hover:text-natural-accent'
+                }`}
               >
-                <span>{language === 'vi' ? 'Xem thêm' : 'More'}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showMoreMenu ? 'rotate-180' : ''}`} />
+                <span>{isVi ? 'Xem thêm' : 'More'}</span>
+                <ChevronDown className={`h-4 w-4 transition-transform ${showMoreMenu ? 'rotate-180' : ''}`} />
+                {isMoreActive && <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-natural-accent" />}
               </button>
-              
+
               {showMoreMenu && (
-                <div className="absolute left-0 top-full pt-1 w-48 z-50">
-                  <div className="bg-natural-bg border border-natural-border rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <button 
-                      onClick={() => {
-                        onChangeView('nearby-places');
-                        setShowMoreMenu(false);
-                      }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'nearby-places' ? 'text-natural-accent' : 'text-natural-text'}`}
-                    >
-                      <Compass className="w-3.5 h-3.5 text-natural-gold" />
-                      <span>{language === 'vi' ? 'Địa điểm lân cận' : 'Nearby Places'}</span>
-                    </button>
-                    <button
+                <div className="absolute right-0 top-full z-50 w-56 pt-2">
+                  <div className="overflow-hidden rounded-xl border border-natural-border bg-natural-bg py-2 shadow-xl">
+                    <DropdownItem
+                      active={currentView === 'handbook'}
+                      icon={BookOpen}
+                      label={isVi ? 'Cẩm nang du lịch' : 'Travel handbook'}
                       onClick={() => {
                         onChangeView('handbook');
                         setShowMoreMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'handbook' ? 'text-natural-accent' : 'text-natural-text'}`}
-                    >
-                      <BookOpen className="w-3.5 h-3.5 text-natural-accent" />
-                      <span>{language === 'vi' ? 'Cẩm nang du lịch' : 'Travel Handbook'}</span>
-                    </button>
+                    />
+                    <DropdownItem
+                      active={currentView === 'nearby-places'}
+                      icon={MapPin}
+                      label={isVi ? 'Địa điểm lân cận' : 'Nearby places'}
+                      onClick={() => {
+                        onChangeView('nearby-places');
+                        setShowMoreMenu(false);
+                      }}
+                    />
+                    <DropdownItem
+                      active={currentView === 'taxi'}
+                      icon={Car}
+                      label={isVi ? 'Đặt taxi' : 'Taxi booking'}
+                      onClick={() => {
+                        onChangeView('taxi');
+                        setShowMoreMenu(false);
+                      }}
+                    />
                   </div>
                 </div>
               )}
             </div>
-            <button 
-              onClick={() => onChangeView('trip-room')}
-              className={`pb-1 px-1.5 py-0.5 rounded-md transition relative text-emerald-800 bg-emerald-50 hover:bg-emerald-100 cursor-pointer ${currentView === 'trip-room' ? 'text-emerald-950 font-extrabold border-b-2 border-emerald-800' : 'font-extrabold'}`}
-            >
-              👥 {language === 'vi' ? 'Trip Room' : 'Trip Room'}
-            </button>
-            <button 
-              onClick={() => onChangeView('blind-travel')}
-              className={`pb-1 px-1.5 py-0.5 rounded-md transition relative text-amber-800 bg-amber-50 hover:bg-amber-100 cursor-pointer ${currentView === 'blind-travel' ? 'text-amber-950 font-extrabold border-b-2 border-amber-800' : 'font-extrabold'}`}
-            >
-              🔮 {language === 'vi' ? 'Hành trình ẩn số' : 'Blind Travel'}
-            </button>
-            <button 
-              onClick={() => onChangeView('recently-viewed')}
-              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'recently-viewed' ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
-            >
-              <Clock className="w-3.5 h-3.5 text-natural-gold" />
-              <span>{language === 'vi' ? 'Đã xem gần đây' : 'Recently Viewed'}</span>
-            </button>
           </nav>
 
-          {/* Shopping Card */}
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={onOpenCart}
-              className="relative p-2 rounded-full hover:bg-natural-beige transition text-natural-accent border border-natural-border cursor-pointer"
-              title="Cart Bundle"
-            >
-              <ShoppingBag className="w-4.5 h-4.5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-natural-gold text-white border border-natural-bg text-[9px] w-5 h-5 rounded-full flex items-center justify-center font-black animate-bounce shadow-md">
-                   {cartCount}
-                </span>
-              )}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onOpenCart}
+            className="relative inline-flex h-9 w-10 items-center justify-center text-natural-ink transition hover:text-natural-accent cursor-pointer"
+            title="Cart Bundle"
+          >
+            <ShoppingBag className="h-5 w-5" />
+            {cartCount > 0 && (
+              <span className="absolute right-0 top-0 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-natural-gold text-[9px] font-black text-white shadow-sm">
+                {cartCount}
+              </span>
+            )}
+          </button>
         </Container>
       </div>
     </header>

@@ -31,7 +31,7 @@ export function FeaturedAttractions({
   onToggleFavorite,
 }: FeaturedAttractionsProps) {
   return (
-    <Container className="py-16">
+    <Container id="featured-attractions-section" className="py-16">
       <div className="flex justify-between items-end border-b border-amber-200/50 pb-4 mb-8">
         <div>
           <h3 className="text-xl md:text-2xl font-black text-stone-900 tracking-tight uppercase">{title}</h3>

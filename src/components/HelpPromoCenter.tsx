@@ -329,7 +329,7 @@ export default function HelpPromoCenter({
               {/* Footer Panel */}
               <div className="bg-natural-cream border-t border-natural-border p-4 text-center text-[10px] text-stone-400 font-mono flex flex-wrap justify-between items-center gap-2">
                 <span>VIETCHARM ONLINE CONCIERGE SUPPORT</span>
-                <span>HOTLINE: 1900-5040</span>
+                <span>HOTLINE: 1900 5040</span>
               </div>
             </motion.div>
           </div>
