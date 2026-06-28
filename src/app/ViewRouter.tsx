@@ -7,6 +7,7 @@ import { AnimatePresence } from 'motion/react';
 import { useUI } from '@/hooks';
 import ProfilePage from '@/pages/account/ProfilePage';
 import AdminPage from '@/pages/admin/AdminPage';
+import AuthPage from '@/pages/auth/AuthPage';
 import AllServicesPage from '@/pages/discover/AllServicesPage';
 import NearbyPlacesPage from '@/pages/discover/NearbyPlacesPage';
 import ProvinceDetailPage from '@/pages/discover/ProvinceDetailPage';
@@ -56,6 +57,12 @@ export default function ViewRouter() {
     page = <AdminPage />;
   } else if (view === 'all-services') {
     page = <AllServicesPage />;
+  } else if (view === 'login') {
+    page = <AuthPage mode="login" />;
+  } else if (view === 'register') {
+    page = <AuthPage mode="register" />;
+  } else if (view === 'forgot-password') {
+    page = <AuthPage mode="forgot-password" />;
   }
 
   return <AnimatePresence mode="wait">{page}</AnimatePresence>;

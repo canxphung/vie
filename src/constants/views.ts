@@ -20,7 +20,10 @@ export type ViewId =
   | 'admin'
   | 'recently-viewed'
   | 'nearby-places'
-  | 'all-services';
+  | 'all-services'
+  | 'login'
+  | 'register'
+  | 'forgot-password';
 
 /** Tabs for the "all services" catalog view. */
 export type ServiceTab = 'attractions' | 'hotels' | 'vehicles' | 'activities';

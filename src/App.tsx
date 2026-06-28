@@ -7,19 +7,18 @@ import Header from './components/Header';
 import Footer from '@/components/layout/Footer';
 import HelpPromoCenter from './components/HelpPromoCenter';
 import PaymentModal from './components/PaymentModal';
-import { UserAuthModal } from '@/features/auth/UserAuthModal';
 import ViewRouter from '@/app/ViewRouter';
 import { useI18n, useAuth, useCart, useUI } from '@/hooks';
-import type { UserAccount } from '@/types';
 
 export default function App() {
   const { language, setLanguage } = useI18n();
   const { view, activeSubView, setView, changeHeaderView, navigateHome, scrollToSection } = useUI();
-  const { currentUser, users, isAuthModalOpen, openAuthModal, closeAuthModal, login, register, logout } = useAuth();
+  const { currentUser, logout } = useAuth();
   const {
     items: cartItems, cartCount, isPaymentOpen, openPayment, closePayment,
     removeItem: handleRemoveFromCart, clearCart: handleClearCart,
   } = useCart();
+  const isAuthPage = view === 'login' || view === 'register' || view === 'forgot-password';
 
   return (
     <div className="min-h-screen bg-natural-bg text-natural-text transition-colors duration-300 font-sans antialiased selection:bg-natural-gold selection:text-white">
@@ -32,7 +31,8 @@ export default function App() {
         currentView={view === 'province' ? activeSubView : view}
         onChangeView={changeHeaderView}
         currentUser={currentUser}
-        onOpenAuthModal={() => openAuthModal()}
+        onOpenLogin={() => setView('login')}
+        onOpenRegister={() => setView('register')}
         onLogout={() => {
           logout();
           navigateHome();
@@ -51,30 +51,17 @@ export default function App() {
         />
       )}
 
-      <UserAuthModal
-        language={language}
-        isOpen={isAuthModalOpen}
-        onClose={() => closeAuthModal()}
-        onLoginSuccess={(user: UserAccount) => {
-          login(user);
-          navigateHome();
-        }}
-        users={users}
-        onRegisterNew={(newU: UserAccount) => {
-          register(newU);
-          navigateHome();
-        }}
-      />
-
-      <HelpPromoCenter
-        language={language}
-        onNavigateToPartnership={() => setView('partnership-register')}
-        onNavigateToHotels={() => {
-          setView('province');
-          setTimeout(() => scrollToSection('hotels-section'), 450);
-        }}
-        onNavigateToMysteryRoom={() => setView('blind-travel')}
-      />
+      {!isAuthPage && (
+        <HelpPromoCenter
+          language={language}
+          onNavigateToPartnership={() => setView('partnership-register')}
+          onNavigateToHotels={() => {
+            setView('province');
+            setTimeout(() => scrollToSection('hotels-section'), 450);
+          }}
+          onNavigateToMysteryRoom={() => setView('blind-travel')}
+        />
+      )}
 
       <Footer />
     </div>

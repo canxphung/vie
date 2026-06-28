@@ -8,6 +8,7 @@ import type { ViewableItem } from '@/types';
 import type { ViewId, SubView, ServiceTab } from '@/constants/views';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { routeToState, viewToPath } from '@/app/routes';
 
 export interface UIValue {
   view: ViewId;
@@ -39,17 +40,84 @@ export interface UIValue {
 export const UIContext = React.createContext<UIValue | null>(null);
 
 export function UIProvider({ children }: { children?: React.ReactNode }) {
-  const [view, setView] = React.useState<ViewId>('regions');
+  const initialRoute = React.useMemo(
+    () => (typeof window === 'undefined' ? { view: 'regions' as ViewId } : routeToState(window.location.pathname)),
+    [],
+  );
+  const [view, setViewState] = React.useState<ViewId>(initialRoute.view);
   const [activeSubView, setActiveSubView] = React.useState<SubView>('spots');
   const [allServicesTab, setAllServicesTab] = React.useState<ServiceTab>('attractions');
-  const [selectedProvinceId, setSelectedProvinceId] = React.useState('quang-nam');
+  const [selectedProvinceId, setSelectedProvinceIdState] = React.useState(initialRoute.provinceId || 'quang-nam');
   const [selectedItem, setSelectedItem] = React.useState<ViewableItem | null>(null);
   const [recentlyViewed, setRecentlyViewed] = useLocalStorage<ViewableItem[]>(STORAGE_KEYS.recentlyViewed, []);
   const [favorites, setFavorites] = useLocalStorage<ViewableItem[]>(STORAGE_KEYS.favorites, []);
+  const selectedProvinceIdRef = React.useRef(selectedProvinceId);
+  const viewRef = React.useRef(view);
+
+  React.useEffect(() => {
+    selectedProvinceIdRef.current = selectedProvinceId;
+  }, [selectedProvinceId]);
+
+  React.useEffect(() => {
+    viewRef.current = view;
+  }, [view]);
+
+  const syncUrl = React.useCallback((nextView: ViewId, provinceId = selectedProvinceIdRef.current, replace = false) => {
+    if (typeof window === 'undefined') return;
+    const nextPath = viewToPath(nextView, provinceId);
+    if (window.location.pathname === nextPath) return;
+
+    const state = { view: nextView, provinceId };
+    if (replace) {
+      window.history.replaceState(state, '', nextPath);
+    } else {
+      window.history.pushState(state, '', nextPath);
+    }
+  }, []);
+
+  const setView = React.useCallback(
+    (nextView: ViewId) => {
+      setSelectedItem(null);
+      setViewState(nextView);
+      viewRef.current = nextView;
+      syncUrl(nextView, selectedProvinceIdRef.current);
+    },
+    [syncUrl],
+  );
+
+  const setSelectedProvinceId = React.useCallback(
+    (id: string) => {
+      selectedProvinceIdRef.current = id;
+      setSelectedProvinceIdState(id);
+      if (viewRef.current === 'province') {
+        syncUrl('province', id);
+      }
+    },
+    [syncUrl],
+  );
+
+  React.useEffect(() => {
+    const applyLocation = () => {
+      const nextRoute = routeToState(window.location.pathname);
+      setSelectedItem(null);
+      setViewState(nextRoute.view);
+      viewRef.current = nextRoute.view;
+
+      if (nextRoute.provinceId) {
+        selectedProvinceIdRef.current = nextRoute.provinceId;
+        setSelectedProvinceIdState(nextRoute.provinceId);
+      }
+    };
+
+    window.addEventListener('popstate', applyLocation);
+    return () => window.removeEventListener('popstate', applyLocation);
+  }, []);
 
   // Navigate to province detail, then smooth-scroll to the target section once it mounts.
   const scrollToSection = (sectionId: string) => {
-    setView('province');
+    setViewState('province');
+    viewRef.current = 'province';
+    syncUrl('province', selectedProvinceIdRef.current);
     setTimeout(() => {
       const element = document.getElementById(sectionId);
       if (element) element.scrollIntoView({ behavior: 'smooth' });
@@ -107,9 +175,13 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     selectedProvinceId,
     setSelectedProvinceId,
     selectProvince: (id) => {
-      setSelectedProvinceId(id);
+      selectedProvinceIdRef.current = id;
+      setSelectedProvinceIdState(id);
       setActiveSubView('spots');
-      setView('province');
+      setSelectedItem(null);
+      setViewState('province');
+      viewRef.current = 'province';
+      syncUrl('province', id);
     },
     navigateHome: () => setView('regions'),
     scrollToSection,

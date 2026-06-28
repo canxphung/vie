@@ -4,14 +4,27 @@
  */
 
 import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { User, Lock, MapPin, Phone, Mail, Award, Key, Calendar, ShieldCheck, Database, BarChart3, Plus, Trash2, Check, X, FileText, ClipboardList, Car, Star, Tag, Gift, BookOpen, Compass, Info, CheckCircle2, ChevronRight, Sparkles, Heart } from 'lucide-react';
-import type { Language, BookingCartItem, UserAccount, PartnershipApplication, PromoVoucher, SystemBooking, ViewableItem } from '@/types';
-import { TOURIST_LOCATIONS } from '@/constants/seed/touristLocations';
-import { PREDEFINED_COMBOS } from '@/constants/seed/tourCombos';
+import { AnimatePresence, motion } from 'motion/react';
+import {
+  AlertCircle,
+  ArrowLeft,
+  BadgeCheck,
+  CheckCircle2,
+  Compass,
+  Gift,
+  KeyRound,
+  Landmark,
+  LockKeyhole,
+  Mail,
+  Phone,
+  ShieldCheck,
+  Sparkles,
+  User,
+  UserPlus,
+  X,
+} from 'lucide-react';
+import type { Language, UserAccount } from '@/types';
 
-// 1. COMPONENT: USER ACCOUNT AUTH (REGISTER & LOGIN)
-// ==========================================
 interface UserAuthModalProps {
   language: Language;
   isOpen: boolean;
@@ -21,8 +34,108 @@ interface UserAuthModalProps {
   onRegisterNew: (user: UserAccount) => void;
 }
 
-export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users, onRegisterNew }: UserAuthModalProps) {
-  const [authView, setAuthView] = React.useState<'login' | 'register' | 'forgot'>('login');
+type AuthView = 'login' | 'register' | 'forgot';
+type IconComponent = React.ComponentType<{ className?: string }>;
+
+const AUTH_HERO_IMAGE =
+  'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=80';
+
+const FIELD_WRAPPER =
+  'group flex min-h-12 items-center gap-3 rounded-xl border border-natural-border bg-white px-3.5 transition focus-within:border-natural-accent focus-within:ring-2 focus-within:ring-natural-accent/15';
+
+interface AuthFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  icon: IconComponent;
+  label: string;
+  hint?: React.ReactNode;
+}
+
+function AuthField({ icon: Icon, label, hint, className = '', ...inputProps }: AuthFieldProps) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-[11px] font-bold uppercase text-stone-600">
+        {label}
+      </span>
+      <span className={FIELD_WRAPPER}>
+        <Icon className="h-4 w-4 shrink-0 text-natural-accent" />
+        <input
+          className={`h-11 min-w-0 flex-1 bg-transparent text-sm text-natural-text outline-none placeholder:text-stone-400 ${className}`}
+          {...inputProps}
+        />
+      </span>
+      {hint && <span className="mt-1.5 block text-[11px] leading-relaxed text-stone-500">{hint}</span>}
+    </label>
+  );
+}
+
+interface AuthSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  icon: IconComponent;
+  label: string;
+}
+
+function AuthSelect({ icon: Icon, label, className = '', children, ...selectProps }: AuthSelectProps) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-[11px] font-bold uppercase text-stone-600">
+        {label}
+      </span>
+      <span className={FIELD_WRAPPER}>
+        <Icon className="h-4 w-4 shrink-0 text-natural-accent" />
+        <select
+          className={`h-11 min-w-0 flex-1 appearance-none bg-transparent text-sm font-semibold text-natural-text outline-none ${className}`}
+          {...selectProps}
+        >
+          {children}
+        </select>
+      </span>
+    </label>
+  );
+}
+
+interface SocialButtonProps {
+  platform: 'Google' | 'Facebook';
+  onClick: () => void;
+}
+
+function SocialButton({ platform, onClick }: SocialButtonProps) {
+  const isGoogle = platform === 'Google';
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-3 text-sm font-bold transition shadow-sm cursor-pointer ${
+        isGoogle
+          ? 'border-natural-border bg-white text-stone-700 hover:bg-natural-beige-light'
+          : 'border-[#1877F2] bg-[#1877F2] text-white hover:bg-[#166FE5]'
+      }`}
+    >
+      {isGoogle ? (
+        <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="#EA4335"
+            d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.63 5.63 0 0 1 8.35 12.89a5.63 5.63 0 0 1 5.64-5.626c1.558 0 2.972.616 4.022 1.624l3.1-3.1C19.14 3.86 16.54 2.5 13.99 2.5a10.37 10.37 0 0 0-10.4 10.39 10.37 10.37 0 0 0 10.4 10.39c5.78 0 10.11-4.06 10.11-10.28 0-.69-.08-1.22-.22-1.72H12.24Z"
+          />
+        </svg>
+      ) : (
+        <svg className="h-4 w-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg>
+      )}
+      <span>{platform}</span>
+    </button>
+  );
+}
+
+export function UserAuthModal({
+  language,
+  isOpen,
+  onClose,
+  onLoginSuccess,
+  users,
+  onRegisterNew,
+}: UserAuthModalProps) {
+  const isVi = language === 'vi';
+  const [authView, setAuthView] = React.useState<AuthView>('login');
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [fullName, setFullName] = React.useState('');
@@ -32,30 +145,57 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
   const [errorMsg, setErrorMsg] = React.useState('');
   const [successMsg, setSuccessMsg] = React.useState('');
 
-  // Forgot password flow states
   const [forgotEmail, setForgotEmail] = React.useState('');
   const [sentCode, setSentCode] = React.useState('');
   const [verificationCode, setVerificationCode] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
   const [forgotStep, setForgotStep] = React.useState<'input-email' | 'verify-code' | 'new-pass'>('input-email');
 
-  if (!isOpen) return null;
+  const content = {
+    login: {
+      title: isVi ? 'Chào mừng trở lại' : 'Welcome Back',
+      subtitle: isVi
+        ? 'Đăng nhập để tiếp tục hành trình cùng VietCharm.'
+        : 'Sign in to continue your VietCharm journey.',
+    },
+    register: {
+      title: isVi ? 'Tạo tài khoản mới' : 'Create Account',
+      subtitle: isVi
+        ? 'Lưu hồ sơ du lịch và kết nối ưu đãi thành viên.'
+        : 'Save your travel profile and member privileges.',
+    },
+    forgot: {
+      title: isVi ? 'Khôi phục mật khẩu' : 'Reset Password',
+      subtitle: isVi
+        ? 'Nhận mã xác minh và đặt lại mật khẩu an toàn.'
+        : 'Verify your email and set a secure new password.',
+    },
+  } satisfies Record<AuthView, { title: string; subtitle: string }>;
+
+  const changeAuthView = (view: AuthView) => {
+    setAuthView(view);
+    setErrorMsg('');
+    setSuccessMsg('');
+    if (view !== 'forgot') {
+      setForgotStep('input-email');
+    }
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
-    
+
     const loginCredential = username.trim().toLowerCase();
-    
-    // Find matching user by username, email, or phone
-    const matched = users.find(u => 
-      u.username.toLowerCase() === loginCredential || 
-      u.email.toLowerCase() === loginCredential || 
-      u.phone === loginCredential
+
+    const matched = users.find(
+      (u) =>
+        u.username.toLowerCase() === loginCredential ||
+        u.email.toLowerCase() === loginCredential ||
+        u.phone === loginCredential,
     );
-    
+
     if (matched) {
-      setSuccessMsg(language === 'vi' ? `Đăng nhập thành công! Chào mừng ${matched.fullName}.` : `Welcome back, ${matched.fullName}!`);
+      setSuccessMsg(isVi ? `Đăng nhập thành công! Chào mừng ${matched.fullName}.` : `Welcome back, ${matched.fullName}!`);
       setTimeout(() => {
         onLoginSuccess(matched);
         onClose();
@@ -64,7 +204,11 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
         setPassword('');
       }, 1000);
     } else {
-      setErrorMsg(language === 'vi' ? 'Số điện thoại/Gmail hoặc mật khẩu không chính xác! Hãy đăng ký tài khoản mới nếu chưa có.' : 'Incorrect Phone number/Gmail/Username or Password!');
+      setErrorMsg(
+        isVi
+          ? 'Số điện thoại/Gmail hoặc mật khẩu không chính xác! Hãy đăng ký tài khoản mới nếu chưa có.'
+          : 'Incorrect Phone number/Gmail/Username or Password!',
+      );
     }
   };
 
@@ -72,12 +216,12 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
     e.preventDefault();
     setErrorMsg('');
 
-    if (users.some(u => u.username.toLowerCase() === username.trim().toLowerCase())) {
-      setErrorMsg(language === 'vi' ? 'Tên đăng nhập này đã tồn tại!' : 'Username already exists!');
+    if (users.some((u) => u.username.toLowerCase() === username.trim().toLowerCase())) {
+      setErrorMsg(isVi ? 'Tên đăng nhập này đã tồn tại!' : 'Username already exists!');
       return;
     }
-    if (users.some(u => u.email.toLowerCase() === email.trim().toLowerCase())) {
-      setErrorMsg(language === 'vi' ? 'Địa chỉ Gmail này đã được sử dụng!' : 'Gmail address is already registered!');
+    if (users.some((u) => u.email.toLowerCase() === email.trim().toLowerCase())) {
+      setErrorMsg(isVi ? 'Địa chỉ Gmail này đã được sử dụng!' : 'Gmail address is already registered!');
       return;
     }
 
@@ -87,14 +231,18 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
       fullName: fullName.trim() || username.trim(),
       email: email.trim(),
       phone: phone.trim(),
-      bio: language === 'vi' ? 'Thành viên tự hào của VietCharm Hoi An.' : 'Proud member of VietCharm Hoi An.',
-      role: role,
+      bio: isVi ? 'Thành viên tự hào của VietCharm Hoi An.' : 'Proud member of VietCharm Hoi An.',
+      role,
       avatar: `https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 999999)}?auto=format&fit=crop&w=150&q=80`,
-      createdAt: new Date().toISOString().split('T')[0]
+      createdAt: new Date().toISOString().split('T')[0],
     };
 
     onRegisterNew(newUser);
-    setSuccessMsg(language === 'vi' ? 'Đăng ký tài khoản thành công! Đang tự động kết nối và đăng nhập...' : 'Account created successfully! Logging in...');
+    setSuccessMsg(
+      isVi
+        ? 'Đăng ký tài khoản thành công! Đang tự động kết nối và đăng nhập...'
+        : 'Account created successfully! Logging in...',
+    );
     setTimeout(() => {
       onLoginSuccess(newUser);
       onClose();
@@ -116,16 +264,19 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
       fullName: platform === 'Google' ? `Google User #${randomSuffix}` : `Facebook User #${randomSuffix}`,
       email: `${platform.toLowerCase()}.${randomSuffix}@st.uel.edu.vn`,
       phone: `0987${randomSuffix}244`,
-      bio: language === 'vi' ? `Đăng nhập liên kết thành công qua tài khoản ${platform}.` : `Linked and authenticated securely via ${platform}.`,
+      bio: isVi
+        ? `Đăng nhập liên kết thành công qua tài khoản ${platform}.`
+        : `Linked and authenticated securely via ${platform}.`,
       role: 'user',
-      avatar: platform === 'Google' 
-        ? 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'
-        : 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
-      createdAt: new Date().toISOString().split('T')[0]
+      avatar:
+        platform === 'Google'
+          ? 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'
+          : 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+      createdAt: new Date().toISOString().split('T')[0],
     };
-    
+
     onRegisterNew(socialUser);
-    setSuccessMsg(language === 'vi' ? `Ủy quyền tài khoản ${platform} thành công! Đang đăng nhập...` : `Authorized with ${platform}! Entering system...`);
+    setSuccessMsg(isVi ? `Ủy quyền tài khoản ${platform} thành công! Đang đăng nhập...` : `Authorized with ${platform}! Entering system...`);
     setTimeout(() => {
       onLoginSuccess(socialUser);
       onClose();
@@ -137,13 +288,13 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
     e.preventDefault();
     setErrorMsg('');
     if (!forgotEmail.trim() || !forgotEmail.trim().includes('@')) {
-      setErrorMsg(language === 'vi' ? 'Vui lòng nhập địa chỉ Gmail hợp lệ!' : 'Please enter a valid Gmail!');
+      setErrorMsg(isVi ? 'Vui lòng nhập địa chỉ Gmail hợp lệ!' : 'Please enter a valid Gmail!');
       return;
     }
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setSentCode(code);
     setForgotStep('verify-code');
-    setSuccessMsg(language === 'vi' ? `Mã khôi phục đã gửi vào ${forgotEmail}! (Mã mẫu: ${code})` : `Verification code sent to ${forgotEmail}! (Demo code: ${code})`);
+    setSuccessMsg(isVi ? `Mã khôi phục đã gửi vào ${forgotEmail}! Mã mẫu: ${code}` : `Verification code sent to ${forgotEmail}! Demo code: ${code}`);
   };
 
   const handleVerifyForgotCode = (e: React.FormEvent) => {
@@ -151,9 +302,9 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
     setErrorMsg('');
     if (verificationCode.trim() === sentCode) {
       setForgotStep('new-pass');
-      setSuccessMsg(language === 'vi' ? 'Xác minh thành công! Hãy đặt mật khẩu mới của bạn.' : 'Code verified! Choose a new password.');
+      setSuccessMsg(isVi ? 'Xác minh thành công! Hãy đặt mật khẩu mới của bạn.' : 'Code verified! Choose a new password.');
     } else {
-      setErrorMsg(language === 'vi' ? 'Mã xác nhận không khớp! Thử lại.' : 'Incorrect code! Please try again.');
+      setErrorMsg(isVi ? 'Mã xác nhận không khớp! Thử lại.' : 'Incorrect code! Please try again.');
     }
   };
 
@@ -161,16 +312,15 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
     e.preventDefault();
     setErrorMsg('');
     if (newPassword.trim().length < 6) {
-      setErrorMsg(language === 'vi' ? 'Mật khẩu mới phải từ 6 ký tự trở lên!' : 'Password must be at least 6 characters!');
+      setErrorMsg(isVi ? 'Mật khẩu mới phải từ 6 ký tự trở lên!' : 'Password must be at least 6 characters!');
       return;
     }
 
-    // Mock successful password reset for existing users
-    const matched = users.find(u => u.email.toLowerCase() === forgotEmail.trim().toLowerCase());
+    const matched = users.find((u) => u.email.toLowerCase() === forgotEmail.trim().toLowerCase());
     if (matched) {
-      setSuccessMsg(language === 'vi' ? `Khôi phục thành công mật khẩu cho tài khoản ${matched.fullName}! Vui lòng đăng nhập.` : 'Password successfully reset! Please login.');
+      setSuccessMsg(isVi ? `Khôi phục thành công mật khẩu cho tài khoản ${matched.fullName}! Vui lòng đăng nhập.` : 'Password successfully reset! Please login.');
     } else {
-      setSuccessMsg(language === 'vi' ? 'Đặt mật khẩu mới thành công! Đang quay lại màn hình đăng nhập.' : 'New password saved successfully!');
+      setSuccessMsg(isVi ? 'Đặt mật khẩu mới thành công! Đang quay lại màn hình đăng nhập.' : 'New password saved successfully!');
     }
 
     setTimeout(() => {
@@ -184,341 +334,456 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
-      <div className="bg-natural-bg rounded-3xl p-6 md:p-8 w-full max-w-md border border-natural-border shadow-2xl relative">
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 text-stone-400 hover:text-stone-700 font-black text-2xl"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/65 p-3 backdrop-blur-sm sm:p-5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
         >
-          &times;
-        </button>
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="auth-modal-title"
+            className="relative grid max-h-[calc(100vh-1.5rem)] w-full max-w-5xl overflow-hidden rounded-3xl border border-white/40 bg-natural-bg shadow-2xl md:grid-cols-[0.95fr_1.05fr]"
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.24, ease: 'easeOut' }}
+          >
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={isVi ? 'Đóng' : 'Close'}
+              className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-white/85 text-stone-600 shadow-sm transition hover:bg-white hover:text-stone-950 cursor-pointer"
+            >
+              <X className="h-4 w-4" />
+            </button>
 
-        {/* Logo Icon Header */}
-        <div className="text-center mb-6">
-          <div className="w-12 h-12 bg-natural-accent rounded-full flex items-center justify-center text-white mx-auto shadow-md mb-2">
-            <User className="w-6 h-6" />
-          </div>
-          <h3 className="text-2xl font-serif font-bold text-natural-text">
-            {authView === 'login' && (language === 'vi' ? 'ĐĂNG NHẬP VIETCHARM' : 'MEMBER SIGN IN')}
-            {authView === 'register' && (language === 'vi' ? 'ĐĂNG KÝ TÀI KHOẢN' : 'CREATE ACCOUNT')}
-            {authView === 'forgot' && (language === 'vi' ? 'KHÔI PHỤC MẬT KHẨU' : 'RESET PASSWORD')}
-          </h3>
-          <p className="text-xs text-stone-500 mt-1">
-            {language === 'vi' ? 'Hệ thống du lịch thông minh & đặt phòng Miền Trung' : 'Central heritage smart portal'}
-          </p>
-        </div>
-
-        {errorMsg && (
-          <div className="bg-red-50 text-red-700 text-xs p-3 rounded-xl border border-red-200 mb-4 font-medium">
-            ⚠ {errorMsg}
-          </div>
-        )}
-
-        {successMsg && (
-          <div className="bg-emerald-50 text-emerald-800 text-xs p-3 rounded-xl border border-emerald-200 mb-4 font-bold animate-pulse">
-            ✓ {successMsg}
-          </div>
-        )}
-
-        {/* 1. LOGIN VIEW */}
-        {authView === 'login' && (
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase mb-1">
-                {language === 'vi' ? 'SĐT / Gmail / Tên đăng nhập' : 'Phone / Gmail / Username'}
-              </label>
-              <input 
-                type="text" 
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder={language === 'vi' ? 'SĐT, Gmail hoặc tên đăng nhập...' : 'Phone, Gmail or Username...'} 
-                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-                required
+            <aside className="relative hidden min-h-[650px] overflow-hidden bg-natural-ink text-white md:block">
+              <img
+                src={AUTH_HERO_IMAGE}
+                alt="Hoi An heritage travel"
+                className="absolute inset-0 h-full w-full object-cover"
               />
-              <span className="text-[10px] text-stone-400 mt-1 block">💡 Demo Admin SĐT/Gmail: <span className="font-mono text-stone-600">0987654321</span> hoặc <span className="font-mono text-stone-600">ngandtk244111@st.uel.edu.vn</span></span>
-            </div>
+              <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(18,27,25,0.92),rgba(31,40,34,0.62),rgba(158,118,58,0.4))]" />
+              <div className="relative flex h-full flex-col justify-between p-9">
+                <div>
+                  <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/12 px-3 py-1.5 text-xs font-bold backdrop-blur">
+                    <Landmark className="h-4 w-4 text-natural-gold" />
+                    <span>VIETCHARM</span>
+                  </div>
 
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <label className="block text-xs font-bold text-stone-700 uppercase">{language === 'vi' ? 'Mật khẩu' : 'Password'}</label>
-                <button 
-                  type="button" 
-                  onClick={() => { setAuthView('forgot'); setErrorMsg(''); }}
-                  className="text-xs text-natural-accent hover:underline font-semibold"
-                >
-                  {language === 'vi' ? 'Quên mật khẩu?' : 'Forgot password?'}
-                </button>
+                  <h2 className="max-w-sm font-serif text-4xl font-black leading-tight">
+                    {isVi ? 'Một tài khoản cho cả chuyến đi.' : 'One account for the whole trip.'}
+                  </h2>
+                  <p className="mt-4 max-w-sm text-sm leading-6 text-white/78">
+                    {isVi
+                      ? 'Đặt dịch vụ, lưu hành trình và nhận chăm sóc thành viên trong cùng một không gian.'
+                      : 'Book services, save itineraries and keep member care in one place.'}
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    {
+                      icon: Compass,
+                      title: isVi ? 'Hành trình rõ ràng' : 'Clear Journey',
+                      body: isVi ? 'Theo dõi điểm đến và dịch vụ đã chọn.' : 'Track selected places and services.',
+                    },
+                    {
+                      icon: ShieldCheck,
+                      title: isVi ? 'Thông tin bảo mật' : 'Secure Profile',
+                      body: isVi ? 'Hồ sơ cá nhân được giữ trong tài khoản.' : 'Your profile stays in your account.',
+                    },
+                    {
+                      icon: Gift,
+                      title: isVi ? 'Ưu đãi thành viên' : 'Member Perks',
+                      body: isVi ? 'Kết nối voucher và gợi ý phù hợp.' : 'Connect vouchers and tailored picks.',
+                    },
+                  ].map(({ icon: Icon, title, body }) => (
+                    <div key={title} className="flex items-start gap-3">
+                      <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 text-natural-gold backdrop-blur">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <span>
+                        <span className="block text-sm font-bold">{title}</span>
+                        <span className="mt-0.5 block text-xs leading-5 text-white/70">{body}</span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <input 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••" 
-                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-                required
-              />
-            </div>
+            </aside>
 
-            <button 
-              type="submit"
-              className="w-full bg-natural-accent hover:bg-natural-olive text-white font-bold py-3 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
-            >
-              {language === 'vi' ? 'Đăng nhập ngay' : 'Login'}
-            </button>
-
-            {/* Social Authentication Options */}
-            <div className="relative my-6 text-center">
-              <span className="bg-natural-bg px-3 text-xs text-stone-400 z-10 relative">
-                {language === 'vi' ? 'Hoặc đăng nhập bằng' : 'Or sign in with'}
-              </span>
-              <div className="absolute w-full h-[1px] bg-natural-border top-1/2 left-0 z-0"></div>
-            </div>
-
-            <div className="flex gap-3 justify-center">
-              <button
-                type="button"
-                onClick={() => handleSocialLogin('Google')}
-                className="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-stone-50 border border-natural-border py-2 px-3 rounded-xl text-xs font-bold shadow-xs transition duration-200 text-stone-700"
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24">
-                  <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.63 5.63 0 0 1 8.35 12.89a5.63 5.63 0 0 1 5.64-5.626c1.558 0 2.972.616 4.022 1.624l3.1-3.1C19.14 3.86 16.54 2.5 13.99 2.5a10.37 10.37 0 0 0-10.4 10.39 10.37 10.37 0 0 0 10.4 10.39c5.78 0 10.11-4.06 10.11-10.28 0-.69-.08-1.22-.22-1.72H12.24Z"/>
-                </svg>
-                <span>Google</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSocialLogin('Facebook')}
-                className="flex-1 flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white py-2 px-3 rounded-xl text-xs font-bold shadow-xs transition duration-200"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                <span>Facebook</span>
-              </button>
-            </div>
-
-            <div className="text-center pt-2">
-              <span className="text-xs text-stone-500">
-                {language === 'vi' ? 'Chưa có tài khoản?' : 'No account yet?'} 
-                <button 
-                  type="button" 
-                  onClick={() => { setAuthView('register'); setErrorMsg(''); }}
-                  className="text-natural-accent hover:underline font-bold ml-1"
-                >
-                  {language === 'vi' ? 'Đăng ký ngay' : 'Register here'}
-                </button>
-              </span>
-            </div>
-          </form>
-        )}
-
-        {/* 2. REGISTER VIEW */}
-        {authView === 'register' && (
-          <form onSubmit={handleRegister} className="space-y-3 max-h-[420px] overflow-y-auto pr-1">
-            <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase mb-1">{language === 'vi' ? 'Tên đăng nhập (viết liền)' : 'Username (no spaces)'}</label>
-              <input 
-                type="text" 
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Ex: kimngan26" 
-                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase mb-1">{language === 'vi' ? 'Họ và tên' : 'Full Name'}</label>
-              <input 
-                type="text" 
-                value={fullName} 
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Ex: Đặng Thị Kim Ngân" 
-                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase mb-1">{language === 'vi' ? 'Địa chỉ Gmail' : 'Email Address'}</label>
-              <input 
-                type="email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Ex: ngan@gmail.com" 
-                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase mb-1">{language === 'vi' ? 'Số điện thoại' : 'Phone Number'}</label>
-              <input 
-                type="tel" 
-                value={phone} 
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Ex: 0987654321" 
-                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase mb-1">{language === 'vi' ? 'Vai trò thành viên' : 'Membership Role'}</label>
-              <select 
-                value={role} 
-                onChange={(e) => setRole(e.target.value as 'user' | 'admin')}
-                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-              >
-                <option value="user">{language === 'vi' ? 'Khách du lịch (User)' : 'Traveler (User)'}</option>
-                <option value="admin">{language === 'vi' ? 'Quản trị hệ thống (Admin)' : 'Administrator (Admin)'}</option>
-              </select>
-            </div>
-
-            <button 
-              type="submit"
-              className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text font-black py-2.5 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
-            >
-              {language === 'vi' ? 'Hoàn tất Đăng ký' : 'Complete Registration'}
-            </button>
-
-            {/* Social Authentication Options */}
-            <div className="relative my-4 text-center">
-              <span className="bg-natural-bg px-3 text-[10px] text-stone-400 z-10 relative">
-                {language === 'vi' ? 'Hoặc đăng ký bằng' : 'Or register with'}
-              </span>
-              <div className="absolute w-full h-[1px] bg-natural-border top-1/2 left-0 z-0"></div>
-            </div>
-
-            <div className="flex gap-3 justify-center">
-              <button
-                type="button"
-                onClick={() => handleSocialLogin('Google')}
-                className="flex-1 flex items-center justify-center gap-1.5 bg-white hover:bg-stone-50 border border-natural-border py-2 px-3 rounded-xl text-xs font-bold shadow-xs transition duration-200 text-stone-700"
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24">
-                  <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.63 5.63 0 0 1 8.35 12.89a5.63 5.63 0 0 1 5.64-5.626c1.558 0 2.972.616 4.022 1.624l3.1-3.1C19.14 3.86 16.54 2.5 13.99 2.5a10.37 10.37 0 0 0-10.4 10.39 10.37 10.37 0 0 0 10.4 10.39c5.78 0 10.11-4.06 10.11-10.28 0-.69-.08-1.22-.22-1.72H12.24Z"/>
-                </svg>
-                <span>Google</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSocialLogin('Facebook')}
-                className="flex-1 flex items-center justify-center gap-1.5 bg-[#1877F2] hover:bg-[#166FE5] text-white py-2 px-3 rounded-xl text-xs font-bold shadow-xs transition duration-200"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                <span>Facebook</span>
-              </button>
-            </div>
-
-            <div className="text-center pt-1">
-              <span className="text-xs text-stone-500">
-                {language === 'vi' ? 'Đã có tài khoản?' : 'Already registered?'} 
-                <button 
-                  type="button" 
-                  onClick={() => { setAuthView('login'); setErrorMsg(''); }}
-                  className="text-natural-accent hover:underline font-bold ml-1"
-                >
-                  {language === 'vi' ? 'Đăng nhập' : 'Sign In'}
-                </button>
-              </span>
-            </div>
-          </form>
-        )}
-
-        {/* 3. FORGOT PASSWORD VIEW */}
-        {authView === 'forgot' && (
-          <div className="space-y-4">
-            <p className="text-xs text-stone-600 leading-relaxed mb-2">
-              {language === 'vi' 
-                ? 'Nhập địa chỉ Gmail đăng ký tài khoản của bạn. Hệ thống VietCharm sẽ tự động gửi mã khôi phục 6 chữ số qua hòm thư điện tử.' 
-                : 'Enter your registered Gmail. VietCharm will automatically dispatch a 6-digit recovery code to your inbox.'}
-            </p>
-
-            {forgotStep === 'input-email' && (
-              <form onSubmit={handleForgotPasswordEmail} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase mb-1">{language === 'vi' ? 'Nhập Gmail nhận mã' : 'Enter Gmail'}</label>
-                  <input 
-                    type="email" 
-                    value={forgotEmail} 
-                    onChange={(e) => setForgotEmail(e.target.value)}
-                    placeholder="Ex: ngandtk244111@st.uel.edu.vn" 
-                    className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-                    required
-                  />
+            <section className="max-h-[calc(100vh-1.5rem)] overflow-y-auto p-5 sm:p-7 md:p-9">
+              <div className="mb-6 overflow-hidden rounded-2xl bg-natural-ink md:hidden">
+                <div className="relative min-h-32">
+                  <img src={AUTH_HERO_IMAGE} alt="VietCharm" className="absolute inset-0 h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-natural-ink/58" />
+                  <div className="relative flex h-full min-h-32 flex-col justify-end p-5 text-white">
+                    <span className="mb-1 text-[11px] font-bold uppercase tracking-[0.28em] text-natural-gold">
+                      VietCharm
+                    </span>
+                    <span className="font-serif text-2xl font-black">
+                      {isVi ? 'Chuyến đi bắt đầu tại đây' : 'Your trip starts here'}
+                    </span>
+                  </div>
                 </div>
-                <button 
-                  type="submit"
-                  className="w-full bg-natural-accent hover:bg-natural-olive text-white font-bold py-3 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
-                >
-                  {language === 'vi' ? 'Gửi mã xác nhận về Gmail' : 'Send Code to Gmail'}
-                </button>
-              </form>
-            )}
+              </div>
 
-            {forgotStep === 'verify-code' && (
-              <form onSubmit={handleVerifyForgotCode} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase mb-1">{language === 'vi' ? 'Nhập mã gồm 6 chữ số' : 'Enter 6-digit Code'}</label>
-                  <input 
-                    type="text" 
-                    value={verificationCode} 
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                    placeholder="Ex: 839201" 
-                    className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none text-center tracking-widest font-bold"
-                    maxLength={6}
-                    required
-                  />
+              <div className="mb-5 pr-11">
+                <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase text-emerald-800 ring-1 ring-emerald-100">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {isVi ? 'Cổng thành viên' : 'Member Portal'}
+                </span>
+                <h3 id="auth-modal-title" className="font-serif text-3xl font-black leading-tight text-natural-text">
+                  {content[authView].title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{content[authView].subtitle}</p>
+              </div>
+
+              {authView !== 'forgot' && (
+                <div className="mb-5 grid grid-cols-2 rounded-xl bg-natural-beige p-1">
+                  <button
+                    type="button"
+                    onClick={() => changeAuthView('login')}
+                    className={`inline-flex min-h-10 items-center justify-center gap-2 rounded-lg text-sm font-bold transition cursor-pointer ${
+                      authView === 'login'
+                        ? 'bg-white text-natural-accent shadow-sm'
+                        : 'text-stone-500 hover:text-natural-text'
+                    }`}
+                  >
+                    <User className="h-4 w-4" />
+                    {isVi ? 'Đăng nhập' : 'Sign In'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => changeAuthView('register')}
+                    className={`inline-flex min-h-10 items-center justify-center gap-2 rounded-lg text-sm font-bold transition cursor-pointer ${
+                      authView === 'register'
+                        ? 'bg-white text-natural-accent shadow-sm'
+                        : 'text-stone-500 hover:text-natural-text'
+                    }`}
+                  >
+                    <UserPlus className="h-4 w-4" />
+                    {isVi ? 'Đăng ký' : 'Register'}
+                  </button>
                 </div>
-                <button 
-                  type="submit"
-                  className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text font-black py-2.5 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
-                >
-                  {language === 'vi' ? 'Xác nhận mã bảo mật' : 'Verify Security Code'}
-                </button>
-              </form>
-            )}
+              )}
 
-            {forgotStep === 'new-pass' && (
-              <form onSubmit={handleSaveNewPassword} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase mb-1">{language === 'vi' ? 'Nhập mật khẩu mới' : 'Enter New Password'}</label>
-                  <input 
-                    type="password" 
-                    value={newPassword} 
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="••••••••" 
-                    className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
-                    required
-                  />
-                </div>
-                <button 
-                  type="submit"
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
-                >
-                  {language === 'vi' ? 'Lưu mật khẩu & Đăng nhập' : 'Save & Login'}
-                </button>
-              </form>
-            )}
+              <AnimatePresence mode="wait">
+                {errorMsg && (
+                  <motion.div
+                    key="auth-error"
+                    className="mb-4 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold leading-5 text-red-700"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                  >
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>{errorMsg}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            <div className="text-center pt-2">
-              <button 
-                type="button" 
-                onClick={() => { setAuthView('login'); setErrorMsg(''); setForgotStep('input-email'); }}
-                className="text-xs text-natural-accent hover:underline font-bold"
-              >
-                ← {language === 'vi' ? 'Quay lại Đăng nhập' : 'Back to Login'}
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+              <AnimatePresence mode="wait">
+                {successMsg && (
+                  <motion.div
+                    key="auth-success"
+                    className="mb-4 flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs font-bold leading-5 text-emerald-800"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                  >
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>{successMsg}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <AnimatePresence mode="wait">
+                {authView === 'login' && (
+                  <motion.form
+                    key="login"
+                    onSubmit={handleLogin}
+                    className="space-y-4"
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 12 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <AuthField
+                      icon={User}
+                      label={isVi ? 'SĐT / Gmail / Tên đăng nhập' : 'Phone / Gmail / Username'}
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder={isVi ? 'Nhập thông tin đăng nhập' : 'Enter your credential'}
+                      hint={
+                        <>
+                          {isVi ? 'Tài khoản mẫu: ' : 'Demo account: '}
+                          <span className="font-mono font-semibold text-stone-700">0987654321</span>
+                          <span> / </span>
+                          <span className="font-mono font-semibold text-stone-700">ngandtk244111@st.uel.edu.vn</span>
+                        </>
+                      }
+                      required
+                    />
+
+                    <div>
+                      <div className="mb-1.5 flex items-center justify-between gap-3">
+                        <span className="text-[11px] font-bold uppercase text-stone-600">
+                          {isVi ? 'Mật khẩu' : 'Password'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => changeAuthView('forgot')}
+                          className="inline-flex items-center gap-1 text-xs font-bold text-natural-accent transition hover:text-natural-olive cursor-pointer"
+                        >
+                          <KeyRound className="h-3.5 w-3.5" />
+                          {isVi ? 'Quên mật khẩu?' : 'Forgot?'}
+                        </button>
+                      </div>
+                      <span className={FIELD_WRAPPER}>
+                        <LockKeyhole className="h-4 w-4 shrink-0 text-natural-accent" />
+                        <input
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="••••••••"
+                          className="h-11 min-w-0 flex-1 bg-transparent text-sm text-natural-text outline-none placeholder:text-stone-400"
+                          required
+                        />
+                      </span>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-natural-accent px-5 text-sm font-black text-white shadow-lg shadow-natural-accent/20 transition hover:bg-natural-olive cursor-pointer"
+                    >
+                      <ShieldCheck className="h-4 w-4" />
+                      {isVi ? 'Đăng nhập ngay' : 'Sign In'}
+                    </button>
+
+                    <div className="flex items-center gap-3 py-1">
+                      <span className="h-px flex-1 bg-natural-border" />
+                      <span className="text-xs font-semibold text-stone-400">
+                        {isVi ? 'Hoặc tiếp tục với' : 'Or continue with'}
+                      </span>
+                      <span className="h-px flex-1 bg-natural-border" />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <SocialButton platform="Google" onClick={() => handleSocialLogin('Google')} />
+                      <SocialButton platform="Facebook" onClick={() => handleSocialLogin('Facebook')} />
+                    </div>
+                  </motion.form>
+                )}
+
+                {authView === 'register' && (
+                  <motion.form
+                    key="register"
+                    onSubmit={handleRegister}
+                    className="space-y-4"
+                    initial={{ opacity: 0, x: 12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -12 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <AuthField
+                        icon={BadgeCheck}
+                        label={isVi ? 'Tên đăng nhập' : 'Username'}
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="kimngan26"
+                        required
+                      />
+                      <AuthField
+                        icon={User}
+                        label={isVi ? 'Họ và tên' : 'Full Name'}
+                        type="text"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder={isVi ? 'Đặng Thị Kim Ngân' : 'Kim Ngan Dang'}
+                        required
+                      />
+                    </div>
+
+                    <AuthField
+                      icon={Mail}
+                      label={isVi ? 'Địa chỉ Gmail' : 'Email Address'}
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="ngan@gmail.com"
+                      required
+                    />
+
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <AuthField
+                        icon={Phone}
+                        label={isVi ? 'Số điện thoại' : 'Phone Number'}
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="0987654321"
+                        required
+                      />
+                      <AuthSelect
+                        icon={ShieldCheck}
+                        label={isVi ? 'Vai trò' : 'Role'}
+                        value={role}
+                        onChange={(e) => setRole(e.target.value as 'user' | 'admin')}
+                      >
+                        <option value="user">{isVi ? 'Khách du lịch' : 'Traveler'}</option>
+                        <option value="admin">{isVi ? 'Quản trị hệ thống' : 'Administrator'}</option>
+                      </AuthSelect>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-natural-gold px-5 text-sm font-black text-natural-ink shadow-lg shadow-natural-gold/25 transition hover:bg-natural-gold-dark cursor-pointer"
+                    >
+                      <UserPlus className="h-4 w-4" />
+                      {isVi ? 'Hoàn tất đăng ký' : 'Complete Registration'}
+                    </button>
+
+                    <div className="flex items-center gap-3 py-1">
+                      <span className="h-px flex-1 bg-natural-border" />
+                      <span className="text-xs font-semibold text-stone-400">
+                        {isVi ? 'Hoặc đăng ký bằng' : 'Or register with'}
+                      </span>
+                      <span className="h-px flex-1 bg-natural-border" />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <SocialButton platform="Google" onClick={() => handleSocialLogin('Google')} />
+                      <SocialButton platform="Facebook" onClick={() => handleSocialLogin('Facebook')} />
+                    </div>
+                  </motion.form>
+                )}
+
+                {authView === 'forgot' && (
+                  <motion.div
+                    key="forgot"
+                    className="space-y-5"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => changeAuthView('login')}
+                      className="inline-flex items-center gap-2 text-sm font-bold text-natural-accent transition hover:text-natural-olive cursor-pointer"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      {isVi ? 'Quay lại đăng nhập' : 'Back to sign in'}
+                    </button>
+
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { id: 'input-email', label: isVi ? 'Email' : 'Email' },
+                        { id: 'verify-code', label: isVi ? 'Mã' : 'Code' },
+                        { id: 'new-pass', label: isVi ? 'Mật khẩu' : 'Password' },
+                      ].map((step, index) => {
+                        const steps = ['input-email', 'verify-code', 'new-pass'];
+                        const currentIndex = steps.indexOf(forgotStep);
+                        const isActive = index <= currentIndex;
+
+                        return (
+                          <div key={step.id} className="flex items-center gap-2">
+                            <span
+                              className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-black ${
+                                isActive ? 'bg-natural-accent text-white' : 'bg-natural-beige text-stone-400'
+                              }`}
+                            >
+                              {index + 1}
+                            </span>
+                            <span className={`text-xs font-bold ${isActive ? 'text-natural-text' : 'text-stone-400'}`}>
+                              {step.label}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {forgotStep === 'input-email' && (
+                      <form onSubmit={handleForgotPasswordEmail} className="space-y-4">
+                        <AuthField
+                          icon={Mail}
+                          label={isVi ? 'Gmail nhận mã' : 'Recovery Gmail'}
+                          type="email"
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          placeholder="ngandtk244111@st.uel.edu.vn"
+                          required
+                        />
+                        <button
+                          type="submit"
+                          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-natural-accent px-5 text-sm font-black text-white shadow-lg shadow-natural-accent/20 transition hover:bg-natural-olive cursor-pointer"
+                        >
+                          <Mail className="h-4 w-4" />
+                          {isVi ? 'Gửi mã xác nhận' : 'Send Verification Code'}
+                        </button>
+                      </form>
+                    )}
+
+                    {forgotStep === 'verify-code' && (
+                      <form onSubmit={handleVerifyForgotCode} className="space-y-4">
+                        <AuthField
+                          icon={KeyRound}
+                          label={isVi ? 'Mã gồm 6 chữ số' : '6-digit Code'}
+                          type="text"
+                          value={verificationCode}
+                          onChange={(e) => setVerificationCode(e.target.value)}
+                          placeholder="839201"
+                          className="text-center font-black tracking-[0.35em]"
+                          maxLength={6}
+                          inputMode="numeric"
+                          required
+                        />
+                        <button
+                          type="submit"
+                          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-natural-gold px-5 text-sm font-black text-natural-ink shadow-lg shadow-natural-gold/25 transition hover:bg-natural-gold-dark cursor-pointer"
+                        >
+                          <BadgeCheck className="h-4 w-4" />
+                          {isVi ? 'Xác nhận mã' : 'Verify Code'}
+                        </button>
+                      </form>
+                    )}
+
+                    {forgotStep === 'new-pass' && (
+                      <form onSubmit={handleSaveNewPassword} className="space-y-4">
+                        <AuthField
+                          icon={LockKeyhole}
+                          label={isVi ? 'Mật khẩu mới' : 'New Password'}
+                          type="password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="••••••••"
+                          required
+                        />
+                        <button
+                          type="submit"
+                          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-black text-white shadow-lg shadow-emerald-700/20 transition hover:bg-emerald-800 cursor-pointer"
+                        >
+                          <CheckCircle2 className="h-4 w-4" />
+                          {isVi ? 'Lưu mật khẩu mới' : 'Save New Password'}
+                        </button>
+                      </form>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </section>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
-
-
-// ==========================================

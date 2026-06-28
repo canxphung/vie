@@ -19,7 +19,8 @@ interface HeaderProps {
   currentView: string;
   onChangeView: (view: ViewId | 'spots' | 'hotels' | 'rentals' | 'experiences') => void;
   currentUser: UserAccount | null;
-  onOpenAuthModal: () => void;
+  onOpenLogin: () => void;
+  onOpenRegister: () => void;
   onLogout: () => void;
 }
 
@@ -32,7 +33,8 @@ export default function Header({
   currentView,
   onChangeView,
   currentUser,
-  onOpenAuthModal,
+  onOpenLogin,
+  onOpenRegister,
   onLogout,
 }: HeaderProps) {
   const t = dictionaries[language];
@@ -89,13 +91,13 @@ export default function Header({
           ) : (
             <div className="flex items-center gap-2">
               <button 
-                onClick={onOpenAuthModal}
+                onClick={onOpenLogin}
                 className="bg-white hover:bg-natural-beige text-natural-accent px-3.5 py-1 rounded-full text-[11px] font-bold transition shadow-xs border border-natural-border cursor-pointer"
               >
                 {t.login}
               </button>
               <button 
-                onClick={onOpenAuthModal}
+                onClick={onOpenRegister}
                 className="bg-natural-accent hover:bg-natural-olive text-white px-3.5 py-1 rounded-full text-[11px] font-bold transition cursor-pointer"
               >
                 {t.register}
