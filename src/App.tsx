@@ -8,19 +8,20 @@ import Header from './components/Header';
 import Footer from '@/components/layout/Footer';
 import HelpPromoCenter from './components/HelpPromoCenter';
 import PaymentModal from './components/PaymentModal';
+import ErrorBoundary from './components/ErrorBoundary';
 import ViewRouter from '@/app/ViewRouter';
 import { useI18n, useAuth, useCart, useUI } from '@/hooks';
 
 export default function App() {
   const { language, setLanguage } = useI18n();
-  const { view, activeSubView, selectedProvinceId, setView, changeHeaderView, navigateHome, scrollToSection } = useUI();
+  const { view, activeSubView, selectedProvinceId, selectedItem, setView, changeHeaderView, navigateHome, scrollToSection } = useUI();
 
-  // Reset scroll to the top whenever the page (or province) changes, so a new view
-  // never opens mid-page. In-page section scrolls keep `view === 'province'`, so they
-  // don't trigger this and aren't fought by it.
+  // Reset scroll to the top whenever the page, province, or opened item changes, so a
+  // new view/detail never opens mid-page (or clamped to the bottom of a shorter page).
+  // In-page section scrolls keep view/item unchanged, so they don't trigger this.
   React.useEffect(() => {
     window.scrollTo({ top: 0 });
-  }, [view, selectedProvinceId]);
+  }, [view, selectedProvinceId, selectedItem]);
   const { currentUser, logout } = useAuth();
   const {
     items: cartItems, cartCount, isPaymentOpen, openPayment, closePayment,
@@ -47,7 +48,9 @@ export default function App() {
         }}
       />
 
-      <ViewRouter />
+      <ErrorBoundary>
+        <ViewRouter />
+      </ErrorBoundary>
 
       {isPaymentOpen && (
         <PaymentModal

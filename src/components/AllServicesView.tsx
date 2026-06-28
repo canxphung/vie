@@ -7,6 +7,7 @@ import React from 'react';
 import { Landmark, Star, Search, SlidersHorizontal, ArrowUpDown, MapPin, Bike, Car, Hotel, Compass, ArrowLeft, CheckCircle2, Heart } from 'lucide-react';
 import { Province, Attraction, Hotel as HotelType, Activity, Vehicle, BookingCartItem, Language, ViewableItem } from '../types';
 import { provinces, attractionsByProvince, hotelsByProvince, activitiesByProvince, vehicles, dictionaries } from '../data';
+import { clickableCardProps } from '@/lib/a11y';
 
 interface AllServicesViewProps {
   language: Language;
@@ -283,8 +284,8 @@ export default function AllServicesView({
             </div>
           </div>
 
-          {/* Province Filter (Only applicable for non-vehicles) */}
-          {activeTab !== 'vehicles' ? (
+          {/* Province Filter (not applicable for vehicles, which are not province-bound) */}
+          {activeTab !== 'vehicles' && (
             <div className="space-y-1.5">
               <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
                 {isVi ? 'Tỉnh thành' : 'Province'}
@@ -301,16 +302,6 @@ export default function AllServicesView({
                   </option>
                 ))}
               </select>
-            </div>
-          ) : (
-            /* Motorbike vs Car type filter for vehicles */
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
-                {isVi ? 'Thời gian thuê' : 'Duration'}
-              </label>
-              <div className="text-xs bg-white border border-stone-200 rounded-xl py-2 px-3 text-stone-500 font-medium">
-                {isVi ? 'Không giới hạn ngày thuê' : 'Unlimited rental days'}
-              </div>
             </div>
           )}
 
@@ -386,7 +377,7 @@ export default function AllServicesView({
                 {filteredAttractions.slice(0, visibleCount).map((spot) => (
                   <div
                     key={spot.id}
-                    onClick={() =>
+                    {...clickableCardProps(() =>
                       onViewItem?.({
                         id: spot.id,
                         type: 'nearby-place',
@@ -395,7 +386,7 @@ export default function AllServicesView({
                         price: 0, // Attractions are non-price spots but fully viewable
                         description: spot.description,
                       })
-                    }
+                    )}
                     className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                   >
                     <div className="relative h-48 overflow-hidden">
@@ -471,7 +462,7 @@ export default function AllServicesView({
                   return (
                     <div
                       key={hotel.id}
-                      onClick={() =>
+                      {...clickableCardProps(() =>
                         onViewItem?.({
                           id: hotel.id,
                           type: 'hotel',
@@ -480,7 +471,7 @@ export default function AllServicesView({
                           price: hotel.pricePerNight,
                           description: hotel.description,
                         })
-                      }
+                      )}
                       className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                     >
                       <div className="relative h-48 overflow-hidden">
@@ -593,7 +584,7 @@ export default function AllServicesView({
                   return (
                     <div
                       key={act.id}
-                      onClick={() =>
+                      {...clickableCardProps(() =>
                         onViewItem?.({
                           id: act.id,
                           type: 'activity',
@@ -602,7 +593,7 @@ export default function AllServicesView({
                           price: act.price,
                           description: act.description,
                         })
-                      }
+                      )}
                       className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                     >
                       <div className="relative h-44 overflow-hidden">
@@ -714,7 +705,7 @@ export default function AllServicesView({
                   return (
                     <div
                       key={veh.id}
-                      onClick={() =>
+                      {...clickableCardProps(() =>
                         onViewItem?.({
                           id: veh.id,
                           type: 'vehicle',
@@ -723,7 +714,7 @@ export default function AllServicesView({
                           price: veh.pricePerDay,
                           description: veh.specs,
                         })
-                      }
+                      )}
                       className="bg-white rounded-3xl overflow-hidden shadow-xs border border-natural-border p-4 hover:shadow-lg hover:border-natural-accent transition flex gap-4 items-center cursor-pointer"
                     >
                       <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-natural-beige relative">

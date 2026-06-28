@@ -419,7 +419,7 @@ export default function PaymentModal({
                     type="submit"
                     className="w-2/3 bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition text-xs shadow-md text-center flex items-center justify-center gap-2"
                   >
-                    <span>{isVi ? `XÁC NHẬN THANH TOÁN ${payableAmount.toLocaleString('vi-VN')} đ` : `CONFIRM SECURE CHECHOUT ${payableAmount.toLocaleString('vi-VN')} đ`}</span>
+                    <span>{isVi ? `XÁC NHẬN THANH TOÁN ${payableAmount.toLocaleString('vi-VN')} đ` : `CONFIRM SECURE CHECKOUT ${payableAmount.toLocaleString('vi-VN')} đ`}</span>
                   </button>
                 </div>
               </form>
@@ -479,7 +479,7 @@ export default function PaymentModal({
                     </div>
                     <div>
                       <span className="text-[9px] text-stone-400 uppercase block font-bold">{isVi ? 'THỜI GIAN ĐẶT' : 'TIMESTAMP'}</span>
-                      <span className="font-mono text-stone-800 font-bold block mt-0.5">2026-06-22</span>
+                      <span className="font-mono text-stone-800 font-bold block mt-0.5">{new Date().toLocaleDateString('en-CA')}</span>
                     </div>
                   </div>
 
@@ -515,7 +515,7 @@ export default function PaymentModal({
                         <rect x="85" y="45" width="10" height="5" fill="#3A3845" />
                       </svg>
                     </div>
-                    <p className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">{isVi ? 'QUÉT ĐỂ NHẬN PHÒNG / NHẬN XE' : 'SCAN AT LOUNGE CHECH-IN'}</p>
+                    <p className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">{isVi ? 'QUÉT ĐỂ NHẬN PHÒNG / NHẬN XE' : 'SCAN AT LOUNGE CHECK-IN'}</p>
                   </div>
                 </div>
               </div>

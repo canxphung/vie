@@ -292,7 +292,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
           <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(30,29,21,0.88),rgba(74,74,53,0.72),rgba(253,252,248,0.84))]" />
         </div>
 
-        <Container className="relative grid min-h-[calc(100vh-130px)] items-center gap-8 py-10 lg:grid-cols-[0.95fr_1.05fr]">
+        <Container className="relative grid min-h-[calc(100vh-7rem)] items-center gap-8 py-10 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="max-w-xl text-white">
             <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1.5 text-xs font-bold uppercase backdrop-blur">
               <Landmark className="h-4 w-4 text-natural-gold" />

@@ -418,7 +418,7 @@ export default function ServiceDetails({
         </div>
 
         {/* Right Column: Pricing, Checkout & Reservation Hub (5 cols) */}
-        <div className="lg:col-span-5 sticky top-8 space-y-6">
+        <div className="lg:col-span-5 sticky top-28 space-y-6">
           <div className="bg-white border border-natural-border rounded-3xl p-6 md:p-8 shadow-lg space-y-6">
             <div className="space-y-1">
               <span className="text-[10px] uppercase font-black tracking-widest text-natural-accent block">

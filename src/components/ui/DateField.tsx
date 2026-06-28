@@ -52,6 +52,14 @@ const WEEKDAYS_EN = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 export function DateField({ value, onChange, min, isVi, ariaLabel, className = '', align = 'left', showIcon = true }: DateFieldProps) {
   const [open, setOpen] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement>(null);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const gridRef = React.useRef<HTMLDivElement>(null);
+
+  // Close the popup and return focus to the trigger (keyboard users don't get stranded).
+  const close = React.useCallback(() => {
+    setOpen(false);
+    triggerRef.current?.focus();
+  }, []);
 
   const selected = parseYMD(value);
   const minDate = min ? parseYMD(min) : null;
@@ -74,7 +82,7 @@ export function DateField({ value, onChange, min, isVi, ariaLabel, className = '
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') close();
     };
     document.addEventListener('mousedown', onDown);
     document.addEventListener('keydown', onKey);
@@ -82,6 +90,13 @@ export function DateField({ value, onChange, min, isVi, ariaLabel, className = '
       document.removeEventListener('mousedown', onDown);
       document.removeEventListener('keydown', onKey);
     };
+  }, [open, close]);
+
+  // On open, move focus into the grid without scrolling the page (avoids jumpy scroll).
+  React.useEffect(() => {
+    if (!open) return;
+    const target = gridRef.current?.querySelector<HTMLButtonElement>('[data-autofocus="true"]');
+    target?.focus({ preventScroll: true });
   }, [open]);
 
   const year = viewDate.getFullYear();
@@ -110,9 +125,12 @@ export function DateField({ value, onChange, min, isVi, ariaLabel, className = '
   return (
     <div ref={rootRef} className="relative">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={ariaLabel}
+        aria-haspopup="dialog"
+        aria-expanded={open}
         className={className}
       >
         {showIcon && <Calendar className="w-4 h-4 text-amber-500 shrink-0" />}
@@ -121,7 +139,10 @@ export function DateField({ value, onChange, min, isVi, ariaLabel, className = '
 
       {open && (
         <div
-          className={`absolute top-full z-50 mt-2 w-72 rounded-2xl border border-natural-border bg-white p-3 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 ${
+          role="dialog"
+          aria-modal="false"
+          aria-label={isVi ? 'Chọn ngày' : 'Choose date'}
+          className={`absolute top-full z-50 mt-2 w-[min(20rem,calc(100vw_-_1.5rem))] max-w-[calc(100vw_-_1.5rem)] rounded-2xl border border-natural-border bg-white p-3 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
         >
@@ -130,14 +151,16 @@ export function DateField({ value, onChange, min, isVi, ariaLabel, className = '
             <button
               type="button"
               disabled={prevDisabled}
+              aria-label={isVi ? 'Tháng trước' : 'Previous month'}
               onClick={() => setViewDate(new Date(year, month - 1, 1))}
               className="flex h-8 w-8 items-center justify-center rounded-full text-stone-600 transition hover:bg-natural-beige disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer disabled:cursor-not-allowed"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-sm font-bold text-natural-text">{monthLabel}</span>
+            <span className="text-sm font-bold text-natural-text" aria-live="polite">{monthLabel}</span>
             <button
               type="button"
+              aria-label={isVi ? 'Tháng sau' : 'Next month'}
               onClick={() => setViewDate(new Date(year, month + 1, 1))}
               className="flex h-8 w-8 items-center justify-center rounded-full text-stone-600 transition hover:bg-natural-beige cursor-pointer"
             >
@@ -155,21 +178,33 @@ export function DateField({ value, onChange, min, isVi, ariaLabel, className = '
           </div>
 
           {/* Day grid */}
-          <div className="grid grid-cols-7 gap-1">
+          <div ref={gridRef} className="grid grid-cols-7 gap-1">
             {cells.map((day, idx) => {
               if (day === null) return <span key={`b-${idx}`} />;
               const date = new Date(year, month, day);
               const disabled = isDisabled(date);
               const isSelected = sameDay(date, selected);
               const isToday = sameDay(date, today);
+              // Focus the selected day on open (or today when nothing is selected).
+              const autoFocus = isSelected || (!selected && isToday);
+              const fullLabel = date.toLocaleDateString(isVi ? 'vi-VN' : 'en-GB', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              });
               return (
                 <button
                   key={day}
                   type="button"
                   disabled={disabled}
+                  data-autofocus={autoFocus || undefined}
+                  aria-label={fullLabel}
+                  aria-current={isToday ? 'date' : undefined}
+                  aria-pressed={isSelected}
                   onClick={() => {
                     onChange(toYMD(date));
-                    setOpen(false);
+                    close();
                   }}
                   className={`flex h-9 items-center justify-center rounded-lg text-xs font-semibold transition cursor-pointer ${
                     isSelected

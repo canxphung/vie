@@ -463,7 +463,7 @@ export default function NearbyPlaces({
         {/* Right Column: Detailed Showcase & Map Navigation (5 cols) */}
         <div className="lg:col-span-5">
           {activePlace ? (
-            <div className="bg-white border border-natural-border rounded-3xl shadow-lg sticky top-6 overflow-hidden">
+            <div className="bg-white border border-natural-border rounded-3xl shadow-lg sticky top-28 overflow-hidden">
               {/* Image slideshow with controls */}
               <div className="relative h-64 bg-stone-900">
                 <img 
@@ -730,7 +730,7 @@ export default function NearbyPlaces({
               </div>
             </div>
           ) : (
-            <div className="bg-natural-cream border border-dashed border-natural-border rounded-3xl p-16 text-center sticky top-6">
+            <div className="bg-natural-cream border border-dashed border-natural-border rounded-3xl p-16 text-center sticky top-28">
               <Compass className="w-16 h-16 text-stone-300 mx-auto mb-4 animate-bounce-slow" />
               <h4 className="font-serif font-black text-stone-800 text-sm uppercase tracking-wider">
                 {isVi ? 'Chưa chọn địa điểm' : 'No Place Selected'}

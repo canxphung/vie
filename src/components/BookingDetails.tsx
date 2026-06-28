@@ -6,13 +6,13 @@
 import React from 'react';
 import { Hotel, Activity, Vehicle, Review, Language, BookingCartItem, ViewableItem } from '../types';
 import { hotelsByProvince, activitiesByProvince, vehicles, reviews as initialReviews, dictionaries } from '../data';
+import { clickableCardProps } from '@/lib/a11y';
 import { Star, MapPin, Bike, Car, CheckCircle2, ThumbsUp, Send, User, ChevronRight, Compass, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface BookingDetailsProps {
   language: Language;
   provinceId: string;
-  onAddToCart: (item: BookingCartItem) => void;
   cartItems: BookingCartItem[];
   onRemoveFromCart: (id: string) => void;
   onViewItem?: (item: ViewableItem) => void;
@@ -27,7 +27,6 @@ type PriceTier = 'all' | 'under-200k' | '200k-500k' | 'over-500k';
 export default function BookingDetails({
   language,
   provinceId,
-  onAddToCart,
   cartItems,
   onRemoveFromCart,
   onViewItem,
@@ -141,14 +140,14 @@ export default function BookingDetails({
               return (
                 <div 
                   key={hotel.id} 
-                  onClick={() => onViewItem?.({
+                  {...clickableCardProps(() => onViewItem?.({
                     id: hotel.id,
                     type: 'hotel',
                     name: hotel.name,
                     image: hotel.image,
                     price: hotel.pricePerNight,
                     description: hotel.description
-                  })}
+                  }))}
                   className="bg-natural-beige-light rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-natural-border hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                 >
                   <div className="relative h-48 overflow-hidden">
@@ -218,14 +217,6 @@ export default function BookingDetails({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            onAddToCart({
-                              id: hotel.id,
-                              type: 'hotel',
-                              name: hotel.name,
-                              price: hotel.pricePerNight,
-                              quantity: 1,
-                              image: hotel.image
-                            });
                             onViewItem?.({
                               id: hotel.id,
                               type: 'hotel',
@@ -237,7 +228,7 @@ export default function BookingDetails({
                           }}
                           className="bg-natural-accent hover:bg-natural-olive text-white px-3.5 py-2 rounded-xl text-[11px] font-bold transition shadow-xs cursor-pointer"
                         >
-                          {isVi ? 'Nhận phòng' : 'Book Room'}
+                          {isVi ? 'Đặt phòng' : 'Book'}
                         </button>
                       )}
                     </div>
@@ -282,14 +273,14 @@ export default function BookingDetails({
               return (
                 <div 
                   key={veh.id} 
-                  onClick={() => onViewItem?.({
+                  {...clickableCardProps(() => onViewItem?.({
                     id: veh.id,
                     type: 'vehicle',
                     name: veh.name,
                     image: veh.image,
                     price: veh.pricePerDay,
                     description: veh.specs
-                  })}
+                  }))}
                   className="bg-natural-beige-light rounded-3xl overflow-hidden shadow-xs border border-natural-border p-4 hover:shadow-lg hover:border-natural-accent transition flex gap-4 items-center cursor-pointer"
                 >
                   <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-natural-beige relative">
@@ -356,15 +347,6 @@ export default function BookingDetails({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            onAddToCart({
-                              id: veh.id,
-                              type: 'vehicle',
-                              name: veh.name,
-                              price: veh.pricePerDay,
-                              quantity: 1,
-                              image: veh.image,
-                              details: isVi ? 'Phương tiện tự chọn' : 'Custom transport design'
-                            });
                             onViewItem?.({
                               id: veh.id,
                               type: 'vehicle',
@@ -488,14 +470,14 @@ export default function BookingDetails({
                 return (
                   <div 
                     key={act.id} 
-                    onClick={() => onViewItem?.({
+                    {...clickableCardProps(() => onViewItem?.({
                       id: act.id,
                       type: 'activity',
                       name: act.name,
                       image: act.image,
                       price: act.price,
                       description: act.description
-                    })}
+                    }))}
                     className="bg-natural-beige-light rounded-3xl overflow-hidden shadow-xs hover:shadow-lg border border-natural-border hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                   >
                     <div className="relative h-36 overflow-hidden">
@@ -558,14 +540,6 @@ export default function BookingDetails({
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              onAddToCart({
-                                id: act.id,
-                                type: 'activity',
-                                name: act.name,
-                                price: act.price,
-                                quantity: 1,
-                                image: act.image
-                              });
                               onViewItem?.({
                                 id: act.id,
                                 type: 'activity',

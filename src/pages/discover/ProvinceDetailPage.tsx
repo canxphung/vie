@@ -17,7 +17,7 @@ import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function ProvinceDetailPage() {
   const { language, t, isVi } = useI18n();
-  const { items: cartItems, addItem: handleAddToCart, removeItem: handleRemoveFromCart } = useCart();
+  const { items: cartItems, removeItem: handleRemoveFromCart } = useCart();
   const {
     selectedProvinceId,
     setView,
@@ -105,7 +105,6 @@ export default function ProvinceDetailPage() {
       <BookingDetails
         language={language}
         provinceId={selectedProvinceId}
-        onAddToCart={handleAddToCart}
         cartItems={cartItems}
         onRemoveFromCart={handleRemoveFromCart}
         onViewItem={handleViewItem}
