@@ -10,126 +10,21 @@ import {
   Database, BarChart3, Plus, Trash2, Check, X, FileText, ClipboardList, 
   Car, Star, Tag, Gift, BookOpen, Compass, Info, CheckCircle2, ChevronRight, Sparkles, Heart
 } from 'lucide-react';
-import { Language, BookingCartItem } from '../types';
+import type {
+  Language, BookingCartItem,
+  UserAccount, PartnershipApplication, PromoVoucher, SystemBooking,
+} from '../types';
+import { DEFAULT_USERS } from '@/constants/seed/users';
+import { DEFAULT_VOUCHERS } from '@/constants/seed/vouchers';
+import { DEFAULT_PARTNERSHIPS } from '@/constants/seed/partnerships';
+import { DEFAULT_SYSTEM_BOOKINGS } from '@/constants/seed/bookings';
+import { TOURIST_LOCATIONS } from '@/constants/seed/touristLocations';
+import { PREDEFINED_COMBOS } from '@/constants/seed/tourCombos';
 
-// State types that we can synchronize with localStorage to behave like a real backend!
-export interface UserAccount {
-  id: string;
-  username: string;
-  fullName: string;
-  email: string;
-  phone: string;
-  bio: string;
-  role: 'user' | 'admin';
-  avatar: string;
-  createdAt: string;
-}
+// Re-exported for backward compatibility (App.tsx / Header.tsx still import these from here).
+export type { UserAccount, PartnershipApplication, PromoVoucher, SystemBooking };
+export { DEFAULT_USERS, DEFAULT_VOUCHERS, DEFAULT_PARTNERSHIPS, DEFAULT_SYSTEM_BOOKINGS };
 
-export interface PartnershipApplication {
-  id: string;
-  brandName: string;
-  contactName: string;
-  type: 'hotel' | 'taxi' | 'experience' | 'artisan' | 'guide' | 'vehicle';
-  phone: string;
-  email: string;
-  description: string;
-  status: 'pending' | 'approved' | 'rejected';
-  date: string;
-}
-
-export interface PromoVoucher {
-  code: string;
-  description: string;
-  discountType: 'percentage' | 'fixed';
-  value: number;
-  minSpend: number;
-  active: boolean;
-}
-
-export interface SystemBooking {
-  id: string;
-  userEmail: string;
-  userName: string;
-  items: BookingCartItem[];
-  total: number;
-  discountApplied: number;
-  finalTotal: number;
-  status: 'pending' | 'confirmed' | 'cancelled';
-  date: string;
-}
-
-// Default system data to seed the state
-export const DEFAULT_USERS: UserAccount[] = [
-  {
-    id: 'u-1',
-    username: 'ngandtk',
-    fullName: 'Đặng Thị Kim Ngân',
-    email: 'ngandtk244111@st.uel.edu.vn',
-    phone: '0987654321',
-    bio: 'Đam mê khám phá di sản lịch sử Việt Nam, yêu mến Hội An.',
-    role: 'admin',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
-    createdAt: '2026-06-20',
-  },
-  {
-    id: 'u-2',
-    username: 'traveler_ha',
-    fullName: 'Lê Hoàng Anh',
-    email: 'hoanganh@gmail.com',
-    phone: '0912345678',
-    bio: 'Thích lướt xe máy Sirius đi dạo phố cổ lồng đèn rực rỡ.',
-    role: 'user',
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
-    createdAt: '2026-06-22',
-  }
-];
-
-export const DEFAULT_VOUCHERS: PromoVoucher[] = [
-  { code: 'VIETCHARM15', description: 'Giảm 15% tổng hóa đơn cho Hội viên VIP', discountType: 'percentage', value: 15, minSpend: 0, active: true },
-  { code: 'HOIANWELCOME', description: 'Giảm ngay 100,000đ chào mừng đến Quảng Nam', discountType: 'fixed', value: 100000, minSpend: 300000, active: true },
-  { code: 'GENZTRAVEL', description: 'Giảm 20% cho gói phòng nhóm hoặc Tour Combo', discountType: 'percentage', value: 20, minSpend: 500000, active: true },
-];
-
-export const DEFAULT_PARTNERSHIPS: PartnershipApplication[] = [
-  {
-    id: 'VC-PARTNER-3012',
-    brandName: 'Hội An Lantern Homestay',
-    contactName: 'Nguyễn Thị Hoa',
-    type: 'hotel',
-    phone: '0905123456',
-    email: 'hoalantern@gmail.com',
-    description: 'Mong muốn hợp tác cung cấp 5 phòng nghỉ view sông Hoài hoài cổ.',
-    status: 'approved',
-    date: '2026-06-21',
-  },
-  {
-    id: 'VC-PARTNER-4509',
-    brandName: 'Taxi Sông Thu Bồn',
-    contactName: 'Trần Văn Tiến',
-    type: 'taxi',
-    phone: '0989333444',
-    email: 'songthutaxi@gmail.com',
-    description: 'Hãng xe 4 chỗ và 7 chỗ phục vụ đưa đón sân bay Đà Nẵng về Hội An giá ưu đãi.',
-    status: 'pending',
-    date: '2026-06-22',
-  }
-];
-
-export const DEFAULT_SYSTEM_BOOKINGS: SystemBooking[] = [
-  {
-    id: 'VC-BK-58902',
-    userEmail: 'hoanganh@gmail.com',
-    userName: 'Lê Hoàng Anh',
-    items: [
-      { id: 'allegro-hoian', type: 'hotel', name: 'Allegro Hoi An Luxury Hotel & Spa', price: 1250000, quantity: 2, image: '' }
-    ],
-    total: 2500000,
-    discountApplied: 375000,
-    finalTotal: 2125000,
-    status: 'confirmed',
-    date: '2026-06-22',
-  }
-];
 
 
 // ==========================================
@@ -1228,14 +1123,6 @@ interface TaxiBookingProps {
   onNavigateHome: () => void;
 }
 
-const TOURIST_LOCATIONS = [
-  { id: 'dad-airport', name: 'Sân bay Quốc tế Đà Nẵng (DAD)', lat: 16.0440, lng: 108.2022 },
-  { id: 'dad-station', name: 'Ga đường sắt Đà Nẵng', lat: 16.0689, lng: 108.2140 },
-  { id: 'hoian-ancient', name: 'Phố cổ Hội An (Trần Phú)', lat: 15.8771, lng: 108.3267 },
-  { id: 'anbang-beach', name: 'Bãi biển An Bàng Hội An', lat: 15.9126, lng: 108.3435 },
-  { id: 'myson-sanctuary', name: 'Thánh địa Mỹ Sơn (Duy Xuyên)', lat: 15.7642, lng: 108.1235 },
-  { id: 'tamthanh-mural', name: 'Làng bích họa Tam Thanh (Tam Kỳ)', lat: 15.6120, lng: 108.5320 },
-];
 
 export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBookingProps) {
   const isVi = language === 'vi';
@@ -1492,120 +1379,6 @@ interface TourCombosProps {
   onToggleFavorite?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
 }
 
-const PREDEFINED_COMBOS = [
-  {
-    id: 'combo-heritage-soul',
-    name: 'Combo "Hồn Thiêng Di Sản" Hội An',
-    image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80',
-    days: '3 Ngày 2 Đêm',
-    price: 1950000,
-    oldPrice: 2400000,
-    includes: [
-      '2 đêm tại Allegro Luxury Hotel & Spa 5 sao (Đã gồm ăn sáng)',
-      'Vé tham quan khu di sản Phố Cổ & Lớp học gốm Thanh Hà',
-      'Đưa đón sân bay Đà Nẵng - Hội An hai chiều riêng tư mát mẻ',
-      'Trải nghiệm lãng mạn Thả đèn hoa đăng sông Hoài thơ mộng'
-    ],
-    rating: 4.9,
-    tag: 'Bán Chạy Nhất'
-  },
-  {
-    id: 'combo-coral-adventure',
-    name: 'Combo "Biển Xanh & Phiêu Lưu Cù Lao Chàm"',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80',
-    days: '2 Ngày 1 Đêm',
-    price: 1350000,
-    oldPrice: 1750000,
-    includes: [
-      '1 đêm tại An Bang Beach Hideaway Homestay sát bờ cát rì rào',
-      'Cano cao tốc lặn ngắm san hô & Thưởng thức hải sản Cù Lao Chàm',
-      'Thuê xe máy Honda Vision Smartkey tự do lướt gió miền biển',
-      'Tặng ly nước Mót thảo mộc thanh mát nổi tiếng'
-    ],
-    rating: 4.8,
-    tag: 'Trải Nghiệm Trẻ'
-  },
-  {
-    id: 'combo-central-links',
-    name: 'Combo Siêu Liên Tuyến "Hội An - Đà Nẵng - Huế"',
-    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80',
-    days: '4 Ngày 3 Đêm',
-    price: 3600000,
-    oldPrice: 4500000,
-    includes: [
-      '3 đêm nghỉ ngơi luân phiên tại chuỗi resort liên kết 4-5 sao',
-      'Vé cáp treo Bà Nà Hills Cầu Vàng & Đại Nội cố đô Huế trọn gói',
-      'Xe riêng máy lạnh đưa đón phục vụ suốt hành trình liên tỉnh',
-      'Nghe ca Huế trên thuyền Rồng sông Hương hoàng gia'
-    ],
-    rating: 5.0,
-    tag: 'Đại Gia Đình'
-  },
-  {
-    id: 'combo-hue-heritage',
-    name: 'Combo "Sắc Màu Cố Đô Huế" Thơ Mộng',
-    image: 'https://images.unsplash.com/photo-1596484552834-6a58bc238517?auto=format&fit=crop&w=600&q=80',
-    days: '2 Ngày 1 Đêm',
-    price: 1690000,
-    oldPrice: 2100000,
-    includes: [
-      '1 đêm tại Silk Path Grand Hue Hotel 5 sao đẳng cấp (Đã gồm ăn sáng buffet)',
-      'Thuyết minh viên riêng đồng hành tại Đại Nội & Lăng Khải Định am hiểu sâu sắc',
-      'Nghe Ca Huế trên Thuyền Rồng sông Hương về đêm thả hoa đăng lãng mạn',
-      'Thưởng thức yến tiệc cung đình hoàng gia Triều Nguyễn hóa thân vua chúa'
-    ],
-    rating: 4.9,
-    tag: 'Di Sản Thơ Mộng'
-  },
-  {
-    id: 'combo-danang-leisure',
-    name: 'Combo "Nắng Vàng Mỹ Khê & Bà Nà Hills"',
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80',
-    days: '3 Ngày 2 Đêm',
-    price: 2450000,
-    oldPrice: 3100000,
-    includes: [
-      '2 đêm phòng Ocean View tại Sala Danang Beach Hotel 4 sao sát bờ cát trắng',
-      'Vé cáp treo Bà Nà Hills & Buffet trưa ẩm thực trọn gói 50 món hấp dẫn',
-      'Vé tham quan danh thắng Ngũ Hành Sơn & Tour lặn biển ngắm san hô Sơn Trà',
-      'Đưa đón sân bay Đà Nẵng hai chiều mát mẻ bằng xe điện VinFast êm ái'
-    ],
-    rating: 4.8,
-    tag: 'Trải Nghiệm Năng Động'
-  },
-  {
-    id: 'combo-slow-travel-retreat',
-    name: 'Combo "Chữa Lành & Thiền Định Thủy Biều"',
-    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80',
-    days: '3 Ngày 2 Đêm',
-    price: 2990000,
-    oldPrice: 3800000,
-    includes: [
-      '2 đêm nghỉ dưỡng tại resort 5 sao tịnh tâm Pilgrimage Village',
-      'Liệu trình thiền & yoga phục hồi sinh lực, ngâm chân thảo dược phục hồi',
-      'Tour đạp xe dạo quanh làng cổ bưởi thanh trà Thủy Biều mộc mạc thơm ngát',
-      'Bữa tối thực dưỡng chay thuần khiết thanh lọc cơ thể tại resort'
-    ],
-    rating: 4.9,
-    tag: 'Chữa Lành Độc Bản'
-  },
-  {
-    id: 'combo-heritage-golf',
-    name: 'Combo "Di Sản & Swing Golf Thượng Lưu"',
-    image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&q=80',
-    days: '3 Ngày 2 Đêm',
-    price: 5900000,
-    oldPrice: 7500000,
-    includes: [
-      '2 đêm tại biệt thự có hồ bơi riêng biệt lập Banyan Tree Lăng Cô siêu sang',
-      '1 vòng chơi Golf 18 hố đẳng cấp quốc tế tại sân Laguna Golf Lăng Cô tuyệt mỹ',
-      'Đưa đón riêng tư suốt hành trình bằng xe Limousine hạng sang đẳng cấp',
-      'Tặng khay champagne cao cấp và dâu tây tươi phục vụ tận giường biệt thự'
-    ],
-    rating: 5.0,
-    tag: 'Thượng Lưu Vip'
-  }
-];
 
 export function TourCombos({ 
   language, 

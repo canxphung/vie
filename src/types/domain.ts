@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type Language = 'vi' | 'en';
-
 export interface Province {
   id: string;
   name: string;
@@ -77,4 +75,15 @@ export interface Review {
   date: string;
   comment: string;
   locale: 'vi' | 'en';
+}
+
+/** A lightweight item that can be previewed, favorited, or shown in "recently viewed". */
+export interface ViewableItem {
+  id: string;
+  type: string;
+  name: string;
+  image: string;
+  price: number;
+  description?: string;
+  timestamp?: number;
 }
