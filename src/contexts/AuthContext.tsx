@@ -12,9 +12,6 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 export interface AuthValue {
   currentUser: UserAccount | null;
   users: UserAccount[];
-  isAuthModalOpen: boolean;
-  openAuthModal: () => void;
-  closeAuthModal: () => void;
   /** Set the active user (login). Navigation is the caller's responsibility. */
   login: (user: UserAccount) => void;
   /** Append a new user and set them active (register). */
@@ -33,23 +30,15 @@ export function AuthProvider({ children }: { children?: React.ReactNode }) {
     null,
     { removeOnFalsy: true },
   );
-  const [isAuthModalOpen, setAuthModalOpen] = React.useState(false);
 
   const value = React.useMemo<AuthValue>(
     () => ({
       currentUser,
       users,
-      isAuthModalOpen,
-      openAuthModal: () => setAuthModalOpen(true),
-      closeAuthModal: () => setAuthModalOpen(false),
-      login: (user) => {
-        setCurrentUser(user);
-        setAuthModalOpen(false);
-      },
+      login: (user) => setCurrentUser(user),
       register: (user) => {
         setUsers((prev) => [...prev, user]);
         setCurrentUser(user);
-        setAuthModalOpen(false);
       },
       logout: () => setCurrentUser(null),
       updateProfile: (updated) => {
@@ -61,7 +50,7 @@ export function AuthProvider({ children }: { children?: React.ReactNode }) {
         setCurrentUser((prev) => (prev && prev.id === userId ? { ...prev, role } : prev));
       },
     }),
-    [currentUser, users, isAuthModalOpen, setCurrentUser, setUsers],
+    [currentUser, users, setCurrentUser, setUsers],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

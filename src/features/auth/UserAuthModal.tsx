@@ -516,7 +516,7 @@ export function UserAuthModal({
                   >
                     <AuthField
                       icon={User}
-                      label={isVi ? 'SĐT / Gmail / Tên đăng nhập' : 'Phone / Gmail / Username'}
+                      label={isVi ? 'SĐT / Gmail' : 'Phone / Gmail'}
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
