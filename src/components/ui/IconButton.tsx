@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 type Variant = 'solid' | 'outline' | 'ghost';
 type Size = 'sm' | 'md' | 'lg';
 
-interface IconButtonProps {
+interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
   variant?: Variant;
   size?: Size;
   className?: string;
-  children?: any;
-  [key: string]: any;
+  children?: ReactNode;
 }
 
 const VARIANTS: Record<Variant, string> = {

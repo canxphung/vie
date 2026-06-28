@@ -86,4 +86,13 @@ export interface ViewableItem {
   price: number;
   description?: string;
   timestamp?: number;
+  rating?: number;
+  reviewsCount?: string;
+  specs?: string;
+  inclusions?: string[];
+  duration?: string;
+  distance?: string;
+  highlights?: string[];
+  history?: string;
+  coordinates?: { x: number; y: number };
 }

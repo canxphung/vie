@@ -24,7 +24,7 @@ export interface CatalogValue {
 
 export const CatalogContext = React.createContext<CatalogValue | null>(null);
 
-export function CatalogProvider({ children }: { children?: any }) {
+export function CatalogProvider({ children }: { children?: React.ReactNode }) {
   const [applications, setApplications] = useLocalStorage<PartnershipApplication[]>(
     STORAGE_KEYS.applications,
     DEFAULT_PARTNERSHIPS,

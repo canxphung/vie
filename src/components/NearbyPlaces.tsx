@@ -1,13 +1,13 @@
 import React from 'react';
 import { MapPin, Search, Star, Heart, Compass, Navigation, Eye, MessageSquare, ChevronLeft, ChevronRight, X, PlusCircle } from 'lucide-react';
-import { Language } from '../types';
+import { Language, ViewableItem } from '../types';
 
 interface NearbyPlacesProps {
   language: Language;
   onBackToHome: () => void;
-  onViewItem?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
-  favorites?: any[];
-  onToggleFavorite?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
+  onViewItem?: (item: ViewableItem) => void;
+  favorites?: ViewableItem[];
+  onToggleFavorite?: (item: ViewableItem) => void;
 }
 
 interface PlaceReview {
@@ -434,7 +434,7 @@ export default function NearbyPlaces({
                                 distance: place.distance,
                                 history: isVi ? place.historyVi : place.historyEn,
                                 coordinates: place.coordinates
-                              } as any);
+                              });
                             }
                           }}
                           className="text-natural-accent hover:text-natural-olive font-bold uppercase tracking-wider text-[9px] hover:underline cursor-pointer"
@@ -558,7 +558,7 @@ export default function NearbyPlaces({
                         distance: activePlace.distance,
                         history: isVi ? activePlace.historyVi : activePlace.historyEn,
                         coordinates: activePlace.coordinates
-                      } as any);
+                      });
                     }
                   }}
                   className="w-full bg-natural-accent hover:bg-natural-olive text-white py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
@@ -590,10 +590,10 @@ export default function NearbyPlaces({
                       <path 
                         d={`M 180 100 L ${activePlace.coordinates.x} ${activePlace.coordinates.y}`} 
                         fill="none" 
-                        stroke="#8C7A5B" 
+                        stroke="currentColor"
                         strokeWidth="2.5" 
                         strokeDasharray="5,4" 
-                        className="animate-pulse"
+                        className="animate-pulse text-natural-accent"
                       />
                       
                       {/* Central Vietnam Coast Line (Decorative mock curve) */}

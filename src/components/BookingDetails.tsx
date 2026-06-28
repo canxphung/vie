@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Hotel, Activity, Vehicle, Review, Language, BookingCartItem } from '../types';
+import { Hotel, Activity, Vehicle, Review, Language, BookingCartItem, ViewableItem } from '../types';
 import { hotelsByProvince, activitiesByProvince, vehicles, reviews as initialReviews, dictionaries } from '../data';
 import { Star, MapPin, Bike, Car, CheckCircle2, ThumbsUp, Send, User, ChevronRight, Compass, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -15,11 +15,14 @@ interface BookingDetailsProps {
   onAddToCart: (item: BookingCartItem) => void;
   cartItems: BookingCartItem[];
   onRemoveFromCart: (id: string) => void;
-  onViewItem?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
+  onViewItem?: (item: ViewableItem) => void;
   onViewAllServices?: (tab: 'hotels' | 'vehicles' | 'activities') => void;
-  favorites?: any[];
-  onToggleFavorite?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
+  favorites?: ViewableItem[];
+  onToggleFavorite?: (item: ViewableItem) => void;
 }
+
+type ActivityCategory = 'all' | 'heritage' | 'culinary' | 'nature' | 'adventure';
+type PriceTier = 'all' | 'under-200k' | '200k-500k' | 'over-500k';
 
 export default function BookingDetails({
   language,
@@ -40,8 +43,8 @@ export default function BookingDetails({
   const activities = activitiesByProvince[provinceId] || [];
 
   // Local state for Category & Price/Budget Filters
-  const [selectedCategory, setSelectedCategory] = React.useState<'all' | 'heritage' | 'culinary' | 'nature' | 'adventure'>('all');
-  const [selectedPriceTier, setSelectedPriceTier] = React.useState<'all' | 'under-200k' | '200k-500k' | 'over-500k'>('all');
+  const [selectedCategory, setSelectedCategory] = React.useState<ActivityCategory>('all');
+  const [selectedPriceTier, setSelectedPriceTier] = React.useState<PriceTier>('all');
 
   const filteredActivities = React.useMemo(() => {
     return activities.filter((act) => {
@@ -410,7 +413,7 @@ export default function BookingDetails({
                 ].map((cat) => (
                   <button
                     key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id as any)}
+                    onClick={() => setSelectedCategory(cat.id as ActivityCategory)}
                     className={`px-3 py-1.5 rounded-lg font-semibold transition ${
                       selectedCategory === cat.id 
                         ? 'bg-natural-accent text-white' 
@@ -435,7 +438,7 @@ export default function BookingDetails({
                 ].map((tier) => (
                   <button
                     key={tier.id}
-                    onClick={() => setSelectedPriceTier(tier.id as any)}
+                    onClick={() => setSelectedPriceTier(tier.id as PriceTier)}
                     className={`px-3 py-1.5 rounded-lg font-semibold transition ${
                       selectedPriceTier === tier.id 
                         ? 'bg-natural-accent text-white' 

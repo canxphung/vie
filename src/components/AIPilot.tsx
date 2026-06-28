@@ -5,12 +5,38 @@
 
 import React from 'react';
 import { Sparkles, Brain, DollarSign, Clock, HelpCircle, ArrowRight, ShieldAlert, CheckCircle } from 'lucide-react';
-import { Language } from '../types';
+import { BookingCartItem, Language } from '../types';
+
+interface ItineraryActivity {
+  time: string;
+  attractionName: string;
+  description: string;
+  costVND: number;
+}
+
+interface ItineraryDay {
+  dayNumber: number;
+  title: string;
+  activities?: ItineraryActivity[];
+}
+
+interface AIItinerary {
+  itineraryTitle: string;
+  estimatedSavingsPercent: number;
+  totalCostEstimate: number;
+  days?: ItineraryDay[];
+  savingTips?: string[];
+}
+
+interface AIItineraryResponse {
+  success?: boolean;
+  data?: AIItinerary;
+}
 
 interface AIPilotProps {
   language: Language;
   currentProvinceId: string;
-  onAddComboToCart: (items: any[]) => void;
+  onAddComboToCart: (items: BookingCartItem[]) => void;
 }
 
 export default function AIPilot({ language, currentProvinceId, onAddComboToCart }: AIPilotProps) {
@@ -20,7 +46,7 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
   const [customPrompt, setCustomPrompt] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [loadingStep, setLoadingStep] = React.useState('');
-  const [itinerary, setItinerary] = React.useState<any | null>(null);
+  const [itinerary, setItinerary] = React.useState<AIItinerary | null>(null);
   const [successMsg, setSuccessMsg] = React.useState(false);
 
   React.useEffect(() => {
@@ -87,7 +113,7 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
         })
       });
 
-      const resData = await response.json();
+      const resData = (await response.json()) as AIItineraryResponse;
       if (resData.success && resData.data) {
         setItinerary(resData.data);
       } else {
@@ -106,7 +132,7 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
     if (!itinerary) return;
 
     // Build cart structures based on AI suggestions
-    const suggestedItems = [];
+    const suggestedItems: BookingCartItem[] = [];
     
     // Default mock hotel to inject in combo
     suggestedItems.push({
@@ -308,14 +334,14 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
 
                   {/* Daily detailed roadmap scrollable */}
                   <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-stone-200">
-                    {itinerary.days?.map((day: any, dIdx: number) => (
+                    {itinerary.days?.map((day, dIdx) => (
                       <div key={dIdx} className="bg-natural-beige-light p-4 border border-natural-border rounded-2xl">
                         <h5 className="text-xs font-serif font-bold text-natural-accent border-b border-natural-border pb-2 mb-3 flex items-center gap-1.5 uppercase tracking-wider">
                           <Clock className="w-3.5 h-3.5 text-natural-accent" />
                           <span>{isVi ? `Ngày ${day.dayNumber}: ` : `Day ${day.dayNumber}: `}{day.title}</span>
                         </h5>
                         <div className="space-y-3">
-                          {day.activities?.map((act: any, aIdx: number) => (
+                          {day.activities?.map((act, aIdx) => (
                             <div key={aIdx} className="flex gap-3 text-xs">
                               <span className="font-mono text-natural-accent bg-natural-beige px-2 py-0.5 rounded h-fit shrink-0 font-bold border border-natural-border">
                                 {act.time}

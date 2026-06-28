@@ -12,9 +12,11 @@ import { PREDEFINED_COMBOS } from '@/constants/seed/tourCombos';
 
 // 5. COMPONENT: TRAVEL HANDBOOK / GUIDEBOOK
 // ==========================================
+type HandbookTab = 'history' | 'lantern' | 'culinary' | 'tips' | 'banahills' | 'hue_royal' | 'haivan_pass' | 'tailoring';
+
 export function TravelHandbook({ language }: { language: Language }) {
   const isVi = language === 'vi';
-  const [activeTab, setActiveTab] = React.useState<'history' | 'lantern' | 'culinary' | 'tips' | 'banahills' | 'hue_royal' | 'haivan_pass' | 'tailoring'>('history');
+  const [activeTab, setActiveTab] = React.useState<HandbookTab>('history');
 
   const content = {
     history: {
@@ -124,7 +126,7 @@ export function TravelHandbook({ language }: { language: Language }) {
         ].map(t => (
           <button
             key={t.id}
-            onClick={() => setActiveTab(t.id as any)}
+            onClick={() => setActiveTab(t.id as HandbookTab)}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition uppercase tracking-wider ${
               activeTab === t.id 
                 ? 'bg-natural-accent text-white shadow-xs' 

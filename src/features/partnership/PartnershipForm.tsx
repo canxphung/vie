@@ -22,7 +22,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
   const isVi = language === 'vi';
   const [brandName, setBrandName] = React.useState('');
   const [contactName, setContactName] = React.useState('');
-  const [type, setType] = React.useState<'hotel' | 'taxi' | 'experience' | 'artisan' | 'guide'>('hotel');
+  const [type, setType] = React.useState<PartnershipApplication['type']>('hotel');
   const [phone, setPhone] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [description, setDescription] = React.useState('');
@@ -118,7 +118,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
               <label className="block font-bold text-stone-600 uppercase mb-1">{isVi ? 'Lĩnh vực hợp tác' : 'Service Domain'}</label>
               <select
                 value={type}
-                onChange={(e) => setType(e.target.value as any)}
+                onChange={(e) => setType(e.target.value as PartnershipApplication['type'])}
                 className="w-full border border-natural-border bg-natural-cream rounded-xl px-2 py-2 outline-none font-bold"
               >
                 <option value="hotel">{isVi ? 'Lưu trú / Khách sạn' : 'Hotel Stay'}</option>

@@ -25,6 +25,8 @@ interface AdminDashboardProps {
   onDeleteVoucher: (code: string) => void;
 }
 
+type AdminTab = 'stats' | 'users' | 'partners' | 'bookings' | 'vouchers';
+
 export function AdminDashboard({
   language,
   users,
@@ -38,7 +40,7 @@ export function AdminDashboard({
   onDeleteVoucher,
 }: AdminDashboardProps) {
   const isVi = language === 'vi';
-  const [activeTab, setActiveTab] = React.useState<'stats' | 'users' | 'partners' | 'bookings' | 'vouchers'>('stats');
+  const [activeTab, setActiveTab] = React.useState<AdminTab>('stats');
 
   // Local state for creating new voucher
   const [vCode, setVCode] = React.useState('');
@@ -107,7 +109,7 @@ export function AdminDashboard({
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as AdminTab)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition uppercase tracking-wider ${
                 activeTab === tab.id 
                   ? 'bg-natural-accent text-white shadow-md' 
@@ -412,7 +414,7 @@ export function AdminDashboard({
                   <label className="block font-bold text-stone-600 uppercase mb-1">{isVi ? 'Loại chiết khấu' : 'Type'}</label>
                   <select
                     value={vType}
-                    onChange={(e) => setVType(e.target.value as any)}
+                    onChange={(e) => setVType(e.target.value as PromoVoucher['discountType'])}
                     className="w-full border border-natural-border bg-natural-cream rounded-xl px-2 py-2 outline-none font-bold text-stone-800"
                   >
                     <option value="percentage">% {isVi ? 'Phần trăm' : 'Percentage'}</option>

@@ -26,7 +26,7 @@ export interface AuthValue {
 
 export const AuthContext = React.createContext<AuthValue | null>(null);
 
-export function AuthProvider({ children }: { children?: any }) {
+export function AuthProvider({ children }: { children?: React.ReactNode }) {
   const [users, setUsers] = useLocalStorage<UserAccount[]>(STORAGE_KEYS.users, DEFAULT_USERS);
   const [currentUser, setCurrentUser] = useLocalStorage<UserAccount | null>(
     STORAGE_KEYS.currentUser,

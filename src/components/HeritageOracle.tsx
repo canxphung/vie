@@ -22,6 +22,10 @@ interface HeritageOracleProps {
   onApplyVoucher?: (code: string, discount: number) => void;
 }
 
+type AudioWindow = Window & typeof globalThis & {
+  webkitAudioContext?: typeof AudioContext;
+};
+
 interface TravelCard {
   id: string;
   nameVi: string;
@@ -117,7 +121,9 @@ export const HeritageOracle: React.FC<HeritageOracleProps> = ({ language, onAppl
 
   const triggerZenTone = (type: 'wave' | 'bell' | 'rain') => {
     try {
-      const ctx = audioCtx || new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioContextCtor = window.AudioContext || (window as AudioWindow).webkitAudioContext;
+      if (!AudioContextCtor) return;
+      const ctx = audioCtx || new AudioContextCtor();
       if (!audioCtx) setAudioCtx(ctx);
 
       if (isPlayingSound && soundType === type) {

@@ -38,7 +38,7 @@ export interface UIValue {
 
 export const UIContext = React.createContext<UIValue | null>(null);
 
-export function UIProvider({ children }: { children?: any }) {
+export function UIProvider({ children }: { children?: React.ReactNode }) {
   const [view, setView] = React.useState<ViewId>('regions');
   const [activeSubView, setActiveSubView] = React.useState<SubView>('spots');
   const [allServicesTab, setAllServicesTab] = React.useState<ServiceTab>('attractions');

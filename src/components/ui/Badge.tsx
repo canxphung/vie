@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 type Tone = 'gold' | 'accent' | 'neutral' | 'success';
 
-interface BadgeProps {
+interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: Tone;
   className?: string;
-  children?: any;
-  [key: string]: any;
+  children?: ReactNode;
 }
 
 const TONES: Record<Tone, string> = {

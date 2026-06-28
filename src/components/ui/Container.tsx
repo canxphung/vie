@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 type Size = 'narrow' | 'default' | 'wide';
 
-interface ContainerProps {
+interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   size?: Size;
   className?: string;
-  children?: any;
-  [key: string]: any;
+  children?: ReactNode;
 }
 
 const SIZES: Record<Size, string> = {

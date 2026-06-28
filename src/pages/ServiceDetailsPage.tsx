@@ -22,7 +22,7 @@ export default function ServiceDetailsPage() {
           >
             <ServiceDetails 
               language={language}
-              item={selectedItem as any}
+              item={selectedItem}
               onBack={() => clearSelectedItem()}
               onAddToCart={handleAddToCart}
               onRemoveFromCart={handleRemoveFromCart}

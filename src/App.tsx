@@ -10,6 +10,7 @@ import PaymentModal from './components/PaymentModal';
 import { UserAuthModal } from '@/features/auth/UserAuthModal';
 import ViewRouter from '@/app/ViewRouter';
 import { useI18n, useAuth, useCart, useUI } from '@/hooks';
+import type { UserAccount } from '@/types';
 
 export default function App() {
   const { language, setLanguage } = useI18n();
@@ -54,12 +55,12 @@ export default function App() {
         language={language}
         isOpen={isAuthModalOpen}
         onClose={() => closeAuthModal()}
-        onLoginSuccess={(user: any) => {
+        onLoginSuccess={(user: UserAccount) => {
           login(user);
           navigateHome();
         }}
         users={users}
-        onRegisterNew={(newU: any) => {
+        onRegisterNew={(newU: UserAccount) => {
           register(newU);
           navigateHome();
         }}

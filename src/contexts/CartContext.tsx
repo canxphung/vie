@@ -22,7 +22,7 @@ export interface CartValue {
 
 export const CartContext = React.createContext<CartValue | null>(null);
 
-export function CartProvider({ children }: { children?: any }) {
+export function CartProvider({ children }: { children?: React.ReactNode }) {
   const [items, setItems] = React.useState<BookingCartItem[]>([]);
   const [isPaymentOpen, setPaymentOpen] = React.useState(false);
 

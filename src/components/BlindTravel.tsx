@@ -19,6 +19,18 @@ import {
 } from 'lucide-react';
 import { BookingCartItem } from '../types';
 
+interface MysteryDestination {
+  regionVi: string;
+  regionEn: string;
+  airportCode: string;
+  hotelVi: string;
+  hotelEn: string;
+  packingVi: string;
+  packingEn: string;
+  itineraryVi: string[];
+  itineraryEn: string[];
+}
+
 interface BlindTravelProps {
   language: 'vi' | 'en';
   onAddComboToCart: (items: BookingCartItem[]) => void;
@@ -43,7 +55,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
   const [alertMsg, setAlertMsg] = useState<string | null>(null);
 
   // Surprise outcome variables
-  const [mysteryDest, setMysteryDest] = useState<any | null>(null);
+  const [mysteryDest, setMysteryDest] = useState<MysteryDestination | null>(null);
 
   const triggerAlert = (msg: string) => {
     setAlertMsg(msg);
@@ -84,7 +96,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
       setLoading(false);
 
       // Program the custom surprise content based on inputs
-      const possibleDestinations = [
+      const possibleDestinations: MysteryDestination[] = [
         {
           regionVi: 'Phố Cổ Hội An & Đầm nước Rừng dừa dật',
           regionEn: 'Ancient Town Hoi An & Secret Coconut Marshes',

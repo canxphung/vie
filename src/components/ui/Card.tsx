@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 type Radius = 'lg' | 'xl' | '2xl' | '3xl';
 
-interface CardProps {
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
   radius?: Radius;
   hover?: boolean;
   padded?: boolean;
   className?: string;
-  children?: any;
-  [key: string]: any;
+  children?: ReactNode;
 }
 
 const RADIUS: Record<Radius, string> = {

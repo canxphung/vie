@@ -4,27 +4,23 @@ import {
   Calendar, Clock, ShoppingCart, CreditCard, MessageSquare, 
   CheckCircle, Landmark, Sparkles, Navigation, Info, ChevronRight, Check
 } from 'lucide-react';
-import { Language, BookingCartItem } from '../types';
+import { Language, BookingCartItem, ViewableItem } from '../types';
+
+type ServiceDetailsItem = ViewableItem & {
+  rating?: number;
+  reviewsCount?: string;
+  specs?: string;
+  inclusions?: string[];
+  duration?: string;
+  distance?: string;
+  highlights?: string[];
+  history?: string;
+  coordinates?: { x: number; y: number };
+};
 
 interface ServiceDetailsProps {
   language: Language;
-  item: {
-    id: string;
-    type: 'hotel' | 'activity' | 'vehicle' | 'tour' | 'nearby-place';
-    name: string;
-    image: string;
-    price: number;
-    description: string;
-    rating?: number;
-    reviewsCount?: string;
-    specs?: string; // for vehicles
-    inclusions?: string[]; // for combos / activities
-    duration?: string;
-    distance?: string;
-    highlights?: string[];
-    history?: string; // for nearby places
-    coordinates?: { x: number; y: number };
-  };
+  item: ServiceDetailsItem;
   onBack: () => void;
   onAddToCart: (item: BookingCartItem) => void;
   onRemoveFromCart: (id: string) => void;
@@ -177,9 +173,12 @@ export default function ServiceDetails({
         : `Package: ${packageName} | Date: ${dateStr} | Duration: ${effectiveQuantity} ${item.type === 'hotel' ? 'nights' : 'days'}`;
     }
 
+    const cartType: BookingCartItem['type'] =
+      item.type === 'hotel' || item.type === 'vehicle' ? item.type : 'activity';
+
     onAddToCart({
       id: item.id,
-      type: item.type === 'tour' ? 'activity' : (item.type === 'nearby-place' ? 'activity' : item.type),
+      type: cartType,
       name: item.type === 'tour' ? `[Combo] ${item.name}` : item.name,
       price: finalTotalPrice,
       quantity: 1, // Store as a unified single package item with computed total price
@@ -325,7 +324,7 @@ export default function ServiceDetails({
                 <div className="relative h-48 bg-emerald-50 border border-emerald-100 rounded-2xl overflow-hidden flex items-center justify-center">
                   <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#059669_1px,transparent_1px)] [background-size:16px_16px]"></div>
                   <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                    <path d={`M 150 100 L ${item.coordinates.x} ${item.coordinates.y}`} fill="none" stroke="#8C7A5B" strokeWidth="2.5" strokeDasharray="5,4" className="animate-pulse" />
+                    <path d={`M 150 100 L ${item.coordinates.x} ${item.coordinates.y}`} fill="none" stroke="currentColor" strokeWidth="2.5" strokeDasharray="5,4" className="animate-pulse text-natural-accent" />
                   </svg>
                   <div className="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center" style={{ left: '150px', top: '100px' }}>
                     <div className="w-3.5 h-3.5 bg-amber-600 border border-white rounded-full"></div>

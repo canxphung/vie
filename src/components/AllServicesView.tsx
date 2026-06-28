@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Landmark, Star, Search, SlidersHorizontal, ArrowUpDown, MapPin, Bike, Car, Hotel, Compass, ArrowLeft, CheckCircle2, Heart } from 'lucide-react';
-import { Province, Attraction, Hotel as HotelType, Activity, Vehicle, BookingCartItem, Language } from '../types';
+import { Province, Attraction, Hotel as HotelType, Activity, Vehicle, BookingCartItem, Language, ViewableItem } from '../types';
 import { provinces, attractionsByProvince, hotelsByProvince, activitiesByProvince, vehicles, dictionaries } from '../data';
 
 interface AllServicesViewProps {
@@ -15,10 +15,13 @@ interface AllServicesViewProps {
   onAddToCart: (item: BookingCartItem) => void;
   onRemoveFromCart: (id: string) => void;
   cartItems: BookingCartItem[];
-  onViewItem?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
-  favorites?: any[];
-  onToggleFavorite?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
+  onViewItem?: (item: ViewableItem) => void;
+  favorites?: ViewableItem[];
+  onToggleFavorite?: (item: ViewableItem) => void;
 }
+
+type SortBy = 'default' | 'price-asc' | 'price-desc' | 'rating-desc';
+type ActivityCategory = 'all' | 'heritage' | 'culinary' | 'nature' | 'adventure';
 
 export default function AllServicesView({
   language,
@@ -40,8 +43,8 @@ export default function AllServicesView({
   // Filters state
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedProvince, setSelectedProvince] = React.useState<string>('all');
-  const [sortBy, setSortBy] = React.useState<'default' | 'price-asc' | 'price-desc' | 'rating-desc'>('default');
-  const [selectedActivityCategory, setSelectedActivityCategory] = React.useState<'all' | 'heritage' | 'culinary' | 'nature' | 'adventure'>('all');
+  const [sortBy, setSortBy] = React.useState<SortBy>('default');
+  const [selectedActivityCategory, setSelectedActivityCategory] = React.useState<ActivityCategory>('all');
 
   // Reset filters when switching tabs
   React.useEffect(() => {
@@ -343,7 +346,7 @@ export default function AllServicesView({
             </label>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
+              onChange={(e) => setSortBy(e.target.value as SortBy)}
               className="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-natural-accent"
             >
               <option value="default">{isVi ? 'Mặc định phổ biến' : 'Popularity / Default'}</option>
@@ -371,7 +374,7 @@ export default function AllServicesView({
             ].map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => setSelectedActivityCategory(cat.id as any)}
+                onClick={() => setSelectedActivityCategory(cat.id as ActivityCategory)}
                 className={`px-3 py-1.5 rounded-xl font-bold transition ${
                   selectedActivityCategory === cat.id
                     ? 'bg-natural-accent text-white'

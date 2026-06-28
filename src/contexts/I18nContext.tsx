@@ -16,7 +16,7 @@ export interface I18nValue {
 
 export const I18nContext = React.createContext<I18nValue | null>(null);
 
-export function I18nProvider({ children }: { children?: any }) {
+export function I18nProvider({ children }: { children?: React.ReactNode }) {
   const [language, setLanguage] = React.useState<Language>('vi');
 
   const value = React.useMemo<I18nValue>(

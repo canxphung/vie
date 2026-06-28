@@ -132,11 +132,12 @@ app.post('/api/ai/itinerary', async (req, res) => {
       data: parsedData
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error with AI Itinerary generation:', error);
+    const message = error instanceof Error ? error.message : 'Server Internal Error';
     return res.status(500).json({
       success: false,
-      message: error.message || 'Server Internal Error',
+      message,
       fallback: getFallbackItinerary('quang-nam', 3000000, req.body.language || 'vi')
     });
   }

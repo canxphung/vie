@@ -16,9 +16,9 @@ interface TourCombosProps {
   language: Language;
   onAddToCart: (item: BookingCartItem) => void;
   onNavigateHome: () => void;
-  onViewItem?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
-  favorites?: any[];
-  onToggleFavorite?: (item: { id: string; type: string; name: string; image: string; price: number; description?: string }) => void;
+  onViewItem?: (item: ViewableItem) => void;
+  favorites?: ViewableItem[];
+  onToggleFavorite?: (item: ViewableItem) => void;
 }
 
 

@@ -20,10 +20,10 @@ interface PersonalProfileProps {
   vouchers: PromoVoucher[];
   onNavigateHome: () => void;
   partnershipRequests: PartnershipApplication[];
-  favorites: any[];
-  recentlyViewed: any[];
-  onToggleFavorite: (item: any) => void;
-  onViewItem: (item: any) => void;
+  favorites: ViewableItem[];
+  recentlyViewed: ViewableItem[];
+  onToggleFavorite: (item: ViewableItem) => void;
+  onViewItem: (item: ViewableItem) => void;
 }
 
 export function PersonalProfile({ 
