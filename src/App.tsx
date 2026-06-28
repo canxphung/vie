@@ -7,7 +7,7 @@ import Header from './components/Header';
 import Footer from '@/components/layout/Footer';
 import HelpPromoCenter from './components/HelpPromoCenter';
 import PaymentModal from './components/PaymentModal';
-import { UserAuthModal } from './components/VietCharmExtraFeatures';
+import { UserAuthModal } from '@/features/auth/UserAuthModal';
 import ViewRouter from '@/app/ViewRouter';
 import { useI18n, useAuth, useCart, useUI } from '@/hooks';
 

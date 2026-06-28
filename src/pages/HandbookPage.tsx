@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'motion/react';
-import { TravelHandbook } from '@/components/VietCharmExtraFeatures';
+import { TravelHandbook } from '@/features/tours/TravelHandbook';
 import { useI18n } from '@/hooks';
 
 export default function HandbookPage() {

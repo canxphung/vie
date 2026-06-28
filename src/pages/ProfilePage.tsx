@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'motion/react';
-import { PersonalProfile } from '@/components/VietCharmExtraFeatures';
+import { PersonalProfile } from '@/features/profile/PersonalProfile';
 import { useI18n, useAuth, useCatalog, useUI } from '@/hooks';
 
 export default function ProfilePage() {

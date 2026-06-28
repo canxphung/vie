@@ -5,9 +5,9 @@
 
 import React from 'react';
 import { Globe, ShoppingBag, Landmark, Sparkles, User, LogOut, Settings, Key, BookOpen, Car, Gift, HelpCircle, Clock, Hotel, ChevronDown, Compass } from 'lucide-react';
-import { Language } from '../types';
+import type { Language, UserAccount } from '../types';
 import { dictionaries } from '../data';
-import { UserAccount } from './VietCharmExtraFeatures';
+import type { ViewId } from '@/constants/views';
 
 interface HeaderProps {
   language: Language;
@@ -16,7 +16,7 @@ interface HeaderProps {
   onOpenCart: () => void;
   onNavigateHome: () => void;
   currentView: string;
-  onChangeView: (view: any) => void;
+  onChangeView: (view: ViewId | 'spots' | 'hotels' | 'rentals' | 'experiences') => void;
   currentUser: UserAccount | null;
   onOpenAuthModal: () => void;
   onLogout: () => void;

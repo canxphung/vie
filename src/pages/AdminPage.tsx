@@ -5,7 +5,7 @@
 
 import { motion } from 'motion/react';
 import { ShieldAlert } from 'lucide-react';
-import { AdminDashboard } from '@/components/VietCharmExtraFeatures';
+import { AdminDashboard } from '@/features/admin/AdminDashboard';
 import { useI18n, useAuth, useCatalog, useUI } from '@/hooks';
 
 export default function AdminPage() {

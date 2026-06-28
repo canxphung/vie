@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'motion/react';
-import { PartnershipForm } from '@/components/VietCharmExtraFeatures';
+import { PartnershipForm } from '@/features/partnership/PartnershipForm';
 import { useI18n, useAuth, useCatalog } from '@/hooks';
 
 export default function PartnershipPage() {

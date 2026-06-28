@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'motion/react';
-import { TourCombos } from '@/components/VietCharmExtraFeatures';
+import { TourCombos } from '@/features/tours/TourCombos';
 import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function ToursPage() {

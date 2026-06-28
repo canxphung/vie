@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'motion/react';
-import { TaxiBooking } from '@/components/VietCharmExtraFeatures';
+import { TaxiBooking } from '@/features/transport/TaxiBooking';
 import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function TaxiPage() {
