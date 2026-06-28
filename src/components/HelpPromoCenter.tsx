@@ -110,14 +110,14 @@ export default function HelpPromoCenter({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-5 py-3.5 rounded-full shadow-2xl border border-amber-100 cursor-pointer text-xs font-serif font-black tracking-wider uppercase transition-all"
+          className="flex items-center gap-2 bg-natural-accent hover:bg-natural-olive text-white px-5 py-3.5 rounded-full shadow-2xl border border-amber-100 cursor-pointer text-xs font-serif font-black tracking-wider uppercase transition-all"
           id="help-promo-center-trigger"
         >
-          <HelpCircle className="w-4 h-4 text-[#E3B04B]" />
+          <HelpCircle className="w-4 h-4 text-natural-gold" />
           <span>{isVi ? 'Hỗ trợ & Ưu đãi' : 'Help & Promos'}</span>
           <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E3B04B] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E3B04B]"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-natural-gold opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-natural-gold"></span>
           </span>
         </motion.button>
       </div>
@@ -139,18 +139,18 @@ export default function HelpPromoCenter({
               initial={{ scale: 0.95, opacity: 0, y: 15 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 15 }}
-              className="bg-[#FDFCF8] border border-[#E6E2D3] rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden relative z-10 flex flex-col max-h-[85vh]"
+              className="bg-natural-bg border border-natural-border rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden relative z-10 flex flex-col max-h-[85vh]"
             >
               {/* Header Title Bar */}
-              <div className="bg-[#4A4A35] p-5 text-white flex justify-between items-center border-b border-[#E6E2D3]/20">
+              <div className="bg-natural-text p-5 text-white flex justify-between items-center border-b border-natural-border/20">
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 bg-[#8C7A5B] rounded-lg">
-                    <BookOpen className="w-5 h-5 text-[#FDFCF8]" />
+                  <div className="p-1.5 bg-natural-accent rounded-lg">
+                    <BookOpen className="w-5 h-5 text-natural-bg" />
                   </div>
                   <div>
                     <h3 className="font-serif font-black text-base uppercase tracking-wide flex items-center gap-1.5">
                       {isVi ? 'TRUNG TÂM TRỢ GIÚP & QUÀ TẶNG' : 'GUEST HELP & PROMOTIONS'}
-                      <Sparkles className="w-4 h-4 text-[#E3B04B] animate-pulse" />
+                      <Sparkles className="w-4 h-4 text-natural-gold animate-pulse" />
                     </h3>
                     <p className="text-[10px] text-stone-300 font-sans tracking-wide">
                       {isVi ? 'Hướng dẫn làm chủ VietCharm & Săn Deal hời lữ hành' : 'Learn how to book, customize and capture discounts'}
@@ -166,12 +166,12 @@ export default function HelpPromoCenter({
               </div>
 
               {/* Tabs list inside modal */}
-              <div className="flex border-b border-stone-200 bg-[#F5F2ED] text-xs font-bold uppercase tracking-wider">
+              <div className="flex border-b border-stone-200 bg-natural-beige text-xs font-bold uppercase tracking-wider">
                 <button
                   onClick={() => setActiveTab('guide')}
                   className={`flex-1 py-3 text-center transition flex items-center justify-center gap-1.5 border-b-2 ${
                     activeTab === 'guide'
-                      ? 'border-[#8C7A5B] bg-[#FDFCF8] text-[#8C7A5B]'
+                      ? 'border-natural-accent bg-natural-bg text-natural-accent'
                       : 'border-transparent text-stone-500 hover:text-stone-700'
                   }`}
                 >
@@ -182,13 +182,13 @@ export default function HelpPromoCenter({
                   onClick={() => setActiveTab('promos')}
                   className={`flex-1 py-3 text-center transition flex items-center justify-center gap-1.5 border-b-2 ${
                     activeTab === 'promos'
-                      ? 'border-[#8C7A5B] bg-[#FDFCF8] text-[#8C7A5B]'
+                      ? 'border-natural-accent bg-natural-bg text-natural-accent'
                       : 'border-transparent text-stone-500 hover:text-stone-700'
                   }`}
                 >
                   <Gift className="w-4 h-4" />
                   <span>{isVi ? 'Mã Giảm Giá & Deal Sốc' : 'Promos & Codes'}</span>
-                  <span className="bg-[#E3B04B] text-[#4A4A35] text-[9px] font-mono px-1.5 rounded-full">NEW</span>
+                  <span className="bg-natural-gold text-natural-text text-[9px] font-mono px-1.5 rounded-full">NEW</span>
                 </button>
               </div>
 
@@ -197,14 +197,14 @@ export default function HelpPromoCenter({
                 
                 {/* TAB 1: GUIDE/HOW TO USE WEB */}
                 {activeTab === 'guide' && (
-                  <div className="space-y-4 animate-fade-in text-xs text-[#4A4A35]">
-                    <div className="bg-[#FAF8F5] border border-amber-100 p-4 rounded-2xl flex items-start gap-3">
+                  <div className="space-y-4 animate-fade-in text-xs text-natural-text">
+                    <div className="bg-natural-cream border border-amber-100 p-4 rounded-2xl flex items-start gap-3">
                       <Award className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-serif font-bold text-sm text-[#4A4A35]">
+                        <h4 className="font-serif font-bold text-sm text-natural-text">
                           {isVi ? 'Xin chào Lữ Khách Phương Xa!' : 'Welcome to VietCharm!'}
                         </h4>
-                        <p className="text-[#4A4A35]/85 leading-relaxed mt-1">
+                        <p className="text-natural-text/85 leading-relaxed mt-1">
                           {isVi 
                             ? 'VietCharm là nền tảng số hóa di sản và quản lý hành trình miền Trung tiên phong. Chỉ với vài thao tác nhỏ dưới đây, bạn đã có thể sở hữu lịch trình tiết kiệm mộc mạc nhất:'
                             : 'VietCharm is an all-in-one portal designed to elevate your heritage explorations. Follow these step-by-step instructions to navigate perfectly:'}
@@ -212,13 +212,13 @@ export default function HelpPromoCenter({
                       </div>
                     </div>
 
-                    <div className="relative border-l border-[#8C7A5B]/20 ml-3 pl-5 space-y-5">
+                    <div className="relative border-l border-natural-accent/20 ml-3 pl-5 space-y-5">
                       {steps.map((st, sIdx) => {
                         const Icon = st.icon;
                         return (
                           <div key={sIdx} className="relative">
                             {/* Decorative line dot indicator */}
-                            <span className="absolute -left-[27px] top-1.5 p-1 bg-[#8C7A5B] rounded-full text-white shadow-xs border border-white">
+                            <span className="absolute -left-[27px] top-1.5 p-1 bg-natural-accent rounded-full text-white shadow-xs border border-white">
                               <Icon className="w-3 h-3 text-white" />
                             </span>
                             <h5 className="font-serif font-bold text-stone-800 text-sm">{st.title}</h5>
@@ -228,7 +228,7 @@ export default function HelpPromoCenter({
                       })}
                     </div>
 
-                    <div className="border-t border-[#E6E2D3] pt-4 mt-6 flex flex-col sm:flex-row gap-3 items-center justify-between">
+                    <div className="border-t border-natural-border pt-4 mt-6 flex flex-col sm:flex-row gap-3 items-center justify-between">
                       <div>
                         <p className="text-[10px] uppercase font-black text-stone-400 tracking-wider">
                           {isVi ? 'Đại lý & Bên thứ ba muốn đăng ký?' : 'Are you a local service provider?'}
@@ -242,7 +242,7 @@ export default function HelpPromoCenter({
                           setIsOpen(false);
                           onNavigateToPartnership();
                         }}
-                        className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white font-bold py-2 px-4 rounded-xl text-[11px] uppercase transition shadow-md whitespace-nowrap cursor-pointer"
+                        className="bg-natural-accent hover:bg-natural-olive text-white font-bold py-2 px-4 rounded-xl text-[11px] uppercase transition shadow-md whitespace-nowrap cursor-pointer"
                       >
                         {isVi ? 'Đăng Ký Đối Tác →' : 'Apply Partner →'}
                       </button>
@@ -253,7 +253,7 @@ export default function HelpPromoCenter({
                 {/* TAB 2: ACTIVE PROMOTIONS */}
                 {activeTab === 'promos' && (
                   <div className="space-y-4 animate-fade-in">
-                    <div className="bg-[#FAF8F5] border border-stone-200 p-4 rounded-2xl text-xs text-center">
+                    <div className="bg-natural-cream border border-stone-200 p-4 rounded-2xl text-xs text-center">
                       <p className="font-serif font-black text-stone-800 uppercase tracking-tight text-sm">
                         {isVi ? '🔥 KHO VOUCHER KHUYẾN MÃI ĐỘC QUYỀN VIETCHARM' : 'EXCLUSIVE TRAVEL BUNDLED DISCOUNTS'}
                       </p>
@@ -266,7 +266,7 @@ export default function HelpPromoCenter({
                       {promos.map((pr, pIdx) => (
                         <div 
                           key={pIdx} 
-                          className="bg-white border-2 border-dashed border-[#E6E2D3] hover:border-[#8C7A5B] p-4 rounded-2xl relative flex flex-col justify-between transition group shadow-xs"
+                          className="bg-white border-2 border-dashed border-natural-border hover:border-natural-accent p-4 rounded-2xl relative flex flex-col justify-between transition group shadow-xs"
                         >
                           <div>
                             <div className="flex justify-between items-start gap-1">
@@ -279,7 +279,7 @@ export default function HelpPromoCenter({
                           </div>
 
                           <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
-                            <span className="font-mono text-sm font-black text-[#8C7A5B] bg-[#F5F2ED] px-2.5 py-1 rounded-lg select-all border border-[#E6E2D3]">
+                            <span className="font-mono text-sm font-black text-natural-accent bg-natural-beige px-2.5 py-1 rounded-lg select-all border border-natural-border">
                               {pr.code}
                             </span>
                             <button
@@ -287,7 +287,7 @@ export default function HelpPromoCenter({
                               className={`p-2 rounded-xl transition-all cursor-pointer ${
                                 copiedCode === pr.code 
                                   ? 'bg-emerald-50 text-emerald-600' 
-                                  : 'bg-[#8C7A5B] text-white hover:bg-[#5A5A40]'
+                                  : 'bg-natural-accent text-white hover:bg-natural-olive'
                               }`}
                             >
                               {copiedCode === pr.code ? (
@@ -301,9 +301,9 @@ export default function HelpPromoCenter({
                       ))}
                     </div>
 
-                    <div className="bg-[#8C7A5B]/10 border border-[#8C7A5B]/30 p-4 rounded-2xl text-xs text-[#4A4A35]">
+                    <div className="bg-natural-accent/10 border border-natural-accent/30 p-4 rounded-2xl text-xs text-natural-text">
                       <h6 className="font-bold flex items-center gap-1">
-                        <Hotel className="w-4 h-4 text-[#8C7A5B]" />
+                        <Hotel className="w-4 h-4 text-natural-accent" />
                         {isVi ? 'Mẹo Nhận Khuyến Mãi Khách Sạn' : 'Hotel Saving Tip:'}
                       </h6>
                       <p className="mt-1 leading-relaxed text-stone-600">
@@ -316,7 +316,7 @@ export default function HelpPromoCenter({
                           setIsOpen(false);
                           onNavigateToHotels();
                         }}
-                        className="text-xs font-bold text-[#8C7A5B] underline mt-2 block"
+                        className="text-xs font-bold text-natural-accent underline mt-2 block"
                       >
                         {isVi ? 'Đến danh mục Khách sạn ngay →' : 'Navigate to Hotels list now →'}
                       </button>
@@ -327,7 +327,7 @@ export default function HelpPromoCenter({
               </div>
 
               {/* Footer Panel */}
-              <div className="bg-[#FAF8F5] border-t border-[#E6E2D3] p-4 text-center text-[10px] text-stone-400 font-mono flex flex-wrap justify-between items-center gap-2">
+              <div className="bg-natural-cream border-t border-natural-border p-4 text-center text-[10px] text-stone-400 font-mono flex flex-wrap justify-between items-center gap-2">
                 <span>VIETCHARM ONLINE CONCIERGE SUPPORT</span>
                 <span>HOTLINE: 1900-5040</span>
               </div>

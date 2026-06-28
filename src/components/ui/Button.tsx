@@ -31,7 +31,7 @@ const SIZES: Record<Size, string> = {
   lg: 'px-7 py-3 text-base',
 };
 
-/** Themed button. Replaces the dozens of repeated `bg-[#8C7A5B] ...` class strings. */
+/** Themed button. Replaces the dozens of repeated `bg-natural-accent ...` class strings. */
 export function Button({ variant = 'primary', size = 'md', className, children, ...rest }: ButtonProps) {
   return (
     <button

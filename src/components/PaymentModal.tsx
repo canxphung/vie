@@ -125,7 +125,7 @@ export default function PaymentModal({
                   <p className="text-stone-500 text-xs">{isVi ? 'Không có dịch vụ nào trong gói.' : 'No selections loaded yet. Go add some hotels, rides or excursions!'}</p>
                   <button 
                     onClick={onClose} 
-                    className="bg-[#D9A040] hover:bg-[#c99030] text-stone-950 px-4 py-2 rounded-xl text-xs font-bold transition"
+                    className="bg-natural-gold-deep hover:bg-natural-gold-dark text-stone-950 px-4 py-2 rounded-xl text-xs font-bold transition"
                   >
                     {isVi ? 'Quay lại khám phá' : 'Go discover'}
                   </button>
@@ -140,7 +140,7 @@ export default function PaymentModal({
                           <img src={item.image} alt={item.name} className="w-10 h-10 object-cover rounded-md shrink-0 border border-stone-200" />
                           <div>
                             <h5 className="text-xs font-bold text-stone-900 line-clamp-1">{item.name}</h5>
-                            <span className="text-[10px] font-mono uppercase bg-amber-100/50 text-[#9E763A] px-1.5 py-0.5 rounded font-bold">
+                            <span className="text-[10px] font-mono uppercase bg-amber-100/50 text-natural-bronze px-1.5 py-0.5 rounded font-bold">
                               {item.type === 'hotel' ? (isVi ? 'Khách sạn' : 'Hotel') : item.type === 'vehicle' ? (isVi ? 'Thuê Xe tự lái' : 'Ride Rental') : (isVi ? 'Tour di sản' : 'Excursion')}
                             </span>
                           </div>
@@ -162,9 +162,9 @@ export default function PaymentModal({
                   </div>
 
                   {/* Voucher coupon area (STT 9) */}
-                  <div className="bg-[#FAF8F5] border border-stone-200 p-4 rounded-2xl space-y-2.5">
+                  <div className="bg-natural-cream border border-stone-200 p-4 rounded-2xl space-y-2.5">
                     <label className="text-[11px] font-bold text-stone-700 uppercase block tracking-wider flex items-center gap-1">
-                      <Ticket className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                      <Ticket className="w-3.5 h-3.5 text-natural-accent" />
                       <span>{isVi ? 'Khuyến mãi & Mã giảm giá (Voucher)' : 'Promotional & Voucher Code'}</span>
                     </label>
                     <div className="flex gap-2">
@@ -176,7 +176,7 @@ export default function PaymentModal({
                           setVoucherError('');
                         }}
                         placeholder={isVi ? 'Nhập mã: VIETCHARM15, HOIANWELCOME, GENZTRAVEL...' : 'Enter code (e.g., VIETCHARM15)'}
-                        className="flex-1 text-xs border border-stone-300 rounded-xl px-3.5 py-2 outline-none focus:border-[#8C7A5B] font-mono"
+                        className="flex-1 text-xs border border-stone-300 rounded-xl px-3.5 py-2 outline-none focus:border-natural-accent font-mono"
                         disabled={!!appliedVoucher}
                       />
                       {appliedVoucher ? (
@@ -217,7 +217,7 @@ export default function PaymentModal({
                               setVoucherError(isVi ? 'Mã giảm giá này không hợp lệ hoặc đã hết hạn!' : 'Invalid voucher code or expired!');
                             }
                           }}
-                          className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white text-xs px-4 py-2 rounded-xl font-bold transition cursor-pointer"
+                          className="bg-natural-accent hover:bg-natural-olive text-white text-xs px-4 py-2 rounded-xl font-bold transition cursor-pointer"
                         >
                           {isVi ? 'Áp dụng' : 'Apply'}
                         </button>
@@ -244,7 +244,7 @@ export default function PaymentModal({
                     </div>
                     <div className="text-right">
                       <p className="text-[10px] text-stone-400 uppercase font-bold">{isVi ? 'CẦN THANH TOÁN' : 'PAYABLE TOTAL'}</p>
-                      <p className="text-xl font-mono font-black text-[#9E763A]">{payableAmount.toLocaleString('vi-VN')} đ</p>
+                      <p className="text-xl font-mono font-black text-natural-bronze">{payableAmount.toLocaleString('vi-VN')} đ</p>
                     </div>
                   </div>
 
@@ -305,7 +305,7 @@ export default function PaymentModal({
                   onClick={() => setGateway('visa')}
                   className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition ${
                     gateway === 'visa' 
-                      ? 'border-[#D9A040] bg-amber-500/5 text-stone-900' 
+                      ? 'border-natural-gold-deep bg-amber-500/5 text-stone-900' 
                       : 'border-stone-200 hover:bg-stone-50'
                   }`}
                 >
@@ -317,7 +317,7 @@ export default function PaymentModal({
                   onClick={() => setGateway('vnpay')}
                   className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition ${
                     gateway === 'vnpay' 
-                      ? 'border-[#D9A040] bg-amber-500/5 text-stone-900' 
+                      ? 'border-natural-gold-deep bg-amber-500/5 text-stone-900' 
                       : 'border-stone-200 hover:bg-stone-50'
                   }`}
                 >
@@ -329,7 +329,7 @@ export default function PaymentModal({
                   onClick={() => setGateway('momo')}
                   className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition ${
                     gateway === 'momo' 
-                      ? 'border-[#D9A040] bg-amber-500/5 text-stone-900' 
+                      ? 'border-natural-gold-deep bg-amber-500/5 text-stone-900' 
                       : 'border-stone-200 hover:bg-stone-50'
                   }`}
                 >
@@ -388,7 +388,7 @@ export default function PaymentModal({
                   </div>
                 ) : (
                   <div className="text-center py-4 bg-stone-50 border border-stone-150 rounded-xl space-y-2">
-                    <Smartphone className="w-8 h-8 text-[#9E763A] mx-auto animate-bounce" />
+                    <Smartphone className="w-8 h-8 text-natural-bronze mx-auto animate-bounce" />
                     <h5 className="text-xs font-bold text-stone-900">{isVi ? 'Cổng quét QR chuyển khoá tức thì' : 'Instant Scan Code Dispatch'}</h5>
                     <p className="text-[11px] text-stone-500 max-w-sm mx-auto leading-relaxed">
                       {isVi 
@@ -451,7 +451,7 @@ export default function PaymentModal({
                 <div className="border-b border-stone-200 pb-3 mb-4 flex justify-between items-center text-xs">
                   <div>
                     <h4 className="text-stone-900 font-black tracking-tight">{t.eTicket}</h4>
-                    <span className="text-[9px] uppercase text-[#9E763A] font-black">{isVi ? 'Liên kết đối tác miền Trung' : 'Central Vietnam Vendor Network'}</span>
+                    <span className="text-[9px] uppercase text-natural-bronze font-black">{isVi ? 'Liên kết đối tác miền Trung' : 'Central Vietnam Vendor Network'}</span>
                   </div>
                   <Ticket className="w-5 h-5 text-amber-500" />
                 </div>
@@ -537,7 +537,7 @@ export default function PaymentModal({
                     onClearCart();
                     onClose();
                   }}
-                  className="w-1/2 bg-[#3A3845] hover:bg-[#2A2835] text-white py-2.5 rounded-xl font-black transition text-xs shadow-md"
+                  className="w-1/2 bg-natural-ink-soft hover:bg-[#2A2835] text-white py-2.5 rounded-xl font-black transition text-xs shadow-md"
                 >
                   {isVi ? 'Trở về màn hình chủ' : 'Explore further'}
                 </button>

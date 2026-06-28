@@ -198,21 +198,21 @@ export default function ServiceDetails({
   ];
 
   return (
-    <div id="service-details-root" className="w-full bg-[#FAF8F5] text-[#4A4A35] min-h-screen py-10 px-4 md:px-8">
+    <div id="service-details-root" className="w-full bg-natural-cream text-natural-text min-h-screen py-10 px-4 md:px-8">
       {/* Back & Share Navigation */}
       <div className="max-w-7xl mx-auto mb-6 flex justify-between items-center">
         <button 
           onClick={onBack}
-          className="flex items-center gap-2 px-4 py-2 bg-white border border-[#E6E2D3] rounded-full text-xs font-bold text-stone-600 hover:text-[#8C7A5B] hover:border-[#8C7A5B] transition shadow-xs cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-natural-border rounded-full text-xs font-bold text-stone-600 hover:text-natural-accent hover:border-natural-accent transition shadow-xs cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>{isVi ? 'Quay lại danh sách' : 'Back to Listings'}</span>
         </button>
         <div className="flex gap-2">
-          <button className="p-2.5 bg-white border border-[#E6E2D3] rounded-full hover:bg-stone-50 transition cursor-pointer">
-            <Heart className="w-4 h-4 text-[#8C7A5B]" />
+          <button className="p-2.5 bg-white border border-natural-border rounded-full hover:bg-stone-50 transition cursor-pointer">
+            <Heart className="w-4 h-4 text-natural-accent" />
           </button>
-          <button className="p-2.5 bg-white border border-[#E6E2D3] rounded-full hover:bg-stone-50 transition cursor-pointer">
+          <button className="p-2.5 bg-white border border-natural-border rounded-full hover:bg-stone-50 transition cursor-pointer">
             <Share2 className="w-4 h-4 text-stone-500" />
           </button>
         </div>
@@ -233,7 +233,7 @@ export default function ServiceDetails({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
             
-            <div className="absolute top-4 left-4 bg-[#8C7A5B] text-white text-[10px] uppercase font-black tracking-widest px-3 py-1 rounded-full">
+            <div className="absolute top-4 left-4 bg-natural-accent text-white text-[10px] uppercase font-black tracking-widest px-3 py-1 rounded-full">
               {item.type === 'hotel' && (isVi ? 'Khách sạn / Resort' : 'Hotel / Resort')}
               {item.type === 'activity' && (isVi ? 'Hoạt động trải nghiệm' : 'Excursion Activity')}
               {item.type === 'vehicle' && (isVi ? 'Phương tiện di chuyển' : 'Transport Rental')}
@@ -262,9 +262,9 @@ export default function ServiceDetails({
           </div>
 
           {/* Core Information Section */}
-          <div className="bg-white border border-[#E6E2D3] rounded-3xl p-6 md:p-8 space-y-6">
+          <div className="bg-white border border-natural-border rounded-3xl p-6 md:p-8 space-y-6">
             <div className="space-y-3">
-              <h3 className="text-base font-bold uppercase text-stone-800 border-b border-[#E6E2D3] pb-2">
+              <h3 className="text-base font-bold uppercase text-stone-800 border-b border-natural-border pb-2">
                 {isVi ? 'Mô tả chi tiết' : 'Detailed Description'}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed text-justify">
@@ -274,11 +274,11 @@ export default function ServiceDetails({
 
             {/* Specifications / Inclusions */}
             {item.specs && (
-              <div className="space-y-3 bg-[#FAF8F5] border border-[#E6E2D3] p-4 rounded-2xl">
+              <div className="space-y-3 bg-natural-cream border border-natural-border p-4 rounded-2xl">
                 <h4 className="text-xs font-bold uppercase text-stone-700">
                   {isVi ? 'Thông số kỹ thuật & Tiện nghi' : 'Specs & Facilities'}
                 </h4>
-                <p className="text-xs text-[#8C7A5B] font-mono font-medium">
+                <p className="text-xs text-natural-accent font-mono font-medium">
                   ⚡ {item.specs}
                 </p>
               </div>
@@ -308,7 +308,7 @@ export default function ServiceDetails({
               <ul className="space-y-2 text-xs text-stone-600">
                 {generatedHighlights.map((hl, index) => (
                   <li key={index} className="flex items-start gap-2.5 leading-relaxed">
-                    <span className="w-2 h-2 rounded-full bg-[#E3B04B] mt-1.5 shrink-0"></span>
+                    <span className="w-2 h-2 rounded-full bg-natural-gold mt-1.5 shrink-0"></span>
                     <span>{hl}</span>
                   </li>
                 ))}
@@ -341,15 +341,15 @@ export default function ServiceDetails({
           </div>
 
           {/* Reviews List & Forms Section (Requirement: "Xem đánh giá") */}
-          <div className="bg-white border border-[#E6E2D3] rounded-3xl p-6 md:p-8 space-y-6">
+          <div className="bg-white border border-natural-border rounded-3xl p-6 md:p-8 space-y-6">
             <h3 className="text-base font-bold uppercase text-stone-800 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-[#8C7A5B]" />
+              <MessageSquare className="w-4 h-4 text-natural-accent" />
               {isVi ? 'Nhận xét & Đánh giá từ khách hàng' : 'Customer Reviews'}
             </h3>
 
             <div className="space-y-4">
               {reviews.map((r) => (
-                <div key={r.id} className="bg-[#FAF8F5] border border-stone-100 p-4 rounded-2xl space-y-2">
+                <div key={r.id} className="bg-natural-cream border border-stone-100 p-4 rounded-2xl space-y-2">
                   <div className="flex justify-between items-center text-xs">
                     <div className="flex items-center gap-2">
                       <img src={r.avatar} alt={r.author} className="w-6 h-6 rounded-full object-cover" />
@@ -368,7 +368,7 @@ export default function ServiceDetails({
             </div>
 
             {/* Create review form */}
-            <form onSubmit={handleAddReview} className="bg-[#FAF8F5] border border-[#E6E2D3] p-5 rounded-2xl space-y-3">
+            <form onSubmit={handleAddReview} className="bg-natural-cream border border-natural-border p-5 rounded-2xl space-y-3">
               <h4 className="text-xs font-black uppercase text-stone-500 tracking-wider">
                 ✍️ {isVi ? 'Viết đánh giá của riêng bạn' : 'Leave your feedback'}
               </h4>
@@ -379,9 +379,9 @@ export default function ServiceDetails({
                   placeholder={isVi ? 'Tên của bạn...' : 'Your name...'}
                   value={reviewerName}
                   onChange={(e) => setReviewerName(e.target.value)}
-                  className="bg-white border border-[#E6E2D3] text-xs px-3 py-2.5 rounded-xl focus:border-[#8C7A5B] focus:outline-none"
+                  className="bg-white border border-natural-border text-xs px-3 py-2.5 rounded-xl focus:border-natural-accent focus:outline-none"
                 />
-                <div className="flex items-center gap-2 bg-white border border-[#E6E2D3] px-3 py-2.5 rounded-xl">
+                <div className="flex items-center gap-2 bg-white border border-natural-border px-3 py-2.5 rounded-xl">
                   <span className="text-[10px] text-stone-400 font-bold uppercase">{isVi ? 'Điểm:' : 'Stars:'}</span>
                   <div className="flex gap-0.5">
                     {[1, 2, 3, 4, 5].map(num => (
@@ -404,12 +404,12 @@ export default function ServiceDetails({
                 placeholder={isVi ? 'Chia sẻ trải nghiệm khách quan của bạn về dịch vụ...' : 'Write an honest feedback on how we can improve...'}
                 value={reviewComment}
                 onChange={(e) => setReviewComment(e.target.value)}
-                className="w-full bg-white border border-[#E6E2D3] text-xs p-3 rounded-xl focus:border-[#8C7A5B] focus:outline-none resize-none leading-relaxed"
+                className="w-full bg-white border border-natural-border text-xs p-3 rounded-xl focus:border-natural-accent focus:outline-none resize-none leading-relaxed"
               />
 
               <button
                 type="submit"
-                className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition cursor-pointer"
+                className="w-full bg-natural-accent hover:bg-natural-olive text-white py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition cursor-pointer"
               >
                 {isVi ? 'Đăng đánh giá' : 'Submit Review'}
               </button>
@@ -419,13 +419,13 @@ export default function ServiceDetails({
 
         {/* Right Column: Pricing, Checkout & Reservation Hub (5 cols) */}
         <div className="lg:col-span-5 sticky top-8 space-y-6">
-          <div className="bg-white border border-[#E6E2D3] rounded-3xl p-6 md:p-8 shadow-lg space-y-6">
+          <div className="bg-white border border-natural-border rounded-3xl p-6 md:p-8 shadow-lg space-y-6">
             <div className="space-y-1">
-              <span className="text-[10px] uppercase font-black tracking-widest text-[#8C7A5B] block">
+              <span className="text-[10px] uppercase font-black tracking-widest text-natural-accent block">
                 {isVi ? 'GIÁ NIÊM YẾT CHÍNH HÃNG' : 'GENUINE RETAIL PRICE'}
               </span>
               <div className="flex items-baseline gap-1.5">
-                <span className="font-mono font-black text-2xl md:text-3xl text-[#8C7A5B]">
+                <span className="font-mono font-black text-2xl md:text-3xl text-natural-accent">
                   {item.price > 0 ? `${item.price.toLocaleString('vi-VN')}đ` : (isVi ? 'Miễn phí' : 'Free Entry')}
                 </span>
                 {item.price > 0 && (
@@ -437,7 +437,7 @@ export default function ServiceDetails({
             </div>
 
             {/* Inclusions features list */}
-            <div className="bg-[#FAF8F5] border border-stone-150 rounded-2xl p-4 space-y-3">
+            <div className="bg-natural-cream border border-stone-150 rounded-2xl p-4 space-y-3">
               <div className="flex items-center gap-2 text-xs font-bold text-stone-700">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 <span>{isVi ? 'Cam kết độc quyền VietCharm' : 'VietCharm Exclusives'}</span>
@@ -462,10 +462,10 @@ export default function ServiceDetails({
             <div className="space-y-4 border-t border-stone-150 pt-4">
               {/* Date Selector */}
               {(item.type === 'hotel' || item.type === 'vehicle') ? (
-                <div className="grid grid-cols-2 gap-3 bg-[#FAF8F5] border border-[#E6E2D3] rounded-3xl p-3">
+                <div className="grid grid-cols-2 gap-3 bg-natural-cream border border-natural-border rounded-3xl p-3">
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-[#8C7A5B]" />
+                      <Calendar className="w-3 h-3 text-natural-accent" />
                       <span>{item.type === 'hotel' ? (isVi ? 'Ngày Check-in:' : 'Check-in Date:') : (isVi ? 'Ngày nhận xe:' : 'Pickup Date:')}</span>
                     </label>
                     <input 
@@ -484,12 +484,12 @@ export default function ServiceDetails({
                           setCheckOutDate(nextDayStr);
                         }
                       }}
-                      className="w-full bg-white border border-[#E6E2D3] rounded-xl p-2.5 text-xs font-bold text-stone-700 focus:outline-none focus:border-[#8C7A5B]"
+                      className="w-full bg-white border border-natural-border rounded-xl p-2.5 text-xs font-bold text-stone-700 focus:outline-none focus:border-natural-accent"
                     />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-[#8C7A5B]" />
+                      <Calendar className="w-3 h-3 text-natural-accent" />
                       <span>{item.type === 'hotel' ? (isVi ? 'Ngày Check-out:' : 'Check-out Date:') : (isVi ? 'Ngày trả xe:' : 'Return Date:')}</span>
                     </label>
                     <input 
@@ -506,14 +506,14 @@ export default function ServiceDetails({
                           setCheckOutDate(e.target.value);
                         }
                       }}
-                      className="w-full bg-white border border-[#E6E2D3] rounded-xl p-2.5 text-xs font-bold text-stone-700 focus:outline-none focus:border-[#8C7A5B]"
+                      className="w-full bg-white border border-natural-border rounded-xl p-2.5 text-xs font-bold text-stone-700 focus:outline-none focus:border-natural-accent"
                     />
                   </div>
                 </div>
               ) : (
                 <div className="space-y-2">
                   <label className="text-[11px] font-black text-stone-500 block uppercase tracking-wider flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                    <Calendar className="w-3.5 h-3.5 text-natural-accent" />
                     <span>{isVi ? 'Vui lòng chọn ngày khởi hành:' : 'Please Select Departure Date:'}</span>
                   </label>
                   <input 
@@ -522,7 +522,7 @@ export default function ServiceDetails({
                     min={new Date().toISOString().split('T')[0]}
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
-                    className="w-full bg-[#FAF8F5] border border-[#E6E2D3] rounded-2xl p-3 text-xs font-bold text-stone-700 focus:outline-none focus:border-[#8C7A5B]"
+                    className="w-full bg-natural-cream border border-natural-border rounded-2xl p-3 text-xs font-bold text-stone-700 focus:outline-none focus:border-natural-accent"
                   />
                 </div>
               )}
@@ -530,7 +530,7 @@ export default function ServiceDetails({
               {/* Package Selector */}
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-stone-500 block uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                  <Sparkles className="w-3.5 h-3.5 text-natural-accent" />
                   <span>{isVi ? 'Vui lòng chọn gói dịch vụ:' : 'Please Select Service Package:'}</span>
                 </label>
                 <div className="space-y-2">
@@ -544,12 +544,12 @@ export default function ServiceDetails({
                         onClick={() => setSelectedPackage(pkgKey)}
                         className={`w-full text-left p-3 rounded-2xl border transition flex flex-col gap-1 ${
                           isActive 
-                            ? 'bg-[#8C7A5B]/5 border-[#8C7A5B] shadow-xs' 
-                            : 'bg-white border-stone-200 hover:border-[#8C7A5B]/50'
+                            ? 'bg-natural-accent/5 border-natural-accent shadow-xs' 
+                            : 'bg-white border-stone-200 hover:border-natural-accent/50'
                         }`}
                       >
                         <div className="flex justify-between items-center w-full">
-                          <span className={`text-xs font-bold ${isActive ? 'text-[#8C7A5B]' : 'text-stone-800'}`}>
+                          <span className={`text-xs font-bold ${isActive ? 'text-natural-accent' : 'text-stone-800'}`}>
                             {info.name}
                           </span>
                           <span className="text-[10px] font-mono font-bold text-stone-500">
@@ -569,18 +569,18 @@ export default function ServiceDetails({
             {/* Ticket split (Adult vs Child) or Standard quantity selector (Requirement: "vé người lớn và vé trẻ em") */}
             {item.price > 0 && (
               isActivityLike ? (
-                <div className="space-y-4 border-t border-dashed border-[#E6E2D3] pt-4">
+                <div className="space-y-4 border-t border-dashed border-natural-border pt-4">
                   {/* Adults Ticket */}
                   <div className="flex justify-between items-center">
                     <div className="space-y-0.5">
                       <span className="text-xs font-bold text-stone-700 block">{isVi ? 'Vé Người Lớn' : 'Adult Ticket'}</span>
-                      <span className="text-[10px] font-mono text-[#8C7A5B] block">{calculatedPricePerUnit.toLocaleString('vi-VN')}đ/{isVi ? 'vé' : 'ticket'}</span>
+                      <span className="text-[10px] font-mono text-natural-accent block">{calculatedPricePerUnit.toLocaleString('vi-VN')}đ/{isVi ? 'vé' : 'ticket'}</span>
                     </div>
-                    <div className="flex items-center gap-2 bg-[#FAF8F5] border border-[#E6E2D3] rounded-xl p-1.5 w-max">
+                    <div className="flex items-center gap-2 bg-natural-cream border border-natural-border rounded-xl p-1.5 w-max">
                       <button 
                         type="button"
                         onClick={() => setAdultsCount(Math.max(1, adultsCount - 1))}
-                        className="w-7 h-7 rounded-lg bg-white border border-[#E6E2D3] flex items-center justify-center text-xs font-black text-stone-500 hover:text-[#8C7A5B] hover:border-[#8C7A5B] transition select-none"
+                        className="w-7 h-7 rounded-lg bg-white border border-natural-border flex items-center justify-center text-xs font-black text-stone-500 hover:text-natural-accent hover:border-natural-accent transition select-none"
                       >
                         -
                       </button>
@@ -590,7 +590,7 @@ export default function ServiceDetails({
                       <button 
                         type="button"
                         onClick={() => setAdultsCount(adultsCount + 1)}
-                        className="w-7 h-7 rounded-lg bg-white border border-[#E6E2D3] flex items-center justify-center text-xs font-black text-stone-500 hover:text-[#8C7A5B] hover:border-[#8C7A5B] transition select-none"
+                        className="w-7 h-7 rounded-lg bg-white border border-natural-border flex items-center justify-center text-xs font-black text-stone-500 hover:text-natural-accent hover:border-natural-accent transition select-none"
                       >
                         +
                       </button>
@@ -604,13 +604,13 @@ export default function ServiceDetails({
                         <span className="text-xs font-bold text-stone-700 block">{isVi ? 'Vé Trẻ Em' : 'Child Ticket'}</span>
                         <span className="bg-emerald-50 text-emerald-800 text-[8px] font-black uppercase px-1 py-0.5 rounded leading-none">{isVi ? '-30% Giảm' : '30% Off'}</span>
                       </div>
-                      <span className="text-[10px] font-mono text-[#8C7A5B] block">{childPricePerUnit.toLocaleString('vi-VN')}đ/{isVi ? 'vé' : 'ticket'}</span>
+                      <span className="text-[10px] font-mono text-natural-accent block">{childPricePerUnit.toLocaleString('vi-VN')}đ/{isVi ? 'vé' : 'ticket'}</span>
                     </div>
-                    <div className="flex items-center gap-2 bg-[#FAF8F5] border border-[#E6E2D3] rounded-xl p-1.5 w-max">
+                    <div className="flex items-center gap-2 bg-natural-cream border border-natural-border rounded-xl p-1.5 w-max">
                       <button 
                         type="button"
                         onClick={() => setChildrenCount(Math.max(0, childrenCount - 1))}
-                        className="w-7 h-7 rounded-lg bg-white border border-[#E6E2D3] flex items-center justify-center text-xs font-black text-stone-500 hover:text-[#8C7A5B] hover:border-[#8C7A5B] transition select-none"
+                        className="w-7 h-7 rounded-lg bg-white border border-natural-border flex items-center justify-center text-xs font-black text-stone-500 hover:text-natural-accent hover:border-natural-accent transition select-none"
                       >
                         -
                       </button>
@@ -620,7 +620,7 @@ export default function ServiceDetails({
                       <button 
                         type="button"
                         onClick={() => setChildrenCount(childrenCount + 1)}
-                        className="w-7 h-7 rounded-lg bg-white border border-[#E6E2D3] flex items-center justify-center text-xs font-black text-stone-500 hover:text-[#8C7A5B] hover:border-[#8C7A5B] transition select-none"
+                        className="w-7 h-7 rounded-lg bg-white border border-natural-border flex items-center justify-center text-xs font-black text-stone-500 hover:text-natural-accent hover:border-natural-accent transition select-none"
                       >
                         +
                       </button>
@@ -630,26 +630,26 @@ export default function ServiceDetails({
               ) : (
                 /* Hotel or Vehicle */
                 (item.type === 'hotel' || item.type === 'vehicle') ? (
-                  <div className="space-y-2 border-t border-dashed border-[#E6E2D3] pt-4 flex justify-between items-center">
+                  <div className="space-y-2 border-t border-dashed border-natural-border pt-4 flex justify-between items-center">
                     <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">
                       {item.type === 'hotel' 
                         ? (isVi ? 'Số lượng đêm lưu trú:' : 'Number of nights:') 
                         : (isVi ? 'Số lượng ngày thuê xe:' : 'Number of rental days:')}
                     </span>
-                    <div className="bg-[#FAF8F5] border border-[#E6E2D3] rounded-2xl px-4 py-2 text-sm font-black text-[#8C7A5B]">
+                    <div className="bg-natural-cream border border-natural-border rounded-2xl px-4 py-2 text-sm font-black text-natural-accent">
                       {hotelNights} {item.type === 'hotel' ? (isVi ? 'đêm' : 'nights') : (isVi ? 'ngày' : 'days')}
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-2 border-t border-dashed border-[#E6E2D3] pt-4">
+                  <div className="space-y-2 border-t border-dashed border-natural-border pt-4">
                     <label className="text-xs font-bold text-stone-600 block uppercase tracking-wider">
                       {isVi ? 'Số lượng ngày thuê xe:' : 'Number of rental days:'}
                     </label>
-                    <div className="flex items-center gap-2 bg-[#FAF8F5] border border-[#E6E2D3] rounded-xl p-2 w-max">
+                    <div className="flex items-center gap-2 bg-natural-cream border border-natural-border rounded-xl p-2 w-max">
                       <button 
                         type="button"
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="w-8 h-8 rounded-lg bg-white border border-[#E6E2D3] flex items-center justify-center text-xs font-black text-stone-500 hover:text-[#8C7A5B] hover:border-[#8C7A5B] transition select-none"
+                        className="w-8 h-8 rounded-lg bg-white border border-natural-border flex items-center justify-center text-xs font-black text-stone-500 hover:text-natural-accent hover:border-natural-accent transition select-none"
                       >
                         -
                       </button>
@@ -659,7 +659,7 @@ export default function ServiceDetails({
                       <button 
                         type="button"
                         onClick={() => setQuantity(quantity + 1)}
-                        className="w-8 h-8 rounded-lg bg-white border border-[#E6E2D3] flex items-center justify-center text-xs font-black text-stone-500 hover:text-[#8C7A5B] hover:border-[#8C7A5B] transition select-none"
+                        className="w-8 h-8 rounded-lg bg-white border border-natural-border flex items-center justify-center text-xs font-black text-stone-500 hover:text-natural-accent hover:border-natural-accent transition select-none"
                       >
                         +
                       </button>
@@ -671,9 +671,9 @@ export default function ServiceDetails({
 
             {/* Price Estimator subtotal */}
             {item.price > 0 && (
-              <div className="border-t border-b border-dashed border-[#E6E2D3] py-4 flex justify-between items-center">
+              <div className="border-t border-b border-dashed border-natural-border py-4 flex justify-between items-center">
                 <span className="text-xs font-bold text-stone-600 uppercase">{isVi ? 'Tổng tiền dự tính' : 'Estimated Subtotal'}</span>
-                <span className="font-mono font-black text-xl text-[#8C7A5B]">
+                <span className="font-mono font-black text-xl text-natural-accent">
                   {finalTotalPrice.toLocaleString('vi-VN')}đ
                 </span>
               </div>
@@ -684,7 +684,7 @@ export default function ServiceDetails({
               {inCart ? (
                 <button
                   onClick={() => onRemoveFromCart(item.id)}
-                  className="w-full bg-[#FAF8F5] hover:bg-stone-100 text-[#4A4A35] py-3.5 rounded-2xl text-xs font-black uppercase tracking-wider transition border border-[#E6E2D3] cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full bg-natural-cream hover:bg-stone-100 text-natural-text py-3.5 rounded-2xl text-xs font-black uppercase tracking-wider transition border border-natural-border cursor-pointer flex items-center justify-center gap-2"
                 >
                   <CheckCircle className="w-4 h-4 text-emerald-600" />
                   <span>{isVi ? 'Đã thêm vào giỏ - Hủy lựa chọn' : 'In Bundle - Cancel Selection'}</span>
@@ -692,7 +692,7 @@ export default function ServiceDetails({
               ) : (
                 <button
                   onClick={handleAdd}
-                  className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-md cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full bg-natural-accent hover:bg-natural-olive text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-md cursor-pointer flex items-center justify-center gap-2"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   <span>{isVi ? 'Thêm vào giỏ hàng' : 'Add to Shopping Cart'}</span>
@@ -712,7 +712,7 @@ export default function ServiceDetails({
                   }
                   onCheckout();
                 }}
-                className="w-full bg-[#E3B04B] hover:bg-[#c99030] text-[#4A4A35] py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-lg cursor-pointer flex items-center justify-center gap-2"
+                className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-lg cursor-pointer flex items-center justify-center gap-2"
               >
                 <CreditCard className="w-4 h-4" />
                 <span>{isVi ? 'Thanh toán ngay' : 'Checkout & Pay Now'}</span>
@@ -722,9 +722,9 @@ export default function ServiceDetails({
 
           {/* Guidelines info badge */}
           <div className="bg-amber-50/40 border border-amber-200 rounded-2xl p-4 flex gap-3">
-            <Info className="w-5 h-5 text-[#8C7A5B] shrink-0" />
+            <Info className="w-5 h-5 text-natural-accent shrink-0" />
             <div className="space-y-1">
-              <span className="text-[11px] font-bold text-[#8C7A5B] uppercase block">
+              <span className="text-[11px] font-bold text-natural-accent uppercase block">
                 {isVi ? 'Chính sách đặt chỗ an toàn' : 'Secure Booking Policy'}
               </span>
               <p className="text-[10px] text-stone-500 leading-relaxed">

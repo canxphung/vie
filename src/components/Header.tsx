@@ -40,19 +40,19 @@ export default function Header({
   const [showTransportMenu, setShowTransportMenu] = React.useState(false);
 
   return (
-    <header className="w-full bg-[#FDFCF8] text-[#4A4A35] border-b border-[#E6E2D3]">
+    <header className="w-full bg-natural-bg text-natural-text border-b border-natural-border">
       {/* Mini top bar */}
-      <div className="max-w-7xl mx-auto px-4 py-1.5 flex flex-wrap justify-between items-center text-xs border-b border-[#E6E2D3] bg-[#F5F2ED] text-[#4A4A35]">
+      <div className="max-w-7xl mx-auto px-4 py-1.5 flex flex-wrap justify-between items-center text-xs border-b border-natural-border bg-natural-beige text-natural-text">
         <div className="flex gap-4 items-center font-medium">
-          <button onClick={onNavigateHome} className="hover:text-[#8C7A5B] transition flex items-center gap-1">
-            <Landmark className="w-3.5 h-3.5 text-[#8C7A5B]" />
+          <button onClick={onNavigateHome} className="hover:text-natural-accent transition flex items-center gap-1">
+            <Landmark className="w-3.5 h-3.5 text-natural-accent" />
             VietCharm Portal
           </button>
-          <span className="text-[#E6E2D3]">|</span>
+          <span className="text-natural-border">|</span>
           <span className="text-stone-600">{t.promo}</span>
-          <span className="text-[#E6E2D3]">|</span>
+          <span className="text-natural-border">|</span>
           <span className="text-stone-600">{t.partner}</span>
-          <span className="text-[#E6E2D3]">|</span>
+          <span className="text-natural-border">|</span>
           <span className="text-stone-600">{t.support}</span>
         </div>
 
@@ -61,10 +61,10 @@ export default function Header({
             <div className="flex items-center gap-3 text-stone-800">
               <button
                 onClick={() => onChangeView('profile')}
-                className="bg-[#FAF8F5] hover:bg-[#F5F2ED] px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1.5 border border-[#E6E2D3] text-[#8C7A5B] transition cursor-pointer"
+                className="bg-natural-cream hover:bg-natural-beige px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1.5 border border-natural-border text-natural-accent transition cursor-pointer"
                 title={isVi ? 'Quản lý Hồ sơ' : 'Manage Profile'}
               >
-                <img src={currentUser.avatar} alt="Avatar" className="w-4.5 h-4.5 rounded-full object-cover border border-[#8C7A5B]" />
+                <img src={currentUser.avatar} alt="Avatar" className="w-4.5 h-4.5 rounded-full object-cover border border-natural-accent" />
                 <span className="font-sans font-bold">{currentUser.fullName}</span>
               </button>
               {currentUser.role === 'admin' && (
@@ -79,7 +79,7 @@ export default function Header({
               )}
               <button 
                 onClick={onLogout}
-                className="text-[#8C7A5B] hover:text-red-700 font-bold flex items-center gap-0.5 transition cursor-pointer"
+                className="text-natural-accent hover:text-red-700 font-bold flex items-center gap-0.5 transition cursor-pointer"
                 title={isVi ? 'Đăng xuất' : 'Log out'}
               >
                 <LogOut className="w-4 h-4" />
@@ -89,13 +89,13 @@ export default function Header({
             <div className="flex items-center gap-2">
               <button 
                 onClick={onOpenAuthModal}
-                className="bg-white hover:bg-[#F5F2ED] text-[#8C7A5B] px-3.5 py-1 rounded-full text-[11px] font-bold transition shadow-xs border border-[#E6E2D3] cursor-pointer"
+                className="bg-white hover:bg-natural-beige text-natural-accent px-3.5 py-1 rounded-full text-[11px] font-bold transition shadow-xs border border-natural-border cursor-pointer"
               >
                 {t.login}
               </button>
               <button 
                 onClick={onOpenAuthModal}
-                className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-3.5 py-1 rounded-full text-[11px] font-bold transition cursor-pointer"
+                className="bg-natural-accent hover:bg-natural-olive text-white px-3.5 py-1 rounded-full text-[11px] font-bold transition cursor-pointer"
               >
                 {t.register}
               </button>
@@ -105,18 +105,18 @@ export default function Header({
       </div>
 
       {/* Main navigation in the exact photo style */}
-      <div className="bg-[#FDFCF8] border-b border-[#E6E2D3]">
+      <div className="bg-natural-bg border-b border-natural-border">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
           {/* Logo brand */}
           <div onClick={onNavigateHome} className="flex items-center gap-2.5 cursor-pointer group">
-            <div className="p-2 rounded-lg bg-[#8C7A5B] text-white shadow-md group-hover:bg-[#5A5A40] transition">
+            <div className="p-2 rounded-lg bg-natural-accent text-white shadow-md group-hover:bg-natural-olive transition">
               <Landmark className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-2xl font-serif font-black tracking-tight text-[#8C7A5B] flex items-center gap-1">
-                VIET<span className="text-[#C4A484]">CHARM</span>
+              <span className="text-2xl font-serif font-black tracking-tight text-natural-accent flex items-center gap-1">
+                VIET<span className="text-natural-accent-light">CHARM</span>
               </span>
-              <p className="text-[9px] text-[#C4A484] tracking-[0.2em] uppercase font-bold">Heritage & Travel</p>
+              <p className="text-[9px] text-natural-accent-light tracking-[0.2em] uppercase font-bold">Heritage & Travel</p>
             </div>
           </div>
 
@@ -124,22 +124,22 @@ export default function Header({
           <nav className="flex flex-wrap gap-2 md:gap-4 text-xs sm:text-[13px] font-bold uppercase tracking-wider my-2 md:my-0 items-center">
             <button 
               onClick={() => onChangeView('spots')}
-              className={`pb-1 px-1 transition relative cursor-pointer ${currentView === 'spots' || currentView === 'regions' || currentView === 'provinces' || currentView === 'province' ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B]' : 'text-[#4A4A35] hover:text-[#8C7A5B]'}`}
+              className={`pb-1 px-1 transition relative cursor-pointer ${currentView === 'spots' || currentView === 'regions' || currentView === 'provinces' || currentView === 'province' ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
             >
               {language === 'vi' ? 'Khám phá' : 'Explore'}
             </button>
             <button 
               onClick={() => onChangeView('hotels')}
-              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'hotels' ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B]' : 'text-[#4A4A35] hover:text-[#8C7A5B]'}`}
+              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'hotels' ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
             >
-              <Hotel className="w-3.5 h-3.5 text-[#E3B04B]" />
+              <Hotel className="w-3.5 h-3.5 text-natural-gold" />
               <span>{language === 'vi' ? 'Khách sạn' : 'Hotels'}</span>
             </button>
             <button 
               onClick={() => onChangeView('experiences')}
-              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'experiences' ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B]' : 'text-[#4A4A35] hover:text-[#8C7A5B]'}`}
+              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'experiences' ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
             >
-              <Compass className="w-3.5 h-3.5 text-[#E3B04B]" />
+              <Compass className="w-3.5 h-3.5 text-natural-gold" />
               <span>{language === 'vi' ? 'Trải nghiệm' : 'Experiences'}</span>
             </button>
             {/* "Phương tiện di chuyển" dropdown grouping Rentals and Taxi */}
@@ -150,24 +150,24 @@ export default function Header({
             >
               <button 
                 onClick={() => setShowTransportMenu(!showTransportMenu)}
-                className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${['rentals', 'taxi'].includes(currentView) ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B]' : 'text-[#4A4A35] hover:text-[#8C7A5B]'}`}
+                className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${['rentals', 'taxi'].includes(currentView) ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
               >
-                <Car className="w-3.5 h-3.5 text-[#E3B04B]" />
+                <Car className="w-3.5 h-3.5 text-natural-gold" />
                 <span>{language === 'vi' ? 'Phương tiện di chuyển' : 'Transportation'}</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showTransportMenu ? 'rotate-180' : ''}`} />
               </button>
               
               {showTransportMenu && (
                 <div className="absolute left-0 top-full pt-1 w-52 z-50">
-                  <div className="bg-[#FDFCF8] border border-[#E6E2D3] rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="bg-natural-bg border border-natural-border rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-150">
                     <button 
                       onClick={() => {
                         onChangeView('rentals');
                         setShowTransportMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-[#8C7A5B]/10 cursor-pointer ${currentView === 'rentals' ? 'text-[#8C7A5B]' : 'text-[#4A4A35]'}`}
+                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'rentals' ? 'text-natural-accent' : 'text-natural-text'}`}
                     >
-                      <Key className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                      <Key className="w-3.5 h-3.5 text-natural-accent" />
                       <span>{language === 'vi' ? 'Thuê xe tự lái' : 'Self-drive Rentals'}</span>
                     </button>
                     <button 
@@ -175,9 +175,9 @@ export default function Header({
                         onChangeView('taxi');
                         setShowTransportMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-[#8C7A5B]/10 cursor-pointer ${currentView === 'taxi' ? 'text-[#8C7A5B]' : 'text-[#4A4A35]'}`}
+                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'taxi' ? 'text-natural-accent' : 'text-natural-text'}`}
                     >
-                      <Car className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                      <Car className="w-3.5 h-3.5 text-natural-accent" />
                       <span>{language === 'vi' ? 'Đặt Taxi' : 'Taxi Booking'}</span>
                     </button>
                   </div>
@@ -193,7 +193,7 @@ export default function Header({
             >
               <button 
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${['tours', 'handbook', 'partnership-register', 'nearby-places'].includes(currentView) ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B]' : 'text-[#4A4A35] hover:text-[#8C7A5B]'}`}
+                className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${['tours', 'handbook', 'partnership-register', 'nearby-places'].includes(currentView) ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
               >
                 <span>{language === 'vi' ? 'Xem thêm' : 'More'}</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showMoreMenu ? 'rotate-180' : ''}`} />
@@ -201,15 +201,15 @@ export default function Header({
               
               {showMoreMenu && (
                 <div className="absolute left-0 top-full pt-1 w-48 z-50">
-                  <div className="bg-[#FDFCF8] border border-[#E6E2D3] rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="bg-natural-bg border border-natural-border rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-150">
                     <button 
                       onClick={() => {
                         onChangeView('nearby-places');
                         setShowMoreMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-[#8C7A5B]/10 cursor-pointer ${currentView === 'nearby-places' ? 'text-[#8C7A5B]' : 'text-[#4A4A35]'}`}
+                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'nearby-places' ? 'text-natural-accent' : 'text-natural-text'}`}
                     >
-                      <Compass className="w-3.5 h-3.5 text-[#E3B04B]" />
+                      <Compass className="w-3.5 h-3.5 text-natural-gold" />
                       <span>{language === 'vi' ? 'Địa điểm lân cận' : 'Nearby Places'}</span>
                     </button>
                     <button 
@@ -217,9 +217,9 @@ export default function Header({
                         onChangeView('tours');
                         setShowMoreMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-[#8C7A5B]/10 cursor-pointer ${currentView === 'tours' ? 'text-[#8C7A5B]' : 'text-[#4A4A35]'}`}
+                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'tours' ? 'text-natural-accent' : 'text-natural-text'}`}
                     >
-                      <Gift className="w-3.5 h-3.5 text-[#E3B04B]" />
+                      <Gift className="w-3.5 h-3.5 text-natural-gold" />
                       <span>Combo Tour</span>
                     </button>
                     <button 
@@ -227,9 +227,9 @@ export default function Header({
                         onChangeView('handbook');
                         setShowMoreMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-[#8C7A5B]/10 cursor-pointer ${currentView === 'handbook' ? 'text-[#8C7A5B]' : 'text-[#4A4A35]'}`}
+                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'handbook' ? 'text-natural-accent' : 'text-natural-text'}`}
                     >
-                      <BookOpen className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                      <BookOpen className="w-3.5 h-3.5 text-natural-accent" />
                       <span>{language === 'vi' ? 'Cẩm nang' : 'Handbook'}</span>
                     </button>
                     <button 
@@ -237,9 +237,9 @@ export default function Header({
                         onChangeView('partnership-register');
                         setShowMoreMenu(false);
                       }}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-[#8C7A5B]/10 cursor-pointer ${currentView === 'partnership-register' ? 'text-[#8C7A5B]' : 'text-[#4A4A35]'}`}
+                      className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition hover:bg-natural-accent/10 cursor-pointer ${currentView === 'partnership-register' ? 'text-natural-accent' : 'text-natural-text'}`}
                     >
-                      <Landmark className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                      <Landmark className="w-3.5 h-3.5 text-natural-accent" />
                       <span>{language === 'vi' ? 'Hợp tác' : 'Partnership'}</span>
                     </button>
                   </div>
@@ -260,9 +260,9 @@ export default function Header({
             </button>
             <button 
               onClick={() => onChangeView('recently-viewed')}
-              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'recently-viewed' ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B]' : 'text-[#4A4A35] hover:text-[#8C7A5B]'}`}
+              className={`pb-1 px-1 transition relative flex items-center gap-1 cursor-pointer ${currentView === 'recently-viewed' ? 'text-natural-accent border-b-2 border-natural-accent' : 'text-natural-text hover:text-natural-accent'}`}
             >
-              <Clock className="w-3.5 h-3.5 text-[#E3B04B]" />
+              <Clock className="w-3.5 h-3.5 text-natural-gold" />
               <span>{language === 'vi' ? 'Đã xem gần đây' : 'Recently Viewed'}</span>
             </button>
           </nav>
@@ -271,12 +271,12 @@ export default function Header({
           <div className="flex items-center gap-3">
             <button 
               onClick={onOpenCart}
-              className="relative p-2 rounded-full hover:bg-[#F5F2ED] transition text-[#8C7A5B] border border-[#E6E2D3] cursor-pointer"
+              className="relative p-2 rounded-full hover:bg-natural-beige transition text-natural-accent border border-natural-border cursor-pointer"
               title="Cart Bundle"
             >
               <ShoppingBag className="w-4.5 h-4.5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#E3B04B] text-white border border-[#FDFCF8] text-[9px] w-5 h-5 rounded-full flex items-center justify-center font-black animate-bounce shadow-md">
+                <span className="absolute -top-1 -right-1 bg-natural-gold text-white border border-natural-bg text-[9px] w-5 h-5 rounded-full flex items-center justify-center font-black animate-bounce shadow-md">
                    {cartCount}
                 </span>
               )}

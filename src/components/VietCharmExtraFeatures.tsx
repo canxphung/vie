@@ -203,7 +203,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
-      <div className="bg-[#FDFCF8] rounded-3xl p-6 md:p-8 w-full max-w-md border border-[#E6E2D3] shadow-2xl relative">
+      <div className="bg-natural-bg rounded-3xl p-6 md:p-8 w-full max-w-md border border-natural-border shadow-2xl relative">
         <button 
           onClick={onClose}
           className="absolute top-4 right-4 text-stone-400 hover:text-stone-700 font-black text-2xl"
@@ -213,10 +213,10 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
 
         {/* Logo Icon Header */}
         <div className="text-center mb-6">
-          <div className="w-12 h-12 bg-[#8C7A5B] rounded-full flex items-center justify-center text-white mx-auto shadow-md mb-2">
+          <div className="w-12 h-12 bg-natural-accent rounded-full flex items-center justify-center text-white mx-auto shadow-md mb-2">
             <User className="w-6 h-6" />
           </div>
-          <h3 className="text-2xl font-serif font-bold text-[#4A4A35]">
+          <h3 className="text-2xl font-serif font-bold text-natural-text">
             {authView === 'login' && (language === 'vi' ? 'ĐĂNG NHẬP VIETCHARM' : 'MEMBER SIGN IN')}
             {authView === 'register' && (language === 'vi' ? 'ĐĂNG KÝ TÀI KHOẢN' : 'CREATE ACCOUNT')}
             {authView === 'forgot' && (language === 'vi' ? 'KHÔI PHỤC MẬT KHẨU' : 'RESET PASSWORD')}
@@ -250,7 +250,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 value={username} 
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder={language === 'vi' ? 'SĐT, Gmail hoặc tên đăng nhập...' : 'Phone, Gmail or Username...'} 
-                className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
                 required
               />
               <span className="text-[10px] text-stone-400 mt-1 block">💡 Demo Admin SĐT/Gmail: <span className="font-mono text-stone-600">0987654321</span> hoặc <span className="font-mono text-stone-600">ngandtk244111@st.uel.edu.vn</span></span>
@@ -262,7 +262,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 <button 
                   type="button" 
                   onClick={() => { setAuthView('forgot'); setErrorMsg(''); }}
-                  className="text-xs text-[#8C7A5B] hover:underline font-semibold"
+                  className="text-xs text-natural-accent hover:underline font-semibold"
                 >
                   {language === 'vi' ? 'Quên mật khẩu?' : 'Forgot password?'}
                 </button>
@@ -272,31 +272,31 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••" 
-                className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
                 required
               />
             </div>
 
             <button 
               type="submit"
-              className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white font-bold py-3 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
+              className="w-full bg-natural-accent hover:bg-natural-olive text-white font-bold py-3 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
             >
               {language === 'vi' ? 'Đăng nhập ngay' : 'Login'}
             </button>
 
             {/* Social Authentication Options */}
             <div className="relative my-6 text-center">
-              <span className="bg-[#FDFCF8] px-3 text-xs text-stone-400 z-10 relative">
+              <span className="bg-natural-bg px-3 text-xs text-stone-400 z-10 relative">
                 {language === 'vi' ? 'Hoặc đăng nhập bằng' : 'Or sign in with'}
               </span>
-              <div className="absolute w-full h-[1px] bg-[#E6E2D3] top-1/2 left-0 z-0"></div>
+              <div className="absolute w-full h-[1px] bg-natural-border top-1/2 left-0 z-0"></div>
             </div>
 
             <div className="flex gap-3 justify-center">
               <button
                 type="button"
                 onClick={() => handleSocialLogin('Google')}
-                className="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-stone-50 border border-[#E6E2D3] py-2 px-3 rounded-xl text-xs font-bold shadow-xs transition duration-200 text-stone-700"
+                className="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-stone-50 border border-natural-border py-2 px-3 rounded-xl text-xs font-bold shadow-xs transition duration-200 text-stone-700"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.63 5.63 0 0 1 8.35 12.89a5.63 5.63 0 0 1 5.64-5.626c1.558 0 2.972.616 4.022 1.624l3.1-3.1C19.14 3.86 16.54 2.5 13.99 2.5a10.37 10.37 0 0 0-10.4 10.39 10.37 10.37 0 0 0 10.4 10.39c5.78 0 10.11-4.06 10.11-10.28 0-.69-.08-1.22-.22-1.72H12.24Z"/>
@@ -321,7 +321,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 <button 
                   type="button" 
                   onClick={() => { setAuthView('register'); setErrorMsg(''); }}
-                  className="text-[#8C7A5B] hover:underline font-bold ml-1"
+                  className="text-natural-accent hover:underline font-bold ml-1"
                 >
                   {language === 'vi' ? 'Đăng ký ngay' : 'Register here'}
                 </button>
@@ -340,7 +340,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 value={username} 
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Ex: kimngan26" 
-                className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
                 required
               />
             </div>
@@ -352,7 +352,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 value={fullName} 
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Ex: Đặng Thị Kim Ngân" 
-                className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
                 required
               />
             </div>
@@ -364,7 +364,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Ex: ngan@gmail.com" 
-                className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
                 required
               />
             </div>
@@ -376,7 +376,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 value={phone} 
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Ex: 0987654321" 
-                className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
                 required
               />
             </div>
@@ -386,7 +386,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
               <select 
                 value={role} 
                 onChange={(e) => setRole(e.target.value as 'user' | 'admin')}
-                className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
               >
                 <option value="user">{language === 'vi' ? 'Khách du lịch (User)' : 'Traveler (User)'}</option>
                 <option value="admin">{language === 'vi' ? 'Quản trị hệ thống (Admin)' : 'Administrator (Admin)'}</option>
@@ -395,24 +395,24 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
 
             <button 
               type="submit"
-              className="w-full bg-[#E3B04B] hover:bg-[#c99030] text-[#4A4A35] font-black py-2.5 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
+              className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text font-black py-2.5 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
             >
               {language === 'vi' ? 'Hoàn tất Đăng ký' : 'Complete Registration'}
             </button>
 
             {/* Social Authentication Options */}
             <div className="relative my-4 text-center">
-              <span className="bg-[#FDFCF8] px-3 text-[10px] text-stone-400 z-10 relative">
+              <span className="bg-natural-bg px-3 text-[10px] text-stone-400 z-10 relative">
                 {language === 'vi' ? 'Hoặc đăng ký bằng' : 'Or register with'}
               </span>
-              <div className="absolute w-full h-[1px] bg-[#E6E2D3] top-1/2 left-0 z-0"></div>
+              <div className="absolute w-full h-[1px] bg-natural-border top-1/2 left-0 z-0"></div>
             </div>
 
             <div className="flex gap-3 justify-center">
               <button
                 type="button"
                 onClick={() => handleSocialLogin('Google')}
-                className="flex-1 flex items-center justify-center gap-1.5 bg-white hover:bg-stone-50 border border-[#E6E2D3] py-2 px-3 rounded-xl text-xs font-bold shadow-xs transition duration-200 text-stone-700"
+                className="flex-1 flex items-center justify-center gap-1.5 bg-white hover:bg-stone-50 border border-natural-border py-2 px-3 rounded-xl text-xs font-bold shadow-xs transition duration-200 text-stone-700"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.63 5.63 0 0 1 8.35 12.89a5.63 5.63 0 0 1 5.64-5.626c1.558 0 2.972.616 4.022 1.624l3.1-3.1C19.14 3.86 16.54 2.5 13.99 2.5a10.37 10.37 0 0 0-10.4 10.39 10.37 10.37 0 0 0 10.4 10.39c5.78 0 10.11-4.06 10.11-10.28 0-.69-.08-1.22-.22-1.72H12.24Z"/>
@@ -437,7 +437,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                 <button 
                   type="button" 
                   onClick={() => { setAuthView('login'); setErrorMsg(''); }}
-                  className="text-[#8C7A5B] hover:underline font-bold ml-1"
+                  className="text-natural-accent hover:underline font-bold ml-1"
                 >
                   {language === 'vi' ? 'Đăng nhập' : 'Sign In'}
                 </button>
@@ -464,13 +464,13 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                     value={forgotEmail} 
                     onChange={(e) => setForgotEmail(e.target.value)}
                     placeholder="Ex: ngandtk244111@st.uel.edu.vn" 
-                    className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                    className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
                     required
                   />
                 </div>
                 <button 
                   type="submit"
-                  className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white font-bold py-3 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
+                  className="w-full bg-natural-accent hover:bg-natural-olive text-white font-bold py-3 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
                 >
                   {language === 'vi' ? 'Gửi mã xác nhận về Gmail' : 'Send Code to Gmail'}
                 </button>
@@ -486,14 +486,14 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                     value={verificationCode} 
                     onChange={(e) => setVerificationCode(e.target.value)}
                     placeholder="Ex: 839201" 
-                    className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none text-center tracking-widest font-bold"
+                    className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none text-center tracking-widest font-bold"
                     maxLength={6}
                     required
                   />
                 </div>
                 <button 
                   type="submit"
-                  className="w-full bg-[#E3B04B] hover:bg-[#c99030] text-[#4A4A35] font-black py-2.5 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
+                  className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text font-black py-2.5 rounded-xl transition shadow-md uppercase text-xs tracking-wider"
                 >
                   {language === 'vi' ? 'Xác nhận mã bảo mật' : 'Verify Security Code'}
                 </button>
@@ -509,7 +509,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
                     value={newPassword} 
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="••••••••" 
-                    className="w-full text-sm border border-[#E6E2D3] bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-[#8C7A5B] focus:border-[#8C7A5B] outline-none"
+                    className="w-full text-sm border border-natural-border bg-white rounded-xl px-4 py-2.5 focus:ring-1 focus:ring-natural-accent focus:border-natural-accent outline-none"
                     required
                   />
                 </div>
@@ -526,7 +526,7 @@ export function UserAuthModal({ language, isOpen, onClose, onLoginSuccess, users
               <button 
                 type="button" 
                 onClick={() => { setAuthView('login'); setErrorMsg(''); setForgotStep('input-email'); }}
-                className="text-xs text-[#8C7A5B] hover:underline font-bold"
+                className="text-xs text-natural-accent hover:underline font-bold"
               >
                 ← {language === 'vi' ? 'Quay lại Đăng nhập' : 'Back to Login'}
               </button>
@@ -604,9 +604,9 @@ export function PersonalProfile({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 text-[#4A4A35]">
+    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 text-natural-text">
       {/* Profile Header Block */}
-      <div className="bg-[#F5F2ED] border border-[#E6E2D3] rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-natural-beige border border-natural-border rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col sm:flex-row items-center gap-6">
           <div className="relative group">
             <img 
@@ -624,13 +624,13 @@ export function PersonalProfile({
             )}
           </div>
           <div className="text-center sm:text-left space-y-1">
-            <span className="bg-[#8C7A5B] text-white text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full inline-block">
+            <span className="bg-natural-accent text-white text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full inline-block">
               {user.role === 'admin' ? 'SYSTEM ADMINISTRATOR' : 'PREMIUM MEMBER'}
             </span>
             <h2 className="text-2xl font-serif font-black text-stone-900">
               {isEditing ? fullName : user.fullName}
             </h2>
-            <p className="text-xs text-[#8C7A5B] font-semibold flex items-center justify-center sm:justify-start gap-1">
+            <p className="text-xs text-natural-accent font-semibold flex items-center justify-center sm:justify-start gap-1">
               <Mail className="w-3.5 h-3.5" /> {isEditing ? email : user.email}
             </p>
             <p className="text-xs text-stone-500 italic mt-1 max-w-md">
@@ -642,13 +642,13 @@ export function PersonalProfile({
         <div className="flex gap-3">
           <button 
             onClick={() => setIsEditing(!isEditing)}
-            className="bg-white hover:bg-[#FAF8F5] text-[#8C7A5B] border border-[#E6E2D3] px-5 py-2.5 rounded-xl text-xs font-bold uppercase transition shadow-xs tracking-wider cursor-pointer"
+            className="bg-white hover:bg-natural-cream text-natural-accent border border-natural-border px-5 py-2.5 rounded-xl text-xs font-bold uppercase transition shadow-xs tracking-wider cursor-pointer"
           >
             {isEditing ? (isVi ? 'Hủy bỏ' : 'Cancel') : (isVi ? 'Chỉnh sửa hồ sơ' : 'Edit Profile')}
           </button>
           <button 
             onClick={onNavigateHome}
-            className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase transition shadow-md tracking-wider cursor-pointer"
+            className="bg-natural-accent hover:bg-natural-olive text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase transition shadow-md tracking-wider cursor-pointer"
           >
             {isVi ? 'Về Trang chủ' : 'To Home'}
           </button>
@@ -663,8 +663,8 @@ export function PersonalProfile({
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Profile Info / Edit Form */}
-        <div className="lg:col-span-1 bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-sm space-y-6">
-          <h3 className="text-lg font-serif font-bold text-stone-800 border-b border-[#E6E2D3] pb-3 flex items-center gap-2">
+        <div className="lg:col-span-1 bg-white border border-natural-border rounded-3xl p-6 shadow-sm space-y-6">
+          <h3 className="text-lg font-serif font-bold text-stone-800 border-b border-natural-border pb-3 flex items-center gap-2">
             <Award className="w-5 h-5 text-amber-500" />
             <span>{isVi ? 'Thông tin cá nhân' : 'Personal Details'}</span>
           </h3>
@@ -677,7 +677,7 @@ export function PersonalProfile({
                   type="text" 
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full text-xs border border-[#E6E2D3] bg-white rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-[#8C7A5B]"
+                  className="w-full text-xs border border-natural-border bg-white rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-natural-accent"
                   required
                 />
               </div>
@@ -688,7 +688,7 @@ export function PersonalProfile({
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full text-xs border border-[#E6E2D3] bg-white rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-[#8C7A5B]"
+                  className="w-full text-xs border border-natural-border bg-white rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-natural-accent"
                   required
                 />
               </div>
@@ -699,7 +699,7 @@ export function PersonalProfile({
                   type="text" 
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full text-xs border border-[#E6E2D3] bg-white rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-[#8C7A5B]"
+                  className="w-full text-xs border border-natural-border bg-white rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-natural-accent"
                 />
               </div>
 
@@ -709,13 +709,13 @@ export function PersonalProfile({
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   rows={3}
-                  className="w-full text-xs border border-[#E6E2D3] bg-white rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-[#8C7A5B]"
+                  className="w-full text-xs border border-natural-border bg-white rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-natural-accent"
                 />
               </div>
 
               <button 
                 type="submit"
-                className="w-full bg-[#E3B04B] hover:bg-[#c99030] text-[#4A4A35] font-black py-2.5 rounded-xl text-xs uppercase transition tracking-wider cursor-pointer"
+                className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text font-black py-2.5 rounded-xl text-xs uppercase transition tracking-wider cursor-pointer"
               >
                 {isVi ? 'Lưu thay đổi' : 'Save Changes'}
               </button>
@@ -724,7 +724,7 @@ export function PersonalProfile({
             <div className="space-y-4 text-xs">
               <div className="flex justify-between items-center py-2.5 border-b border-stone-100">
                 <span className="text-stone-500 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                  <User className="w-3.5 h-3.5 text-natural-accent" />
                   {isVi ? 'Họ và tên' : 'Full Name'}
                 </span>
                 <span className="font-serif font-black text-stone-800 text-sm">{user.fullName}</span>
@@ -732,15 +732,15 @@ export function PersonalProfile({
               
               <div className="flex justify-between items-center py-2.5 border-b border-stone-100">
                 <span className="text-stone-500 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                  <Mail className="w-3.5 h-3.5 text-natural-accent" />
                   {isVi ? 'Địa chỉ Email' : 'Email'}
                 </span>
-                <span className="font-semibold text-[#8C7A5B]">{user.email}</span>
+                <span className="font-semibold text-natural-accent">{user.email}</span>
               </div>
 
               <div className="flex justify-between items-center py-2.5 border-b border-stone-100">
                 <span className="text-stone-500 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                  <Key className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                  <Key className="w-3.5 h-3.5 text-natural-accent" />
                   {isVi ? 'Tên đăng nhập' : 'Username'}
                 </span>
                 <span className="font-mono font-bold text-stone-800">{user.username}</span>
@@ -748,7 +748,7 @@ export function PersonalProfile({
 
               <div className="flex justify-between items-center py-2.5 border-b border-stone-100">
                 <span className="text-stone-500 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                  <Phone className="w-3.5 h-3.5 text-natural-accent" />
                   {isVi ? 'Số điện thoại' : 'Phone'}
                 </span>
                 <span className="font-semibold text-stone-800">{user.phone || (isVi ? 'Chưa cung cấp' : 'Not provided')}</span>
@@ -756,7 +756,7 @@ export function PersonalProfile({
 
               <div className="flex justify-between items-center py-2.5 border-b border-stone-100">
                 <span className="text-stone-500 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                  <Calendar className="w-3.5 h-3.5 text-natural-accent" />
                   {isVi ? 'Ngày tham gia' : 'Date Joined'}
                 </span>
                 <span className="text-stone-800 font-medium">{user.createdAt}</span>
@@ -775,37 +775,37 @@ export function PersonalProfile({
               {/* Biography display */}
               <div className="pt-3">
                 <span className="text-stone-500 font-bold uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                  <FileText className="w-3.5 h-3.5 text-natural-accent" />
                   {isVi ? 'Giới thiệu bản thân' : 'Biography'}
                 </span>
-                <p className="text-[#4A4A35] bg-[#FAF8F5] border border-[#E6E2D3] p-3 rounded-xl italic leading-relaxed text-stone-600">
+                <p className="text-natural-text bg-natural-cream border border-natural-border p-3 rounded-xl italic leading-relaxed text-stone-600">
                   {user.bio || (isVi ? 'Hội viên chưa thiết lập lời giới thiệu.' : 'No biography provided.')}
                 </p>
               </div>
 
               {/* Voucher Wallet display inside profile */}
-              <div className="pt-6 border-t border-[#E6E2D3] mt-6 space-y-3">
-                <h4 className="font-serif font-black text-xs text-[#8C7A5B] uppercase flex items-center gap-1.5">
-                  <Gift className="w-4 h-4 text-[#E3B04B]" />
+              <div className="pt-6 border-t border-natural-border mt-6 space-y-3">
+                <h4 className="font-serif font-black text-xs text-natural-accent uppercase flex items-center gap-1.5">
+                  <Gift className="w-4 h-4 text-natural-gold" />
                   <span>{isVi ? 'Ví Voucher ưu đãi của tôi' : 'My Coupon Wallet'}</span>
                 </h4>
                 <div className="space-y-3">
                   {vouchers.map(v => (
-                    <div key={v.code} className="relative bg-[#FAF8F5] border border-[#E6E2D3] rounded-2xl p-4 flex justify-between items-center shadow-xs overflow-hidden group hover:border-[#8C7A5B] transition-all duration-300">
+                    <div key={v.code} className="relative bg-natural-cream border border-natural-border rounded-2xl p-4 flex justify-between items-center shadow-xs overflow-hidden group hover:border-natural-accent transition-all duration-300">
                       {/* Ticket half circles decoration */}
-                      <div className="absolute top-1/2 -left-2 w-4 h-4 bg-white border-r border-[#E6E2D3] rounded-full -translate-y-1/2"></div>
-                      <div className="absolute top-1/2 -right-2 w-4 h-4 bg-white border-l border-[#E6E2D3] rounded-full -translate-y-1/2"></div>
+                      <div className="absolute top-1/2 -left-2 w-4 h-4 bg-white border-r border-natural-border rounded-full -translate-y-1/2"></div>
+                      <div className="absolute top-1/2 -right-2 w-4 h-4 bg-white border-l border-natural-border rounded-full -translate-y-1/2"></div>
                       
                       <div className="pl-3 pr-2 space-y-1 flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono font-black text-xs text-[#8C7A5B] tracking-wider select-all cursor-pointer bg-stone-100 px-2 py-0.5 rounded-md hover:bg-[#8C7A5B]/10 transition-colors">
+                          <span className="font-mono font-black text-xs text-natural-accent tracking-wider select-all cursor-pointer bg-stone-100 px-2 py-0.5 rounded-md hover:bg-natural-accent/10 transition-colors">
                             {v.code}
                           </span>
                         </div>
                         <span className="text-[10px] text-stone-500 block leading-relaxed">{v.description}</span>
                       </div>
                       
-                      <div className="border-l border-dashed border-[#E6E2D3] pl-4 py-1 flex flex-col items-center justify-center shrink-0 min-w-[70px]">
+                      <div className="border-l border-dashed border-natural-border pl-4 py-1 flex flex-col items-center justify-center shrink-0 min-w-[70px]">
                         <span className="text-[9px] text-stone-400 font-bold uppercase block tracking-wider mb-0.5">{isVi ? 'GIẢM' : 'OFF'}</span>
                         <span className="text-amber-600 font-black text-xs block">
                           {v.discountType === 'percentage' ? `${v.value}%` : `${v.value >= 1000 ? `${v.value / 1000}k` : v.value}đ`}
@@ -822,12 +822,12 @@ export function PersonalProfile({
         {/* Booking History, Favorites, Recently Viewed & Partnerships Tracker */}
         <div className="lg:col-span-2 space-y-6">
           {/* Navigation Tabs */}
-          <div className="bg-[#F5F2ED] border border-[#E6E2D3] rounded-2xl p-1.5 flex flex-wrap gap-1">
+          <div className="bg-natural-beige border border-natural-border rounded-2xl p-1.5 flex flex-wrap gap-1">
             <button
               onClick={() => setActiveTab('bookings')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === 'bookings'
-                  ? 'bg-[#8C7A5B] text-white shadow-xs'
+                  ? 'bg-natural-accent text-white shadow-xs'
                   : 'text-stone-600 hover:bg-stone-100'
               }`}
             >
@@ -854,7 +854,7 @@ export function PersonalProfile({
               onClick={() => setActiveTab('history')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === 'history'
-                  ? 'bg-[#8C7A5B] text-white shadow-xs'
+                  ? 'bg-natural-accent text-white shadow-xs'
                   : 'text-stone-600 hover:bg-stone-100'
               }`}
             >
@@ -870,7 +870,7 @@ export function PersonalProfile({
               onClick={() => setActiveTab('partnerships')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === 'partnerships'
-                  ? 'bg-[#8C7A5B] text-white shadow-xs'
+                  ? 'bg-natural-accent text-white shadow-xs'
                   : 'text-stone-600 hover:bg-stone-100'
               }`}
             >
@@ -888,10 +888,10 @@ export function PersonalProfile({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-sm space-y-4"
+                className="bg-white border border-natural-border rounded-3xl p-6 shadow-sm space-y-4"
               >
-                <h3 className="text-base font-serif font-bold text-stone-800 border-b border-[#E6E2D3] pb-3 flex items-center gap-2">
-                  <ClipboardList className="w-5 h-5 text-[#8C7A5B]" />
+                <h3 className="text-base font-serif font-bold text-stone-800 border-b border-natural-border pb-3 flex items-center gap-2">
+                  <ClipboardList className="w-5 h-5 text-natural-accent" />
                   <span>{isVi ? 'Lịch sử đặt vé & khách sạn' : 'Booking & Ticket History'}</span>
                 </h3>
 
@@ -901,7 +901,7 @@ export function PersonalProfile({
                     <p>{isVi ? 'Bạn chưa có đơn đặt chỗ nào trong hệ thống.' : 'No active bookings registered yet.'}</p>
                     <button 
                       onClick={onNavigateHome}
-                      className="bg-[#FAF8F5] text-[#8C7A5B] px-4 py-2 border border-[#E6E2D3] rounded-xl hover:bg-[#F5F2ED] transition text-[11px] font-bold uppercase"
+                      className="bg-natural-cream text-natural-accent px-4 py-2 border border-natural-border rounded-xl hover:bg-natural-beige transition text-[11px] font-bold uppercase"
                     >
                       {isVi ? 'Khám phá và đặt ngay' : 'Explore Attractions Now'}
                     </button>
@@ -933,7 +933,7 @@ export function PersonalProfile({
 
                         <div className="flex justify-between items-center border-t border-stone-100 pt-3 text-xs">
                           <span className="text-stone-500">{isVi ? 'Giảm voucher:' : 'Discount:'} -{b.discountApplied.toLocaleString()}đ</span>
-                          <span className="font-bold text-stone-900">{isVi ? 'Thành tiền:' : 'Paid Balance:'} <strong className="text-[#8C7A5B] font-black text-sm">{b.finalTotal.toLocaleString()}đ</strong></span>
+                          <span className="font-bold text-stone-900">{isVi ? 'Thành tiền:' : 'Paid Balance:'} <strong className="text-natural-accent font-black text-sm">{b.finalTotal.toLocaleString()}đ</strong></span>
                         </div>
                       </div>
                     ))}
@@ -949,9 +949,9 @@ export function PersonalProfile({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-sm space-y-4"
+                className="bg-white border border-natural-border rounded-3xl p-6 shadow-sm space-y-4"
               >
-                <h3 className="text-base font-serif font-bold text-stone-800 border-b border-[#E6E2D3] pb-3 flex items-center gap-2">
+                <h3 className="text-base font-serif font-bold text-stone-800 border-b border-natural-border pb-3 flex items-center gap-2">
                   <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
                   <span>{isVi ? 'Mục dịch vụ yêu thích của tôi' : 'My Favorite Services'}</span>
                 </h3>
@@ -963,7 +963,7 @@ export function PersonalProfile({
                     <p className="text-[10px] text-stone-400 max-w-sm mx-auto">{isVi ? 'Hãy bấm hình trái tim tại các khách sạn, trải nghiệm hay thuê xe để lưu lại.' : 'Tap heart icons on hotels, tours, or activities to save them.'}</p>
                     <button 
                       onClick={onNavigateHome}
-                      className="bg-[#FAF8F5] text-[#8C7A5B] px-4 py-2 border border-[#E6E2D3] rounded-xl hover:bg-[#F5F2ED] transition text-[11px] font-bold uppercase mt-2"
+                      className="bg-natural-cream text-natural-accent px-4 py-2 border border-natural-border rounded-xl hover:bg-natural-beige transition text-[11px] font-bold uppercase mt-2"
                     >
                       {isVi ? 'Khám phá ngay' : 'Explore Now'}
                     </button>
@@ -973,7 +973,7 @@ export function PersonalProfile({
                     {favorites.map((fav) => (
                       <div 
                         key={fav.id}
-                        className="bg-[#FAF8F5] border border-[#E6E2D3] rounded-2xl overflow-hidden shadow-xs hover:border-[#8C7A5B] transition flex flex-col justify-between"
+                        className="bg-natural-cream border border-natural-border rounded-2xl overflow-hidden shadow-xs hover:border-natural-accent transition flex flex-col justify-between"
                       >
                         <div className="relative h-32 overflow-hidden shrink-0">
                           <img src={fav.image} alt={fav.name} className="w-full h-full object-cover" />
@@ -997,12 +997,12 @@ export function PersonalProfile({
                             <p className="text-[10px] text-stone-500 line-clamp-1">{fav.description || ''}</p>
                           </div>
                           <div className="flex justify-between items-center pt-2 border-t border-stone-200">
-                            <span className="font-mono text-xs font-black text-[#8C7A5B]">
+                            <span className="font-mono text-xs font-black text-natural-accent">
                               {fav.price.toLocaleString('vi-VN')}đ{fav.type === 'hotel' ? (isVi ? '/đêm' : '/night') : ''}
                             </span>
                             <button
                               onClick={() => onViewItem?.(fav)}
-                              className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white text-[10px] px-3 py-1 rounded-lg font-bold"
+                              className="bg-natural-accent hover:bg-natural-olive text-white text-[10px] px-3 py-1 rounded-lg font-bold"
                             >
                               {isVi ? 'Xem' : 'View'}
                             </button>
@@ -1022,10 +1022,10 @@ export function PersonalProfile({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-sm space-y-4"
+                className="bg-white border border-natural-border rounded-3xl p-6 shadow-sm space-y-4"
               >
-                <h3 className="text-base font-serif font-bold text-stone-800 border-b border-[#E6E2D3] pb-3 flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-[#8C7A5B]" />
+                <h3 className="text-base font-serif font-bold text-stone-800 border-b border-natural-border pb-3 flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-natural-accent" />
                   <span>{isVi ? 'Dịch vụ đã xem gần đây' : 'Recently Viewed'}</span>
                 </h3>
 
@@ -1040,7 +1040,7 @@ export function PersonalProfile({
                       <div 
                         key={item.id}
                         onClick={() => onViewItem?.(item)}
-                        className="bg-[#FAF8F5] hover:bg-[#F5F2ED] border border-[#E6E2D3] rounded-xl p-3 flex gap-3 cursor-pointer transition"
+                        className="bg-natural-cream hover:bg-natural-beige border border-natural-border rounded-xl p-3 flex gap-3 cursor-pointer transition"
                       >
                         <img src={item.image} alt={item.name} className="w-16 h-16 rounded-lg object-cover shrink-0" />
                         <div className="flex-1 min-w-0 flex flex-col justify-between">
@@ -1049,7 +1049,7 @@ export function PersonalProfile({
                             <p className="text-[10px] text-stone-500 line-clamp-1">{item.description || ''}</p>
                           </div>
                           <div className="flex justify-between items-center mt-1">
-                            <span className="font-mono text-[11px] font-black text-[#8C7A5B]">
+                            <span className="font-mono text-[11px] font-black text-natural-accent">
                               {item.price.toLocaleString('vi-VN')}đ
                             </span>
                             <span className="text-[9px] text-stone-400 italic">
@@ -1071,9 +1071,9 @@ export function PersonalProfile({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-sm space-y-4"
+                className="bg-white border border-natural-border rounded-3xl p-6 shadow-sm space-y-4"
               >
-                <h3 className="text-base font-serif font-bold text-stone-800 border-b border-[#E6E2D3] pb-3 flex items-center gap-2">
+                <h3 className="text-base font-serif font-bold text-stone-800 border-b border-natural-border pb-3 flex items-center gap-2">
                   <Compass className="w-5 h-5 text-amber-600" />
                   <span>{isVi ? 'Yêu cầu hợp tác lữ hành' : 'Partnership Applications Status'}</span>
                 </h3>
@@ -1091,7 +1091,7 @@ export function PersonalProfile({
                             <span className="font-mono text-[9px] text-stone-400 font-bold">{p.id}</span>
                             <strong className="text-stone-800 text-sm">{p.brandName}</strong>
                           </div>
-                          <p className="text-stone-500">Người liên hệ: {p.contactName} - Loại hình: <span className="uppercase font-semibold text-[#8C7A5B]">{p.type}</span></p>
+                          <p className="text-stone-500">Người liên hệ: {p.contactName} - Loại hình: <span className="uppercase font-semibold text-natural-accent">{p.type}</span></p>
                           <span className="text-[10px] text-stone-400 block">Đăng ngày: {p.date}</span>
                         </div>
 
@@ -1172,9 +1172,9 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 text-[#4A4A35]">
+    <div className="max-w-4xl mx-auto px-4 py-8 text-natural-text">
       <div className="text-center space-y-2 mb-8">
-        <span className="bg-[#8C7A5B] text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full">
+        <span className="bg-natural-accent text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full">
           VIETCHARM TAXI & AIRPORT TRANSFER
         </span>
         <h2 className="text-3xl font-serif font-black text-stone-900 uppercase">
@@ -1195,8 +1195,8 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
         {/* Booking parameters Form */}
-        <form onSubmit={handleBookTaxi} className="bg-white border border-[#E6E2D3] p-6 rounded-3xl space-y-5 shadow-xs">
-          <h3 className="font-serif font-bold text-base text-[#8C7A5B] border-b border-[#E6E2D3] pb-2 uppercase flex items-center gap-1.5">
+        <form onSubmit={handleBookTaxi} className="bg-white border border-natural-border p-6 rounded-3xl space-y-5 shadow-xs">
+          <h3 className="font-serif font-bold text-base text-natural-accent border-b border-natural-border pb-2 uppercase flex items-center gap-1.5">
             <Car className="w-5 h-5 text-amber-500 animate-bounce" />
             <span>{isVi ? 'Thông tin lộ trình' : 'Route Details'}</span>
           </h3>
@@ -1207,7 +1207,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
               <select 
                 value={pickup}
                 onChange={(e) => setPickup(e.target.value)}
-                className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2.5 font-medium text-stone-800 outline-none"
+                className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2.5 font-medium text-stone-800 outline-none"
               >
                 {TOURIST_LOCATIONS.map(l => (
                   <option key={l.id} value={l.id}>{l.name}</option>
@@ -1220,7 +1220,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
               <select 
                 value={dropoff}
                 onChange={(e) => setDropoff(e.target.value)}
-                className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2.5 font-medium text-stone-800 outline-none"
+                className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2.5 font-medium text-stone-800 outline-none"
               >
                 {TOURIST_LOCATIONS.map(l => (
                   <option key={l.id} value={l.id}>{l.name}</option>
@@ -1235,7 +1235,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
                   type="date"
                   value={bookingDate}
                   onChange={(e) => setBookingDate(e.target.value)}
-                  className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 text-stone-800 outline-none"
+                  className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 text-stone-800 outline-none"
                   required
                 />
               </div>
@@ -1245,7 +1245,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
                   type="time"
                   value={bookingTime}
                   onChange={(e) => setBookingTime(e.target.value)}
-                  className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 text-stone-800 outline-none"
+                  className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 text-stone-800 outline-none"
                   required
                 />
               </div>
@@ -1258,7 +1258,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
                   type="button"
                   onClick={() => setVehicleType('vios-4')}
                   className={`border p-2.5 rounded-xl text-center space-y-1 transition ${
-                    vehicleType === 'vios-4' ? 'bg-[#8C7A5B] text-white border-[#8C7A5B]' : 'bg-white border-[#E6E2D3] hover:bg-stone-50'
+                    vehicleType === 'vios-4' ? 'bg-natural-accent text-white border-natural-accent' : 'bg-white border-natural-border hover:bg-stone-50'
                   }`}
                 >
                   <span className="font-bold block text-[11px]">{isVi ? 'Xe 4 Chỗ' : '4-Seater'}</span>
@@ -1268,7 +1268,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
                   type="button"
                   onClick={() => setVehicleType('xpander-7')}
                   className={`border p-2.5 rounded-xl text-center space-y-1 transition ${
-                    vehicleType === 'xpander-7' ? 'bg-[#8C7A5B] text-white border-[#8C7A5B]' : 'bg-white border-[#E6E2D3] hover:bg-stone-50'
+                    vehicleType === 'xpander-7' ? 'bg-natural-accent text-white border-natural-accent' : 'bg-white border-natural-border hover:bg-stone-50'
                   }`}
                 >
                   <span className="font-bold block text-[11px]">{isVi ? 'Xe 7 Chỗ' : '7-Seater'}</span>
@@ -1278,7 +1278,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
                   type="button"
                   onClick={() => setVehicleType('sirius-moto')}
                   className={`border p-2.5 rounded-xl text-center space-y-1 transition ${
-                    vehicleType === 'sirius-moto' ? 'bg-[#8C7A5B] text-white border-[#8C7A5B]' : 'bg-white border-[#E6E2D3] hover:bg-stone-50'
+                    vehicleType === 'sirius-moto' ? 'bg-natural-accent text-white border-natural-accent' : 'bg-white border-natural-border hover:bg-stone-50'
                   }`}
                 >
                   <span className="font-bold block text-[11px]">{isVi ? 'Xe ôm Sirius' : 'Sirius Moto'}</span>
@@ -1294,7 +1294,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
                 value={specialNote}
                 onChange={(e) => setSpecialNote(e.target.value)}
                 placeholder="Ex: Đón tôi ở cột số 5, ga đến quốc nội Đà Nẵng..."
-                className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none"
+                className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none"
               />
             </div>
           </div>
@@ -1302,7 +1302,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
           <button
             type="submit"
             disabled={pickup === dropoff}
-            className="w-full bg-[#E3B04B] hover:bg-[#c99030] disabled:opacity-50 text-[#4A4A35] font-black py-3 rounded-xl uppercase text-xs tracking-wider transition shadow-md"
+            className="w-full bg-natural-gold hover:bg-natural-gold-dark disabled:opacity-50 text-natural-text font-black py-3 rounded-xl uppercase text-xs tracking-wider transition shadow-md"
           >
             {pickup === dropoff 
               ? (isVi ? 'Vui lòng chọn 2 điểm khác nhau' : 'Select different locations') 
@@ -1311,9 +1311,9 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
         </form>
 
         {/* Dynamic Calculation Visualization Mock Map Route */}
-        <div className="bg-[#F5F2ED] border border-[#E6E2D3] p-6 rounded-3xl flex flex-col justify-between shadow-xs">
+        <div className="bg-natural-beige border border-natural-border p-6 rounded-3xl flex flex-col justify-between shadow-xs">
           <div className="space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-800 border-b border-[#E6E2D3] pb-2 uppercase">
+            <h3 className="font-serif font-bold text-base text-stone-800 border-b border-natural-border pb-2 uppercase">
               {isVi ? 'Chi tiết chi phí & hành trình' : 'Dynamic Fare Indexing'}
             </h3>
 
@@ -1346,7 +1346,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
             </div>
           </div>
 
-          <div className="border-t border-[#E6E2D3] pt-4 mt-6 space-y-2 text-center text-xs">
+          <div className="border-t border-natural-border pt-4 mt-6 space-y-2 text-center text-xs">
             <p className="text-stone-500 font-serif italic">
               {isVi 
                 ? 'Tự động gán tài xế phản hồi nhanh trong 5 phút sau khi thanh toán.'
@@ -1355,7 +1355,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
             <button
               type="button"
               onClick={onNavigateHome}
-              className="text-[#8C7A5B] font-bold hover:underline"
+              className="text-natural-accent font-bold hover:underline"
             >
               ← {isVi ? 'Quay về dạo chơi di sản' : 'Browse other experiences'}
             </button>
@@ -1418,9 +1418,9 @@ export function TourCombos({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 text-[#4A4A35] space-y-10">
+    <div className="max-w-7xl mx-auto px-4 py-8 text-natural-text space-y-10">
       <div className="text-center space-y-2 max-w-2xl mx-auto">
-        <span className="bg-[#E3B04B] text-[#4A4A35] text-[10px] uppercase font-black tracking-widest px-3.5 py-1 rounded-full">
+        <span className="bg-natural-gold text-natural-text text-[10px] uppercase font-black tracking-widest px-3.5 py-1 rounded-full">
           EXCLUSIVE HERITAGE BUNDLES
         </span>
         <h2 className="text-3xl font-serif font-black text-stone-900 uppercase">
@@ -1445,7 +1445,7 @@ export function TourCombos({
               price: combo.price,
               description: combo.includes.join('. ')
             })}
-            className="bg-white border border-[#E6E2D3] rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition duration-300 flex flex-col justify-between cursor-pointer"
+            className="bg-white border border-natural-border rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition duration-300 flex flex-col justify-between cursor-pointer"
           >
             <div className="relative h-56 overflow-hidden">
               <img src={combo.image} alt={combo.name} className="w-full h-full object-cover hover:scale-105 transition duration-500" />
@@ -1483,7 +1483,7 @@ export function TourCombos({
             <div className="p-5 flex-1 flex flex-col justify-between space-y-5">
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#8C7A5B] font-bold text-xs tracking-wider uppercase block">{combo.days}</span>
+                  <span className="text-natural-accent font-bold text-xs tracking-wider uppercase block">{combo.days}</span>
                   <span className="text-stone-400 text-xs line-through">{combo.oldPrice.toLocaleString()}đ</span>
                 </div>
                 <h3 className="font-serif font-bold text-base text-stone-900 leading-snug line-clamp-2 min-h-[44px]">
@@ -1504,14 +1504,14 @@ export function TourCombos({
               <div className="space-y-3 pt-3 border-t border-stone-100">
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-stone-400 uppercase font-bold">{isVi ? 'Giá trọn gói' : 'Bundled Price'}</span>
-                  <strong className="text-xl font-serif font-black text-[#8C7A5B]">
+                  <strong className="text-xl font-serif font-black text-natural-accent">
                     {combo.price.toLocaleString()}đ <span className="text-[10px] font-sans text-stone-500">/{isVi ? 'Khách' : 'Pax'}</span>
                   </strong>
                 </div>
 
                 <button
                   onClick={() => handleBookCombo(combo)}
-                  className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white font-bold py-3 rounded-xl uppercase text-xs tracking-wider transition shadow-md"
+                  className="w-full bg-natural-accent hover:bg-natural-olive text-white font-bold py-3 rounded-xl uppercase text-xs tracking-wider transition shadow-md"
                 >
                   {isVi ? 'ĐẶT COMBO NGAY' : 'BOOK BUNDLED PACKAGE'}
                 </button>
@@ -1622,7 +1622,7 @@ export function TravelHandbook({ language }: { language: Language }) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 text-[#4A4A35] space-y-8 bg-white border border-[#E6E2D3] rounded-3xl shadow-xs">
+    <div className="max-w-5xl mx-auto px-4 py-8 text-natural-text space-y-8 bg-white border border-natural-border rounded-3xl shadow-xs">
       <div className="text-center space-y-1.5 border-b border-stone-150 pb-6">
         <h2 className="text-2xl sm:text-3xl font-serif font-black text-stone-900 uppercase tracking-tight">
           📖 {isVi ? 'CẨM NANG DU LỊCH & DI SẢN MIỀN TRUNG' : 'CENTRAL VIETNAM HERITAGE HANDBOOK'}
@@ -1649,7 +1649,7 @@ export function TravelHandbook({ language }: { language: Language }) {
             onClick={() => setActiveTab(t.id as any)}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition uppercase tracking-wider ${
               activeTab === t.id 
-                ? 'bg-[#8C7A5B] text-white shadow-xs' 
+                ? 'bg-natural-accent text-white shadow-xs' 
                 : 'bg-stone-50 text-stone-600 hover:bg-stone-100'
             }`}
           >
@@ -1733,9 +1733,9 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 text-[#4A4A35] space-y-8">
+    <div className="max-w-4xl mx-auto px-4 py-8 text-natural-text space-y-8">
       <div className="text-center space-y-2">
-        <span className="bg-[#8C7A5B] text-white text-[10px] uppercase font-bold tracking-widest px-3.5 py-1 rounded-full">
+        <span className="bg-natural-accent text-white text-[10px] uppercase font-bold tracking-widest px-3.5 py-1 rounded-full">
           VIETCHARM MERCHANDISE NETWORK
         </span>
         <h2 className="text-3xl font-serif font-black text-stone-900 uppercase">
@@ -1758,8 +1758,8 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-        <form onSubmit={handleSubmit} className="md:col-span-2 bg-white border border-[#E6E2D3] p-6 rounded-3xl space-y-4 shadow-xs text-xs">
-          <h3 className="font-serif font-bold text-base text-stone-800 border-b border-[#E6E2D3] pb-2 uppercase flex items-center gap-1.5">
+        <form onSubmit={handleSubmit} className="md:col-span-2 bg-white border border-natural-border p-6 rounded-3xl space-y-4 shadow-xs text-xs">
+          <h3 className="font-serif font-bold text-base text-stone-800 border-b border-natural-border pb-2 uppercase flex items-center gap-1.5">
             <ClipboardList className="w-5 h-5 text-amber-500" />
             <span>{isVi ? 'Đơn Đăng Ký Đối Tác' : 'Partnership Form'}</span>
           </h3>
@@ -1772,7 +1772,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
                 value={brandName}
                 onChange={(e) => setBrandName(e.target.value)}
                 placeholder="Ex: Đò gỗ Sông Hoài Lan"
-                className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none focus:ring-1 focus:ring-[#8C7A5B]"
+                className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none focus:ring-1 focus:ring-natural-accent"
                 required
               />
             </div>
@@ -1783,7 +1783,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
                 value={contactName}
                 onChange={(e) => setContactName(e.target.value)}
                 placeholder="Ex: Nguyễn Văn A"
-                className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none"
+                className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none"
                 required
               />
             </div>
@@ -1795,7 +1795,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as any)}
-                className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-2 py-2 outline-none font-bold"
+                className="w-full border border-natural-border bg-natural-cream rounded-xl px-2 py-2 outline-none font-bold"
               >
                 <option value="hotel">{isVi ? 'Lưu trú / Khách sạn' : 'Hotel Stay'}</option>
                 <option value="vehicle">{isVi ? 'Cho thuê xe máy, ô tô tự lái' : 'Vehicle Rentals & Cars'}</option>
@@ -1813,7 +1813,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Ex: 0905000000"
-                className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none"
+                className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none"
                 required
               />
             </div>
@@ -1825,7 +1825,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Ex: partner@brand.com"
-                className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none"
+                className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none"
                 required
               />
             </div>
@@ -1838,23 +1838,23 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Ex: Chúng tôi cung cấp 15 chiếc xe máy Sirius mới cáu sọc đỏ đen, sẵn sàng phục vụ khách lữ hành tự lái với giá rẻ..."
               rows={4}
-              className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none"
+              className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white font-bold py-3 rounded-xl uppercase tracking-wider transition shadow-md"
+            className="w-full bg-natural-accent hover:bg-natural-olive text-white font-bold py-3 rounded-xl uppercase tracking-wider transition shadow-md"
           >
             {isVi ? 'ĐỆ TRÌNH HỒ SƠ HỢP TÁC' : 'SUBMIT PROPOSAL'}
           </button>
         </form>
 
         {/* Benefits guide sidebar */}
-        <div className="bg-[#FAF8F5] border border-[#E6E2D3] p-6 rounded-3xl space-y-5 text-xs flex flex-col justify-between">
+        <div className="bg-natural-cream border border-natural-border p-6 rounded-3xl space-y-5 text-xs flex flex-col justify-between">
           <div className="space-y-4">
-            <h4 className="font-serif font-bold text-sm text-[#8C7A5B] uppercase border-b border-[#E6E2D3] pb-2">
+            <h4 className="font-serif font-bold text-sm text-natural-accent uppercase border-b border-natural-border pb-2">
               {isVi ? 'Đặc quyền đối tác VietCharm' : 'Merchant Alliance Benefits'}
             </h4>
             <div className="space-y-3 leading-relaxed">
@@ -1874,7 +1874,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
           </div>
 
           <div className="bg-amber-50/50 rounded-xl p-3 border border-amber-200">
-            <p className="text-[#8C7A5B] font-semibold flex items-center gap-1">
+            <p className="text-natural-accent font-semibold flex items-center gap-1">
               <Info className="w-3.5 h-3.5 text-amber-500" /> {isVi ? 'Cam kết bảo mật:' : 'Data Privacy:'}
             </p>
             <p className="text-stone-500 mt-1 leading-snug">
@@ -1951,23 +1951,23 @@ export function AdminDashboard({
   const pendingPartnershipsCount = applications.filter(a => a.status === 'pending').length;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 text-[#4A4A35]">
+    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 text-natural-text">
       {/* Admin Title Banner */}
-      <div className="bg-[#4A4A35] text-white p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-xl">
+      <div className="bg-natural-text text-white p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-xl">
         <div className="space-y-1">
-          <span className="bg-[#E3B04B] text-[#4A4A35] text-[9px] uppercase font-black px-2.5 py-0.5 rounded-full inline-block">
+          <span className="bg-natural-gold text-natural-text text-[9px] uppercase font-black px-2.5 py-0.5 rounded-full inline-block">
             VIETCHARM ADMIN SUITE
           </span>
           <h2 className="text-2xl font-serif font-black flex items-center gap-2">
-            <Database className="w-6 h-6 text-[#E3B04B]" />
+            <Database className="w-6 h-6 text-natural-gold" />
             <span>{isVi ? 'HỆ THỐNG QUẢN TRỊ DỮ LIỆU & DỊCH VỤ' : 'CENTRAL SYSTEM DATA CONTROL'}</span>
           </h2>
-          <p className="text-xs text-[#F5F2ED]/70">
+          <p className="text-xs text-natural-beige/70">
             {isVi ? 'Phân tích doanh thu, duyệt đối tác, phân quyền người dùng và cấp phát mã voucher ưu đãi' : 'Review live transactions, manage local providers and update vouchers'}
           </p>
         </div>
 
-        <div className="bg-[#F5F2ED]/15 px-4 py-2 rounded-2xl border border-white/10 text-right">
+        <div className="bg-natural-beige/15 px-4 py-2 rounded-2xl border border-white/10 text-right">
           <p className="text-[10px] text-stone-300 font-bold font-mono">SERVER STATUS: GREEN</p>
           <p className="text-xs font-semibold text-emerald-400 font-mono">DATABASE PERSISTED</p>
         </div>
@@ -1989,7 +1989,7 @@ export function AdminDashboard({
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition uppercase tracking-wider ${
                 activeTab === tab.id 
-                  ? 'bg-[#8C7A5B] text-white shadow-md' 
+                  ? 'bg-natural-accent text-white shadow-md' 
                   : 'bg-white text-stone-600 hover:bg-stone-50 border border-stone-150'
               }`}
             >
@@ -2006,15 +2006,15 @@ export function AdminDashboard({
       {activeTab === 'stats' && (
         <div className="space-y-6 animate-fade-in">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="bg-white border border-[#E6E2D3] p-5 rounded-3xl shadow-xs">
+            <div className="bg-white border border-natural-border p-5 rounded-3xl shadow-xs">
               <span className="text-[10px] uppercase font-black text-stone-400 tracking-wider block">{isVi ? 'Tổng doanh thu thực tế' : 'Total Revenue Confirmed'}</span>
-              <h3 className="text-3xl font-serif font-black text-[#8C7A5B] mt-1">
+              <h3 className="text-3xl font-serif font-black text-natural-accent mt-1">
                 {totalRevenue.toLocaleString()} đ
               </h3>
               <p className="text-[10px] text-emerald-600 font-bold mt-1">✓ {isVi ? 'Tất cả hóa đơn confirmed hợp lệ' : '100% verified checkouts'}</p>
             </div>
 
-            <div className="bg-white border border-[#E6E2D3] p-5 rounded-3xl shadow-xs">
+            <div className="bg-white border border-natural-border p-5 rounded-3xl shadow-xs">
               <span className="text-[10px] uppercase font-black text-stone-400 tracking-wider block">{isVi ? 'Tổng số giao dịch' : 'Total System Orders'}</span>
               <h3 className="text-3xl font-serif font-black text-stone-800 mt-1">
                 {totalBookingsCount} {isVi ? 'Hóa đơn' : 'Bookings'}
@@ -2022,17 +2022,17 @@ export function AdminDashboard({
               <p className="text-[10px] text-stone-500 mt-1">● {isVi ? 'Bao gồm cả vé Chờ xử lý' : 'Includes all pending bookings'}</p>
             </div>
 
-            <div className="bg-white border border-[#E6E2D3] p-5 rounded-3xl shadow-xs">
+            <div className="bg-white border border-natural-border p-5 rounded-3xl shadow-xs">
               <span className="text-[10px] uppercase font-black text-stone-400 tracking-wider block">{isVi ? 'Thành viên đăng ký hệ thống' : 'Registered Users'}</span>
               <h3 className="text-3xl font-serif font-black text-amber-600 mt-1">
                 {users.length} {isVi ? 'Tài khoản' : 'Members'}
               </h3>
-              <p className="text-[10px] text-[#8C7A5B] font-bold mt-1">★ {users.filter(u => u.role === 'admin').length} Admin, {users.filter(u => u.role === 'user').length} Travelers</p>
+              <p className="text-[10px] text-natural-accent font-bold mt-1">★ {users.filter(u => u.role === 'admin').length} Admin, {users.filter(u => u.role === 'user').length} Travelers</p>
             </div>
           </div>
 
           {/* Quick Mock Visual chart block */}
-          <div className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-xs">
+          <div className="bg-white border border-natural-border rounded-3xl p-6 shadow-xs">
             <h4 className="font-serif font-bold text-base text-stone-800 mb-4 uppercase">
               {isVi ? 'Phân bổ cơ cấu danh mục dịch vụ' : 'Revenue Streams & Booking Shares'}
             </h4>
@@ -2043,7 +2043,7 @@ export function AdminDashboard({
                   <span>65%</span>
                 </div>
                 <div className="w-full h-2.5 bg-stone-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#8C7A5B]" style={{ width: '65%' }}></div>
+                  <div className="h-full bg-natural-accent" style={{ width: '65%' }}></div>
                 </div>
               </div>
 
@@ -2074,7 +2074,7 @@ export function AdminDashboard({
 
       {/* TAB 2: SYSTEM BOOKINGS */}
       {activeTab === 'bookings' && (
-        <div className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-xs space-y-4 animate-fade-in text-xs">
+        <div className="bg-white border border-natural-border rounded-3xl p-6 shadow-xs space-y-4 animate-fade-in text-xs">
           <h3 className="font-serif font-bold text-base text-stone-800 border-b border-stone-150 pb-2 uppercase">
             {isVi ? 'Danh sách hóa đơn lữ hành VietCharm' : 'All System Reservations'}
           </h3>
@@ -2095,7 +2095,7 @@ export function AdminDashboard({
               <tbody className="divide-y divide-stone-100 font-sans">
                 {bookings.map((b) => (
                   <tr key={b.id} className="hover:bg-stone-50/50">
-                    <td className="py-3 font-mono font-bold text-[#8C7A5B]">{b.id}</td>
+                    <td className="py-3 font-mono font-bold text-natural-accent">{b.id}</td>
                     <td className="py-3">
                       <div className="font-bold text-stone-800">{b.userName}</div>
                       <div className="text-[10px] text-stone-400">{b.userEmail}</div>
@@ -2141,7 +2141,7 @@ export function AdminDashboard({
 
       {/* TAB 3: PARTNERSHIPS APPROVALS */}
       {activeTab === 'partners' && (
-        <div className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-xs space-y-4 animate-fade-in text-xs">
+        <div className="bg-white border border-natural-border rounded-3xl p-6 shadow-xs space-y-4 animate-fade-in text-xs">
           <h3 className="font-serif font-bold text-base text-stone-800 border-b border-stone-150 pb-2 uppercase">
             {isVi ? 'Hồ sơ đề nghị hợp tác của tiểu thương / doanh nghiệp' : 'Regional Partnership Submissions'}
           </h3>
@@ -2166,7 +2166,7 @@ export function AdminDashboard({
                     <p><strong>{isVi ? 'Liên hệ:' : 'Contact:'}</strong> {app.contactName}</p>
                     <p><strong>{isVi ? 'Điện thoại:' : 'Phone:'}</strong> {app.phone}</p>
                     <p><strong>{isVi ? 'Email:' : 'Email:'}</strong> {app.email}</p>
-                    <p><strong>{isVi ? 'Lĩnh vực:' : 'Domain:'}</strong> <span className="uppercase font-bold text-[#8C7A5B]">{app.type}</span></p>
+                    <p><strong>{isVi ? 'Lĩnh vực:' : 'Domain:'}</strong> <span className="uppercase font-bold text-natural-accent">{app.type}</span></p>
                   </div>
                   <div className="bg-stone-50 rounded-xl p-3 text-stone-600 italic leading-relaxed border border-stone-100">
                     "{app.description}"
@@ -2198,7 +2198,7 @@ export function AdminDashboard({
 
       {/* TAB 4: USERS MANAGEMENT */}
       {activeTab === 'users' && (
-        <div className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-xs space-y-4 animate-fade-in text-xs">
+        <div className="bg-white border border-natural-border rounded-3xl p-6 shadow-xs space-y-4 animate-fade-in text-xs">
           <h3 className="font-serif font-bold text-base text-stone-800 border-b border-stone-150 pb-2 uppercase">
             {isVi ? 'Cơ sở dữ liệu người dùng VietCharm' : 'User Accounts Directory'}
           </h3>
@@ -2237,7 +2237,7 @@ export function AdminDashboard({
                     <td className="py-3 text-center">
                       <button
                         onClick={() => onUpdateUserRole(u.id, u.role === 'admin' ? 'user' : 'admin')}
-                        className="bg-stone-100 hover:bg-[#8C7A5B] hover:text-white border border-stone-200 text-stone-600 font-bold px-3 py-1 rounded-lg text-[10px] uppercase transition"
+                        className="bg-stone-100 hover:bg-natural-accent hover:text-white border border-stone-200 text-stone-600 font-bold px-3 py-1 rounded-lg text-[10px] uppercase transition"
                       >
                         {u.role === 'admin' ? (isVi ? 'Hạ cấp User' : 'Revoke Admin') : (isVi ? 'Thăng cấp Admin' : 'Make Admin')}
                       </button>
@@ -2256,7 +2256,7 @@ export function AdminDashboard({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start animate-fade-in text-xs">
           
           {/* Create new voucher form */}
-          <div className="bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-xs space-y-4">
+          <div className="bg-white border border-natural-border rounded-3xl p-6 shadow-xs space-y-4">
             <h3 className="font-serif font-bold text-base text-stone-800 border-b border-stone-150 pb-2 uppercase">
               {isVi ? 'Tạo mã Voucher mới' : 'Add Promo Coupon'}
             </h3>
@@ -2269,7 +2269,7 @@ export function AdminDashboard({
                   value={vCode}
                   onChange={(e) => setVCode(e.target.value)}
                   placeholder="Ex: QUANGNAM30"
-                  className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none font-bold uppercase"
+                  className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none font-bold uppercase"
                   required
                 />
               </div>
@@ -2281,7 +2281,7 @@ export function AdminDashboard({
                   value={vDesc}
                   onChange={(e) => setVDesc(e.target.value)}
                   placeholder="Ex: Giảm giá 30% tối đa 150k"
-                  className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none"
+                  className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none"
                   required
                 />
               </div>
@@ -2292,7 +2292,7 @@ export function AdminDashboard({
                   <select
                     value={vType}
                     onChange={(e) => setVType(e.target.value as any)}
-                    className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-2 py-2 outline-none font-bold text-stone-800"
+                    className="w-full border border-natural-border bg-natural-cream rounded-xl px-2 py-2 outline-none font-bold text-stone-800"
                   >
                     <option value="percentage">% {isVi ? 'Phần trăm' : 'Percentage'}</option>
                     <option value="fixed">đ {isVi ? 'Tiền mặt' : 'Fixed Cash'}</option>
@@ -2305,7 +2305,7 @@ export function AdminDashboard({
                     type="number"
                     value={vVal}
                     onChange={(e) => setVVal(Number(e.target.value))}
-                    className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none font-bold"
+                    className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none font-bold"
                     min={1}
                     required
                   />
@@ -2318,14 +2318,14 @@ export function AdminDashboard({
                   type="number"
                   value={vMin}
                   onChange={(e) => setVMin(Number(e.target.value))}
-                  className="w-full border border-[#E6E2D3] bg-[#FAF8F5] rounded-xl px-3 py-2 outline-none font-bold"
+                  className="w-full border border-natural-border bg-natural-cream rounded-xl px-3 py-2 outline-none font-bold"
                   min={0}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-[#E3B04B] hover:bg-[#c99030] text-[#4A4A35] font-black py-2.5 rounded-xl uppercase tracking-wider transition shadow-md"
+                className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text font-black py-2.5 rounded-xl uppercase tracking-wider transition shadow-md"
               >
                 {isVi ? 'CẤP PHÁT VOUCHER' : 'CREATE PROMO CODE'}
               </button>
@@ -2333,16 +2333,16 @@ export function AdminDashboard({
           </div>
 
           {/* Active vouchers list */}
-          <div className="md:col-span-2 bg-white border border-[#E6E2D3] rounded-3xl p-6 shadow-xs space-y-4">
+          <div className="md:col-span-2 bg-white border border-natural-border rounded-3xl p-6 shadow-xs space-y-4">
             <h3 className="font-serif font-bold text-base text-stone-800 border-b border-stone-150 pb-2 uppercase">
               {isVi ? 'Các mã Voucher đang hoạt động' : 'Active System Promo Codes'}
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {vouchers.map((v) => (
-                <div key={v.code} className="bg-[#FAF8F5] border border-stone-200 p-4 rounded-2xl flex justify-between items-center hover:shadow-md transition">
+                <div key={v.code} className="bg-natural-cream border border-stone-200 p-4 rounded-2xl flex justify-between items-center hover:shadow-md transition">
                   <div className="space-y-1">
-                    <span className="font-mono font-black text-[#8C7A5B] text-sm tracking-wider block">{v.code}</span>
+                    <span className="font-mono font-black text-natural-accent text-sm tracking-wider block">{v.code}</span>
                     <p className="text-[11px] text-stone-600 leading-normal">{v.description}</p>
                     <span className="text-[10px] text-stone-400 block font-mono">
                       {isVi ? 'Chi tiêu từ:' : 'Min Spend:'} {v.minSpend.toLocaleString()}đ
@@ -2350,7 +2350,7 @@ export function AdminDashboard({
                   </div>
 
                   <div className="flex flex-col items-end gap-3 shrink-0 ml-4">
-                    <span className="bg-[#E3B04B] text-[#4A4A35] text-xs font-black px-3 py-1 rounded-xl shadow-xs">
+                    <span className="bg-natural-gold text-natural-text text-xs font-black px-3 py-1 rounded-xl shadow-xs">
                       {v.discountType === 'percentage' ? `-${v.value}%` : `-${v.value.toLocaleString()}đ`}
                     </span>
                     <button

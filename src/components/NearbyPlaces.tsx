@@ -276,13 +276,13 @@ export default function NearbyPlaces({
   };
 
   return (
-    <div id="nearby-places-container" className="w-full bg-[#FAF8F5] text-[#4A4A35] min-h-screen py-12 px-4 md:px-8">
+    <div id="nearby-places-container" className="w-full bg-natural-cream text-natural-text min-h-screen py-12 px-4 md:px-8">
       {/* Header section with branding */}
       <div className="max-w-7xl mx-auto mb-10">
-        <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-[#E6E2D3] pb-6 gap-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-natural-border pb-6 gap-4">
           <div>
-            <span className="text-[#8C7A5B] font-mono font-bold tracking-widest text-xs uppercase flex items-center gap-1.5 mb-1">
-              <Compass className="w-4 h-4 text-[#E3B04B] animate-spin-slow" />
+            <span className="text-natural-accent font-mono font-bold tracking-widest text-xs uppercase flex items-center gap-1.5 mb-1">
+              <Compass className="w-4 h-4 text-natural-gold animate-spin-slow" />
               {isVi ? 'Hệ thống khám phá lân cận Hội An' : 'Hoi An Nearby Discovery System'}
             </span>
             <h2 className="text-3xl md:text-4xl font-serif font-black text-stone-900 leading-tight">
@@ -296,7 +296,7 @@ export default function NearbyPlaces({
           </div>
           <button 
             onClick={onBackToHome}
-            className="self-start md:self-center px-5 py-2.5 rounded-full border border-[#E6E2D3] bg-white text-stone-600 hover:text-[#8C7A5B] hover:border-[#8C7A5B] transition-all text-xs font-bold uppercase tracking-wider cursor-pointer"
+            className="self-start md:self-center px-5 py-2.5 rounded-full border border-natural-border bg-white text-stone-600 hover:text-natural-accent hover:border-natural-accent transition-all text-xs font-bold uppercase tracking-wider cursor-pointer"
           >
             &larr; {isVi ? 'Quay lại Trang chủ' : 'Back to Home'}
           </button>
@@ -310,14 +310,14 @@ export default function NearbyPlaces({
         <div className="lg:col-span-7 space-y-6">
           
           {/* Search and Category Filter hub */}
-          <div className="bg-white border border-[#E6E2D3] rounded-3xl p-5 shadow-sm space-y-4">
+          <div className="bg-white border border-natural-border rounded-3xl p-5 shadow-sm space-y-4">
             <div className="relative">
               <input 
                 type="text" 
                 placeholder={isVi ? 'Tìm tên địa điểm, làng nghề, bãi biển...' : 'Search landmark name, village, beach...'}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#FAF8F5] border border-[#E6E2D3] focus:border-[#8C7A5B] focus:outline-none rounded-2xl py-3 pl-11 pr-4 text-xs font-medium placeholder-stone-400 transition"
+                className="w-full bg-natural-cream border border-natural-border focus:border-natural-accent focus:outline-none rounded-2xl py-3 pl-11 pr-4 text-xs font-medium placeholder-stone-400 transition"
               />
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
             </div>
@@ -329,8 +329,8 @@ export default function NearbyPlaces({
                   onClick={() => setSelectedCategory(cat.value)}
                   className={`px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition cursor-pointer border ${
                     selectedCategory === cat.value
-                      ? 'bg-[#8C7A5B] text-white border-[#8C7A5B]'
-                      : 'bg-[#FAF8F5] text-stone-500 hover:text-[#8C7A5B] border-[#E6E2D3] hover:border-[#8C7A5B]'
+                      ? 'bg-natural-accent text-white border-natural-accent'
+                      : 'bg-natural-cream text-stone-500 hover:text-natural-accent border-natural-border hover:border-natural-accent'
                   }`}
                 >
                   {isVi ? cat.labelVi : cat.labelEn}
@@ -353,8 +353,8 @@ export default function NearbyPlaces({
                     }}
                     className={`bg-white border rounded-3xl overflow-hidden cursor-pointer group transition-all duration-300 ${
                       isActive 
-                        ? 'ring-2 ring-[#8C7A5B] border-transparent shadow-md' 
-                        : 'border-[#E6E2D3] hover:border-[#8C7A5B] hover:shadow-md'
+                        ? 'ring-2 ring-natural-accent border-transparent shadow-md' 
+                        : 'border-natural-border hover:border-natural-accent hover:shadow-md'
                     }`}
                   >
                     <div className="relative h-44 overflow-hidden bg-stone-100">
@@ -389,17 +389,17 @@ export default function NearbyPlaces({
                           />
                         </button>
                       )}
-                      <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider text-[#8C7A5B] shadow-xs">
+                      <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider text-natural-accent shadow-xs">
                         {isVi ? place.categoryVi : place.categoryEn}
                       </div>
-                      <div className="absolute bottom-3 right-3 bg-[#8C7A5B]/90 text-white px-2 py-0.5 rounded-md text-[9px] font-mono">
+                      <div className="absolute bottom-3 right-3 bg-natural-accent/90 text-white px-2 py-0.5 rounded-md text-[9px] font-mono">
                         📍 {place.distance}
                       </div>
                     </div>
 
                     <div className="p-5 space-y-2">
                       <div className="flex justify-between items-start gap-1">
-                        <h3 className="font-serif font-black text-stone-800 text-sm group-hover:text-[#8C7A5B] transition-colors leading-tight">
+                        <h3 className="font-serif font-black text-stone-800 text-sm group-hover:text-natural-accent transition-colors leading-tight">
                           {isVi ? place.nameVi : place.nameEn}
                         </h3>
                         <div className="flex items-center gap-0.5 text-amber-500 shrink-0 bg-amber-50 px-1.5 py-0.5 rounded text-[10px] font-bold">
@@ -414,7 +414,7 @@ export default function NearbyPlaces({
 
                       <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-[10px] text-stone-400">
                         <span className="flex items-center gap-1">
-                          <Navigation className="w-3 h-3 text-[#8C7A5B]" />
+                          <Navigation className="w-3 h-3 text-natural-accent" />
                           <span>{place.duration}</span>
                         </span>
                         <button 
@@ -437,7 +437,7 @@ export default function NearbyPlaces({
                               } as any);
                             }
                           }}
-                          className="text-[#8C7A5B] hover:text-[#5A5A40] font-bold uppercase tracking-wider text-[9px] hover:underline cursor-pointer"
+                          className="text-natural-accent hover:text-natural-olive font-bold uppercase tracking-wider text-[9px] hover:underline cursor-pointer"
                         >
                           {isVi ? 'Xem chi tiết &' : 'Details &'} &rarr;
                         </button>
@@ -447,7 +447,7 @@ export default function NearbyPlaces({
                 );
               })
             ) : (
-              <div className="col-span-full bg-white border border-[#E6E2D3] rounded-3xl p-12 text-center">
+              <div className="col-span-full bg-white border border-natural-border rounded-3xl p-12 text-center">
                 <Compass className="w-12 h-12 text-stone-300 mx-auto mb-3" />
                 <p className="text-stone-400 font-bold text-xs uppercase tracking-wider">
                   {isVi ? 'Không tìm thấy địa điểm nào' : 'No places found'}
@@ -463,7 +463,7 @@ export default function NearbyPlaces({
         {/* Right Column: Detailed Showcase & Map Navigation (5 cols) */}
         <div className="lg:col-span-5">
           {activePlace ? (
-            <div className="bg-white border border-[#E6E2D3] rounded-3xl shadow-lg sticky top-6 overflow-hidden">
+            <div className="bg-white border border-natural-border rounded-3xl shadow-lg sticky top-6 overflow-hidden">
               {/* Image slideshow with controls */}
               <div className="relative h-64 bg-stone-900">
                 <img 
@@ -509,12 +509,12 @@ export default function NearbyPlaces({
               <div className="p-6 space-y-6 max-h-[calc(100vh-340px)] overflow-y-auto custom-scrollbar">
                 
                 {/* Distance & Duration badge board */}
-                <div className="grid grid-cols-2 gap-3 bg-[#FAF8F5] border border-[#E6E2D3] p-3 rounded-2xl">
+                <div className="grid grid-cols-2 gap-3 bg-natural-cream border border-natural-border p-3 rounded-2xl">
                   <div className="text-center">
                     <span className="text-[9px] uppercase text-stone-400 font-bold tracking-wider block">{isVi ? 'Quãng đường' : 'Distance'}</span>
-                    <span className="text-sm font-serif font-black text-[#8C7A5B]">📍 {activePlace.distance}</span>
+                    <span className="text-sm font-serif font-black text-natural-accent">📍 {activePlace.distance}</span>
                   </div>
-                  <div className="border-l border-[#E6E2D3] text-center">
+                  <div className="border-l border-natural-border text-center">
                     <span className="text-[9px] uppercase text-stone-400 font-bold tracking-wider block">{isVi ? 'Thời gian di chuyển' : 'Travel Time'}</span>
                     <span className="text-[11px] font-semibold text-stone-700 block mt-0.5">{activePlace.duration}</span>
                   </div>
@@ -523,7 +523,7 @@ export default function NearbyPlaces({
                 {/* Core description text */}
                 <div className="space-y-2">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1">
-                    <Compass className="w-4 h-4 text-[#8C7A5B]" />
+                    <Compass className="w-4 h-4 text-natural-accent" />
                     {isVi ? 'Giới thiệu chung' : 'Overview'}
                   </h4>
                   <p className="text-[11px] text-stone-600 leading-relaxed text-justify">
@@ -533,10 +533,10 @@ export default function NearbyPlaces({
 
                 {/* Historical Trivia box */}
                 <div className="bg-amber-50/40 border border-dashed border-amber-300 rounded-2xl p-4 space-y-1.5">
-                  <h4 className="text-[10px] font-black uppercase text-[#8C7A5B] tracking-wider flex items-center gap-1.5">
+                  <h4 className="text-[10px] font-black uppercase text-natural-accent tracking-wider flex items-center gap-1.5">
                     💡 {isVi ? 'Có thể bạn chưa biết?' : 'Did you know?'}
                   </h4>
-                  <p className="text-[11px] text-[#4A4A35]/90 italic leading-relaxed">
+                  <p className="text-[11px] text-natural-text/90 italic leading-relaxed">
                     {isVi ? activePlace.historyVi : activePlace.historyEn}
                   </p>
                 </div>
@@ -561,7 +561,7 @@ export default function NearbyPlaces({
                       } as any);
                     }
                   }}
-                  className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
+                  className="w-full bg-natural-accent hover:bg-natural-olive text-white py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
                 >
                   <Compass className="w-4 h-4 text-amber-300 animate-spin-slow" />
                   <span>{isVi ? 'Xem Chi Tiết Lớn & Trải Nghiệm' : 'Immersive Details & Experiences'}</span>
@@ -648,7 +648,7 @@ export default function NearbyPlaces({
                 <div className="space-y-4 pt-4 border-t border-stone-100">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
-                      <MessageSquare className="w-3.5 h-3.5 text-[#8C7A5B]" />
+                      <MessageSquare className="w-3.5 h-3.5 text-natural-accent" />
                       {isVi ? 'Đánh giá từ du khách' : 'Traveler Reviews'} ({activePlace.reviews.length})
                     </span>
                     <span className="text-amber-500 font-bold flex items-center gap-0.5 bg-amber-50 px-2 py-0.5 rounded">
@@ -678,7 +678,7 @@ export default function NearbyPlaces({
                   </div>
 
                   {/* Add review form */}
-                  <form onSubmit={handleAddReview} className="bg-[#FAF8F5] border border-[#E6E2D3] p-4 rounded-2xl space-y-3">
+                  <form onSubmit={handleAddReview} className="bg-natural-cream border border-natural-border p-4 rounded-2xl space-y-3">
                     <div className="text-[10px] font-black uppercase tracking-wider text-stone-500">
                       ✍️ {isVi ? 'Để lại trải nghiệm của bạn' : 'Write a review'}
                     </div>
@@ -690,9 +690,9 @@ export default function NearbyPlaces({
                         placeholder={isVi ? 'Tên của bạn...' : 'Your name...'}
                         value={reviewerName}
                         onChange={(e) => setReviewerName(e.target.value)}
-                        className="bg-white border border-[#E6E2D3] text-xs px-3 py-2 rounded-xl focus:border-[#8C7A5B] focus:outline-none"
+                        className="bg-white border border-natural-border text-xs px-3 py-2 rounded-xl focus:border-natural-accent focus:outline-none"
                       />
-                      <div className="flex items-center gap-1.5 bg-white border border-[#E6E2D3] px-3 py-2 rounded-xl">
+                      <div className="flex items-center gap-1.5 bg-white border border-natural-border px-3 py-2 rounded-xl">
                         <span className="text-[10px] text-stone-400 font-bold uppercase">{isVi ? 'Điểm:' : 'Rating:'}</span>
                         <div className="flex gap-0.5">
                           {[1, 2, 3, 4, 5].map(num => (
@@ -715,12 +715,12 @@ export default function NearbyPlaces({
                       placeholder={isVi ? 'Bạn thích điều gì nhất tại địa điểm này? Chia sẻ cảm nghĩ nhé...' : 'What did you enjoy most about this place?...'}
                       value={reviewComment}
                       onChange={(e) => setReviewComment(e.target.value)}
-                      className="w-full bg-white border border-[#E6E2D3] text-xs p-3 rounded-xl focus:border-[#8C7A5B] focus:outline-none resize-none leading-relaxed"
+                      className="w-full bg-white border border-natural-border text-xs p-3 rounded-xl focus:border-natural-accent focus:outline-none resize-none leading-relaxed"
                     />
 
                     <button
                       type="submit"
-                      className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition cursor-pointer"
+                      className="w-full bg-natural-accent hover:bg-natural-olive text-white py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition cursor-pointer"
                     >
                       {isVi ? 'Gửi đánh giá' : 'Submit Review'}
                     </button>
@@ -730,7 +730,7 @@ export default function NearbyPlaces({
               </div>
             </div>
           ) : (
-            <div className="bg-[#FAF8F5] border border-dashed border-[#E6E2D3] rounded-3xl p-16 text-center sticky top-6">
+            <div className="bg-natural-cream border border-dashed border-natural-border rounded-3xl p-16 text-center sticky top-6">
               <Compass className="w-16 h-16 text-stone-300 mx-auto mb-4 animate-bounce-slow" />
               <h4 className="font-serif font-black text-stone-800 text-sm uppercase tracking-wider">
                 {isVi ? 'Chưa chọn địa điểm' : 'No Place Selected'}

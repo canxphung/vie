@@ -178,7 +178,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
   };
 
   return (
-    <div className="w-full bg-[#FAF6ED] text-[#4A4A35] py-12 px-4 md:px-8 border-y border-[#E6E2D3] relative overflow-hidden">
+    <div className="w-full bg-natural-sand text-natural-text py-12 px-4 md:px-8 border-y border-natural-border relative overflow-hidden">
       
       {/* Notifications */}
       <AnimatePresence>
@@ -187,9 +187,9 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
             initial={{ opacity: 0, y: -20, x: '-50%' }}
             animate={{ opacity: 1, y: 0, x: '-50%' }}
             exit={{ opacity: 0, y: -20, x: '-50%' }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 bg-[#4A4A35] text-[#FAF6ED] px-6 py-3 rounded-full text-xs font-bold shadow-2xl z-50 border border-[#E6E2D3]/20 flex items-center gap-2"
+            className="fixed top-24 left-1/2 -translate-x-1/2 bg-natural-text text-natural-sand px-6 py-3 rounded-full text-xs font-bold shadow-2xl z-50 border border-natural-border/20 flex items-center gap-2"
           >
-            <Sparkles className="w-4 h-4 text-[#E3B04B]" />
+            <Sparkles className="w-4 h-4 text-natural-gold" />
             <span>{alertMsg}</span>
           </motion.div>
         )}
@@ -199,14 +199,14 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
         
         {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAE5D5] text-[#8C7A5B] text-[10px] font-black uppercase tracking-widest animate-pulse">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-natural-border-light text-natural-accent text-[10px] font-black uppercase tracking-widest animate-pulse">
             <Flame className="w-3.5 h-3.5 text-amber-500" />
             <span>{isVi ? 'HÀNH TRÌNH TRẢI NGHIỆM ẨN SỐ' : 'BLIND TRAVEL ESCAPADE'}</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-serif font-black tracking-tight text-[#4A4A35]">
+          <h2 className="text-3xl md:text-5xl font-serif font-black tracking-tight text-natural-text">
             {isVi ? 'Hành Trình Ẩn Số – Nhận Quà Từ Tương Lai' : 'Blind Travel – Unbox Your Surprise Escape'}
           </h2>
-          <p className="text-xs md:text-sm text-[#4A4A35]/80 leading-relaxed font-sans max-w-2xl mx-auto">
+          <p className="text-xs md:text-sm text-natural-text/80 leading-relaxed font-sans max-w-2xl mx-auto">
             {isVi 
               ? 'Thay vì tốn hàng chục tiếng so sánh giá phòng và đau đầu lên lịch trình, hãy nhập ngân sách, số ngày nghỉ và gu tận hưởng của bạn. Trí tuệ nhân tạo của VietCharm sẽ tự động tối ưu hóa chuyến bay khứ hồi cùng phòng Resort Heritage ẩn danh.'
               : 'Appealing to adventure-seekers and busy people tired of planning. Input your budget, length of stay, and preference guidelines. Our AI reserves optimized roundtrip flights and premium heritage secret stays.'}
@@ -217,17 +217,17 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* LEFT 5 COLUMNS: USER REQUEST SETUP */}
-          <div className="lg:col-span-5 bg-white p-6 md:p-8 rounded-3xl border border-[#E6E2D3] shadow-lg flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-white p-6 md:p-8 rounded-3xl border border-natural-border shadow-lg flex flex-col justify-between">
             <form onSubmit={handleRunMysteryAI} className="space-y-5">
-              <h3 className="text-xs font-serif font-black uppercase text-[#4A4A35] tracking-widest border-b border-[#FAF6ED] pb-2">
+              <h3 className="text-xs font-serif font-black uppercase text-natural-text tracking-widest border-b border-natural-sand pb-2">
                 {isVi ? 'Thiết Lập Chuyến Đi Bất Ngờ' : 'Configure Your Surprises'}
               </h3>
 
               {/* Slider Budget */}
               <div className="space-y-1.5">
-                <div className="flex justify-between items-center text-xs font-bold text-[#4A4A35]">
+                <div className="flex justify-between items-center text-xs font-bold text-natural-text">
                   <span>{isVi ? 'Ngân Sách Tối Đa (VNĐ)' : 'Max Budget Cap'}</span>
-                  <span className="text-[#8C7A5B] font-mono font-black">{budget.toLocaleString('vi-VN')}đ</span>
+                  <span className="text-natural-accent font-mono font-black">{budget.toLocaleString('vi-VN')}đ</span>
                 </div>
                 <input 
                   type="range"
@@ -236,9 +236,9 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                   step="500000"
                   value={budget}
                   onChange={(e) => setBudget(Number(e.target.value))}
-                  className="w-full accent-[#8C7A5B] h-1.5 bg-[#FAF6ED] rounded-lg cursor-pointer"
+                  className="w-full accent-natural-accent h-1.5 bg-natural-sand rounded-lg cursor-pointer"
                 />
-                <div className="flex justify-between text-[9px] font-mono text-[#8C7A5B]">
+                <div className="flex justify-between text-[9px] font-mono text-natural-accent">
                   <span>2.5 TR</span>
                   <span>6.2 TR</span>
                   <span>10.0 TR</span>
@@ -249,11 +249,11 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
               <div className="grid grid-cols-2 gap-3">
                 {/* Duration */}
                 <div>
-                  <label className="block text-[11px] font-bold text-[#8C7A5B] uppercase mb-1">{isVi ? 'Số ngày nghỉ' : 'Duration'}</label>
+                  <label className="block text-[11px] font-bold text-natural-accent uppercase mb-1">{isVi ? 'Số ngày nghỉ' : 'Duration'}</label>
                   <select 
                     value={days}
                     onChange={(e) => setDays(Number(e.target.value))}
-                    className="w-full text-xs font-bold bg-[#FAF6ED] text-[#4A4A35] border border-[#E6E2D3] rounded-xl p-2.5 outline-none"
+                    className="w-full text-xs font-bold bg-natural-sand text-natural-text border border-natural-border rounded-xl p-2.5 outline-none"
                   >
                     <option value="1">1 {isVi ? 'ngày tinh gọn' : 'Day (Daytrip)'}</option>
                     <option value="2">2 {isVi ? 'ngày 1 đêm' : 'Days 1 Night'}</option>
@@ -275,12 +275,12 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
 
                 {/* Departure date */}
                 <div>
-                  <label className="block text-[11px] font-bold text-[#8C7A5B] uppercase mb-1">{isVi ? 'Ngày đi dự kiến' : 'Target Date'}</label>
+                  <label className="block text-[11px] font-bold text-natural-accent uppercase mb-1">{isVi ? 'Ngày đi dự kiến' : 'Target Date'}</label>
                   <input 
                     type="date"
                     value={departureDate}
                     onChange={(e) => setDepartureDate(e.target.value)}
-                    className="w-full text-xs font-bold bg-[#FAF6ED] text-[#4A4A35] border border-[#E6E2D3] rounded-xl p-2.5 focus:border-[#8C7A5B] outline-none"
+                    className="w-full text-xs font-bold bg-natural-sand text-natural-text border border-natural-border rounded-xl p-2.5 focus:border-natural-accent outline-none"
                     required
                   />
                 </div>
@@ -288,11 +288,11 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
 
               {/* Departure window preference */}
               <div>
-                <label className="block text-[11px] font-bold text-[#8C7A5B] uppercase mb-1">{isVi ? 'Thời gian cất cánh ưa thích' : 'Departure window'}</label>
+                <label className="block text-[11px] font-bold text-natural-accent uppercase mb-1">{isVi ? 'Thời gian cất cánh ưa thích' : 'Departure window'}</label>
                 <select 
                   value={departureTime}
                   onChange={(e) => setDepartureTime(e.target.value)}
-                  className="w-full text-xs font-bold bg-[#FAF6ED] text-[#4A4A35] border border-[#E6E2D3] rounded-xl p-2.5 outline-none"
+                  className="w-full text-xs font-bold bg-natural-sand text-natural-text border border-natural-border rounded-xl p-2.5 outline-none"
                 >
                   <option value="Sáng Sớm (05:00 - 08:00)">🌅 {isVi ? 'Sáng Sớm (05:00 - 08:00) - Ngắm bình minh' : 'Early Morning (05:00 - 08:00)'}</option>
                   <option value="Sáng (08:00 - 11:00)">☀️ {isVi ? 'Sáng (08:00 - 11:00) - Giờ đẹp thong thả' : 'Morning (08:00 - 11:00)'}</option>
@@ -315,13 +315,13 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
               {/* Travel style (likes beach, dislikes climbing, etc) */}
               <div className="space-y-3">
                 <div>
-                  <label className="block text-[11px] font-bold text-[#8C7A5B] uppercase mb-1">
+                  <label className="block text-[11px] font-bold text-natural-accent uppercase mb-1">
                     {isVi ? 'Gu du lịch ưa thích (Vibe)' : 'Your Travel Vibe'}
                   </label>
                   <select
                     value={vibe}
                     onChange={(e) => setVibe(e.target.value)}
-                    className="w-full text-xs font-bold bg-[#FAF6ED] text-[#4A4A35] border border-[#E6E2D3] rounded-xl p-2.5 outline-none"
+                    className="w-full text-xs font-bold bg-natural-sand text-natural-text border border-natural-border rounded-xl p-2.5 outline-none"
                   >
                     <option value="chill">🌾 {isVi ? 'Thảnh thơi & Chill di sản' : 'Chill & Heritage Oasis'}</option>
                     <option value="sea">🌊 {isVi ? 'Biển xanh hoang sơ ít người biết' : 'Wild Beach & Secret Shorelines'}</option>
@@ -348,7 +348,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                   <select
                     value={dislikes}
                     onChange={(e) => setDislikes(e.target.value)}
-                    className="w-full text-xs font-bold bg-[#FAF6ED] text-rose-800 border border-rose-200 rounded-xl p-2.5 outline-none"
+                    className="w-full text-xs font-bold bg-natural-sand text-rose-800 border border-rose-200 rounded-xl p-2.5 outline-none"
                   >
                     <option value="climbing">🧗‍♀️ {isVi ? 'Không thích leo núi cao dốc mệt' : 'No exhausting mountain hikes'}</option>
                     <option value="crowds">👥 {isVi ? 'Tránh bãi tắm thương mại xô bồ' : 'No overcrowded tourist traps'}</option>
@@ -373,7 +373,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white font-serif font-black py-4 rounded-2xl transition shadow-xl flex items-center justify-center gap-2 cursor-pointer duration-300 disabled:opacity-50"
+                  className="w-full bg-natural-accent hover:bg-natural-olive text-white font-serif font-black py-4 rounded-2xl transition shadow-xl flex items-center justify-center gap-2 cursor-pointer duration-300 disabled:opacity-50"
                 >
                   <Sparkles className="w-4.5 h-4.5 text-amber-300 animate-spin-slow" />
                   <span>{isVi ? 'LẬP TRÌNH CHUYẾN ĐI BẤT NGỜ' : 'COMPILE SURPRISE ORACLE'}</span>
@@ -391,22 +391,22 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
           </div>
 
           {/* RIGHT 7 COLUMNS: ANIMATED SURPRISE UNBOXING */}
-          <div className="lg:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-[#E6E2D3] shadow-lg flex flex-col items-center justify-center relative min-h-[500px] overflow-hidden">
+          <div className="lg:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-natural-border shadow-lg flex flex-col items-center justify-center relative min-h-[500px] overflow-hidden">
             
             {/* Background design accents */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#8C7A5B]/5 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#E3B04B]/5 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-natural-accent/5 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-natural-gold/5 rounded-full blur-2xl pointer-events-none" />
 
             {/* STAGE 0: IDLE STATE */}
             {revealStage === 'idle' && (
               <div className="text-center space-y-4 max-w-sm">
-                <div className="w-20 h-20 bg-[#FAF6ED] rounded-full flex items-center justify-center mx-auto border border-[#E6E2D3]">
-                  <Gift className="w-10 h-10 text-[#8C7A5B] animate-bounce" />
+                <div className="w-20 h-20 bg-natural-sand rounded-full flex items-center justify-center mx-auto border border-natural-border">
+                  <Gift className="w-10 h-10 text-natural-accent animate-bounce" />
                 </div>
-                <h4 className="text-base font-serif font-black text-[#4A4A35]">
+                <h4 className="text-base font-serif font-black text-natural-text">
                   {isVi ? 'Hòm Quà Hành Trình Đang Chờ Đợi' : 'Mystery Escape Chest Awaiting'}
                 </h4>
-                <p className="text-xs text-[#4A4A35]/70 leading-relaxed font-sans">
+                <p className="text-xs text-natural-text/70 leading-relaxed font-sans">
                   {isVi 
                     ? 'Hãy điền ngân sách và sở thích ở khung bên trái. Hệ thống AI VietCharm sẽ gói gọn lộ trình bay & nghỉ dưỡng hoàn mỹ trong hộp quà bí mật!'
                     : 'Set your budget cap and preferred taste on the left. The AI compiler will seal your flight & luxury stay inside a glowing surprise envelope!'}
@@ -418,15 +418,15 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
             {revealStage === 'loading' && (
               <div className="text-center space-y-6 max-w-md">
                 <div className="relative mx-auto w-16 h-16">
-                  <div className="absolute inset-0 rounded-full border-4 border-[#8C7A5B]/30" />
-                  <div className="absolute inset-0 rounded-full border-4 border-t-[#8C7A5B] animate-spin" />
-                  <Compass className="w-6 h-6 text-[#8C7A5B] absolute inset-0 m-auto animate-pulse" />
+                  <div className="absolute inset-0 rounded-full border-4 border-natural-accent/30" />
+                  <div className="absolute inset-0 rounded-full border-4 border-t-natural-accent animate-spin" />
+                  <Compass className="w-6 h-6 text-natural-accent absolute inset-0 m-auto animate-pulse" />
                 </div>
                 <div className="space-y-2">
-                  <h4 className="text-xs font-serif font-black uppercase text-[#8C7A5B] tracking-widest animate-pulse">
+                  <h4 className="text-xs font-serif font-black uppercase text-natural-accent tracking-widest animate-pulse">
                     {isVi ? 'Đang mã hóa dữ liệu & giữ chỗ khách sạn...' : 'Securing airline spots & boutique codes...'}
                   </h4>
-                  <p className="text-[11px] font-mono text-[#4A4A35]/90 bg-[#FAF6ED] px-4 py-2.5 rounded-xl border border-[#E6E2D3]">
+                  <p className="text-[11px] font-mono text-natural-text/90 bg-natural-sand px-4 py-2.5 rounded-xl border border-natural-border">
                     {loadingStep}
                   </p>
                 </div>
@@ -444,7 +444,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                   <motion.div 
                     animate={{ rotate: [0, -3, 3, -3, 3, 0], scale: [1, 1.03, 1.03, 1] }}
                     transition={{ repeat: Infinity, duration: 2.5 }}
-                    className="w-28 h-28 bg-[#8C7A5B] text-white rounded-3xl flex items-center justify-center mx-auto shadow-2xl cursor-pointer"
+                    className="w-28 h-28 bg-natural-accent text-white rounded-3xl flex items-center justify-center mx-auto shadow-2xl cursor-pointer"
                     onClick={handleOpenGiftBox}
                   >
                     <Gift className="w-14 h-14 text-amber-300 animate-pulse" />
@@ -455,10 +455,10 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-base font-serif font-black text-[#4A4A35]">
+                  <h4 className="text-base font-serif font-black text-natural-text">
                     {isVi ? '🎁 Hộp Quà Ẩn Số Đã Khóa!' : '🎁 Your Secret Box is Sealed!'}
                   </h4>
-                  <p className="text-xs text-[#4A4A35]/70 leading-relaxed font-sans">
+                  <p className="text-xs text-natural-text/70 leading-relaxed font-sans">
                     {isVi 
                       ? 'Lá số chuyến đi bất ngờ đã được niêm phong an toàn. Hãy nhấp chuột vào chiếc hộp để mở bung và chiêm ngưỡng hành trình dành riêng cho bạn!'
                       : 'The heritage algorithm has locked your special getaway. Click/Tap the unboxing envelope to tear open your golden surprise ticket!'}
@@ -483,7 +483,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                 className="w-full space-y-5"
               >
                 {/* Oracle Golden Card Header */}
-                <div className="border-2 border-dashed border-[#8C7A5B]/40 bg-gradient-to-br from-[#FDFCF8] to-[#FAF6ED] rounded-3xl p-5 md:p-6 shadow-xl relative overflow-hidden">
+                <div className="border-2 border-dashed border-natural-accent/40 bg-gradient-to-br from-natural-bg to-natural-sand rounded-3xl p-5 md:p-6 shadow-xl relative overflow-hidden">
                   
                   {/* Subtle Stamp Visual representation */}
                   <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full border-4 border-emerald-700/10 flex items-center justify-center rotate-12 pointer-events-none">
@@ -498,27 +498,27 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                         <CheckCircle className="w-3 h-3 text-emerald-700" />
                         <span>{isVi ? 'ĐÃ ĐỊNH VỊ THÀNH CÔNG!' : 'SECURED DESTINATION!'}</span>
                       </span>
-                      <h4 className="text-lg md:text-xl font-serif font-black text-[#4A4A35] mt-1.5 leading-tight">
+                      <h4 className="text-lg md:text-xl font-serif font-black text-natural-text mt-1.5 leading-tight">
                         {isVi ? mysteryDest.regionVi : mysteryDest.regionEn}
                       </h4>
-                      <p className="text-[10px] text-[#8C7A5B] font-mono font-bold mt-0.5">
+                      <p className="text-[10px] text-natural-accent font-mono font-bold mt-0.5">
                         🛫 {isVi ? 'Đường bay khứ hồi khép kín:' : 'Curated flights:'} {mysteryDest.airportCode}
                       </p>
                     </div>
                     
                     <div className="text-right shrink-0">
-                      <span className="text-[9px] font-black text-[#8C7A5B] uppercase block">{isVi ? 'TRỌN GÓI / KHÁCH' : 'NET BUNDLE PRICE'}</span>
+                      <span className="text-[9px] font-black text-natural-accent uppercase block">{isVi ? 'TRỌN GÓI / KHÁCH' : 'NET BUNDLE PRICE'}</span>
                       <span className="text-base font-mono font-black text-emerald-700">{budget.toLocaleString('vi-VN')}đ</span>
                     </div>
                   </div>
 
                   {/* Accommodation locked but peeked */}
-                  <div className="mt-4 pt-3 border-t border-[#E6E2D3] grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="mt-4 pt-3 border-t border-natural-border grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <span className="text-[9px] font-black text-[#8C7A5B] uppercase block">
+                      <span className="text-[9px] font-black text-natural-accent uppercase block">
                         🏨 {isVi ? 'Resort 5 Sao Ẩn Danh' : 'Luxury Stay Sealed'}
                       </span>
-                      <p className="text-xs text-[#4A4A35]/90 font-bold leading-relaxed">
+                      <p className="text-xs text-natural-text/90 font-bold leading-relaxed">
                         {isVi ? mysteryDest.hotelVi : mysteryDest.hotelEn}
                       </p>
                     </div>
@@ -527,34 +527,34 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                       <span className="text-[9px] font-black text-amber-700 uppercase block">
                         📆 {isVi ? 'Lịch Bay' : 'Time Slot'}
                       </span>
-                      <p className="text-xs text-[#4A4A35]/90 font-bold leading-relaxed">
+                      <p className="text-xs text-natural-text/90 font-bold leading-relaxed">
                         {days} {isVi ? 'Ngày 2 Đêm' : 'Days'} • {departureDate} ({departureTime})
                       </p>
                     </div>
                   </div>
 
                   {/* Wardrobe Suggestions */}
-                  <div className="mt-4 p-3 bg-[#EAE5D5]/50 border border-[#E6E2D3] rounded-2xl flex gap-3">
-                    <Shirt className="w-5 h-5 text-[#8C7A5B] shrink-0 mt-0.5" />
+                  <div className="mt-4 p-3 bg-natural-border-light/50 border border-natural-border rounded-2xl flex gap-3">
+                    <Shirt className="w-5 h-5 text-natural-accent shrink-0 mt-0.5" />
                     <div>
-                      <span className="text-[9px] font-black text-[#8C7A5B] uppercase block">
+                      <span className="text-[9px] font-black text-natural-accent uppercase block">
                         👗 {isVi ? 'Gợi Ý Chuẩn Bị Trang Phục (3 ngày trước bay)' : 'Apparel Guidance (Sent 3 Days Early)'}
                       </span>
-                      <p className="text-[11px] text-[#4A4A35]/80 leading-relaxed mt-0.5">
+                      <p className="text-[11px] text-natural-text/80 leading-relaxed mt-0.5">
                         {isVi ? mysteryDest.packingVi : mysteryDest.packingEn}
                       </p>
                     </div>
                   </div>
 
                   {/* Curated Itinerary */}
-                  <div className="mt-4 pt-3 border-t border-[#E6E2D3] space-y-2">
-                    <span className="text-[9px] font-black text-[#8C7A5B] uppercase block">
+                  <div className="mt-4 pt-3 border-t border-natural-border space-y-2">
+                    <span className="text-[9px] font-black text-natural-accent uppercase block">
                       🔮 {isVi ? 'Lộ Trình Bất Ngờ Thiết Kế' : 'Surprise Itinerary Highlight Node'}
                     </span>
                     <ul className="space-y-1.5 font-sans text-xs">
                       {mysteryDest[isVi ? 'itineraryVi' : 'itineraryEn'].map((day: string, idx: number) => (
-                        <li key={idx} className="flex items-start gap-2 text-[#4A4A35]/95">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#8C7A5B] shrink-0 mt-1.5" />
+                        <li key={idx} className="flex items-start gap-2 text-natural-text/95">
+                          <span className="w-1.5 h-1.5 rounded-full bg-natural-accent shrink-0 mt-1.5" />
                           <span>{day}</span>
                         </li>
                       ))}
@@ -570,19 +570,19 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                       setRevealStage('idle');
                       setMysteryDest(null);
                     }}
-                    className="bg-white hover:bg-[#FAF6ED] border border-[#E6E2D3] text-[#8C7A5B] text-xs font-bold py-3 px-5 rounded-xl transition cursor-pointer"
+                    className="bg-white hover:bg-natural-sand border border-natural-border text-natural-accent text-xs font-bold py-3 px-5 rounded-xl transition cursor-pointer"
                   >
                     🔄 {isVi ? 'Thiết lập lại' : 'Try Another'}
                   </button>
                   <button
                     onClick={onNavigateHome}
-                    className="bg-slate-100 hover:bg-slate-200 text-[#4A4A35] text-xs font-bold py-3 px-5 rounded-xl transition cursor-pointer"
+                    className="bg-slate-100 hover:bg-slate-200 text-natural-text text-xs font-bold py-3 px-5 rounded-xl transition cursor-pointer"
                   >
                     {isVi ? 'Quay lại' : 'Back Home'}
                   </button>
                   <button
                     onClick={handleBookMysteryPackage}
-                    className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white text-xs font-serif font-black py-3 px-6 rounded-xl transition shadow-md hover:shadow-lg flex items-center gap-1 cursor-pointer"
+                    className="bg-natural-accent hover:bg-natural-olive text-white text-xs font-serif font-black py-3 px-6 rounded-xl transition shadow-md hover:shadow-lg flex items-center gap-1 cursor-pointer"
                   >
                     <span>{isVi ? 'Gói Cất Cánh Ngay' : 'Book Surprises Now'}</span>
                     <Plane className="w-4 h-4 text-amber-300 animate-pulse" />

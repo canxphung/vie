@@ -77,7 +77,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFCF8] text-[#4A4A35] transition-colors duration-300 font-sans antialiased selection:bg-[#E3B04B] selection:text-white">
+    <div className="min-h-screen bg-natural-bg text-natural-text transition-colors duration-300 font-sans antialiased selection:bg-natural-gold selection:text-white">
       
       {/* Header with standard menu options inside Vietnamese image (STT 1-14) */}
       <Header 
@@ -191,7 +191,7 @@ export default function App() {
                   transition={{ delay: 0.2, duration: 0.5 }}
                   className="space-y-1.5 md:space-y-3"
                 >
-                  <p className="font-serif italic text-lg md:text-3xl text-[#E3B04B] font-medium">Khám phá vẻ đẹp</p>
+                  <p className="font-serif italic text-lg md:text-3xl text-natural-gold font-medium">Khám phá vẻ đẹp</p>
                   <h2 className="text-4xl sm:text-6xl md:text-8xl font-serif font-black tracking-widest uppercase font-sans drop-shadow-lg text-white">
                     {
                       selectedProvinceId === 'quang-nam' ? 'HỘI AN' : 
@@ -217,7 +217,7 @@ export default function App() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3 }}
                   onClick={() => handleScrollToSection('itinerary-map-section')}
-                  className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-full text-xs sm:text-sm font-serif font-bold transition shadow-lg tracking-wider hover:scale-105 active:scale-95 duration-200"
+                  className="bg-natural-accent hover:bg-natural-olive text-white px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-full text-xs sm:text-sm font-serif font-bold transition shadow-lg tracking-wider hover:scale-105 active:scale-95 duration-200"
                 >
                   {t.exploreNow} →
                 </motion.button>
@@ -282,7 +282,7 @@ export default function App() {
                       <div className="fixed inset-0 z-40" onClick={() => setShowGuestsDropdown(false)} />
                       
                       {/* Interactive Dropdown Box */}
-                      <div className="absolute left-0 md:right-0 top-full mt-2 w-64 bg-white border border-[#E6E2D3] rounded-2xl shadow-xl p-4 z-50 space-y-4 animate-in fade-in slide-in-from-top-2 duration-150">
+                      <div className="absolute left-0 md:right-0 top-full mt-2 w-64 bg-white border border-natural-border rounded-2xl shadow-xl p-4 z-50 space-y-4 animate-in fade-in slide-in-from-top-2 duration-150">
                         {/* Guests line selection */}
                         <div className="flex items-center justify-between">
                           <div className="space-y-0.5">
@@ -307,7 +307,7 @@ export default function App() {
                               type="button"
                               disabled={guestsCount >= 20}
                               onClick={() => setGuestsCount(Math.min(20, guestsCount + 1))}
-                              className="w-8 h-8 rounded-full border border-[#8C7A5B] flex items-center justify-center text-[#8C7A5B] font-bold hover:bg-amber-50/50 transition text-sm cursor-pointer"
+                              className="w-8 h-8 rounded-full border border-natural-accent flex items-center justify-center text-natural-accent font-bold hover:bg-amber-50/50 transition text-sm cursor-pointer"
                             >
                               +
                             </button>
@@ -338,7 +338,7 @@ export default function App() {
                               type="button"
                               disabled={roomsCount >= 10}
                               onClick={() => setRoomsCount(Math.min(10, roomsCount + 1))}
-                              className="w-8 h-8 rounded-full border border-[#8C7A5B] flex items-center justify-center text-[#8C7A5B] font-bold hover:bg-amber-50/50 transition text-sm cursor-pointer"
+                              className="w-8 h-8 rounded-full border border-natural-accent flex items-center justify-center text-natural-accent font-bold hover:bg-amber-50/50 transition text-sm cursor-pointer"
                             >
                               +
                             </button>
@@ -349,7 +349,7 @@ export default function App() {
                         <button
                           type="button"
                           onClick={() => setShowGuestsDropdown(false)}
-                          className="w-full bg-[#8C7A5B] hover:bg-[#5A5A40] text-white py-2 rounded-xl text-xs font-bold transition duration-200 uppercase tracking-wider shadow-sm cursor-pointer"
+                          className="w-full bg-natural-accent hover:bg-natural-olive text-white py-2 rounded-xl text-xs font-bold transition duration-200 uppercase tracking-wider shadow-sm cursor-pointer"
                         >
                           {isVi ? 'Áp dụng' : 'Apply'}
                         </button>
@@ -361,7 +361,7 @@ export default function App() {
                 {/* Yellow Search Action Button */}
                 <button 
                   onClick={() => handleScrollToSection('hotels-section')}
-                  className="bg-[#D9A040] hover:bg-[#c99030] text-stone-950 font-black px-6 py-3 rounded-2xl transition shadow-md md:w-fit uppercase text-xs md:text-sm tracking-wide self-center shrink-0"
+                  className="bg-natural-gold-deep hover:bg-natural-gold-dark text-stone-950 font-black px-6 py-3 rounded-2xl transition shadow-md md:w-fit uppercase text-xs md:text-sm tracking-wide self-center shrink-0"
                 >
                   {t.searchBtn}
                 </button>
@@ -396,14 +396,14 @@ export default function App() {
             </div>
 
             {/* Dynamic Surrounding Provinces section with adjacent items */}
-            <div className="bg-[#F5F2ED] border-y border-[#E6E2D3] py-10 px-4 text-[#4A4A35]">
+            <div className="bg-natural-beige border-y border-natural-border py-10 px-4 text-natural-text">
               <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
                 <div>
-                  <h4 className="text-lg font-serif font-bold text-[#4A4A35] flex items-center gap-1.5 uppercase">
-                    <Navigation2 className="w-5 h-5 text-[#8C7A5B] animate-pulse" />
+                  <h4 className="text-lg font-serif font-bold text-natural-text flex items-center gap-1.5 uppercase">
+                    <Navigation2 className="w-5 h-5 text-natural-accent animate-pulse" />
                     <span>{t.visitOtherProvinces}</span>
                   </h4>
-                  <p className="text-xs text-[#4A4A35]/80 mt-1 max-w-xl leading-relaxed">
+                  <p className="text-xs text-natural-text/80 mt-1 max-w-xl leading-relaxed">
                     {language === 'vi' 
                       ? 'Dễ dàng di chuyển bằng xe máy Sirius chỉ mất 1 tiếng từ Hội An đến các cây cầu nổi tiếng của Đà Nẵng hoặc cung cung nguy nga của Huế.'
                       : 'Effortlessly commute by rented Sirius motorbikes within 1 hour between Hội An, Đà Nẵng beach and Cố Đô Huế.'}
@@ -411,7 +411,7 @@ export default function App() {
                 </div>
                 <button
                   onClick={() => setView('provinces')}
-                  className="bg-[#FDFCF8] hover:bg-[#F5F2ED] text-[#8C7A5B] font-bold border border-[#E6E2D3] shadow-xs px-5 py-2.5 rounded-xl text-xs transition uppercase tracking-wider font-sans"
+                  className="bg-natural-bg hover:bg-natural-beige text-natural-accent font-bold border border-natural-border shadow-xs px-5 py-2.5 rounded-xl text-xs transition uppercase tracking-wider font-sans"
                 >
                   {language === 'vi' ? 'Xem các tỉnh miền Trung khác' : 'Explore central provinces'}
                 </button>
@@ -469,7 +469,7 @@ export default function App() {
                             description: spot.description
                           });
                         }}
-                        className="absolute top-3 left-3 w-8 h-8 rounded-full bg-[#FDFCF8]/95 backdrop-blur-md flex items-center justify-center shadow-sm border border-[#E6E2D3] hover:scale-110 transition group/fav z-10"
+                        className="absolute top-3 left-3 w-8 h-8 rounded-full bg-natural-bg/95 backdrop-blur-md flex items-center justify-center shadow-sm border border-natural-border hover:scale-110 transition group/fav z-10"
                         title={language === 'vi' ? 'Thêm vào yêu thích' : 'Add to favorites'}
                       >
                         <Heart 
@@ -513,13 +513,13 @@ export default function App() {
             />
 
             {/* Exclusive VIP privileges promotional campaign exact match */}
-            <div className="w-full bg-[#8C7A5B] py-14 px-4 shadow-inner text-white">
+            <div className="w-full bg-natural-accent py-14 px-4 shadow-inner text-white">
               <div className="max-w-4xl mx-auto text-center space-y-6">
                 <div className="space-y-2">
-                  <h3 className="text-2xl md:text-4xl font-serif font-bold tracking-tight text-[#FDFCF8]">
+                  <h3 className="text-2xl md:text-4xl font-serif font-bold tracking-tight text-natural-bg">
                     {t.promoBannerTitle}
                   </h3>
-                  <p className="text-xs md:text-sm text-[#F5F2ED]/90 max-w-xl mx-auto leading-relaxed">
+                  <p className="text-xs md:text-sm text-natural-beige/90 max-w-xl mx-auto leading-relaxed">
                     Đăng ký nhập email và dạo bước du lịch Hội An & miền Trung cùng chuỗi đối tác lữ hành VietCharm.
                   </p>
                 </div>
@@ -530,12 +530,12 @@ export default function App() {
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder={t.subPlaceholder}
-                    className="flex-1 text-xs md:text-sm bg-[#FDFCF8] text-[#4A4A35] placeholder:text-stone-400 px-4 py-3 rounded-xl border border-[#E6E2D3] focus:ring-1 focus:ring-[#8C7A5B] outline-none font-medium"
+                    className="flex-1 text-xs md:text-sm bg-natural-bg text-natural-text placeholder:text-stone-400 px-4 py-3 rounded-xl border border-natural-border focus:ring-1 focus:ring-natural-accent outline-none font-medium"
                     required
                   />
                   <button
                     type="submit"
-                    className="bg-[#E3B04B] hover:bg-[#c99030] text-[#4A4A35] px-5 py-3 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider transition shadow-md whitespace-nowrap"
+                    className="bg-natural-gold hover:bg-natural-gold-dark text-natural-text px-5 py-3 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider transition shadow-md whitespace-nowrap"
                   >
                     {isVi ? 'Đăng ký' : 'Subscribe'}
                   </button>
@@ -676,13 +676,13 @@ export default function App() {
             exit={{ opacity: 0, y: -15 }}
             className="max-w-7xl mx-auto px-4 py-12 space-y-8"
           >
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-[#E6E2D3] pb-6 gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-natural-border pb-6 gap-4">
               <div>
-                <span className="text-xs font-bold text-[#8C7A5B] uppercase tracking-widest">{isVi ? 'Nhật ký lữ hành' : 'Travel History Log'}</span>
-                <h2 className="text-2xl md:text-3xl font-serif font-black text-[#4A4A35] mt-1">
+                <span className="text-xs font-bold text-natural-accent uppercase tracking-widest">{isVi ? 'Nhật ký lữ hành' : 'Travel History Log'}</span>
+                <h2 className="text-2xl md:text-3xl font-serif font-black text-natural-text mt-1">
                   {isVi ? 'Dịch Vụ Đã Xem Gần Đây' : 'Recently Viewed Services'}
                 </h2>
-                <p className="text-[#4A4A35]/70 text-xs mt-1">
+                <p className="text-natural-text/70 text-xs mt-1">
                   {isVi 
                     ? 'Danh sách các cơ sở lưu trú khách sạn, hoạt động trải nghiệm hoặc xe tự lái bạn đã tham khảo.' 
                     : 'The collection of hotels, activities, or vehicle rentals you have browsed.'}
@@ -700,9 +700,9 @@ export default function App() {
             </div>
 
             {recentlyViewed.length === 0 ? (
-              <div className="text-center py-20 bg-[#FAF8F5] border border-dashed border-[#E6E2D3] rounded-3xl p-6 space-y-4">
-                <Clock className="w-12 h-12 text-[#8C7A5B]/50 mx-auto animate-pulse" />
-                <h3 className="font-serif font-bold text-[#4A4A35] text-lg">
+              <div className="text-center py-20 bg-natural-cream border border-dashed border-natural-border rounded-3xl p-6 space-y-4">
+                <Clock className="w-12 h-12 text-natural-accent/50 mx-auto animate-pulse" />
+                <h3 className="font-serif font-bold text-natural-text text-lg">
                   {isVi ? 'Chưa có dịch vụ nào đã xem' : 'No browsed history yet'}
                 </h3>
                 <p className="text-stone-500 text-xs max-w-sm mx-auto">
@@ -712,7 +712,7 @@ export default function App() {
                 </p>
                 <button 
                   onClick={() => setView('provinces')} 
-                  className="bg-[#8C7A5B] text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md hover:bg-[#5A5A40] transition cursor-pointer"
+                  className="bg-natural-accent text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md hover:bg-natural-olive transition cursor-pointer"
                 >
                   {isVi ? 'Bắt đầu Khám phá ngay →' : 'Start Exploring Now →'}
                 </button>
@@ -727,11 +727,11 @@ export default function App() {
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: idx * 0.05 }}
-                      className="bg-[#F9F7F2] rounded-3xl overflow-hidden shadow-xs hover:shadow-lg border border-[#E6E2D3] hover:border-[#8C7A5B] transition duration-300 flex flex-col justify-between"
+                      className="bg-natural-beige-light rounded-3xl overflow-hidden shadow-xs hover:shadow-lg border border-natural-border hover:border-natural-accent transition duration-300 flex flex-col justify-between"
                     >
                       <div className="relative h-44 overflow-hidden shrink-0 bg-stone-100">
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                        <span className="absolute top-3 left-3 bg-[#E3B04B] text-white px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                        <span className="absolute top-3 left-3 bg-natural-gold text-white px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider">
                           {item.type === 'hotel' ? (isVi ? 'Khách sạn' : 'Hotel') : 
                            item.type === 'activity' ? (isVi ? 'Trải nghiệm' : 'Activity') : 
                            (isVi ? 'Xe tự lái' : 'Rental')}
@@ -740,22 +740,22 @@ export default function App() {
 
                       <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                         <div className="space-y-1">
-                          <h4 className="font-serif font-bold text-[#4A4A35] text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
+                          <h4 className="font-serif font-bold text-natural-text text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
                             {item.name}
                           </h4>
                           {item.description && (
-                            <p className="text-[11px] text-[#4A4A35]/75 line-clamp-2 leading-relaxed min-h-[32px]">
+                            <p className="text-[11px] text-natural-text/75 line-clamp-2 leading-relaxed min-h-[32px]">
                               {item.description}
                             </p>
                           )}
                         </div>
 
-                        <div className="pt-2 border-t border-[#E6E2D3] flex items-center justify-between">
+                        <div className="pt-2 border-t border-natural-border flex items-center justify-between">
                           <div>
-                            <span className="text-[9px] text-[#8C7A5B] block font-bold uppercase tracking-wider">
+                            <span className="text-[9px] text-natural-accent block font-bold uppercase tracking-wider">
                               {isVi ? 'ĐƠN GIÁ' : 'PRICE'}
                             </span>
-                            <span className="font-mono font-black text-[#8C7A5B] text-sm">
+                            <span className="font-mono font-black text-natural-accent text-sm">
                               {item.price.toLocaleString('vi-VN')}đ
                             </span>
                           </div>
@@ -763,7 +763,7 @@ export default function App() {
                           {alreadyInCart ? (
                             <button
                               onClick={() => handleRemoveFromCart(item.id)}
-                              className="bg-[#F5F2ED] hover:bg-[#E6E2D3] text-[#4A4A35] px-3 py-1.5 rounded-xl text-[11px] font-bold border border-[#E6E2D3] transition flex items-center gap-1 cursor-pointer"
+                              className="bg-natural-beige hover:bg-natural-border text-natural-text px-3 py-1.5 rounded-xl text-[11px] font-bold border border-natural-border transition flex items-center gap-1 cursor-pointer"
                             >
                               <span>✓ {isVi ? 'Đã thêm' : 'Added'}</span>
                             </button>
@@ -772,7 +772,7 @@ export default function App() {
                               onClick={() => {
                                 handleViewItem(item);
                               }}
-                              className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-3 py-1.5 rounded-xl text-[11px] font-bold transition cursor-pointer"
+                              className="bg-natural-accent hover:bg-natural-olive text-white px-3 py-1.5 rounded-xl text-[11px] font-bold transition cursor-pointer"
                             >
                               {isVi ? 'Xem chi tiết' : 'View Details'}
                             </button>
@@ -850,7 +850,7 @@ export default function App() {
                 <ShieldAlert className="w-12 h-12 text-red-500 mx-auto animate-bounce" />
                 <h3 className="font-serif font-bold text-stone-900 text-lg">{isVi ? 'Không có quyền truy cập!' : 'Access Denied!'}</h3>
                 <p className="text-stone-500 text-xs max-w-sm mx-auto">{isVi ? 'Bạn cần tài khoản có quyền Quản trị viên để truy cập trang thông số dữ liệu này.' : 'Administrator role required to query service catalogs.'}</p>
-                <button onClick={() => setView('regions')} className="bg-[#8C7A5B] text-white px-5 py-2 rounded-xl text-xs font-bold transition">
+                <button onClick={() => setView('regions')} className="bg-natural-accent text-white px-5 py-2 rounded-xl text-xs font-bold transition">
                   {isVi ? 'Quay về trang chủ' : 'Return home'}
                 </button>
               </div>
@@ -930,25 +930,25 @@ export default function App() {
       />
 
       {/* Premium responsive footer exactly matching the design mockup */}
-      <footer className="bg-[#1E1D15] text-[#F5F2ED]/85 pt-16 pb-12 px-4 md:px-8 border-t border-[#8C7A5B]/30 font-sans">
+      <footer className="bg-natural-ink text-natural-beige/85 pt-16 pb-12 px-4 md:px-8 border-t border-natural-accent/30 font-sans">
         <div className="max-w-7xl mx-auto">
           {/* Main 4-column layout + brand */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#F5F2ED]/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-natural-beige/10">
             {/* Brand block (takes 3/12 cols) */}
             <div className="lg:col-span-3 space-y-5">
               {/* Logo */}
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-[#E3B04B]/10 rounded-xl border border-[#E3B04B]/30">
-                  <Compass className="w-8 h-8 text-[#E3B04B]" />
+                <div className="p-2 bg-natural-gold/10 rounded-xl border border-natural-gold/30">
+                  <Compass className="w-8 h-8 text-natural-gold" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-black text-xl text-[#FDFCF8] tracking-wider leading-none">VIET CHARM</h4>
-                  <span className="text-[9px] uppercase font-bold text-[#E3B04B] tracking-widest block mt-1">HERITAGE & TRAVEL</span>
+                  <h4 className="font-serif font-black text-xl text-natural-bg tracking-wider leading-none">VIET CHARM</h4>
+                  <span className="text-[9px] uppercase font-bold text-natural-gold tracking-widest block mt-1">HERITAGE & TRAVEL</span>
                 </div>
               </div>
 
               {/* Slogan */}
-              <p className="text-xs text-[#F5F2ED]/70 leading-relaxed">
+              <p className="text-xs text-natural-beige/70 leading-relaxed">
                 {language === 'vi' 
                   ? 'VietCharm mang đến những trải nghiệm du lịch chân thật và đáng nhớ tại Hội An và khắp Việt Nam.'
                   : 'VietCharm delivers authentic and memorable travel experiences in Hoi An and across Vietnam.'}
@@ -956,16 +956,16 @@ export default function App() {
 
               {/* Social Icons */}
               <div className="flex items-center gap-3 pt-2">
-                <a href="#facebook" className="w-8 h-8 rounded-full border border-[#F5F2ED]/25 flex items-center justify-center text-[#F5F2ED]/80 hover:text-[#E3B04B] hover:border-[#E3B04B] hover:bg-[#E3B04B]/5 transition duration-300">
+                <a href="#facebook" className="w-8 h-8 rounded-full border border-natural-beige/25 flex items-center justify-center text-natural-beige/80 hover:text-natural-gold hover:border-natural-gold hover:bg-natural-gold/5 transition duration-300">
                   <Facebook className="w-4 h-4" />
                 </a>
-                <a href="#instagram" className="w-8 h-8 rounded-full border border-[#F5F2ED]/25 flex items-center justify-center text-[#F5F2ED]/80 hover:text-[#E3B04B] hover:border-[#E3B04B] hover:bg-[#E3B04B]/5 transition duration-300">
+                <a href="#instagram" className="w-8 h-8 rounded-full border border-natural-beige/25 flex items-center justify-center text-natural-beige/80 hover:text-natural-gold hover:border-natural-gold hover:bg-natural-gold/5 transition duration-300">
                   <Instagram className="w-4 h-4" />
                 </a>
-                <a href="#youtube" className="w-8 h-8 rounded-full border border-[#F5F2ED]/25 flex items-center justify-center text-[#F5F2ED]/80 hover:text-[#E3B04B] hover:border-[#E3B04B] hover:bg-[#E3B04B]/5 transition duration-300">
+                <a href="#youtube" className="w-8 h-8 rounded-full border border-natural-beige/25 flex items-center justify-center text-natural-beige/80 hover:text-natural-gold hover:border-natural-gold hover:bg-natural-gold/5 transition duration-300">
                   <Youtube className="w-4 h-4" />
                 </a>
-                <a href="#tiktok" className="w-8 h-8 rounded-full border border-[#F5F2ED]/25 flex items-center justify-center text-[#F5F2ED]/80 hover:text-[#E3B04B] hover:border-[#E3B04B] hover:bg-[#E3B04B]/5 transition duration-300 font-bold text-xs select-none">
+                <a href="#tiktok" className="w-8 h-8 rounded-full border border-natural-beige/25 flex items-center justify-center text-natural-beige/80 hover:text-natural-gold hover:border-natural-gold hover:bg-natural-gold/5 transition duration-300 font-bold text-xs select-none">
                   ♪
                 </a>
               </div>
@@ -974,10 +974,10 @@ export default function App() {
             {/* Links Block 1: KHÁM PHÁ (takes 2/12 cols) */}
             <div className="lg:col-span-2 space-y-4">
               <div>
-                <h5 className="font-bold text-xs uppercase text-[#FDFCF8] tracking-widest">
+                <h5 className="font-bold text-xs uppercase text-natural-bg tracking-widest">
                   {language === 'vi' ? 'KHÁM PHÁ' : 'EXPLORE'}
                 </h5>
-                <span className="w-8 h-[2px] bg-[#E3B04B] mt-2 block" />
+                <span className="w-8 h-[2px] bg-natural-gold mt-2 block" />
               </div>
               <ul className="space-y-2.5 text-xs">
                 <li>
@@ -987,9 +987,9 @@ export default function App() {
                       setView('province');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group text-left w-full cursor-pointer"
+                    className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
                   >
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Khám phá Hội An' : 'Explore Hoi An'}</span>
                   </button>
                 </li>
@@ -1000,9 +1000,9 @@ export default function App() {
                       setAllServicesTab('hotels');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group text-left w-full cursor-pointer"
+                    className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
                   >
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Khách sạn' : 'Hotels'}</span>
                   </button>
                 </li>
@@ -1013,9 +1013,9 @@ export default function App() {
                       setAllServicesTab('vehicles');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group text-left w-full cursor-pointer"
+                    className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
                   >
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Thuê xe' : 'Car Rental'}</span>
                   </button>
                 </li>
@@ -1026,9 +1026,9 @@ export default function App() {
                       setAllServicesTab('activities');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group text-left w-full cursor-pointer"
+                    className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
                   >
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Hoạt động & vui chơi' : 'Experiences & Tours'}</span>
                   </button>
                 </li>
@@ -1038,9 +1038,9 @@ export default function App() {
                       setView('tours');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group text-left w-full cursor-pointer"
+                    className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
                   >
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Combo tiết kiệm' : 'Saver Combos'}</span>
                   </button>
                 </li>
@@ -1050,9 +1050,9 @@ export default function App() {
                       setView('handbook');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group text-left w-full cursor-pointer"
+                    className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
                   >
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Cẩm nang du lịch' : 'Travel Handbook'}</span>
                   </button>
                 </li>
@@ -1062,45 +1062,45 @@ export default function App() {
             {/* Links Block 2: HỖ TRỢ (takes 2/12 cols) */}
             <div className="lg:col-span-2 space-y-4">
               <div>
-                <h5 className="font-bold text-xs uppercase text-[#FDFCF8] tracking-widest">
+                <h5 className="font-bold text-xs uppercase text-natural-bg tracking-widest">
                   {language === 'vi' ? 'HỖ TRỢ' : 'SUPPORT'}
                 </h5>
-                <span className="w-8 h-[2px] bg-[#E3B04B] mt-2 block" />
+                <span className="w-8 h-[2px] bg-natural-gold mt-2 block" />
               </div>
               <ul className="space-y-2.5 text-xs">
                 <li>
-                  <a href="#help" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#help" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Trung tâm hỗ trợ' : 'Help Center'}</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#faq" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#faq" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Câu hỏi thường gặp' : 'FAQs'}</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#booking-guide" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#booking-guide" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Hướng dẫn đặt dịch vụ' : 'Booking Guide'}</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#refund" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#refund" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Chính sách hủy & hoàn tiền' : 'Cancellation & Refund'}</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#terms" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#terms" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Điều khoản sử dụng' : 'Terms of Use'}</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#privacy" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#privacy" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Chính sách bảo mật' : 'Privacy Policy'}</span>
                   </a>
                 </li>
@@ -1110,15 +1110,15 @@ export default function App() {
             {/* Links Block 3: VỀ VIETCHARM (takes 2/12 cols) */}
             <div className="lg:col-span-2 space-y-4">
               <div>
-                <h5 className="font-bold text-xs uppercase text-[#FDFCF8] tracking-widest">
+                <h5 className="font-bold text-xs uppercase text-natural-bg tracking-widest">
                   {language === 'vi' ? 'VỀ VIETCHARM' : 'ABOUT VIETCHARM'}
                 </h5>
-                <span className="w-8 h-[2px] bg-[#E3B04B] mt-2 block" />
+                <span className="w-8 h-[2px] bg-natural-gold mt-2 block" />
               </div>
               <ul className="space-y-2.5 text-xs">
                 <li>
-                  <a href="#about" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#about" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Giới thiệu về chúng tôi' : 'About Us'}</span>
                   </a>
                 </li>
@@ -1128,27 +1128,27 @@ export default function App() {
                       setView('partnership-register');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group text-left w-full cursor-pointer"
+                    className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
                   >
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Hợp tác với chúng tôi' : 'Work With Us'}</span>
                   </button>
                 </li>
                 <li>
-                  <a href="#careers" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#careers" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Tuyển dụng' : 'Careers'}</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#partners" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#partners" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Đối tác & Liên kết' : 'Partners & Affiliates'}</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#blog" className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group">
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                  <a href="#blog" className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group">
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Tin tức & Blog' : 'News & Blog'}</span>
                   </a>
                 </li>
@@ -1157,9 +1157,9 @@ export default function App() {
                     onClick={() => {
                       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-1.5 text-[#F5F2ED]/75 hover:text-[#E3B04B] transition duration-200 group text-left w-full cursor-pointer"
+                    className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
                   >
-                    <span className="text-[#E3B04B] group-hover:translate-x-0.5 transition-transform">›</span>
+                    <span className="text-natural-gold group-hover:translate-x-0.5 transition-transform">›</span>
                     <span>{language === 'vi' ? 'Liên hệ' : 'Contact'}</span>
                   </button>
                 </li>
@@ -1169,14 +1169,14 @@ export default function App() {
             {/* Links Block 4: LIÊN HỆ (takes 3/12 cols) */}
             <div className="lg:col-span-3 space-y-4">
               <div>
-                <h5 className="font-bold text-xs uppercase text-[#FDFCF8] tracking-widest">
+                <h5 className="font-bold text-xs uppercase text-natural-bg tracking-widest">
                   {language === 'vi' ? 'LIÊN HỆ' : 'CONTACT'}
                 </h5>
-                <span className="w-8 h-[2px] bg-[#E3B04B] mt-2 block" />
+                <span className="w-8 h-[2px] bg-natural-gold mt-2 block" />
               </div>
-              <ul className="space-y-3.5 text-xs text-[#F5F2ED]/80">
+              <ul className="space-y-3.5 text-xs text-natural-beige/80">
                 <li className="flex gap-2.5 items-start">
-                  <MapPin className="w-4 h-4 text-[#E3B04B] shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-natural-gold shrink-0 mt-0.5" />
                   <span>
                     {language === 'vi' 
                       ? '123 Trần Phú, Minh An, Hội An, Quảng Nam'
@@ -1184,15 +1184,15 @@ export default function App() {
                   </span>
                 </li>
                 <li className="flex gap-2.5 items-center">
-                  <Phone className="w-4 h-4 text-[#E3B04B] shrink-0" />
+                  <Phone className="w-4 h-4 text-natural-gold shrink-0" />
                   <span>Hotline: 1900 1234</span>
                 </li>
                 <li className="flex gap-2.5 items-center">
-                  <Mail className="w-4 h-4 text-[#E3B04B] shrink-0" />
+                  <Mail className="w-4 h-4 text-natural-gold shrink-0" />
                   <span className="break-all">Email: info@vietcharm.com</span>
                 </li>
                 <li className="flex gap-2.5 items-center">
-                  <Clock className="w-4 h-4 text-[#E3B04B] shrink-0" />
+                  <Clock className="w-4 h-4 text-natural-gold shrink-0" />
                   <span>
                     {language === 'vi' 
                       ? 'Thứ 2 - Chủ nhật: 8:00 - 21:00'
@@ -1204,7 +1204,7 @@ export default function App() {
           </div>
 
           {/* Bottom row: Legals, trust badges, payment methods */}
-          <div className="pt-8 flex flex-col xl:flex-row gap-8 items-center justify-between text-xs text-[#F5F2ED]/60">
+          <div className="pt-8 flex flex-col xl:flex-row gap-8 items-center justify-between text-xs text-natural-beige/60">
             {/* Copyright and license */}
             <div className="space-y-1 text-center xl:text-left">
               <p className="font-medium text-stone-300">
@@ -1212,7 +1212,7 @@ export default function App() {
                   ? '© 2024 VietCharm Hội An. All rights reserved.' 
                   : '© 2024 VietCharm Hoi An. All rights reserved.'}
               </p>
-              <p className="text-[10px] text-[#F5F2ED]/40 leading-relaxed max-w-md">
+              <p className="text-[10px] text-natural-beige/40 leading-relaxed max-w-md">
                 {language === 'vi'
                   ? 'Giấy phép kinh doanh lữ hành quốc tế số GP-79-1124'
                   : 'International Tour Operator License No. GP-79-1124'}
@@ -1222,37 +1222,37 @@ export default function App() {
             {/* Trust assurances badging center */}
             <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
               {/* Badge 1: SSL Security */}
-              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#F5F2ED]/5 border border-stone-800/60">
+              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-natural-beige/5 border border-stone-800/60">
                 <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
                 <div className="text-left">
                   <span className="text-[10px] font-bold block text-stone-200 leading-none">
                     {language === 'vi' ? 'Thanh toán bảo mật' : 'Secure Checkout'}
                   </span>
-                  <span className="text-[9px] text-[#F5F2ED]/40 block mt-0.5 leading-none">SSL 256-bit</span>
+                  <span className="text-[9px] text-natural-beige/40 block mt-0.5 leading-none">SSL 256-bit</span>
                 </div>
               </div>
 
               {/* Badge 2: Support 24/7 */}
-              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#F5F2ED]/5 border border-stone-800/60">
+              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-natural-beige/5 border border-stone-800/60">
                 <Headphones className="w-5 h-5 text-amber-500 shrink-0" />
                 <div className="text-left">
                   <span className="text-[10px] font-bold block text-stone-200 leading-none">
                     {language === 'vi' ? 'Hỗ trợ 24/7' : '24/7 Support'}
                   </span>
-                  <span className="text-[9px] text-[#F5F2ED]/40 block mt-0.5 leading-none">
+                  <span className="text-[9px] text-natural-beige/40 block mt-0.5 leading-none">
                     {language === 'vi' ? 'Luôn sẵn sàng' : 'Always Ready'}
                   </span>
                 </div>
               </div>
 
               {/* Badge 3: Quality assurance */}
-              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#F5F2ED]/5 border border-stone-800/60">
+              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-natural-beige/5 border border-stone-800/60">
                 <Award className="w-5 h-5 text-sky-400 shrink-0" />
                 <div className="text-left">
                   <span className="text-[10px] font-bold block text-stone-200 leading-none">
                     {language === 'vi' ? 'Đảm bảo chất lượng' : 'Quality Assurance'}
                   </span>
-                  <span className="text-[9px] text-[#F5F2ED]/40 block mt-0.5 leading-none">
+                  <span className="text-[9px] text-natural-beige/40 block mt-0.5 leading-none">
                     {language === 'vi' ? 'Dịch vụ tốt nhất' : 'Best Service'}
                   </span>
                 </div>

@@ -315,7 +315,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
   };
 
   return (
-    <div className="w-full bg-[#FAF6ED] text-[#4A4A35] py-12 px-4 md:px-8 border-y border-[#E6E2D3] relative overflow-hidden">
+    <div className="w-full bg-natural-sand text-natural-text py-12 px-4 md:px-8 border-y border-natural-border relative overflow-hidden">
       
       {/* Floating Notifications */}
       <AnimatePresence>
@@ -324,9 +324,9 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
             initial={{ opacity: 0, y: -20, x: '-50%' }}
             animate={{ opacity: 1, y: 0, x: '-50%' }}
             exit={{ opacity: 0, y: -20, x: '-50%' }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 bg-[#4A4A35] text-[#FAF6ED] px-6 py-3 rounded-full text-xs font-bold shadow-2xl z-50 border border-[#E6E2D3]/20 flex items-center gap-2"
+            className="fixed top-24 left-1/2 -translate-x-1/2 bg-natural-text text-natural-sand px-6 py-3 rounded-full text-xs font-bold shadow-2xl z-50 border border-natural-border/20 flex items-center gap-2"
           >
-            <Sparkles className="w-4 h-4 text-[#E3B04B]" />
+            <Sparkles className="w-4 h-4 text-natural-gold" />
             <span>{alertMsg}</span>
           </motion.div>
         )}
@@ -336,14 +336,14 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
         
         {/* Header Branding */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAE5D5] text-[#8C7A5B] text-[10px] font-black uppercase tracking-widest">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-natural-border-light text-natural-accent text-[10px] font-black uppercase tracking-widest">
             <Users className="w-3.5 h-3.5" />
             <span>{isVi ? 'PHÒNG LẬP KẾ HOẠCH NHÓM ĐỒNG THUẬN' : 'SHARED GROUP PLANNING ROOM'}</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-serif font-black tracking-tight text-[#4A4A35]">
+          <h2 className="text-3xl md:text-5xl font-serif font-black tracking-tight text-natural-text">
             {isVi ? 'Trip Room – Giải Mã Áp Lực Đi Nhóm' : 'Trip Room – Group Co-Planning Oasis'}
           </h2>
-          <p className="text-xs md:text-sm text-[#4A4A35]/80 leading-relaxed font-sans max-w-2xl mx-auto">
+          <p className="text-xs md:text-sm text-natural-text/80 leading-relaxed font-sans max-w-2xl mx-auto">
             {isVi 
               ? 'Đi nhóm mệt vì một người chốt tự phát, người khác không ưng, không biết ai đã trả tiền, hay đổi lịch. Trip Room cho phép cả nhóm đề xuất gu, bầu chọn tối ưu, tự thanh toán và hiển thị hóa đơn minh bạch.'
               : 'Group trips get chaotic when one person decides and others suffer. Invite friends, cast votes on options, track payment shares, and build a trip everyone actually loves.'}
@@ -354,13 +354,13 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* LEFT 5 COLUMNS: LOBBY & MEMBER FLOW */}
-          <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-[#E6E2D3] shadow-lg flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-natural-border shadow-lg flex flex-col justify-between space-y-6">
             
             <div className="space-y-6">
               {/* Invitation & Code */}
-              <div className="bg-[#FAF6ED] border border-[#E6E2D3] p-4 rounded-2xl space-y-3">
+              <div className="bg-natural-sand border border-natural-border p-4 rounded-2xl space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] uppercase font-black text-[#8C7A5B] tracking-wider block">
+                  <span className="text-[10px] uppercase font-black text-natural-accent tracking-wider block">
                     {isVi ? 'LIÊN KẾT PHÒNG DU LỊCH NHÓM' : 'CO-PLANNING INVITE LINK'}
                   </span>
                   <span className="inline-flex items-center gap-1 text-[9px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">
@@ -374,11 +374,11 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                     type="text" 
                     readOnly 
                     value={`https://vietcharm.vn/triproom/${roomId}`}
-                    className="flex-1 bg-white text-[10px] font-mono border border-[#E6E2D3] p-2.5 rounded-xl text-[#4A4A35]"
+                    className="flex-1 bg-white text-[10px] font-mono border border-natural-border p-2.5 rounded-xl text-natural-text"
                   />
                   <button
                     onClick={copyRoomLink}
-                    className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-3 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                    className="bg-natural-accent hover:bg-natural-olive text-white px-3 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
                   >
                     <Share2 className="w-3.5 h-3.5" />
                     <span>{copied ? (isVi ? 'Đã lưu' : 'Copied') : (isVi ? 'Mời' : 'Invite')}</span>
@@ -388,11 +388,11 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
 
               {/* Members Live Feed List */}
               <div className="space-y-3">
-                <div className="flex justify-between items-center border-b border-[#FAF6ED] pb-2">
-                  <span className="text-xs font-serif font-black uppercase text-[#4A4A35] tracking-wider">
+                <div className="flex justify-between items-center border-b border-natural-sand pb-2">
+                  <span className="text-xs font-serif font-black uppercase text-natural-text tracking-wider">
                     {isVi ? 'Danh sách thành viên' : 'Group Members'}
                   </span>
-                  <span className="text-[10px] font-mono font-bold bg-[#FAF6ED] border border-[#E6E2D3] text-[#8C7A5B] px-2.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono font-bold bg-natural-sand border border-natural-border text-natural-accent px-2.5 py-0.5 rounded-full">
                     {members.length} {isVi ? 'người' : 'people'}
                   </span>
                 </div>
@@ -401,12 +401,12 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                   {members.map((member) => (
                     <div 
                       key={member.id} 
-                      className="group/item flex items-start gap-3 p-3 rounded-2xl hover:bg-[#FAF6ED] transition border border-transparent hover:border-[#E6E2D3]"
+                      className="group/item flex items-start gap-3 p-3 rounded-2xl hover:bg-natural-sand transition border border-transparent hover:border-natural-border"
                     >
-                      <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full object-cover shrink-0 border border-[#E6E2D3] shadow-xs" />
+                      <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full object-cover shrink-0 border border-natural-border shadow-xs" />
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start gap-1">
-                          <span className="text-xs font-black text-[#4A4A35] truncate">{member.name}</span>
+                          <span className="text-xs font-black text-natural-text truncate">{member.name}</span>
                           <div className="flex items-center gap-1">
                             <span className={`text-[9px] font-black px-2 py-0.5 rounded-full ${
                               member.status === 'paid' 
@@ -447,8 +447,8 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
               </div>
 
               {/* Simulated Friend Quick Adding */}
-              <form onSubmit={handleAddMember} className="border-t border-[#E6E2D3] pt-4 space-y-3">
-                <span className="text-[10px] uppercase font-black text-[#8C7A5B] block">
+              <form onSubmit={handleAddMember} className="border-t border-natural-border pt-4 space-y-3">
+                <span className="text-[10px] uppercase font-black text-natural-accent block">
                   {isVi ? 'MÔ PHỎNG BẠN BÈ GIA NHẬP NHÓM' : 'SIMULATE FRIENDS JOINING LOBBY'}
                 </span>
                 <div className="space-y-2">
@@ -457,7 +457,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                     placeholder={isVi ? 'Tên bạn thân...' : 'Friend name...'}
                     value={newFriendName}
                     onChange={(e) => setNewFriendName(e.target.value)}
-                    className="w-full text-xs bg-[#FAF6ED] text-[#4A4A35] border border-[#E6E2D3] p-2.5 rounded-xl outline-none"
+                    className="w-full text-xs bg-natural-sand text-natural-text border border-natural-border p-2.5 rounded-xl outline-none"
                     required
                   />
                   <div className="grid grid-cols-2 gap-2">
@@ -466,17 +466,17 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                       placeholder={isVi ? 'Gu du lịch (phẩy)...' : 'Vibes (comma separated)...'}
                       value={newFriendPref}
                       onChange={(e) => setNewFriendPref(e.target.value)}
-                      className="text-xs bg-[#FAF6ED] text-[#4A4A35] border border-[#E6E2D3] p-2.5 rounded-xl outline-none"
+                      className="text-xs bg-natural-sand text-natural-text border border-natural-border p-2.5 rounded-xl outline-none"
                     />
                     <input 
                       type="text" 
                       placeholder={isVi ? 'Cực ghét gì...' : 'Avoid/Dislike...'}
                       value={newFriendDislike}
                       onChange={(e) => setNewFriendDislike(e.target.value)}
-                      className="text-xs bg-[#FAF6ED] text-[#4A4A35] border border-[#E6E2D3] p-2.5 rounded-xl outline-none"
+                      className="text-xs bg-natural-sand text-natural-text border border-natural-border p-2.5 rounded-xl outline-none"
                     />
                   </div>
-                  <div className="flex justify-between items-center text-xs text-[#8C7A5B]">
+                  <div className="flex justify-between items-center text-xs text-natural-accent">
                     <span>{isVi ? 'Hạn mức chi:' : 'Budget max:'} {newFriendBudget.toLocaleString('vi-VN')}đ</span>
                     <input 
                       type="range" 
@@ -485,13 +485,13 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                       step="500000"
                       value={newFriendBudget} 
                       onChange={(e) => setNewFriendBudget(Number(e.target.value))}
-                      className="w-32 accent-[#8C7A5B]"
+                      className="w-32 accent-natural-accent"
                     />
                   </div>
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[#FAF6ED] hover:bg-[#E6E2D3] border border-[#E6E2D3] text-[#8C7A5B] text-xs font-bold py-2 rounded-xl transition cursor-pointer flex items-center justify-center gap-1"
+                  className="w-full bg-natural-sand hover:bg-natural-border border border-natural-border text-natural-accent text-xs font-bold py-2 rounded-xl transition cursor-pointer flex items-center justify-center gap-1"
                 >
                   <Plus className="w-4 h-4" />
                   <span>{isVi ? 'Thêm thành viên ảo này' : 'Insert Simulated Friend'}</span>
@@ -500,21 +500,21 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
             </div>
 
             {/* Split Bill Math Box */}
-            <div className="border-t border-[#E6E2D3] pt-4 space-y-4">
-              <div className="bg-[#FAF6ED] border border-[#E6E2D3] p-3 rounded-2xl flex justify-between items-center">
+            <div className="border-t border-natural-border pt-4 space-y-4">
+              <div className="bg-natural-sand border border-natural-border p-3 rounded-2xl flex justify-between items-center">
                 <div>
-                  <span className="text-[9px] font-black text-[#8C7A5B] uppercase block">
+                  <span className="text-[9px] font-black text-natural-accent uppercase block">
                     {isVi ? 'TỔNG CHUYẾN ĐI NHÓM' : 'TOTAL GROUP ESTIMATE'}
                   </span>
-                  <span className="text-base font-serif font-black text-[#4A4A35]">
+                  <span className="text-base font-serif font-black text-natural-text">
                     {packageTotal.toLocaleString('vi-VN')}đ
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[9px] font-black text-[#8C7A5B] uppercase block">
+                  <span className="text-[9px] font-black text-natural-accent uppercase block">
                     {isVi ? 'MỖI THÀNH VIÊN' : 'EACH SHARE (SPLIT)'}
                   </span>
-                  <span className="text-sm font-mono font-black text-[#8C7A5B]">
+                  <span className="text-sm font-mono font-black text-natural-accent">
                     {perPersonShare.toLocaleString('vi-VN')}đ
                   </span>
                 </div>
@@ -558,15 +558,15 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
           </div>
 
           {/* RIGHT 7 COLUMNS: THE GROUP VOTING MATRIX */}
-          <div className="lg:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-[#E6E2D3] shadow-lg flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-natural-border shadow-lg flex flex-col justify-between space-y-6">
             
             <div className="space-y-6">
               {/* Top Selector Panel Tabs */}
-              <div className="flex border-b border-[#FAF6ED] pb-1 gap-4">
+              <div className="flex border-b border-natural-sand pb-1 gap-4">
                 <button
                   onClick={() => setActiveTab('invite')}
                   className={`pb-2 text-xs font-bold uppercase tracking-wider transition cursor-pointer ${
-                    activeTab === 'invite' ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B] font-black' : 'text-[#4A4A35]/60 hover:text-[#8C7A5B]'
+                    activeTab === 'invite' ? 'text-natural-accent border-b-2 border-natural-accent font-black' : 'text-natural-text/60 hover:text-natural-accent'
                   }`}
                 >
                   🗳️ {isVi ? '1. Đóng góp ý kiến' : '1. Submit opinions'}
@@ -574,7 +574,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                 <button
                   onClick={() => setActiveTab('voting')}
                   className={`pb-2 text-xs font-bold uppercase tracking-wider transition cursor-pointer ${
-                    activeTab === 'voting' ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B] font-black' : 'text-[#4A4A35]/60 hover:text-[#8C7A5B]'
+                    activeTab === 'voting' ? 'text-natural-accent border-b-2 border-natural-accent font-black' : 'text-natural-text/60 hover:text-natural-accent'
                   }`}
                 >
                   📊 {isVi ? '2. Bầu chọn địa điểm' : '2. Vote & Consensus'}
@@ -582,7 +582,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                 <button
                   onClick={() => setActiveTab('checkout')}
                   className={`pb-2 text-xs font-bold uppercase tracking-wider transition cursor-pointer ${
-                    activeTab === 'checkout' ? 'text-[#8C7A5B] border-b-2 border-[#8C7A5B] font-black' : 'text-[#4A4A35]/60 hover:text-[#8C7A5B]'
+                    activeTab === 'checkout' ? 'text-natural-accent border-b-2 border-natural-accent font-black' : 'text-natural-text/60 hover:text-natural-accent'
                   }`}
                 >
                   💳 {isVi ? '3. Hóa đơn chiết khấu' : '3. Group Checkout'}
@@ -603,18 +603,18 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
 
                   {/* Collective stats info */}
                   <div className="space-y-3">
-                    <h4 className="text-xs uppercase tracking-wider font-bold text-[#8C7A5B]">
+                    <h4 className="text-xs uppercase tracking-wider font-bold text-natural-accent">
                       {isVi ? 'Ý KIẾN ĐANG HOẠT ĐỘNG TRONG PHÒNG' : 'COLLECTIVE GROUP INSIGHTS'}
                     </h4>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="p-3 bg-[#FAF6ED] rounded-xl border border-[#E6E2D3] space-y-1">
-                        <span className="text-[9px] uppercase font-bold text-[#8C7A5B] block">{isVi ? 'NGÂN SÁCH TRUNG BÌNH' : 'AVERAGE BUDGET TARGET'}</span>
+                      <div className="p-3 bg-natural-sand rounded-xl border border-natural-border space-y-1">
+                        <span className="text-[9px] uppercase font-bold text-natural-accent block">{isVi ? 'NGÂN SÁCH TRUNG BÌNH' : 'AVERAGE BUDGET TARGET'}</span>
                         <span className="text-sm font-mono font-bold">
                           {Math.round(members.reduce((acc, m) => acc + m.budget, 0) / members.length).toLocaleString('vi-VN')}đ
                         </span>
                       </div>
-                      <div className="p-3 bg-[#FAF6ED] rounded-xl border border-[#E6E2D3] space-y-1">
+                      <div className="p-3 bg-natural-sand rounded-xl border border-natural-border space-y-1">
                         <span className="text-[9px] uppercase font-bold text-rose-700 block">{isVi ? 'ĐIỂM TRÁNH CHUNG (ANTI-VIBE)' : 'CONSENSUS RED FLAGS'}</span>
                         <span className="text-xs font-semibold text-rose-800">
                           {isVi ? 'Tránh mệt mỏi, đi bộ dài, khách sạn ồn' : 'No long tiring slopes, quiet hotels'}
@@ -622,8 +622,8 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                       </div>
                     </div>
 
-                    <div className="p-4 bg-[#FDFCF8] rounded-2xl border border-[#E6E2D3] space-y-2">
-                      <span className="text-[10px] uppercase font-black text-[#8C7A5B] tracking-wider block">
+                    <div className="p-4 bg-natural-bg rounded-2xl border border-natural-border space-y-2">
+                      <span className="text-[10px] uppercase font-black text-natural-accent tracking-wider block">
                         {isVi ? 'GU CHUNG CỦA CẢ NHÓM ĐƯỢC TỔNG HỢP' : 'SYSTEM MATCHED VIBES'}
                       </span>
                       <div className="flex flex-wrap gap-1.5">
@@ -643,7 +643,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                   <div className="pt-4 flex justify-end">
                     <button
                       onClick={() => setActiveTab('voting')}
-                      className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white font-serif font-bold text-xs py-3 px-6 rounded-xl transition duration-300 flex items-center gap-1 cursor-pointer"
+                      className="bg-natural-accent hover:bg-natural-olive text-white font-serif font-bold text-xs py-3 px-6 rounded-xl transition duration-300 flex items-center gap-1 cursor-pointer"
                     >
                       <span>{isVi ? 'Tiến hành Bầu Chọn Địa Điểm' : 'Proceed to Group Voting'}</span>
                       <ChevronRight className="w-4 h-4" />
@@ -655,11 +655,11 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
               {/* TAB 2: VOTING BOARD */}
               {activeTab === 'voting' && (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between border-b border-[#FAF6ED] pb-2">
-                    <p className="text-[10px] uppercase font-black text-[#8C7A5B] tracking-wider">
+                  <div className="flex items-center justify-between border-b border-natural-sand pb-2">
+                    <p className="text-[10px] uppercase font-black text-natural-accent tracking-wider">
                       {isVi ? 'CẢ NHÓM BẦU CHỌN CHO CÁC PHƯƠNG ÁN' : 'REAL-TIME CO-PLANNER VOTING'}
                     </p>
-                    <span className="text-[9px] bg-amber-50 text-[#8C7A5B] border border-amber-200 px-2 py-0.5 rounded font-mono">
+                    <span className="text-[9px] bg-amber-50 text-natural-accent border border-amber-200 px-2 py-0.5 rounded font-mono">
                       {isVi ? 'Chạm để bầu nhân danh Trần Tuấn' : 'Tap to vote as Tuan'}
                     </span>
                   </div>
@@ -675,7 +675,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
 
                     return (
                       <div key={categoryType} className="space-y-3">
-                        <h4 className="text-xs font-serif font-black text-[#4A4A35] uppercase tracking-wider">{label}</h4>
+                        <h4 className="text-xs font-serif font-black text-natural-text uppercase tracking-wider">{label}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {filtered.map((item) => {
                             const userHasVoted = item.votes.includes('m1');
@@ -687,8 +687,8 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                               <div 
                                 key={item.id} 
                                 onClick={() => handleVote(item.id, 'm1')}
-                                className={`border rounded-2xl overflow-hidden bg-[#FDFCF8] transition duration-300 flex flex-col justify-between cursor-pointer group ${
-                                  userHasVoted ? 'border-[#8C7A5B] shadow-md ring-1 ring-[#8C7A5B]/30' : 'border-[#E6E2D3] hover:border-[#8C7A5B]'
+                                className={`border rounded-2xl overflow-hidden bg-natural-bg transition duration-300 flex flex-col justify-between cursor-pointer group ${
+                                  userHasVoted ? 'border-natural-accent shadow-md ring-1 ring-natural-accent/30' : 'border-natural-border hover:border-natural-accent'
                                 }`}
                               >
                                 <div className="relative h-28 overflow-hidden">
@@ -706,24 +706,24 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
 
                                 <div className="p-3 space-y-2">
                                   <div>
-                                    <span className="text-[8px] font-mono font-bold text-[#8C7A5B] block tracking-tight uppercase">
+                                    <span className="text-[8px] font-mono font-bold text-natural-accent block tracking-tight uppercase">
                                       {isVi ? item.locationVi : item.locationEn}
                                     </span>
-                                    <h5 className="text-[11px] font-serif font-bold text-[#4A4A35] line-clamp-1 leading-snug">
+                                    <h5 className="text-[11px] font-serif font-bold text-natural-text line-clamp-1 leading-snug">
                                       {isVi ? item.nameVi : item.nameEn}
                                     </h5>
                                   </div>
 
                                   {/* Progress bar voting */}
                                   <div className="space-y-1">
-                                    <div className="flex justify-between items-center text-[9px] font-semibold text-[#8C7A5B]">
+                                    <div className="flex justify-between items-center text-[9px] font-semibold text-natural-accent">
                                       <span>{isVi ? 'Tiến trình nhóm:' : 'Consensus:'}</span>
                                       <span>{votesCount}/{members.length} ({percent}%)</span>
                                     </div>
-                                    <div className="w-full bg-[#EAE5D5] h-1.5 rounded-full overflow-hidden">
+                                    <div className="w-full bg-natural-border-light h-1.5 rounded-full overflow-hidden">
                                       <div 
                                         className={`h-full transition-all duration-500 ${
-                                          isConsensus ? 'bg-emerald-600' : 'bg-[#8C7A5B]'
+                                          isConsensus ? 'bg-emerald-600' : 'bg-natural-accent'
                                         }`} 
                                         style={{ width: `${percent}%` }} 
                                       />
@@ -731,7 +731,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                                   </div>
 
                                   {/* Avatars who voted */}
-                                  <div className="flex justify-between items-center pt-1 border-t border-[#FAF6ED]">
+                                  <div className="flex justify-between items-center pt-1 border-t border-natural-sand">
                                     <div className="flex -space-x-1.5 overflow-hidden">
                                       {item.votes.map((vId) => {
                                         const mb = members.find(m => m.id === vId);
@@ -748,7 +748,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                                     </div>
                                     
                                     <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded ${
-                                      userHasVoted ? 'bg-[#8C7A5B] text-white' : 'bg-[#FAF6ED] text-[#8C7A5B] border border-[#E6E2D3]'
+                                      userHasVoted ? 'bg-natural-accent text-white' : 'bg-natural-sand text-natural-accent border border-natural-border'
                                     }`}>
                                       {userHasVoted ? (isVi ? '✓ Bạn đã bầu' : '✓ You voted') : (isVi ? 'Bầu chọn' : 'Vote')}
                                     </span>
@@ -762,8 +762,8 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                     );
                   })}
 
-                  <div className="pt-4 flex justify-between items-center border-t border-[#FAF6ED]">
-                    <div className="text-xs text-[#8C7A5B]">
+                  <div className="pt-4 flex justify-between items-center border-t border-natural-sand">
+                    <div className="text-xs text-natural-accent">
                       💡 {isVi ? 'Mẹo: Các lựa chọn đạt 100% đồng ý sẽ tự động tối ưu hóa đơn!' : 'Tip: 100% consensus items reduce platform surcharges!'}
                     </div>
                     <button
@@ -794,20 +794,20 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                     </div>
                   </div>
 
-                  <div className="bg-[#FAF6ED] border border-[#E6E2D3] rounded-2xl p-4 space-y-4">
-                    <span className="text-[10px] uppercase font-black text-[#8C7A5B] tracking-wider block">
+                  <div className="bg-natural-sand border border-natural-border rounded-2xl p-4 space-y-4">
+                    <span className="text-[10px] uppercase font-black text-natural-accent tracking-wider block">
                       {isVi ? 'BẢNG CHI TIẾT THANH TOÁN THEO ĐẦU NGƯỜI' : 'DETAILED PER-HEAD LEDGER'}
                     </span>
 
                     <div className="space-y-2 font-mono text-[11px]">
                       {members.map(member => (
-                        <div key={member.id} className="flex justify-between items-center py-2 border-b border-[#E6E2D3]/40">
+                        <div key={member.id} className="flex justify-between items-center py-2 border-b border-natural-border/40">
                           <div className="flex items-center gap-2">
                             <img src={member.avatar} alt={member.name} className="w-5 h-5 rounded-full object-cover" />
-                            <span className="font-bold text-[#4A4A35]">{member.name}</span>
+                            <span className="font-bold text-natural-text">{member.name}</span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="font-bold text-[#8C7A5B]">{perPersonShare.toLocaleString('vi-VN')}đ</span>
+                            <span className="font-bold text-natural-accent">{perPersonShare.toLocaleString('vi-VN')}đ</span>
                             <span className={`text-[9px] font-black px-2 py-0.5 rounded ${
                               member.status === 'paid' 
                                 ? 'bg-emerald-100 text-emerald-800' 
@@ -820,22 +820,22 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                       ))}
                     </div>
 
-                    <div className="pt-2 flex justify-between text-xs font-bold text-[#4A4A35]">
+                    <div className="pt-2 flex justify-between text-xs font-bold text-natural-text">
                       <span>{isVi ? 'Trưởng nhóm thanh toán trước:' : 'Leader pay-upfront total:'}</span>
-                      <span className="text-[#8C7A5B] font-mono text-sm font-black">
+                      <span className="text-natural-accent font-mono text-sm font-black">
                         {packageTotal.toLocaleString('vi-VN')}đ
                       </span>
                     </div>
                   </div>
 
-                  <div className="p-4 bg-white border border-[#E6E2D3] rounded-2xl space-y-3">
+                  <div className="p-4 bg-white border border-natural-border rounded-2xl space-y-3">
                     <div className="flex justify-between items-center text-xs">
                       <span className="font-serif font-black">{isVi ? 'Trạng thái huy động quỹ:' : 'Crowdfunding progress:'}</span>
                       <span className="font-mono font-bold text-emerald-700">
                         {members.filter(m => m.status === 'paid').length} / {members.length} {isVi ? 'đã hoàn tất' : 'completed'}
                       </span>
                     </div>
-                    <div className="w-full bg-[#FAF6ED] h-2 rounded-full overflow-hidden border border-[#E6E2D3]">
+                    <div className="w-full bg-natural-sand h-2 rounded-full overflow-hidden border border-natural-border">
                       <div 
                         className="bg-emerald-600 h-full transition-all duration-500" 
                         style={{ width: `${(members.filter(m => m.status === 'paid').length / members.length) * 100}%` }} 
@@ -846,13 +846,13 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                   <div className="flex flex-wrap gap-2 justify-end">
                     <button
                       onClick={onNavigateHome}
-                      className="bg-white hover:bg-[#FAF6ED] border border-[#E6E2D3] text-[#8C7A5B] text-xs font-bold py-3 px-6 rounded-xl transition cursor-pointer"
+                      className="bg-white hover:bg-natural-sand border border-natural-border text-natural-accent text-xs font-bold py-3 px-6 rounded-xl transition cursor-pointer"
                     >
                       {isVi ? 'Quay lại Trang Chủ' : 'Back to Home'}
                     </button>
                     <button
                       onClick={() => triggerAlert(isVi ? '✓ Đã kích hoạt cổng thanh toán hóa đơn nhóm VIP!' : '✓ Redirecting to secure group payment gateway!')}
-                      className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white text-xs font-serif font-bold py-3 px-6 rounded-xl transition cursor-pointer"
+                      className="bg-natural-accent hover:bg-natural-olive text-white text-xs font-serif font-bold py-3 px-6 rounded-xl transition cursor-pointer"
                     >
                       {isVi ? 'Thanh toán đặt cọc trọn gói' : 'Secure Deposit Bundle'}
                     </button>
@@ -863,7 +863,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
             </div>
 
             {/* Expandability signature footer */}
-            <div className="border-t border-[#FAF6ED] pt-3 text-[10px] text-[#8C7A5B]/80 font-sans italic text-center">
+            <div className="border-t border-natural-sand pt-3 text-[10px] text-natural-accent/80 font-sans italic text-center">
               ✦ {isVi 
                 ? 'Công nghệ Trip Room của VietCharm hiện đã hỗ trợ mở rộng cho mọi vùng di sản (Bắc, Trung, Nam).' 
                 : 'VietCharm Trip Room technology currently extends native multi-planner logic across all heritage regions.'}

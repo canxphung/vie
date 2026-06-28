@@ -184,65 +184,65 @@ export default function AllServicesView({
   }, [selectedProvince, selectedActivityCategory, searchQuery, sortBy]);
 
   return (
-    <div id="all-services-view" className="w-full min-h-screen bg-[#FDFCF8] py-8 px-4">
+    <div id="all-services-view" className="w-full min-h-screen bg-natural-bg py-8 px-4">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Navigation back and header banner */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[#E6E2D3] pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-natural-border pb-6">
           <div className="flex items-center gap-3">
             <button
               onClick={onBack}
-              className="p-2.5 rounded-full bg-white border border-[#E6E2D3] text-[#8C7A5B] hover:bg-[#F5F2ED] hover:text-[#5A5A40] transition shadow-xs cursor-pointer flex items-center justify-center"
+              className="p-2.5 rounded-full bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive transition shadow-xs cursor-pointer flex items-center justify-center"
               id="back-to-home-btn"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#8C7A5B] block">VietCharm Services</span>
-              <h1 className="text-xl md:text-2xl font-serif font-bold text-[#4A4A35]">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-natural-accent block">VietCharm Services</span>
+              <h1 className="text-xl md:text-2xl font-serif font-bold text-natural-text">
                 {isVi ? 'Danh Mục Toàn Bộ Dịch Vụ Hệ Thống' : 'System Wide Services Catalog'}
               </h1>
             </div>
           </div>
 
           {/* Quick stats banner */}
-          <div className="bg-[#FAF8F5] border border-[#E6E2D3] rounded-2xl p-3 flex gap-6 text-xs text-stone-600">
+          <div className="bg-natural-cream border border-natural-border rounded-2xl p-3 flex gap-6 text-xs text-stone-600">
             <div>
-              <span className="font-bold text-[#8C7A5B] block text-base leading-none">
+              <span className="font-bold text-natural-accent block text-base leading-none">
                 {Object.values(attractionsByProvince).reduce((acc, curr) => acc + curr.length, 0)}
               </span>
               <span>{isVi ? 'Điểm Đến' : 'Attractions'}</span>
             </div>
             <div className="border-l border-stone-200"></div>
             <div>
-              <span className="font-bold text-[#8C7A5B] block text-base leading-none">
+              <span className="font-bold text-natural-accent block text-base leading-none">
                 {Object.values(hotelsByProvince).reduce((acc, curr) => acc + curr.length, 0)}
               </span>
               <span>{isVi ? 'Khách Sạn' : 'Hotels'}</span>
             </div>
             <div className="border-l border-stone-200"></div>
             <div>
-              <span className="font-bold text-[#8C7A5B] block text-base leading-none">
+              <span className="font-bold text-natural-accent block text-base leading-none">
                 {Object.values(activitiesByProvince).reduce((acc, curr) => acc + curr.length, 0)}
               </span>
               <span>{isVi ? 'Trải Nghiệm' : 'Activities'}</span>
             </div>
             <div className="border-l border-stone-200"></div>
             <div>
-              <span className="font-bold text-[#8C7A5B] block text-base leading-none">{vehicles.length}</span>
+              <span className="font-bold text-natural-accent block text-base leading-none">{vehicles.length}</span>
               <span>{isVi ? 'Thuê Xe' : 'Vehicles'}</span>
             </div>
           </div>
         </div>
 
         {/* Categories Tab Navigation exactly styled as premium buttons */}
-        <div className="flex flex-wrap gap-2.5 border-b border-[#E6E2D3] pb-4">
+        <div className="flex flex-wrap gap-2.5 border-b border-natural-border pb-4">
           <button
             onClick={() => setActiveTab('attractions')}
             className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
               activeTab === 'attractions'
-                ? 'bg-[#8C7A5B] text-white shadow-md'
-                : 'bg-white text-stone-600 border border-stone-200 hover:bg-[#FAF8F5]'
+                ? 'bg-natural-accent text-white shadow-md'
+                : 'bg-white text-stone-600 border border-stone-200 hover:bg-natural-cream'
             }`}
           >
             <Compass className="w-4 h-4" />
@@ -253,8 +253,8 @@ export default function AllServicesView({
             onClick={() => setActiveTab('hotels')}
             className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
               activeTab === 'hotels'
-                ? 'bg-[#8C7A5B] text-white shadow-md'
-                : 'bg-white text-stone-600 border border-stone-200 hover:bg-[#FAF8F5]'
+                ? 'bg-natural-accent text-white shadow-md'
+                : 'bg-white text-stone-600 border border-stone-200 hover:bg-natural-cream'
             }`}
           >
             <Hotel className="w-4 h-4" />
@@ -265,8 +265,8 @@ export default function AllServicesView({
             onClick={() => setActiveTab('activities')}
             className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
               activeTab === 'activities'
-                ? 'bg-[#8C7A5B] text-white shadow-md'
-                : 'bg-white text-stone-600 border border-stone-200 hover:bg-[#FAF8F5]'
+                ? 'bg-natural-accent text-white shadow-md'
+                : 'bg-white text-stone-600 border border-stone-200 hover:bg-natural-cream'
             }`}
           >
             <Landmark className="w-4 h-4" />
@@ -277,8 +277,8 @@ export default function AllServicesView({
             onClick={() => setActiveTab('vehicles')}
             className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
               activeTab === 'vehicles'
-                ? 'bg-[#8C7A5B] text-white shadow-md'
-                : 'bg-white text-stone-600 border border-stone-200 hover:bg-[#FAF8F5]'
+                ? 'bg-natural-accent text-white shadow-md'
+                : 'bg-white text-stone-600 border border-stone-200 hover:bg-natural-cream'
             }`}
           >
             <Car className="w-4 h-4" />
@@ -287,10 +287,10 @@ export default function AllServicesView({
         </div>
 
         {/* Dynamic Filters Bar */}
-        <div className="bg-[#FAF8F5] border border-[#E6E2D3] p-4 rounded-3xl grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        <div className="bg-natural-cream border border-natural-border p-4 rounded-3xl grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
           {/* Search Input */}
           <div className="space-y-1.5 col-span-1 md:col-span-2">
-            <label className="text-[10px] font-bold text-[#8C7A5B] uppercase tracking-wider block">
+            <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
               {isVi ? 'Tìm kiếm tên dịch vụ hoặc địa điểm:' : 'Search service name or keyword:'}
             </label>
             <div className="relative">
@@ -300,7 +300,7 @@ export default function AllServicesView({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={isVi ? 'Nhập tên, mô tả...' : 'Type name, location...'}
-                className="w-full bg-white border border-stone-200 rounded-xl py-2 px-9 text-xs focus:outline-none focus:border-[#8C7A5B]"
+                className="w-full bg-white border border-stone-200 rounded-xl py-2 px-9 text-xs focus:outline-none focus:border-natural-accent"
               />
             </div>
           </div>
@@ -308,13 +308,13 @@ export default function AllServicesView({
           {/* Province Filter (Only applicable for non-vehicles) */}
           {activeTab !== 'vehicles' ? (
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-[#8C7A5B] uppercase tracking-wider block">
+              <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
                 {isVi ? 'Bộ lọc theo tỉnh miền Trung:' : 'Filter by Province:'}
               </label>
               <select
                 value={selectedProvince}
                 onChange={(e) => setSelectedProvince(e.target.value)}
-                className="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-[#8C7A5B]"
+                className="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-natural-accent"
               >
                 <option value="all">{isVi ? 'Tất cả các tỉnh thành' : 'All Provinces'}</option>
                 {provinces.map((prov) => (
@@ -327,7 +327,7 @@ export default function AllServicesView({
           ) : (
             /* Motorbike vs Car type filter for vehicles */
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-[#8C7A5B] uppercase tracking-wider block">
+              <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
                 {isVi ? 'Thời gian thuê tối thiểu:' : 'Rental Duration:'}
               </label>
               <div className="text-xs bg-white border border-stone-200 rounded-xl py-2 px-3 text-stone-500 font-medium">
@@ -338,13 +338,13 @@ export default function AllServicesView({
 
           {/* Sort option */}
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-[#8C7A5B] uppercase tracking-wider block">
+            <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
               {isVi ? 'Sắp xếp hiển thị:' : 'Sort by:'}
             </label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-[#8C7A5B]"
+              className="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-natural-accent"
             >
               <option value="default">{isVi ? 'Mặc định phổ biến' : 'Popularity / Default'}</option>
               {activeTab !== 'attractions' && (
@@ -374,7 +374,7 @@ export default function AllServicesView({
                 onClick={() => setSelectedActivityCategory(cat.id as any)}
                 className={`px-3 py-1.5 rounded-xl font-bold transition ${
                   selectedActivityCategory === cat.id
-                    ? 'bg-[#8C7A5B] text-white'
+                    ? 'bg-natural-accent text-white'
                     : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                 }`}
               >
@@ -406,7 +406,7 @@ export default function AllServicesView({
                         description: spot.description,
                       })
                     }
-                    className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-[#8C7A5B] transition duration-300 flex flex-col justify-between cursor-pointer"
+                    className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                   >
                     <div className="relative h-48 overflow-hidden">
                       <img src={spot.image} alt={spot.name} className="w-full h-full object-cover hover:scale-105 transition duration-500" />
@@ -435,26 +435,26 @@ export default function AllServicesView({
                           />
                         </button>
                       )}
-                      <span className="absolute bottom-3 left-3 bg-[#8C7A5B]/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-bold text-white flex items-center gap-1 shadow-sm">
+                      <span className="absolute bottom-3 left-3 bg-natural-accent/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-bold text-white flex items-center gap-1 shadow-sm">
                         <MapPin className="w-3 h-3" />
                         <span>{spot.provinceName}</span>
                       </span>
-                      <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] font-bold text-[#4A4A35] flex items-center gap-0.5 border border-[#E6E2D3] shadow-xs">
+                      <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] font-bold text-natural-text flex items-center gap-0.5 border border-natural-border shadow-xs">
                         <Star className="w-3.5 h-3.5 fill-amber-400 stroke-amber-400" />
                         <span>{spot.rating} ({spot.reviewsCount})</span>
                       </div>
                     </div>
                     <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                       <div>
-                        <h4 className="font-serif font-bold text-[#4A4A35] text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
+                        <h4 className="font-serif font-bold text-natural-text text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
                           {spot.name}
                         </h4>
-                        <p className="text-[11px] text-[#4A4A35]/80 line-clamp-3 mt-1 leading-relaxed">
+                        <p className="text-[11px] text-natural-text/80 line-clamp-3 mt-1 leading-relaxed">
                           {spot.description}
                         </p>
                       </div>
                       <div className="pt-2 border-t border-stone-100 flex justify-end">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C7A5B]">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-natural-accent">
                           {isVi ? 'Tìm hiểu chi tiết →' : 'Learn more →'}
                         </span>
                       </div>
@@ -488,7 +488,7 @@ export default function AllServicesView({
                           description: hotel.description,
                         })
                       }
-                      className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-[#8C7A5B] transition duration-300 flex flex-col justify-between cursor-pointer"
+                      className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                     >
                       <div className="relative h-48 overflow-hidden">
                         <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover hover:scale-105 transition" />
@@ -517,30 +517,30 @@ export default function AllServicesView({
                             />
                           </button>
                         )}
-                        <span className="absolute bottom-3 left-3 bg-[#8C7A5B]/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-bold text-white flex items-center gap-1 shadow-sm">
+                        <span className="absolute bottom-3 left-3 bg-natural-accent/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-bold text-white flex items-center gap-1 shadow-sm">
                           <MapPin className="w-3 h-3" />
                           <span>{hotel.provinceName}</span>
                         </span>
-                        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] font-bold text-[#4A4A35] flex items-center gap-0.5 border border-[#E6E2D3] shadow-xs">
-                          <Star className="w-3.5 h-3.5 fill-[#E3B04B] stroke-[#E3B04B]" />
+                        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] font-bold text-natural-text flex items-center gap-0.5 border border-natural-border shadow-xs">
+                          <Star className="w-3.5 h-3.5 fill-natural-gold stroke-natural-gold" />
                           <span>{hotel.rating}</span>
                         </div>
                       </div>
 
                       <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                         <div>
-                          <h4 className="font-serif font-bold text-[#4A4A35] text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
+                          <h4 className="font-serif font-bold text-natural-text text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
                             {hotel.name}
                           </h4>
-                          <p className="text-[11px] text-[#4A4A35]/80 line-clamp-3 mt-1 leading-relaxed">
+                          <p className="text-[11px] text-natural-text/80 line-clamp-3 mt-1 leading-relaxed">
                             {hotel.description}
                           </p>
                         </div>
 
-                        <div className="pt-2 border-t border-[#E6E2D3] flex items-center justify-between">
+                        <div className="pt-2 border-t border-natural-border flex items-center justify-between">
                           <div>
-                            <span className="text-[9px] uppercase font-bold text-[#8C7A5B] block mb-0.5">{isVi ? 'GIÁ CHỈ TỪ' : 'FROM ONLY'}</span>
-                            <span className="font-mono font-black text-[#8C7A5B] text-sm">
+                            <span className="text-[9px] uppercase font-bold text-natural-accent block mb-0.5">{isVi ? 'GIÁ CHỈ TỪ' : 'FROM ONLY'}</span>
+                            <span className="font-mono font-black text-natural-accent text-sm">
                               {hotel.pricePerNight.toLocaleString('vi-VN')}đ
                             </span>
                             <span className="text-[10px] text-stone-500">/{isVi ? 'đêm' : 'night'}</span>
@@ -552,7 +552,7 @@ export default function AllServicesView({
                                 e.stopPropagation();
                                 onRemoveFromCart(hotel.id);
                               }}
-                              className="bg-[#F5F2ED] hover:bg-stone-200 text-[#4A4A35] px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1 border border-stone-250 cursor-pointer"
+                              className="bg-natural-beige hover:bg-stone-200 text-natural-text px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1 border border-stone-250 cursor-pointer"
                             >
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                               <span>{isVi ? 'Đã chọn' : 'Selected'}</span>
@@ -570,7 +570,7 @@ export default function AllServicesView({
                                   description: hotel.description,
                                 });
                               }}
-                              className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-3.5 py-2 rounded-xl text-[11px] font-bold transition shadow-xs cursor-pointer"
+                              className="bg-natural-accent hover:bg-natural-olive text-white px-3.5 py-2 rounded-xl text-[11px] font-bold transition shadow-xs cursor-pointer"
                             >
                               {isVi ? 'Đặt phòng' : 'Book'}
                             </button>
@@ -607,7 +607,7 @@ export default function AllServicesView({
                           description: act.description,
                         })
                       }
-                      className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-[#8C7A5B] transition duration-300 flex flex-col justify-between cursor-pointer"
+                      className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                     >
                       <div className="relative h-44 overflow-hidden">
                         <img src={act.image} alt={act.name} className="w-full h-full object-cover hover:scale-105 transition" />
@@ -636,30 +636,30 @@ export default function AllServicesView({
                             />
                           </button>
                         )}
-                        <span className="absolute bottom-3 left-3 bg-[#8C7A5B]/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-bold text-white flex items-center gap-1 shadow-sm">
+                        <span className="absolute bottom-3 left-3 bg-natural-accent/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-bold text-white flex items-center gap-1 shadow-sm">
                           <MapPin className="w-3 h-3" />
                           <span>{act.provinceName}</span>
                         </span>
-                        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] font-bold text-[#4A4A35] flex items-center gap-0.5 border border-[#E6E2D3] shadow-xs">
-                          <Star className="w-3.5 h-3.5 fill-[#E3B04B] stroke-[#E3B04B]" />
+                        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] font-bold text-natural-text flex items-center gap-0.5 border border-natural-border shadow-xs">
+                          <Star className="w-3.5 h-3.5 fill-natural-gold stroke-natural-gold" />
                           <span>{act.rating} ({act.reviewsCount})</span>
                         </div>
                       </div>
 
                       <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                         <div>
-                          <h4 className="font-serif font-bold text-[#4A4A35] text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
+                          <h4 className="font-serif font-bold text-natural-text text-sm tracking-tight leading-snug line-clamp-2 min-h-[40px]">
                             {act.name}
                           </h4>
-                          <p className="text-[11px] text-[#4A4A35]/80 line-clamp-3 mt-1 leading-relaxed">
+                          <p className="text-[11px] text-natural-text/80 line-clamp-3 mt-1 leading-relaxed">
                             {act.description}
                           </p>
                         </div>
 
-                        <div className="pt-2 border-t border-[#E6E2D3] flex items-center justify-between">
+                        <div className="pt-2 border-t border-natural-border flex items-center justify-between">
                           <div>
-                            <span className="text-[9px] uppercase font-bold text-[#8C7A5B] block mb-0.5">{isVi ? 'VÉ CƠ BẢN' : 'STANDARD PRICE'}</span>
-                            <span className="font-mono font-black text-[#8C7A5B] text-sm">
+                            <span className="text-[9px] uppercase font-bold text-natural-accent block mb-0.5">{isVi ? 'VÉ CƠ BẢN' : 'STANDARD PRICE'}</span>
+                            <span className="font-mono font-black text-natural-accent text-sm">
                               {act.price.toLocaleString('vi-VN')}đ
                             </span>
                           </div>
@@ -670,7 +670,7 @@ export default function AllServicesView({
                                 e.stopPropagation();
                                 onRemoveFromCart(act.id);
                               }}
-                              className="bg-[#F5F2ED] hover:bg-stone-200 text-[#4A4A35] px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1 border border-stone-250 cursor-pointer"
+                              className="bg-natural-beige hover:bg-stone-200 text-natural-text px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1 border border-stone-250 cursor-pointer"
                             >
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                               <span>{isVi ? 'Đã thêm' : 'In Cart'}</span>
@@ -688,7 +688,7 @@ export default function AllServicesView({
                                   description: act.description,
                                 });
                               }}
-                              className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-3.5 py-2 rounded-xl text-[11px] font-bold transition shadow-xs cursor-pointer"
+                              className="bg-natural-accent hover:bg-natural-olive text-white px-3.5 py-2 rounded-xl text-[11px] font-bold transition shadow-xs cursor-pointer"
                             >
                               {isVi ? 'Mua vé' : 'Buy Tickets'}
                             </button>
@@ -725,9 +725,9 @@ export default function AllServicesView({
                           description: veh.specs,
                         })
                       }
-                      className="bg-white rounded-3xl overflow-hidden shadow-xs border border-[#E6E2D3] p-4 hover:shadow-lg hover:border-[#8C7A5B] transition flex gap-4 items-center cursor-pointer"
+                      className="bg-white rounded-3xl overflow-hidden shadow-xs border border-natural-border p-4 hover:shadow-lg hover:border-natural-accent transition flex gap-4 items-center cursor-pointer"
                     >
-                      <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-[#F5F2ED] relative">
+                      <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-natural-beige relative">
                         <img src={veh.image} alt={veh.name} className="w-full h-full object-cover" />
                         {onToggleFavorite && (
                           <button
@@ -761,7 +761,7 @@ export default function AllServicesView({
 
                       <div className="flex-1 flex flex-col justify-between space-y-2">
                         <div>
-                          <h4 className="font-serif font-bold text-[#4A4A35] text-xs md:text-sm tracking-tight leading-snug">
+                          <h4 className="font-serif font-bold text-natural-text text-xs md:text-sm tracking-tight leading-snug">
                             {veh.name}
                           </h4>
                           <p className="text-[10px] text-stone-500 line-clamp-2 mt-0.5 leading-relaxed">
@@ -769,12 +769,12 @@ export default function AllServicesView({
                           </p>
                         </div>
 
-                        <div className="flex items-center justify-between pt-1 border-t border-[#E6E2D3]">
+                        <div className="flex items-center justify-between pt-1 border-t border-natural-border">
                           <div>
-                            <span className="font-mono text-xs font-bold text-[#8C7A5B] block">
+                            <span className="font-mono text-xs font-bold text-natural-accent block">
                               {veh.pricePerDay.toLocaleString('vi-VN')}đ
                             </span>
-                            <span className="text-[9px] text-[#4A4A35]/60">/{isVi ? 'ngày' : 'day'}</span>
+                            <span className="text-[9px] text-natural-text/60">/{isVi ? 'ngày' : 'day'}</span>
                           </div>
 
                           {inCart ? (
@@ -783,7 +783,7 @@ export default function AllServicesView({
                                 e.stopPropagation();
                                 onRemoveFromCart(veh.id);
                               }}
-                              className="bg-[#F5F2ED] hover:bg-stone-200 text-[#4A4A35] px-2.5 py-1.5 rounded-lg text-[10px] font-bold border border-stone-250 transition cursor-pointer"
+                              className="bg-natural-beige hover:bg-stone-200 text-natural-text px-2.5 py-1.5 rounded-lg text-[10px] font-bold border border-stone-250 transition cursor-pointer"
                             >
                               {isVi ? 'Bỏ chọn' : 'Remove'}
                             </button>
@@ -800,7 +800,7 @@ export default function AllServicesView({
                                   description: veh.specs,
                                 });
                               }}
-                              className="bg-[#8C7A5B] hover:bg-[#5A5A40] text-white px-3 py-1.5 rounded-lg text-[10px] font-bold transition shadow-xs cursor-pointer"
+                              className="bg-natural-accent hover:bg-natural-olive text-white px-3 py-1.5 rounded-lg text-[10px] font-bold transition shadow-xs cursor-pointer"
                             >
                               {isVi ? 'Chọn thuê' : 'Rent'}
                             </button>
@@ -823,9 +823,9 @@ export default function AllServicesView({
 // Subcomponent for empty results
 function NoResults({ isVi }: { isVi: boolean }) {
   return (
-    <div className="text-center py-20 bg-white border border-dashed border-[#E6E2D3] rounded-3xl text-stone-400">
+    <div className="text-center py-20 bg-white border border-dashed border-natural-border rounded-3xl text-stone-400">
       <Compass className="w-12 h-12 mx-auto text-stone-300 mb-3 animate-pulse" />
-      <h3 className="font-bold text-[#4A4A35] text-sm mb-1">{isVi ? 'Không tìm thấy kết quả nào' : 'No results found'}</h3>
+      <h3 className="font-bold text-natural-text text-sm mb-1">{isVi ? 'Không tìm thấy kết quả nào' : 'No results found'}</h3>
       <p className="text-xs text-stone-400">{isVi ? 'Vui lòng thử tìm kiếm hoặc điều chỉnh bộ lọc tỉnh thành khác.' : 'Please try custom keywords or other province filters.'}</p>
     </div>
   );
