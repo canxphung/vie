@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Hotel, Activity, Vehicle, Review, Language, BookingCartItem, ViewableItem } from '../types';
+import { Hotel, Activity, Vehicle, Review, Language, BookingCartItem, BookingSearchCriteria, ViewableItem } from '../types';
 import { hotelsByProvince, activitiesByProvince, vehicles, reviews as initialReviews, dictionaries } from '../data';
 import { clickableCardProps } from '@/lib/a11y';
 import { Star, MapPin, Bike, Car, CheckCircle2, ThumbsUp, Send, User, ChevronRight, Compass, Heart } from 'lucide-react';
@@ -17,6 +17,7 @@ interface BookingDetailsProps {
   onRemoveFromCart: (id: string) => void;
   onViewItem?: (item: ViewableItem) => void;
   onViewAllServices?: (tab: 'hotels' | 'vehicles' | 'activities') => void;
+  searchCriteria?: BookingSearchCriteria;
   favorites?: ViewableItem[];
   onToggleFavorite?: (item: ViewableItem) => void;
 }
@@ -31,6 +32,7 @@ export default function BookingDetails({
   onRemoveFromCart,
   onViewItem,
   onViewAllServices,
+  searchCriteria,
   favorites = [],
   onToggleFavorite,
 }: BookingDetailsProps) {
@@ -40,18 +42,34 @@ export default function BookingDetails({
   // Retrieve province data safely
   const hotels = hotelsByProvince[provinceId] || [];
   const activities = activitiesByProvince[provinceId] || [];
+  const normalizedSearchQuery = (searchCriteria?.query || '').trim().toLowerCase();
 
   // Local state for Category & Price/Budget Filters
   const [selectedCategory, setSelectedCategory] = React.useState<ActivityCategory>('all');
   const [selectedPriceTier, setSelectedPriceTier] = React.useState<PriceTier>('all');
 
-  // Each section shows a short preview first; "Show more" expands the rest in place.
+  // Keep province detail short; deeper browsing happens on the dedicated services page.
   const HOTELS_PREVIEW = 4;
   const VEHICLES_PREVIEW = 6;
   const ACTIVITIES_PREVIEW = 10;
-  const [showAllHotels, setShowAllHotels] = React.useState(false);
-  const [showAllVehicles, setShowAllVehicles] = React.useState(false);
-  const [showAllActivities, setShowAllActivities] = React.useState(false);
+
+  const filteredHotels = React.useMemo(() => {
+    if (!normalizedSearchQuery) return hotels;
+    return hotels.filter(
+      (hotel) =>
+        hotel.name.toLowerCase().includes(normalizedSearchQuery) ||
+        hotel.description.toLowerCase().includes(normalizedSearchQuery),
+    );
+  }, [hotels, normalizedSearchQuery]);
+
+  const filteredVehicles = React.useMemo(() => {
+    if (!normalizedSearchQuery) return vehicles;
+    return vehicles.filter(
+      (vehicle) =>
+        vehicle.name.toLowerCase().includes(normalizedSearchQuery) ||
+        vehicle.specs.toLowerCase().includes(normalizedSearchQuery),
+    );
+  }, [normalizedSearchQuery]);
 
   const filteredActivities = React.useMemo(() => {
     return activities.filter((act) => {
@@ -75,10 +93,14 @@ export default function BookingDetails({
       }
 
       const matchesPrice = selectedPriceTier === 'all' || priceTier === selectedPriceTier;
+      const matchesSearch =
+        !normalizedSearchQuery ||
+        act.name.toLowerCase().includes(normalizedSearchQuery) ||
+        act.description.toLowerCase().includes(normalizedSearchQuery);
 
-      return matchesCat && matchesPrice;
+      return matchesCat && matchesPrice && matchesSearch;
     });
-  }, [activities, selectedCategory, selectedPriceTier]);
+  }, [activities, normalizedSearchQuery, selectedCategory, selectedPriceTier]);
 
   // Local state for interactive and dynamic reviews submission
   const [reviews, setReviews] = React.useState<Review[]>(initialReviews);
@@ -124,6 +146,13 @@ export default function BookingDetails({
               <p className="text-natural-text/70 text-xs mt-1">
                 {t.hotelSubtitle}
               </p>
+              {normalizedSearchQuery && (
+                <p className="mt-2 text-[11px] font-bold text-natural-accent">
+                  {isVi
+                    ? `Đang lọc theo: "${searchCriteria?.query}"`
+                    : `Filtered by: "${searchCriteria?.query}"`}
+                </p>
+              )}
             </div>
             <span 
               onClick={() => onViewAllServices?.('hotels')}
@@ -134,8 +163,15 @@ export default function BookingDetails({
             </span>
           </div>
 
+          {filteredHotels.length === 0 ? (
+            <SectionEmpty
+              isVi={isVi}
+              messageVi="Không tìm thấy khách sạn phù hợp từ khóa hiện tại."
+              messageEn="No hotels match your current search."
+            />
+          ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(showAllHotels ? hotels : hotels.slice(0, HOTELS_PREVIEW)).map((hotel) => {
+            {filteredHotels.slice(0, HOTELS_PREVIEW).map((hotel) => {
               const inCart = isItemInCart(hotel.id);
               return (
                 <div 
@@ -237,12 +273,12 @@ export default function BookingDetails({
               );
             })}
           </div>
-          {hotels.length > HOTELS_PREVIEW && (
-            <SectionToggle
+          )}
+          {filteredHotels.length > HOTELS_PREVIEW && (
+            <SectionMoreLink
               isVi={isVi}
-              expanded={showAllHotels}
-              remaining={hotels.length - HOTELS_PREVIEW}
-              onToggle={() => setShowAllHotels((v) => !v)}
+              remaining={filteredHotels.length - HOTELS_PREVIEW}
+              onClick={() => onViewAllServices?.('hotels')}
             />
           )}
         </section>
@@ -267,8 +303,15 @@ export default function BookingDetails({
             </span>
           </div>
 
+          {filteredVehicles.length === 0 ? (
+            <SectionEmpty
+              isVi={isVi}
+              messageVi="Không tìm thấy phương tiện phù hợp từ khóa hiện tại."
+              messageEn="No rentals match your current search."
+            />
+          ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(showAllVehicles ? vehicles : vehicles.slice(0, VEHICLES_PREVIEW)).map((veh) => {
+            {filteredVehicles.slice(0, VEHICLES_PREVIEW).map((veh) => {
               const inCart = isItemInCart(veh.id);
               return (
                 <div 
@@ -367,12 +410,12 @@ export default function BookingDetails({
               );
             })}
           </div>
-          {vehicles.length > VEHICLES_PREVIEW && (
-            <SectionToggle
+          )}
+          {filteredVehicles.length > VEHICLES_PREVIEW && (
+            <SectionMoreLink
               isVi={isVi}
-              expanded={showAllVehicles}
-              remaining={vehicles.length - VEHICLES_PREVIEW}
-              onToggle={() => setShowAllVehicles((v) => !v)}
+              remaining={filteredVehicles.length - VEHICLES_PREVIEW}
+              onClick={() => onViewAllServices?.('vehicles')}
             />
           )}
         </section>
@@ -465,7 +508,7 @@ export default function BookingDetails({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-              {(showAllActivities ? filteredActivities : filteredActivities.slice(0, ACTIVITIES_PREVIEW)).map((act) => {
+              {filteredActivities.slice(0, ACTIVITIES_PREVIEW).map((act) => {
                 const inCart = isItemInCart(act.id);
                 return (
                   <div 
@@ -562,11 +605,10 @@ export default function BookingDetails({
             </div>
           )}
           {filteredActivities.length > ACTIVITIES_PREVIEW && (
-            <SectionToggle
+            <SectionMoreLink
               isVi={isVi}
-              expanded={showAllActivities}
               remaining={filteredActivities.length - ACTIVITIES_PREVIEW}
-              onToggle={() => setShowAllActivities((v) => !v)}
+              onClick={() => onViewAllServices?.('activities')}
             />
           )}
         </section>
@@ -690,26 +732,40 @@ export default function BookingDetails({
   );
 }
 
-// Per-section "Show more / Collapse" toggle for in-place list expansion
-function SectionToggle({
+// Per-section link to the dedicated full listing page.
+function SectionMoreLink({
   isVi,
-  expanded,
   remaining,
-  onToggle,
+  onClick,
 }: {
   isVi: boolean;
-  expanded: boolean;
   remaining: number;
-  onToggle: () => void;
+  onClick: () => void;
 }) {
   return (
     <div className="flex justify-center pt-8">
       <button
-        onClick={onToggle}
+        onClick={onClick}
         className="bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-xs transition cursor-pointer"
       >
-        {expanded ? (isVi ? 'Thu gọn' : 'Show less') : isVi ? `Xem thêm (${remaining})` : `Show more (${remaining})`}
+        {isVi ? `Xem tất cả (${remaining} mục nữa)` : `View all (${remaining} more)`}
       </button>
+    </div>
+  );
+}
+
+function SectionEmpty({
+  isVi,
+  messageVi,
+  messageEn,
+}: {
+  isVi: boolean;
+  messageVi: string;
+  messageEn: string;
+}) {
+  return (
+    <div className="rounded-3xl border border-dashed border-natural-border bg-natural-cream px-5 py-10 text-center text-xs font-bold text-stone-400">
+      {isVi ? messageVi : messageEn}
     </div>
   );
 }

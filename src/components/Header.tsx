@@ -321,8 +321,10 @@ export default function Header({
           <button
             type="button"
             onClick={onOpenCart}
-            className="relative inline-flex h-9 w-10 items-center justify-center text-natural-ink transition hover:text-natural-accent cursor-pointer"
-            title="Cart Bundle"
+            className={`relative inline-flex h-9 w-10 items-center justify-center transition hover:text-natural-accent cursor-pointer ${
+              currentView === 'cart' ? 'text-natural-accent' : 'text-natural-ink'
+            }`}
+            title={isVi ? 'Giỏ hàng' : 'Cart'}
           >
             <ShoppingBag className="h-5 w-5" />
             {cartCount > 0 && (

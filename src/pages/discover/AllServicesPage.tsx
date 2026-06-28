@@ -10,7 +10,14 @@ import { useI18n, useCart, useUI } from '@/hooks';
 export default function AllServicesPage() {
   const { language } = useI18n();
   const { items: cartItems, addItem: handleAddToCart, removeItem: handleRemoveFromCart } = useCart();
-  const { allServicesTab, setView, viewItem: handleViewItem, favorites, toggleFavorite: handleToggleFavorite } = useUI();
+  const {
+    allServicesTab,
+    allServicesReturnView,
+    setView,
+    viewItem: handleViewItem,
+    favorites,
+    toggleFavorite: handleToggleFavorite,
+  } = useUI();
   return (
           <motion.div
             key="all-services-view"
@@ -23,11 +30,7 @@ export default function AllServicesPage() {
               language={language}
               initialTab={allServicesTab}
               onBack={() => {
-                if (allServicesTab === 'attractions') {
-                  setView('regions');
-                } else {
-                  setView('province');
-                }
+                setView(allServicesReturnView || 'province');
               }}
               onAddToCart={handleAddToCart}
               onRemoveFromCart={handleRemoveFromCart}

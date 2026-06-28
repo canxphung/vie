@@ -58,6 +58,8 @@ export interface Vehicle {
 }
 
 export interface BookingCartItem {
+  /** Stable row key for a concrete selection (same service, different dates/packages). */
+  cartKey?: string;
   id: string;
   type: 'hotel' | 'activity' | 'vehicle';
   name: string;
@@ -65,6 +67,14 @@ export interface BookingCartItem {
   quantity: number;
   image: string;
   details?: string;
+}
+
+export interface BookingSearchCriteria {
+  query: string;
+  checkInDate: string;
+  checkOutDate: string;
+  guestsCount: number;
+  roomsCount: number;
 }
 
 export interface Review {

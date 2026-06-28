@@ -6,6 +6,7 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Container, DateField } from '@/components/ui';
+import type { BookingSearchCriteria } from '@/types';
 
 function formatDateInput(date: Date): string {
   const year = date.getFullYear();
@@ -30,10 +31,11 @@ interface ProvinceSearchBarProps {
     guestsNum: string;
     searchBtn: string;
   };
-  onSearch: () => void;
+  value: BookingSearchCriteria;
+  onSearch: (criteria: BookingSearchCriteria) => void;
 }
 
-export function ProvinceSearchBar({ isVi, labels, onSearch }: ProvinceSearchBarProps) {
+export function ProvinceSearchBar({ isVi, labels, value, onSearch }: ProvinceSearchBarProps) {
   const initialDates = React.useMemo(() => {
     const today = new Date();
     const checkIn = addDays(today, 1);
@@ -44,12 +46,20 @@ export function ProvinceSearchBar({ isVi, labels, onSearch }: ProvinceSearchBarP
       minCheckIn: formatDateInput(today),
     };
   }, []);
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const [checkInDate, setCheckInDate] = React.useState(initialDates.checkIn);
-  const [checkOutDate, setCheckOutDate] = React.useState(initialDates.checkOut);
-  const [guestsCount, setGuestsCount] = React.useState(1);
-  const [roomsCount, setRoomsCount] = React.useState(1);
+  const [searchQuery, setSearchQuery] = React.useState(value.query);
+  const [checkInDate, setCheckInDate] = React.useState(value.checkInDate || initialDates.checkIn);
+  const [checkOutDate, setCheckOutDate] = React.useState(value.checkOutDate || initialDates.checkOut);
+  const [guestsCount, setGuestsCount] = React.useState(value.guestsCount || 1);
+  const [roomsCount, setRoomsCount] = React.useState(value.roomsCount || 1);
   const [showGuestsDropdown, setShowGuestsDropdown] = React.useState(false);
+
+  React.useEffect(() => {
+    setSearchQuery(value.query);
+    setCheckInDate(value.checkInDate || initialDates.checkIn);
+    setCheckOutDate(value.checkOutDate || initialDates.checkOut);
+    setGuestsCount(value.guestsCount || 1);
+    setRoomsCount(value.roomsCount || 1);
+  }, [initialDates.checkIn, initialDates.checkOut, value]);
   const minCheckOutDate = React.useMemo(() => {
     const parsedCheckIn = new Date(`${checkInDate}T00:00:00`);
     return formatDateInput(addDays(parsedCheckIn, 1));
@@ -61,6 +71,16 @@ export function ProvinceSearchBar({ isVi, labels, onSearch }: ProvinceSearchBarP
       const parsedCheckIn = new Date(`${value}T00:00:00`);
       setCheckOutDate(formatDateInput(addDays(parsedCheckIn, 1)));
     }
+  };
+
+  const handleSearch = () => {
+    onSearch({
+      query: searchQuery.trim(),
+      checkInDate,
+      checkOutDate,
+      guestsCount,
+      roomsCount,
+    });
   };
 
   return (
@@ -155,7 +175,8 @@ export function ProvinceSearchBar({ isVi, labels, onSearch }: ProvinceSearchBarP
         </div>
 
         <button
-          onClick={onSearch}
+          type="button"
+          onClick={handleSearch}
           className="bg-natural-gold-deep hover:bg-natural-gold-dark text-stone-950 font-black px-6 py-3 rounded-2xl transition shadow-md md:w-fit uppercase text-xs md:text-sm tracking-wide self-center shrink-0"
         >
           {labels.searchBtn}

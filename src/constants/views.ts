@@ -21,6 +21,7 @@ export type ViewId =
   | 'recently-viewed'
   | 'nearby-places'
   | 'all-services'
+  | 'cart'
   | 'login'
   | 'register'
   | 'forgot-password';

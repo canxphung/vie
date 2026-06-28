@@ -14,7 +14,17 @@ import { useI18n, useAuth, useCart, useUI } from '@/hooks';
 
 export default function App() {
   const { language, setLanguage } = useI18n();
-  const { view, activeSubView, selectedProvinceId, selectedItem, setView, changeHeaderView, navigateHome, scrollToSection } = useUI();
+  const {
+    view,
+    activeSubView,
+    allServicesTab,
+    selectedProvinceId,
+    selectedItem,
+    setView,
+    changeHeaderView,
+    navigateHome,
+    openAllServices,
+  } = useUI();
 
   // Reset scroll to the top whenever the page, province, or opened item changes, so a
   // new view/detail never opens mid-page (or clamped to the bottom of a shorter page).
@@ -24,10 +34,23 @@ export default function App() {
   }, [view, selectedProvinceId, selectedItem]);
   const { currentUser, logout } = useAuth();
   const {
-    items: cartItems, cartCount, isPaymentOpen, openPayment, closePayment,
+    items: cartItems, cartCount, isPaymentOpen, paymentInitialStep, closePayment,
     removeItem: handleRemoveFromCart, clearCart: handleClearCart,
   } = useCart();
   const isAuthPage = view === 'login' || view === 'register' || view === 'forgot-password';
+  const hideFloatingHelp = isAuthPage || view === 'cart';
+  const currentHeaderView =
+    view === 'province'
+      ? activeSubView
+      : view === 'all-services'
+        ? allServicesTab === 'attractions'
+          ? 'spots'
+          : allServicesTab === 'vehicles'
+          ? 'rentals'
+          : allServicesTab === 'activities'
+            ? 'experiences'
+            : allServicesTab
+        : view;
 
   return (
     <div className="min-h-screen bg-natural-bg text-natural-text transition-colors duration-300 font-sans antialiased selection:bg-natural-gold selection:text-white">
@@ -35,9 +58,9 @@ export default function App() {
         language={language}
         setLanguage={setLanguage}
         cartCount={cartCount}
-        onOpenCart={() => openPayment()}
+        onOpenCart={() => setView('cart')}
         onNavigateHome={() => setView('regions')}
-        currentView={view === 'province' ? activeSubView : view}
+        currentView={currentHeaderView}
         onChangeView={changeHeaderView}
         currentUser={currentUser}
         onOpenLogin={() => setView('login')}
@@ -58,17 +81,21 @@ export default function App() {
           cartItems={cartItems}
           onRemoveItem={handleRemoveFromCart}
           onClearCart={handleClearCart}
+          initialStep={paymentInitialStep}
+          onBackToCart={() => {
+            closePayment();
+            setView('cart');
+          }}
           onClose={() => closePayment()}
         />
       )}
 
-      {!isAuthPage && (
+      {!hideFloatingHelp && (
         <HelpPromoCenter
           language={language}
           onNavigateToPartnership={() => setView('partnership-register')}
           onNavigateToHotels={() => {
-            setView('province');
-            setTimeout(() => scrollToSection('hotels-section'), 450);
+            openAllServices('hotels');
           }}
           onNavigateToMysteryRoom={() => setView('blind-travel')}
         />

@@ -6,7 +6,7 @@
 import React from 'react';
 import { BookingCartItem, Language } from '../types';
 import { dictionaries } from '../data';
-import { ShieldAlert, CreditCard, Lock, CheckCircle2, Ticket, QrCode, Trash2, Smartphone } from 'lucide-react';
+import { CreditCard, Lock, CheckCircle2, Ticket, QrCode, Trash2, Smartphone } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface PaymentModalProps {
@@ -15,6 +15,8 @@ interface PaymentModalProps {
   onRemoveItem: (id: string) => void;
   onClearCart: () => void;
   onClose: () => void;
+  initialStep?: 'cart' | 'checkout';
+  onBackToCart?: () => void;
 }
 
 export default function PaymentModal({
@@ -23,11 +25,13 @@ export default function PaymentModal({
   onRemoveItem,
   onClearCart,
   onClose,
+  initialStep = 'cart',
+  onBackToCart,
 }: PaymentModalProps) {
   const isVi = language === 'vi';
   const t = dictionaries[language];
 
-  const [paymentStep, setPaymentStep] = React.useState<'cart' | 'checkout' | 'success'>('cart');
+  const [paymentStep, setPaymentStep] = React.useState<'cart' | 'checkout' | 'success'>(initialStep);
   const [gateway, setGateway] = React.useState<'vnpay' | 'momo' | 'visa'>('visa');
   const [cardNo, setCardNo] = React.useState('');
   const [cardHolder, setCardHolder] = React.useState('');
@@ -44,6 +48,17 @@ export default function PaymentModal({
   const discountAmount = Math.round(totalCost * 0.15); // VIP member bundle discount
   const basePayableAmount = totalCost - discountAmount;
   const payableAmount = Math.max(0, basePayableAmount - voucherDiscount);
+
+  React.useEffect(() => {
+    setPaymentStep(initialStep);
+  }, [initialStep]);
+
+  const handleClose = () => {
+    if (paymentStep === 'success') {
+      onClearCart();
+    }
+    onClose();
+  };
 
   const handlePaySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +106,7 @@ export default function PaymentModal({
       >
         {/* Close Button */}
         <button 
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-5 text-stone-400 hover:text-stone-800 text-2xl font-black transition z-10"
         >
           ×
@@ -135,14 +150,17 @@ export default function PaymentModal({
                   {/* Cart Items Roster Scrollable */}
                   <div className="max-h-[220px] overflow-y-auto space-y-3 pr-2 border-b border-stone-100 pb-4">
                     {cartItems.map((item) => (
-                      <div key={item.id} className="flex justify-between items-center bg-stone-50 p-3 rounded-xl border border-stone-150">
+                      <div key={item.cartKey || item.id} className="flex justify-between items-center bg-stone-50 p-3 rounded-xl border border-stone-150">
                         <div className="flex gap-3 items-center">
                           <img src={item.image} alt={item.name} className="w-10 h-10 object-cover rounded-md shrink-0 border border-stone-200" />
-                          <div>
+                          <div className="min-w-0">
                             <h5 className="text-xs font-bold text-stone-900 line-clamp-1">{item.name}</h5>
                             <span className="text-[10px] font-mono uppercase bg-amber-100/50 text-natural-bronze px-1.5 py-0.5 rounded font-bold">
                               {item.type === 'hotel' ? (isVi ? 'Khách sạn' : 'Hotel') : item.type === 'vehicle' ? (isVi ? 'Thuê Xe tự lái' : 'Ride Rental') : (isVi ? 'Tour di sản' : 'Excursion')}
                             </span>
+                            {item.details && (
+                              <p className="mt-1 max-w-[260px] truncate text-[10px] text-stone-500">{item.details}</p>
+                            )}
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -150,7 +168,7 @@ export default function PaymentModal({
                             {item.price.toLocaleString('vi-VN')} đ
                           </span>
                           <button 
-                            onClick={() => onRemoveItem(item.id)}
+                            onClick={() => onRemoveItem(item.cartKey || item.id)}
                             className="text-stone-300 hover:text-red-500"
                             title="Delete"
                           >
@@ -410,7 +428,13 @@ export default function PaymentModal({
                 <div className="flex gap-4 pt-4 border-t border-stone-100">
                   <button 
                     type="button" 
-                    onClick={() => setPaymentStep('cart')}
+                    onClick={() => {
+                      if (onBackToCart) {
+                        onBackToCart();
+                        return;
+                      }
+                      setPaymentStep('cart');
+                    }}
                     className="w-1/3 text-stone-600 hover:text-stone-900 hover:bg-stone-100 font-bold py-2.5 rounded-xl transition text-xs border border-stone-200 text-center"
                   >
                     {isVi ? 'Quay lại' : 'Go back'}
@@ -524,7 +548,6 @@ export default function PaymentModal({
                 <button
                   type="button"
                   onClick={() => {
-                    const originalCart = [...cartItems];
                     window.print();
                   }}
                   className="w-1/2 border border-stone-200 hover:bg-stone-50 text-stone-700 py-2.5 rounded-xl font-bold transition text-xs shadow-xs"

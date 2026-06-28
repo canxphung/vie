@@ -8,6 +8,8 @@ import type { BookingCartItem } from './domain';
 export interface UserAccount {
   id: string;
   username: string;
+  /** Demo/local auth password. Existing saved demo users may not have this yet. */
+  password?: string;
   fullName: string;
   email: string;
   phone: string;

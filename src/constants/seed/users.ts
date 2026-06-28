@@ -9,6 +9,7 @@ export const DEFAULT_USERS: UserAccount[] = [
   {
     id: 'u-1',
     username: 'ngandtk',
+    password: '123456',
     fullName: 'Đặng Thị Kim Ngân',
     email: 'ngandtk244111@st.uel.edu.vn',
     phone: '0987654321',
@@ -20,6 +21,7 @@ export const DEFAULT_USERS: UserAccount[] = [
   {
     id: 'u-2',
     username: 'traveler_ha',
+    password: '123456',
     fullName: 'Lê Hoàng Anh',
     email: 'hoanganh@gmail.com',
     phone: '0912345678',

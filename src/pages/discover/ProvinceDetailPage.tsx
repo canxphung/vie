@@ -21,7 +21,9 @@ export default function ProvinceDetailPage() {
   const {
     selectedProvinceId,
     setView,
-    setAllServicesTab,
+    openAllServices,
+    bookingSearch,
+    setBookingSearch,
     scrollToSection: handleScrollToSection,
     viewItem: handleViewItem,
     favorites,
@@ -45,6 +47,7 @@ export default function ProvinceDetailPage() {
 
       <ProvinceSearchBar
         isVi={isVi}
+        value={bookingSearch}
         labels={{
           heroSearchTitle: t.heroSearchTitle,
           searchPlaceholder: t.searchPlaceholder,
@@ -53,7 +56,10 @@ export default function ProvinceDetailPage() {
           guestsNum: t.guestsNum,
           searchBtn: t.searchBtn,
         }}
-        onSearch={() => handleScrollToSection('hotels-section')}
+        onSearch={(criteria) => {
+          setBookingSearch(criteria);
+          handleScrollToSection('hotels-section');
+        }}
       />
 
       <ProvinceUsps
@@ -94,10 +100,7 @@ export default function ProvinceDetailPage() {
         viewAllLabel={language === 'vi' ? 'Xem tất cả' : 'View all'}
         attractions={selectedAttractions}
         favorites={favorites}
-        onViewAll={() => {
-          setView('all-services');
-          setAllServicesTab('attractions');
-        }}
+        onViewAll={() => openAllServices('attractions', 'province')}
         onViewItem={handleViewItem}
         onToggleFavorite={handleToggleFavorite}
       />
@@ -108,10 +111,8 @@ export default function ProvinceDetailPage() {
         cartItems={cartItems}
         onRemoveFromCart={handleRemoveFromCart}
         onViewItem={handleViewItem}
-        onViewAllServices={(tab) => {
-          setView('all-services');
-          setAllServicesTab(tab);
-        }}
+        searchCriteria={bookingSearch}
+        onViewAllServices={(tab) => openAllServices(tab, 'province')}
         favorites={favorites}
         onToggleFavorite={handleToggleFavorite}
       />

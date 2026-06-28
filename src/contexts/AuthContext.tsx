@@ -18,6 +18,7 @@ export interface AuthValue {
   register: (user: UserAccount) => void;
   logout: () => void;
   updateProfile: (user: UserAccount) => void;
+  updatePasswordByEmail: (email: string, password: string) => boolean;
   setUserRole: (userId: string, role: UserAccount['role']) => void;
 }
 
@@ -44,6 +45,19 @@ export function AuthProvider({ children }: { children?: React.ReactNode }) {
       updateProfile: (updated) => {
         setCurrentUser(updated);
         setUsers((prev) => prev.map((u) => (u.id === updated.id ? updated : u)));
+      },
+      updatePasswordByEmail: (email, password) => {
+        const normalizedEmail = email.trim().toLowerCase();
+        const exists = users.some((u) => u.email.toLowerCase() === normalizedEmail);
+        if (!exists) return false;
+
+        setUsers((prev) =>
+          prev.map((u) => (u.email.toLowerCase() === normalizedEmail ? { ...u, password } : u)),
+        );
+        setCurrentUser((prev) =>
+          prev && prev.email.toLowerCase() === normalizedEmail ? { ...prev, password } : prev,
+        );
+        return true;
       },
       setUserRole: (userId, role) => {
         setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, role } : u)));

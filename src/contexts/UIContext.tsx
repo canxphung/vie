@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import type { ViewableItem } from '@/types';
+import type { BookingSearchCriteria, ViewableItem } from '@/types';
 import type { ViewId, SubView, ServiceTab } from '@/constants/views';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -17,6 +17,10 @@ export interface UIValue {
   setActiveSubView: (s: SubView) => void;
   allServicesTab: ServiceTab;
   setAllServicesTab: (t: ServiceTab) => void;
+  allServicesReturnView: ViewId | null;
+  openAllServices: (tab: ServiceTab, returnView?: ViewId) => void;
+  bookingSearch: BookingSearchCriteria;
+  setBookingSearch: (criteria: BookingSearchCriteria) => void;
   selectedProvinceId: string;
   setSelectedProvinceId: (id: string) => void;
   /** Open a province detail page (sets province + resets sub-view + navigates). */
@@ -39,6 +43,32 @@ export interface UIValue {
 
 export const UIContext = React.createContext<UIValue | null>(null);
 
+function pad(n: number): string {
+  return String(n).padStart(2, '0');
+}
+
+function formatDateInput(date: Date): string {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function addDays(date: Date, days: number): Date {
+  const next = new Date(date);
+  next.setDate(next.getDate() + days);
+  return next;
+}
+
+function createDefaultBookingSearch(): BookingSearchCriteria {
+  const today = new Date();
+  const checkIn = addDays(today, 1);
+  return {
+    query: '',
+    checkInDate: formatDateInput(checkIn),
+    checkOutDate: formatDateInput(addDays(checkIn, 4)),
+    guestsCount: 1,
+    roomsCount: 1,
+  };
+}
+
 export function UIProvider({ children }: { children?: React.ReactNode }) {
   const initialRoute = React.useMemo(
     () => (typeof window === 'undefined' ? { view: 'regions' as ViewId } : routeToState(window.location.pathname)),
@@ -47,6 +77,8 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   const [view, setViewState] = React.useState<ViewId>(initialRoute.view);
   const [activeSubView, setActiveSubView] = React.useState<SubView>('spots');
   const [allServicesTab, setAllServicesTab] = React.useState<ServiceTab>('attractions');
+  const [allServicesReturnView, setAllServicesReturnView] = React.useState<ViewId | null>(null);
+  const [bookingSearch, setBookingSearch] = React.useState<BookingSearchCriteria>(() => createDefaultBookingSearch());
   const [selectedProvinceId, setSelectedProvinceIdState] = React.useState(initialRoute.provinceId || 'quang-nam');
   const [selectedItem, setSelectedItem] = React.useState<ViewableItem | null>(null);
   const [recentlyViewed, setRecentlyViewed] = useLocalStorage<ViewableItem[]>(STORAGE_KEYS.recentlyViewed, []);
@@ -78,6 +110,7 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   const setView = React.useCallback(
     (nextView: ViewId) => {
       setSelectedItem(null);
+      if (nextView !== 'all-services') setAllServicesReturnView(null);
       setViewState(nextView);
       viewRef.current = nextView;
       syncUrl(nextView, selectedProvinceIdRef.current);
@@ -107,6 +140,10 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
         selectedProvinceIdRef.current = nextRoute.provinceId;
         setSelectedProvinceIdState(nextRoute.provinceId);
       }
+
+      if (nextRoute.view !== 'all-services') {
+        setAllServicesReturnView(null);
+      }
     };
 
     window.addEventListener('popstate', applyLocation);
@@ -116,6 +153,7 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   // Navigate to province detail, then smooth-scroll to the target section once it mounts.
   // Offsets by the live sticky-header height so the section heading isn't hidden behind it.
   const scrollToSection = (sectionId: string) => {
+    setAllServicesReturnView(null);
     setViewState('province');
     viewRef.current = 'province';
     syncUrl('province', selectedProvinceIdRef.current);
@@ -129,6 +167,19 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     }, 200);
   };
 
+  const openAllServices = React.useCallback(
+    (tab: ServiceTab, returnView: ViewId = viewRef.current) => {
+      const normalizedReturnView = returnView === 'all-services' ? 'province' : returnView;
+      setAllServicesTab(tab);
+      setAllServicesReturnView(normalizedReturnView);
+      setSelectedItem(null);
+      setViewState('all-services');
+      viewRef.current = 'all-services';
+      syncUrl('all-services', selectedProvinceIdRef.current);
+    },
+    [syncUrl],
+  );
+
   const changeHeaderView = (target: string) => {
     if (target === 'spots') {
       setActiveSubView('spots');
@@ -140,18 +191,18 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     } else if (
       target === 'profile' || target === 'taxi' || target === 'tours' || target === 'handbook' ||
       target === 'partnership-register' || target === 'admin' || target === 'recently-viewed' ||
-      target === 'nearby-places'
+      target === 'nearby-places' || target === 'cart'
     ) {
       setView(target as ViewId);
     } else if (target === 'hotels') {
       setActiveSubView('hotels');
-      scrollToSection('hotels-section');
+      openAllServices('hotels');
     } else if (target === 'rentals') {
       setActiveSubView('rentals');
-      scrollToSection('rentals-section');
+      openAllServices('vehicles');
     } else if (target === 'experiences') {
       setActiveSubView('experiences');
-      scrollToSection('experiences-section');
+      openAllServices('activities');
     }
   };
 
@@ -162,12 +213,17 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     setActiveSubView,
     allServicesTab,
     setAllServicesTab,
+    allServicesReturnView,
+    openAllServices,
+    bookingSearch,
+    setBookingSearch,
     selectedProvinceId,
     setSelectedProvinceId,
     selectProvince: (id) => {
       selectedProvinceIdRef.current = id;
       setSelectedProvinceIdState(id);
       setActiveSubView('spots');
+      setAllServicesReturnView(null);
       setSelectedItem(null);
       setViewState('province');
       viewRef.current = 'province';

@@ -10,7 +10,7 @@ import { useI18n, useCart, useUI } from '@/hooks';
 export default function ServiceDetailsPage() {
   const { language } = useI18n();
   const { items: cartItems, addItem: handleAddToCart, removeItem: handleRemoveFromCart, openPayment, closePayment } = useCart();
-  const { selectedItem, clearSelectedItem } = useUI();
+  const { selectedItem, clearSelectedItem, bookingSearch } = useUI();
   const setShowPaymentModal = (open: boolean) => (open ? openPayment() : closePayment());
   return (
           <motion.div
@@ -29,7 +29,8 @@ export default function ServiceDetailsPage() {
               onCheckout={() => {
                 setShowPaymentModal(true);
               }}
-              isItemInCart={(id) => cartItems.some(x => x.id === id)}
+              isItemInCart={(key) => cartItems.some((x) => (x.cartKey || x.id) === key)}
+              bookingSearch={bookingSearch}
             />
           </motion.div>
   );

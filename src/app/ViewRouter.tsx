@@ -8,6 +8,7 @@ import { useUI } from '@/hooks';
 import ProfilePage from '@/pages/account/ProfilePage';
 import AdminPage from '@/pages/admin/AdminPage';
 import AuthPage from '@/pages/auth/AuthPage';
+import CartPage from '@/pages/cart/CartPage';
 import AllServicesPage from '@/pages/discover/AllServicesPage';
 import NearbyPlacesPage from '@/pages/discover/NearbyPlacesPage';
 import ProvinceDetailPage from '@/pages/discover/ProvinceDetailPage';
@@ -57,6 +58,8 @@ export default function ViewRouter() {
     page = <AdminPage />;
   } else if (view === 'all-services') {
     page = <AllServicesPage />;
+  } else if (view === 'cart') {
+    page = <CartPage />;
   } else if (view === 'login') {
     page = <AuthPage mode="login" />;
   } else if (view === 'register') {

@@ -8,7 +8,7 @@ import { Facebook, Instagram, Youtube, Phone, Mail, MapPin, ShieldCheck, Headpho
 
 export default function Footer() {
   const { language } = useI18n();
-  const { setView, setAllServicesTab, setSelectedProvinceId } = useUI();
+  const { setView, openAllServices, setSelectedProvinceId } = useUI();
   return (
       <footer className="bg-natural-ink text-natural-beige/85 pt-16 pb-12 px-4 md:px-8 border-t border-natural-accent/30 font-sans">
         <div className="max-w-7xl mx-auto">
@@ -76,8 +76,7 @@ export default function Footer() {
                 <li>
                   <button 
                     onClick={() => {
-                      setView('all-services');
-                      setAllServicesTab('hotels');
+                      openAllServices('hotels', 'regions');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
@@ -89,8 +88,7 @@ export default function Footer() {
                 <li>
                   <button 
                     onClick={() => {
-                      setView('all-services');
-                      setAllServicesTab('vehicles');
+                      openAllServices('vehicles', 'regions');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"
@@ -102,8 +100,7 @@ export default function Footer() {
                 <li>
                   <button 
                     onClick={() => {
-                      setView('all-services');
-                      setAllServicesTab('activities');
+                      openAllServices('activities', 'regions');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className="flex items-center gap-1.5 text-natural-beige/75 hover:text-natural-gold transition duration-200 group text-left w-full cursor-pointer"

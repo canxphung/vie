@@ -39,6 +39,8 @@ interface AuthPageProps {
   mode: AuthRouteMode;
 }
 
+const FALLBACK_DEMO_PASSWORD = '123456';
+
 interface AuthFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon: IconComponent;
   label: string;
@@ -57,28 +59,6 @@ function AuthField({ icon: Icon, label, hint, className = '', ...inputProps }: A
         />
       </span>
       {hint && <span className="mt-1.5 block text-[11px] leading-relaxed text-stone-500">{hint}</span>}
-    </label>
-  );
-}
-
-interface AuthSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  icon: IconComponent;
-  label: string;
-}
-
-function AuthSelect({ icon: Icon, label, children, ...selectProps }: AuthSelectProps) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-[11px] font-bold uppercase text-stone-600">{label}</span>
-      <span className={FIELD_SHELL}>
-        <Icon className="h-4 w-4 shrink-0 text-natural-accent" />
-        <select
-          className="h-11 min-w-0 flex-1 appearance-none bg-transparent text-sm font-semibold text-natural-text outline-none"
-          {...selectProps}
-        >
-          {children}
-        </select>
-      </span>
     </label>
   );
 }
@@ -121,7 +101,7 @@ function SocialButton({
 
 export default function AuthPage({ mode }: AuthPageProps) {
   const { language } = useI18n();
-  const { users, login, register } = useAuth();
+  const { users, login, register, updatePasswordByEmail } = useAuth();
   const { setView, navigateHome } = useUI();
   const isVi = language === 'vi';
   const [username, setUsername] = React.useState('');
@@ -129,7 +109,6 @@ export default function AuthPage({ mode }: AuthPageProps) {
   const [fullName, setFullName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
-  const [role, setRole] = React.useState<'user' | 'admin'>('user');
   const [errorMsg, setErrorMsg] = React.useState('');
   const [successMsg, setSuccessMsg] = React.useState('');
   const [forgotEmail, setForgotEmail] = React.useState('');
@@ -173,8 +152,12 @@ export default function AuthPage({ mode }: AuthPageProps) {
         u.phone === loginCredential,
     );
 
-    if (!matched) {
-      setErrorMsg(isVi ? 'Số điện thoại/Gmail hoặc tên đăng nhập không chính xác.' : 'Incorrect phone, Gmail or username.');
+    if (!matched || (matched.password || FALLBACK_DEMO_PASSWORD) !== password) {
+      setErrorMsg(
+        isVi
+          ? 'Thông tin đăng nhập hoặc mật khẩu không chính xác.'
+          : 'Incorrect credential or password.',
+      );
       return;
     }
 
@@ -199,14 +182,20 @@ export default function AuthPage({ mode }: AuthPageProps) {
       return;
     }
 
+    if (password.trim().length < 6) {
+      setErrorMsg(isVi ? 'Mật khẩu phải từ 6 ký tự trở lên.' : 'Password must be at least 6 characters.');
+      return;
+    }
+
     const newUser: UserAccount = {
       id: `u-${Date.now()}`,
       username: username.trim(),
+      password: password.trim(),
       fullName: fullName.trim() || username.trim(),
       email: email.trim(),
       phone: phone.trim(),
       bio: isVi ? 'Thành viên của cộng đồng du lịch VietCharm.' : 'Member of the VietCharm travel community.',
-      role,
+      role: 'user',
       avatar: `https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 999999)}?auto=format&fit=crop&w=150&q=80`,
       createdAt: new Date().toISOString().split('T')[0],
     };
@@ -223,6 +212,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
     const socialUser: UserAccount = {
       id: `u-social-${Date.now()}`,
       username: `${platform.toLowerCase()}_user${randomSuffix}`,
+      password: `oauth-${platform.toLowerCase()}`,
       fullName: platform === 'Google' ? `Google User #${randomSuffix}` : `Facebook User #${randomSuffix}`,
       email: `${platform.toLowerCase()}.${randomSuffix}@st.uel.edu.vn`,
       phone: `0987${randomSuffix}244`,
@@ -249,6 +239,11 @@ export default function AuthPage({ mode }: AuthPageProps) {
       setErrorMsg(isVi ? 'Vui lòng nhập Gmail hợp lệ.' : 'Please enter a valid Gmail.');
       return;
     }
+    const matched = users.find((u) => u.email.toLowerCase() === forgotEmail.trim().toLowerCase());
+    if (!matched) {
+      setErrorMsg(isVi ? 'Gmail này chưa tồn tại trong hệ thống.' : 'This Gmail is not registered.');
+      return;
+    }
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setSentCode(code);
     setForgotStep('verify-code');
@@ -271,6 +266,12 @@ export default function AuthPage({ mode }: AuthPageProps) {
     setErrorMsg('');
     if (newPassword.trim().length < 6) {
       setErrorMsg(isVi ? 'Mật khẩu mới phải từ 6 ký tự trở lên.' : 'Password must be at least 6 characters.');
+      return;
+    }
+
+    const updated = updatePasswordByEmail(forgotEmail, newPassword.trim());
+    if (!updated) {
+      setErrorMsg(isVi ? 'Không tìm thấy tài khoản để cập nhật mật khẩu.' : 'No account found to update.');
       return;
     }
 
@@ -382,6 +383,8 @@ export default function AuthPage({ mode }: AuthPageProps) {
                     <>
                       {isVi ? 'Tài khoản mẫu: ' : 'Demo account: '}
                       <span className="font-mono font-semibold text-stone-700">0987654321</span>
+                      <span>{isVi ? ' / Mật khẩu: ' : ' / Password: '}</span>
+                      <span className="font-mono font-semibold text-stone-700">{FALLBACK_DEMO_PASSWORD}</span>
                     </>
                   }
                   required
@@ -424,11 +427,13 @@ export default function AuthPage({ mode }: AuthPageProps) {
                 <AuthField icon={Mail} label={isVi ? 'Địa chỉ Gmail' : 'Email Address'} type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ngan@gmail.com" required />
                 <div className="grid gap-3 sm:grid-cols-2">
                   <AuthField icon={Phone} label={isVi ? 'Số điện thoại' : 'Phone Number'} type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="0987654321" required />
-                  <AuthSelect icon={ShieldCheck} label={isVi ? 'Vai trò' : 'Role'} value={role} onChange={(e) => setRole(e.target.value as 'user' | 'admin')}>
-                    <option value="user">{isVi ? 'Khách du lịch' : 'Traveler'}</option>
-                    <option value="admin">{isVi ? 'Quản trị hệ thống' : 'Administrator'}</option>
-                  </AuthSelect>
+                  <AuthField icon={LockKeyhole} label={isVi ? 'Mật khẩu' : 'Password'} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
                 </div>
+                <p className="text-[11px] leading-relaxed text-stone-500">
+                  {isVi
+                    ? 'Tài khoản mới mặc định là khách du lịch. Quyền quản trị được cấp trong trang quản trị.'
+                    : 'New accounts are travelers by default. Admin access is granted from the admin dashboard.'}
+                </p>
                 <button
                   type="submit"
                   className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-natural-gold px-5 text-sm font-black text-natural-ink shadow-lg shadow-natural-gold/25 transition hover:bg-natural-gold-dark cursor-pointer"

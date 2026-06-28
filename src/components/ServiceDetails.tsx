@@ -4,7 +4,7 @@ import {
   Calendar, Clock, ShoppingCart, CreditCard, MessageSquare, 
   CheckCircle, Landmark, Sparkles, Navigation, Info, ChevronRight, Check
 } from 'lucide-react';
-import { Language, BookingCartItem, ViewableItem } from '../types';
+import { Language, BookingCartItem, BookingSearchCriteria, ViewableItem } from '../types';
 import { DateField } from '@/components/ui';
 
 type ServiceDetailsItem = ViewableItem & {
@@ -27,6 +27,7 @@ interface ServiceDetailsProps {
   onRemoveFromCart: (id: string) => void;
   onCheckout: () => void;
   isItemInCart: (id: string) => boolean;
+  bookingSearch?: BookingSearchCriteria;
 }
 
 interface UserReview {
@@ -53,10 +54,10 @@ export default function ServiceDetails({
   onAddToCart,
   onRemoveFromCart,
   onCheckout,
-  isItemInCart
+  isItemInCart,
+  bookingSearch,
 }: ServiceDetailsProps) {
   const isVi = language === 'vi';
-  const inCart = isItemInCart(item.id);
   const [quantity, setQuantity] = React.useState(1);
   const [successMsg, setSuccessMsg] = React.useState(false);
 
@@ -64,23 +65,39 @@ export default function ServiceDetails({
   const [selectedDate, setSelectedDate] = React.useState(() => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split('T')[0];
+    return bookingSearch?.checkInDate || tomorrow.toISOString().split('T')[0];
   });
   const [checkInDate, setCheckInDate] = React.useState(() => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split('T')[0];
+    return bookingSearch?.checkInDate || tomorrow.toISOString().split('T')[0];
   });
   const [checkOutDate, setCheckOutDate] = React.useState(() => {
     const dayAfterTomorrow = new Date();
     dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
-    return dayAfterTomorrow.toISOString().split('T')[0];
+    return bookingSearch?.checkOutDate || dayAfterTomorrow.toISOString().split('T')[0];
   });
   const [selectedPackage, setSelectedPackage] = React.useState<'standard' | 'premium' | 'luxury'>('standard');
 
   // Separate quantities for Adults and Children (for activities/tours/nearby-places)
-  const [adultsCount, setAdultsCount] = React.useState(1);
+  const [adultsCount, setAdultsCount] = React.useState(() => Math.max(1, bookingSearch?.guestsCount || 1));
   const [childrenCount, setChildrenCount] = React.useState(0);
+  const [roomsCount, setRoomsCount] = React.useState(() => Math.max(1, bookingSearch?.roomsCount || 1));
+
+  React.useEffect(() => {
+    if (!bookingSearch) return;
+    setSelectedDate(bookingSearch.checkInDate);
+    setCheckInDate(bookingSearch.checkInDate);
+    setCheckOutDate(bookingSearch.checkOutDate);
+    setAdultsCount(Math.max(1, bookingSearch.guestsCount));
+    setRoomsCount(Math.max(1, bookingSearch.roomsCount));
+  }, [
+    bookingSearch?.checkInDate,
+    bookingSearch?.checkOutDate,
+    bookingSearch?.guestsCount,
+    bookingSearch?.roomsCount,
+    item.id,
+  ]);
 
   // Review state
   const [reviews, setReviews] = React.useState<UserReview[]>(() => {
@@ -139,7 +156,8 @@ export default function ServiceDetails({
   const calculatedPricePerUnit = Math.round(item.price * getPackageModifier());
   const childPricePerUnit = Math.round(item.price * getPackageModifier() * 0.7);
   
-  const isActivityLike = item.type === 'activity' || item.type === 'tour' || item.type === 'nearby-place';
+  const isActivityLike = item.type === 'activity' || item.type === 'tour';
+  const isBookable = item.price > 0 && (item.type === 'hotel' || item.type === 'vehicle' || isActivityLike);
   
   const getDaysDiff = () => {
     const start = new Date(checkInDate);
@@ -151,13 +169,17 @@ export default function ServiceDetails({
   };
 
   const hotelNights = getDaysDiff();
-  const effectiveQuantity = (item.type === 'hotel' || item.type === 'vehicle') ? hotelNights : quantity;
+  const effectiveQuantity = item.type === 'hotel'
+    ? hotelNights * roomsCount
+    : item.type === 'vehicle'
+      ? hotelNights
+      : quantity;
 
   const finalTotalPrice = isActivityLike 
     ? Math.round(calculatedPricePerUnit * adultsCount + childPricePerUnit * childrenCount)
     : Math.round(calculatedPricePerUnit * effectiveQuantity);
 
-  const handleAdd = () => {
+  const buildSelection = () => {
     const packageName = packagesInfo[selectedPackage].name;
     const dateStr = (item.type === 'hotel' || item.type === 'vehicle')
       ? `${checkInDate} -> ${checkOutDate}`
@@ -170,21 +192,39 @@ export default function ServiceDetails({
         : `Package: ${packageName} | Date: ${dateStr} | Tickets: ${adultsCount} Adults, ${childrenCount} Children`;
     } else {
       detailsStr = isVi
-        ? `Gói: ${packageName} | Ngày: ${dateStr} | Số lượng: ${effectiveQuantity} ${item.type === 'hotel' ? 'đêm' : 'ngày'}`
-        : `Package: ${packageName} | Date: ${dateStr} | Duration: ${effectiveQuantity} ${item.type === 'hotel' ? 'nights' : 'days'}`;
+        ? `Gói: ${packageName} | Ngày: ${dateStr} | ${item.type === 'hotel' ? `Phòng: ${roomsCount} | Đêm: ${hotelNights}` : `Số ngày thuê: ${hotelNights}`}`
+        : `Package: ${packageName} | Date: ${dateStr} | ${item.type === 'hotel' ? `Rooms: ${roomsCount} | Nights: ${hotelNights}` : `Rental days: ${hotelNights}`}`;
     }
 
     const cartType: BookingCartItem['type'] =
       item.type === 'hotel' || item.type === 'vehicle' ? item.type : 'activity';
 
+    const cartKey = [
+      item.id,
+      selectedPackage,
+      dateStr,
+      isActivityLike ? `adults-${adultsCount}` : `qty-${effectiveQuantity}`,
+      isActivityLike ? `children-${childrenCount}` : item.type === 'hotel' ? `rooms-${roomsCount}` : 'single-vehicle',
+    ].join('__');
+
+    return { cartKey, cartType, detailsStr };
+  };
+
+  const { cartKey: currentCartKey, cartType: currentCartType, detailsStr: currentDetails } = buildSelection();
+  const inCart = isItemInCart(currentCartKey);
+
+  const handleAdd = () => {
+    if (!isBookable) return;
+
     onAddToCart({
+      cartKey: currentCartKey,
       id: item.id,
-      type: cartType,
+      type: currentCartType,
       name: item.type === 'tour' ? `[Combo] ${item.name}` : item.name,
       price: finalTotalPrice,
       quantity: 1, // Store as a unified single package item with computed total price
       image: item.image,
-      details: detailsStr
+      details: currentDetails
     });
     setSuccessMsg(true);
     setTimeout(() => setSuccessMsg(false), 3000);
@@ -459,6 +499,7 @@ export default function ServiceDetails({
             </div>
 
             {/* Date & Package selection section (Requirement: "Vui lòng chọn ngày & gói dịch vụ") */}
+            {isBookable ? (
             <div className="space-y-4 border-t border-stone-150 pt-4">
               {/* Date Selector */}
               {(item.type === 'hotel' || item.type === 'vehicle') ? (
@@ -563,6 +604,13 @@ export default function ServiceDetails({
                 </div>
               </div>
             </div>
+            ) : (
+              <div className="rounded-2xl border border-dashed border-natural-border bg-natural-cream p-4 text-xs leading-relaxed text-stone-600">
+                {isVi
+                  ? 'Đây là địa điểm tham khảo miễn phí, không cần thêm vào giỏ hay thanh toán. Bạn có thể lưu yêu thích hoặc quay lại để xem dịch vụ đặt chỗ.'
+                  : 'This is a free reference place, so it does not need cart or checkout. Save it or go back to browse bookable services.'}
+              </div>
+            )}
 
             {/* Ticket split (Adult vs Child) or Standard quantity selector (Requirement: "vé người lớn và vé trẻ em") */}
             {item.price > 0 && (
@@ -631,11 +679,13 @@ export default function ServiceDetails({
                   <div className="space-y-2 border-t border-dashed border-natural-border pt-4 flex justify-between items-center">
                     <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">
                       {item.type === 'hotel' 
-                        ? (isVi ? 'Số lượng đêm lưu trú:' : 'Number of nights:') 
+                        ? (isVi ? 'Thời gian & số phòng:' : 'Stay duration & rooms:') 
                         : (isVi ? 'Số lượng ngày thuê xe:' : 'Number of rental days:')}
                     </span>
                     <div className="bg-natural-cream border border-natural-border rounded-2xl px-4 py-2 text-sm font-black text-natural-accent">
-                      {hotelNights} {item.type === 'hotel' ? (isVi ? 'đêm' : 'nights') : (isVi ? 'ngày' : 'days')}
+                      {item.type === 'hotel'
+                        ? `${hotelNights} ${isVi ? 'đêm' : 'nights'} · ${roomsCount} ${isVi ? 'phòng' : 'rooms'}`
+                        : `${hotelNights} ${isVi ? 'ngày' : 'days'}`}
                     </div>
                   </div>
                 ) : (
@@ -679,42 +729,54 @@ export default function ServiceDetails({
 
             {/* CTA action cluster */}
             <div className="space-y-3">
-              {inCart ? (
-                <button
-                  onClick={() => onRemoveFromCart(item.id)}
-                  className="w-full bg-natural-cream hover:bg-stone-100 text-natural-text py-3.5 rounded-2xl text-xs font-black uppercase tracking-wider transition border border-natural-border cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <span>{isVi ? 'Đã thêm vào giỏ - Hủy lựa chọn' : 'In Bundle - Cancel Selection'}</span>
-                </button>
+              {isBookable ? (
+                <>
+                  {inCart ? (
+                    <button
+                      onClick={() => onRemoveFromCart(currentCartKey)}
+                      className="w-full bg-natural-cream hover:bg-stone-100 text-natural-text py-3.5 rounded-2xl text-xs font-black uppercase tracking-wider transition border border-natural-border cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4 text-emerald-600" />
+                      <span>{isVi ? 'Đã thêm lựa chọn này - Hủy' : 'This selection is in cart - Remove'}</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleAdd}
+                      className="w-full bg-natural-accent hover:bg-natural-olive text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-md cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <ShoppingCart className="w-4 h-4" />
+                      <span>{isVi ? 'Thêm lựa chọn vào giỏ' : 'Add Selection to Cart'}</span>
+                    </button>
+                  )}
+
+                  {successMsg && (
+                    <div className="text-center py-2 bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-xl animate-fade-in">
+                      ✓ {isVi ? 'Đã thêm lựa chọn vào giỏ hàng!' : 'Selection added to cart!'}
+                    </div>
+                  )}
+
+                  <button
+                    onClick={() => {
+                      if (!inCart) {
+                        handleAdd();
+                      }
+                      onCheckout();
+                    }}
+                    className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-lg cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <CreditCard className="w-4 h-4" />
+                    <span>{isVi ? 'Thanh toán ngay' : 'Checkout & Pay Now'}</span>
+                  </button>
+                </>
               ) : (
                 <button
-                  onClick={handleAdd}
-                  className="w-full bg-natural-accent hover:bg-natural-olive text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-md cursor-pointer flex items-center justify-center gap-2"
+                  type="button"
+                  onClick={onBack}
+                  className="w-full bg-natural-accent hover:bg-natural-olive text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-md cursor-pointer"
                 >
-                  <ShoppingCart className="w-4 h-4" />
-                  <span>{isVi ? 'Thêm vào giỏ hàng' : 'Add to Shopping Cart'}</span>
+                  {isVi ? 'Xem dịch vụ có thể đặt' : 'Browse Bookable Services'}
                 </button>
               )}
-
-              {successMsg && (
-                <div className="text-center py-2 bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-xl animate-fade-in">
-                  ✓ {isVi ? 'Đã thêm vào giỏ hàng thành công!' : 'Successfully added to cart!'}
-                </div>
-              )}
-
-              <button
-                onClick={() => {
-                  if (!inCart) {
-                    handleAdd();
-                  }
-                  onCheckout();
-                }}
-                className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-lg cursor-pointer flex items-center justify-center gap-2"
-              >
-                <CreditCard className="w-4 h-4" />
-                <span>{isVi ? 'Thanh toán ngay' : 'Checkout & Pay Now'}</span>
-              </button>
             </div>
           </div>
 
