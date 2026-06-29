@@ -9,6 +9,7 @@ import { User, Lock, MapPin, Phone, Mail, Award, Key, Calendar, ShieldCheck, Dat
 import type { Language, BookingCartItem, UserAccount, PartnershipApplication, PromoVoucher, SystemBooking, ViewableItem } from '@/types';
 import { TOURIST_LOCATIONS } from '@/constants/seed/touristLocations';
 import { PREDEFINED_COMBOS } from '@/constants/seed/tourCombos';
+import { BlurImage, Button, MotifDivider, Reveal } from '@/components/ui';
 
 // 4. COMPONENT: DEDICATED TOUR COMBOS PACKAGES
 // ==========================================
@@ -73,12 +74,13 @@ export function TourCombos({
             ? 'Kết hợp phòng nghỉ cao cấp, xe di chuyển riêng tư và vé tham quan di sản nổi bật với mức chiết khấu độc quyền lên đến 25% tổng hóa đơn.'
             : 'Unite premium hotel stays, private airport transfers, and verified attraction entries with absolute 25% bundling savings.'}
         </p>
+        <MotifDivider className="pt-1" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {PREDEFINED_COMBOS.map((combo) => (
-          <div 
-            key={combo.id}
+        {PREDEFINED_COMBOS.map((combo, index) => (
+          <Reveal key={combo.id} delay={Math.min(index, 5) * 0.08} className="h-full">
+          <div
             onClick={() => onViewItem?.({
               id: combo.id,
               type: 'activity',
@@ -87,10 +89,15 @@ export function TourCombos({
               price: combo.price,
               description: combo.includes.join('. ')
             })}
-            className="bg-white border border-natural-border rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition duration-300 flex flex-col justify-between cursor-pointer"
+            className="group h-full bg-white border border-natural-border rounded-3xl overflow-hidden shadow-xs hover:shadow-luxe-lg hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1.5 flex flex-col justify-between cursor-pointer"
           >
             <div className="relative h-56 overflow-hidden">
-              <img src={combo.image} alt={combo.name} className="w-full h-full object-cover hover:scale-105 transition duration-500" />
+              <BlurImage
+                src={combo.image}
+                alt={combo.name}
+                wrapperClassName="absolute inset-0"
+                className="h-full w-full object-cover transition duration-[600ms] ease-out group-hover:scale-110"
+              />
               {onToggleFavorite && (
                 <button
                   onClick={(e) => {
@@ -151,12 +158,13 @@ export function TourCombos({
                   </strong>
                 </div>
 
-                <button
+                <Button
+                  variant="primary"
                   onClick={() => handleBookCombo(combo)}
-                  className="w-full bg-natural-accent hover:bg-natural-olive text-white font-bold py-3 rounded-xl uppercase text-xs tracking-wider transition shadow-md"
+                  className="w-full py-3 uppercase text-xs tracking-wider"
                 >
                   {isVi ? 'ĐẶT COMBO NGAY' : 'BOOK BUNDLED PACKAGE'}
-                </button>
+                </Button>
 
                 {successId === combo.id && (
                   <p className="text-[11px] font-bold text-emerald-800 text-center animate-bounce">
@@ -166,6 +174,7 @@ export function TourCombos({
               </div>
             </div>
           </div>
+          </Reveal>
         ))}
       </div>
     </div>

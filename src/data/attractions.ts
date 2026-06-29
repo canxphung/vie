@@ -10,7 +10,7 @@ export const attractionsByProvince: Record<string, Attraction[]> = {
     {
       id: 'hoian-oldtown',
       name: 'Phố cổ Hội An',
-      image: 'https://images.unsplash.com/photo-1566837497217-1f912feab1fe?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1701397955184-a65af828f90a?auto=format&fit=crop&w=600&q=80',
       description: 'Di sản văn hóa thế giới UNESCO bảo tồn hoàn hảo với hơn 1000 di tích cổ kính.',
       rating: 4.8,
       reviewsCount: '5.2k',
@@ -20,7 +20,7 @@ export const attractionsByProvince: Record<string, Attraction[]> = {
     {
       id: 'chua-cau',
       name: 'Chùa Cầu',
-      image: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1635777957702-3d39b9bdfde0?auto=format&fit=crop&w=600&q=80',
       description: 'Biểu tượng lịch sử độc bản của Hội An giao thoa văn hóa Việt, Nhật và Hoa.',
       rating: 4.7,
       reviewsCount: '3.1k',
@@ -30,7 +30,7 @@ export const attractionsByProvince: Record<string, Attraction[]> = {
     {
       id: 'thanh-ha-pottery',
       name: 'Làng gốm Thanh Hà',
-      image: 'https://images.unsplash.com/photo-1596484552834-6a58bc238517?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1679108229360-8b6e996d9034?auto=format&fit=crop&w=600&q=80',
       description: 'Trải nghiệm làng nghề gốm truyền thống mộc mạc hơn 500 tuổi bên sông Thu Bồn.',
       rating: 4.6,
       reviewsCount: '579',
@@ -40,7 +40,7 @@ export const attractionsByProvince: Record<string, Attraction[]> = {
     {
       id: 'an-bang-beach',
       name: 'Bãi biển An Bàng',
-      image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1706012955757-6c2048c32668?auto=format&fit=crop&w=600&q=80',
       description: 'Top bãi biển hoang sơ đẹp hàng đầu châu Á với bờ cát trắng mượt êm đềm.',
       rating: 4.9,
       reviewsCount: '1.8k',
@@ -50,7 +50,7 @@ export const attractionsByProvince: Record<string, Attraction[]> = {
     {
       id: 'my-son-holyland',
       name: 'Thánh địa Mỹ Sơn',
-      image: 'https://images.unsplash.com/photo-1596484552834-6a58bc238517?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1506358517354-a0b210578f0d?auto=format&fit=crop&w=600&q=80',
       description: 'Thành trì đền tháp Champa cổ kính ngàn năm tuổi nằm lọt thỏm giữa thung lũng xanh u tịch bí ẩn.',
       rating: 4.8,
       reviewsCount: '2.7k',
@@ -60,7 +60,7 @@ export const attractionsByProvince: Record<string, Attraction[]> = {
     {
       id: 'cam-thanh-coconut',
       name: 'Rừng dừa Bảy Mẫu Cẩm Thanh',
-      image: 'https://images.unsplash.com/photo-150752428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1722987170598-556327f43fc7?auto=format&fit=crop&w=600&q=80',
       description: 'Trải nghiệm múa thúng chai độc đáo trên dòng nước rợp bóng dừa xanh rì rào đầy sôi động.',
       rating: 4.8,
       reviewsCount: '3.9k',
@@ -70,7 +70,7 @@ export const attractionsByProvince: Record<string, Attraction[]> = {
     {
       id: 'tra-que-vegetable',
       name: 'Làng rau Trà Quế',
-      image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1595860293946-d3e5e6c3fe37?auto=format&fit=crop&w=600&q=80',
       description: 'Hơn 300 năm tuổi gieo trồng các loại rau thơm hữu cơ nức tiếng bằng nguồn rong sông cổ ngọt ngào.',
       rating: 4.7,
       reviewsCount: '890',
@@ -80,7 +80,7 @@ export const attractionsByProvince: Record<string, Attraction[]> = {
     {
       id: 'kim-bong-woodcarving',
       name: 'Làng mộc Kim Bồng',
-      image: 'https://images.unsplash.com/photo-1596484552834-6a58bc238517?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1606077089563-cff5a4f3d3d9?auto=format&fit=crop&w=600&q=80',
       description: 'Cơ sở mộc chạm khắc gỗ điêu luyện có lịch sử hơn 500 năm tuổi của các nghệ nhân tài hoa ven sông Hoài.',
       rating: 4.6,
       reviewsCount: '450',

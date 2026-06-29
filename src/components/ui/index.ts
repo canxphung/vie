@@ -11,4 +11,6 @@ export { IconButton } from './IconButton';
 export { Badge } from './Badge';
 export { DateField } from './DateField';
 export { Reveal } from './Reveal';
+export { BlurImage } from './BlurImage';
+export { MotifDivider, WaveDivider } from './SectionDivider';
 export * from './motion-presets';

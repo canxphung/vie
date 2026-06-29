@@ -54,7 +54,7 @@ export const hotelsByProvince: Record<string, Hotel[]> = {
     {
       id: 'anantara-hoian',
       name: 'Anantara Hoi An Resort',
-      image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=600&q=80',
       rating: 4.9,
       reviewsCount: '840',
       pricePerNight: 3500000,
@@ -65,7 +65,7 @@ export const hotelsByProvince: Record<string, Hotel[]> = {
     {
       id: 'mulberry-collection-silk-eco',
       name: 'Mulberry Collection Silk Eco',
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1694967832949-09984640b143?auto=format&fit=crop&w=600&q=80',
       rating: 4.8,
       reviewsCount: '680',
       pricePerNight: 950000,
@@ -76,7 +76,7 @@ export const hotelsByProvince: Record<string, Hotel[]> = {
     {
       id: 'belmar-resort-spa',
       name: 'Bel Marina Hoi An Resort',
-      image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1596178067639-5c6e68aea6dc?auto=format&fit=crop&w=600&q=80',
       rating: 4.9,
       reviewsCount: '1.5k',
       pricePerNight: 1850000,
@@ -87,7 +87,7 @@ export const hotelsByProvince: Record<string, Hotel[]> = {
     {
       id: 'little-riverside-hoian',
       name: 'Little Riverside Hoi An Luxury Hotel',
-      image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1615722440048-da4ccf6de048?auto=format&fit=crop&w=600&q=80',
       rating: 4.9,
       reviewsCount: '520',
       pricePerNight: 2300000,

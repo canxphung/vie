@@ -9,6 +9,7 @@ import { provinces } from '../data';
 import { MapPin, Map, Navigation, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useToast } from '@/hooks';
+import { BlurImage, Button, MotifDivider, Reveal } from '@/components/ui';
 
 interface ProvinceDashboardProps {
   language: Language;
@@ -46,7 +47,10 @@ export default function ProvinceDashboard({
 
         {/* Section Title */}
         <div className="mb-12 text-center md:text-left">
-          <h2 className="text-2xl md:text-4xl font-serif font-bold text-natural-text tracking-tight">
+          <span className="text-[11px] font-black uppercase tracking-[0.22em] text-gold-gradient">
+            {isVi ? 'Di sản Miền Trung' : 'Central Heritage'}
+          </span>
+          <h2 className="mt-1 text-2xl md:text-4xl font-serif font-bold text-natural-text tracking-tight">
             {isVi ? 'Hệ thống Quản lý Hành trình Miền Trung' : 'Central Provinces Heritage Council'}
           </h2>
           <p className="text-natural-text/80 text-xs md:text-sm mt-3 max-w-2xl leading-relaxed">
@@ -54,22 +58,23 @@ export default function ProvinceDashboard({
               ? 'Tích hợp hệ thống đặt tour, thuê khách sạn, thuê ô tô xe máy kèm bản đồ đồng bộ thời gian thực cho Quảng Nam - Hội An và các tỉnh thành lân cận.' 
               : 'Integrated reservation platform offering curated hotels, tour bookings, and vehicle rentals for Quang Nam - Hoi An & adjacent provinces.'}
           </p>
+          <MotifDivider className="mt-6 md:justify-start" />
         </div>
 
         {/* Provinces display Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {provinces.map((prov) => {
+          {provinces.map((prov, index) => {
             const isClickable = prov.active; // quang-nam, da-nang, thua-thien-hue are active
-            
+
             return (
+              <Reveal key={prov.id} delay={Math.min(index, 5) * 0.07} className="h-full">
               <motion.div
-                key={prov.id}
                 whileHover={isClickable ? { y: -6 } : {}}
                 transition={{ duration: 0.3 }}
-                className={`relative rounded-3xl overflow-hidden shadow-lg border bg-natural-beige-light ${
+                className={`group relative h-full rounded-3xl overflow-hidden border bg-natural-beige-light transition duration-300 ${
                   isClickable 
-                    ? 'border-natural-border cursor-pointer hover:shadow-xl hover:border-natural-accent' 
-                    : 'border-natural-border/60 opacity-70'
+                    ? 'border-natural-border cursor-pointer shadow-luxe hover:shadow-luxe-lg hover:border-natural-gold/45'
+                    : 'border-natural-border/60 opacity-70 shadow-lg'
                 }`}
                 onClick={() => {
                   if (isClickable) {
@@ -79,10 +84,11 @@ export default function ProvinceDashboard({
               >
                 {/* Hero preview image */}
                 <div className="h-56 w-full overflow-hidden relative">
-                  <img 
-                    src={prov.image} 
+                  <BlurImage
+                    src={prov.image}
                     alt={prov.name}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    wrapperClassName="absolute inset-0"
+                    className="h-full w-full object-cover transition duration-[600ms] ease-out group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
                   
@@ -116,7 +122,7 @@ export default function ProvinceDashboard({
                   {isClickable ? (
                     <div className="flex items-center gap-1 text-xs font-bold text-natural-accent">
                       <span>{isVi ? 'Ấn để khám phá' : 'Click to Plan'}</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                     </div>
                   ) : (
                     <button
@@ -138,6 +144,7 @@ export default function ProvinceDashboard({
                 </div>
               </div>
             </motion.div>
+              </Reveal>
           );
         })}
       </div>
@@ -157,12 +164,13 @@ export default function ProvinceDashboard({
               </p>
             </div>
           </div>
-          <button 
+          <Button
+            variant="primary"
             onClick={() => onSelectProvince('quang-nam')}
-            className="bg-natural-accent hover:bg-natural-olive text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md shrink-0"
+            className="shrink-0 text-xs uppercase tracking-wider"
           >
             {isVi ? 'Khám Phá Hội An Ngay' : 'Go to Hoi An First'}
-          </button>
+          </Button>
         </div>
 
       </div>

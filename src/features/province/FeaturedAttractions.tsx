@@ -4,7 +4,7 @@
  */
 
 import { ArrowRight, Heart, Star } from 'lucide-react';
-import { Container, Reveal } from '@/components/ui';
+import { BlurImage, Container, Reveal } from '@/components/ui';
 import type { Attraction, Language, ViewableItem } from '@/types';
 
 interface FeaturedAttractionsProps {
@@ -70,7 +70,12 @@ export function FeaturedAttractions({
               className="group h-full bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-luxe-lg border border-stone-150 hover:border-natural-gold/45 transition duration-300 ease-out transform hover:-translate-y-1.5 cursor-pointer"
             >
               <div className="h-44 overflow-hidden relative">
-                <img src={spot.image} alt={spot.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
+                <BlurImage
+                  src={spot.image}
+                  alt={spot.name}
+                  wrapperClassName="absolute inset-0"
+                  className="h-full w-full object-cover transition duration-[600ms] ease-out group-hover:scale-110"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
                 <button
                   onClick={(e) => {

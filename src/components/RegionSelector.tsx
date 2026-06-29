@@ -8,6 +8,7 @@ import { Landmark, ArrowRight, ShieldCheck, Map, AlertCircle } from 'lucide-reac
 import { Language } from '../types';
 import { dictionaries } from '../data';
 import { motion } from 'motion/react';
+import { Button, MotifDivider, Reveal } from '@/components/ui';
 
 interface RegionSelectorProps {
   language: Language;
@@ -46,6 +47,7 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
           <p className="text-natural-text/80 max-w-2xl mx-auto mt-4 text-sm md:text-base">
             {t.homeSub}
           </p>
+          <MotifDivider className="mt-7" />
         </motion.div>
 
         {/* Region selector Cards layout */}
@@ -88,8 +90,8 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
             onClick={() => handleRegionClick('central')}
           >
             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/45 to-black/10 group-hover:bg-black/35 transition-all duration-300 z-10" />
-            <img 
-              src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80" 
+            <img
+              src="https://images.unsplash.com/photo-1676019556644-25abbce12a58?auto=format&fit=crop&w=800&q=80"
               alt="Miền Trung"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
@@ -141,7 +143,8 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
         </div>
 
         {/* REVOLUTIONARY GEN Z FEATURES BANNER - GẦN GŨI DI SẢN */}
-        <div className="max-w-5xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Reveal className="max-w-5xl mx-auto mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Trip Room Box */}
           <div className="bg-white border-2 border-natural-accent/20 rounded-3xl p-6 flex flex-col justify-between gap-6 relative overflow-hidden group hover:shadow-xl transition-all duration-300">
             <div className="absolute top-0 right-0 w-24 h-24 bg-natural-accent/5 rounded-full blur-xl pointer-events-none" />
@@ -158,13 +161,14 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
                   : 'Collaboratively vote on hotels, dining, and custom tour structures. Set your specific preferences, cast votes, and track individual split bills transparently.'}
               </p>
             </div>
-            <button
+            <Button
+              variant="primary"
               onClick={onSelectTripRoom}
-              className="w-full bg-natural-accent hover:bg-natural-olive text-white font-serif font-bold text-xs px-5 py-3 rounded-xl transition duration-200 flex items-center justify-center gap-2 cursor-pointer shadow"
+              className="w-full font-serif text-xs"
             >
               <span>{language === 'vi' ? 'Vào phòng lập kế hoạch' : 'Enter Trip Room'}</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </Button>
           </div>
 
           {/* Blind Travel Box */}
@@ -183,15 +187,17 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
                   : 'Ditch the exhaustive schedules. Choose your budget, days and vibes. The AI reserves everything automatically and seals the final oracle destination card until you arrive at the airport!'}
               </p>
             </div>
-            <button
+            <Button
+              variant="gold"
               onClick={onSelectBlindTravel}
-              className="w-full bg-natural-gold hover:bg-[#c99532] text-white font-serif font-bold text-xs px-5 py-3 rounded-xl transition duration-200 flex items-center justify-center gap-2 cursor-pointer shadow"
+              className="w-full font-serif text-xs"
             >
               <span>{language === 'vi' ? 'Khám phá hành trình ẩn số' : 'Explore Blind Travel'}</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </Button>
           </div>
         </div>
+        </Reveal>
 
         {/* Local trust statement banner */}
         <div className="mt-16 max-w-3xl mx-auto flex flex-wrap justify-center items-center gap-6 px-5 py-4 bg-natural-beige border border-natural-border rounded-2xl text-natural-text text-xs font-medium">

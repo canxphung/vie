@@ -11,7 +11,7 @@ export interface ProvinceHeroConfig {
 
 export const provinceHeroById: Record<string, ProvinceHeroConfig> = {
   'quang-nam': {
-    image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1600&q=80',
+    image: 'https://images.unsplash.com/photo-1701397955118-79059690ef50?auto=format&fit=crop&w=1600&q=80',
     title: 'HỘI AN',
     subtitle: 'Nơi thời gian chậm lại để bạn cảm nhận những điều bình yên và mộc mạc nhất',
   },
