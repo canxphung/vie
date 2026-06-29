@@ -247,7 +247,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setSentCode(code);
     setForgotStep('verify-code');
-    setSuccessMsg(isVi ? `Đã gửi mã xác nhận đến Gmail của bạn. Mã mẫu: ${code}` : `Verification code sent to your Gmail. Demo code: ${code}`);
+    setSuccessMsg(isVi ? `Đã gửi mã xác nhận đến Gmail của bạn. Mã của bạn: ${code}` : `Verification code sent to your Gmail. Your code: ${code}`);
   };
 
   const handleVerifyForgotCode = (e: React.FormEvent) => {
@@ -381,7 +381,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
                   placeholder={isVi ? 'Nhập thông tin đăng nhập' : 'Enter your credential'}
                   hint={
                     <>
-                      {isVi ? 'Tài khoản mẫu: ' : 'Demo account: '}
+                      {isVi ? 'Tài khoản dùng thử: ' : 'Try it with: '}
                       <span className="font-mono font-semibold text-stone-700">0987654321</span>
                       <span>{isVi ? ' / Mật khẩu: ' : ' / Password: '}</span>
                       <span className="font-mono font-semibold text-stone-700">{FALLBACK_DEMO_PASSWORD}</span>

@@ -48,15 +48,15 @@ export default function ProvinceDashboard({
         {/* Section Title */}
         <div className="mb-12 text-center md:text-left">
           <span className="text-[11px] font-black uppercase tracking-[0.22em] text-gold-gradient">
-            {isVi ? 'Điểm đến đang mở dữ liệu' : 'Destinations with data'}
+            {isVi ? 'Điểm đến tiêu biểu' : 'Featured destinations'}
           </span>
           <h2 className="mt-1 text-2xl md:text-4xl font-serif font-bold text-natural-text tracking-tight">
             {isVi ? 'Chọn điểm đến để xem dịch vụ' : 'Choose a destination to browse services'}
           </h2>
           <p className="text-natural-text/80 text-xs md:text-sm mt-3 max-w-2xl leading-relaxed">
             {isVi 
-              ? 'Danh sách dưới đây là các điểm đến đang có dữ liệu dịch vụ mẫu để chạy thử flow đặt tour, khách sạn, thuê xe và lịch trình AI.'
-              : 'The destinations below currently include sample service data for testing tours, stays, rentals, and AI itineraries.'}
+              ? 'Chọn một điểm đến để đặt tour, khách sạn, thuê xe và lên lịch trình cùng trợ lý AI — tất cả trong một flow liền mạch.'
+              : 'Pick a destination to book tours, hotels, and rentals, and plan with the AI assistant — all in one seamless flow.'}
           </p>
           <MotifDivider className="mt-6 md:justify-start" />
         </div>
@@ -97,7 +97,7 @@ export default function ProvinceDashboard({
                   {isClickable ? (
                     <span className="text-natural-gold font-bold">● {isVi ? 'KÍCH HOẠT' : 'READY'}</span>
                   ) : (
-                    <span className="text-stone-300">⚡ {isVi ? 'ĐANG PHÁT TRIỂN' : 'UNDER DEV'}</span>
+                    <span className="text-stone-300">⚡ {isVi ? 'SẮP RA MẮT' : 'COMING SOON'}</span>
                   )}
                 </div>
 

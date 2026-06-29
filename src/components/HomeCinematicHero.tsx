@@ -48,8 +48,8 @@ export default function HomeCinematicHero({
 
           <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/82 md:text-base">
             {isVi
-              ? 'VietCharm gom điểm đến, nơi ở, xe, hoạt động và lịch trình AI vào một flow đặt chuyến. Một số dữ liệu dịch vụ đang được mở theo từng giai đoạn, nhưng trải nghiệm được thiết kế cho cả bản đồ Việt Nam.'
-              : 'VietCharm brings destinations, stays, rides, experiences, and AI itineraries into one trip flow. Service data is opening in phases, while the experience is designed for the full Vietnam map.'}
+              ? 'VietCharm gom điểm đến, nơi ở, xe, hoạt động và lịch trình AI vào một flow đặt chuyến. Khu vực phục vụ đang được mở rộng dần, với trải nghiệm thiết kế cho cả bản đồ Việt Nam.'
+              : 'VietCharm brings destinations, stays, rides, experiences, and AI itineraries into one trip flow. Coverage keeps expanding across regions, with an experience designed for the full Vietnam map.'}
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -68,7 +68,7 @@ export default function HomeCinematicHero({
         <div className="mt-10 grid max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { icon: CalendarDays, value: isVi ? 'AI' : 'AI', label: isVi ? 'lịch trình theo gu' : 'mood-based routes' },
-            { icon: Hotel, value: '18+', label: isVi ? 'lưu trú mẫu' : 'sample stays' },
+            { icon: Hotel, value: '18+', label: isVi ? 'lưu trú chọn lọc' : 'curated stays' },
             { icon: MapPinned, value: isVi ? 'Bắc-Trung-Nam' : 'N-C-S', label: isVi ? 'khung vùng du lịch' : 'regional framework' },
             { icon: UsersRound, value: isVi ? 'Nhóm' : 'Groups', label: isVi ? 'cùng vote lịch trình' : 'co-plan together' },
           ].map(({ icon: Icon, value, label }) => (

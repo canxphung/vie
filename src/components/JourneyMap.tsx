@@ -56,7 +56,7 @@ const ROUTES: Array<{
       stay: 'Boutique phố cổ, khách sạn biển hoặc resort yên tĩnh',
       food: 'Mì Quảng, cao lầu, bún bò, hải sản',
       route: 'Gợi ý: phố cổ, bãi biển, cố đô và một chặng ẩm thực địa phương.',
-      status: 'Đã có dữ liệu demo đặt dịch vụ',
+      status: 'Đang mở đặt dịch vụ',
     },
     en: {
       name: 'Central Vietnam',
@@ -64,7 +64,7 @@ const ROUTES: Array<{
       stay: 'Ancient-town boutiques, beach hotels, or quiet resorts',
       food: 'Mi quang, cao lau, bun bo, seafood',
       route: 'Idea: old town, beach time, imperial sites, and a local food leg.',
-      status: 'Demo booking data available',
+      status: 'Now open for booking',
     },
   },
   {
@@ -111,8 +111,8 @@ export default function JourneyMap({ language, onExplore }: JourneyMapProps) {
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-stone-500">
                 {isVi
-                  ? 'Phần này chỉ là khung cảm hứng theo vùng. Dữ liệu đặt trực tiếp sẽ được mở dần, nhưng homepage không mặc định nghiêng về một miền duy nhất.'
-                  : 'This section is a regional inspiration frame. Live booking data opens in phases, but the homepage does not default to a single region.'}
+                  ? 'Gợi ý tuyến cho từng vùng để bạn hình dung hành trình. Dịch vụ đặt trực tiếp đang được mở rộng dần ra cả ba miền.'
+                  : 'Route ideas for each region to help you picture the trip. Direct booking is expanding across all three regions.'}
               </p>
             </div>
             <Button type="button" variant="secondary" onClick={onExplore} className="w-fit">
@@ -168,7 +168,7 @@ export default function JourneyMap({ language, onExplore }: JourneyMapProps) {
                   </div>
                   <div className="flex items-center gap-2">
                     <Compass className="h-4 w-4 text-natural-accent" />
-                    <span className="text-xs font-bold">{isVi ? 'Mở dữ liệu theo giai đoạn' : 'Data opens in phases'}</span>
+                    <span className="text-xs font-bold">{isVi ? 'Mở rộng dần theo vùng' : 'Growing region by region'}</span>
                   </div>
                 </div>
               </div>

@@ -110,13 +110,13 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <div className="absolute top-4 left-4 z-20 bg-natural-gold text-natural-text border border-white/20 text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full">
-              {language === 'vi' ? 'Có dữ liệu demo' : 'Demo data'}
+              {language === 'vi' ? 'Đang mở đặt dịch vụ' : 'Now bookable'}
             </div>
             <div className="absolute bottom-0 inset-x-0 p-6 z-20 text-left text-white flex flex-col justify-end">
               <span className="text-natural-gold text-xs font-bold uppercase">{language === 'vi' ? 'Hội An - Đà Nẵng - Huế' : 'Hoi An - Danang - Hue'}</span>
               <h3 className="text-2xl font-serif font-bold tracking-tight mt-1">{t.central}</h3>
               <p className="text-stone-200 text-xs mt-2 line-clamp-2 leading-relaxed">
-                {language === 'vi' ? 'Phố cổ, biển và cố đô đang có một phần dữ liệu mẫu để chạy thử flow đặt dịch vụ.' : 'Ancient towns, beaches, and imperial sites currently include sample data for the booking flow.'}
+                {language === 'vi' ? 'Phố cổ, biển và cố đô — đặt tour, lưu trú, thuê xe và lên lịch trình trong một flow liền mạch.' : 'Ancient towns, beaches, and imperial cities — book tours, stays, rides, and itineraries in one seamless flow.'}
               </p>
               <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-natural-gold group-hover:text-white">
                 <span>{language === 'vi' ? 'Xem dịch vụ đang có' : 'View available services'}</span>

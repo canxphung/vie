@@ -294,7 +294,7 @@ export function UserAuthModal({
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setSentCode(code);
     setForgotStep('verify-code');
-    setSuccessMsg(isVi ? `Mã khôi phục đã gửi vào ${forgotEmail}! Mã mẫu: ${code}` : `Verification code sent to ${forgotEmail}! Demo code: ${code}`);
+    setSuccessMsg(isVi ? `Mã khôi phục đã gửi vào ${forgotEmail}! Mã của bạn: ${code}` : `Verification code sent to ${forgotEmail}! Your code: ${code}`);
   };
 
   const handleVerifyForgotCode = (e: React.FormEvent) => {
@@ -523,7 +523,7 @@ export function UserAuthModal({
                       placeholder={isVi ? 'Nhập thông tin đăng nhập' : 'Enter your credential'}
                       hint={
                         <>
-                          {isVi ? 'Tài khoản mẫu: ' : 'Demo account: '}
+                          {isVi ? 'Tài khoản dùng thử: ' : 'Try it with: '}
                           <span className="font-mono font-semibold text-stone-700">0987654321</span>
                           <span> / </span>
                           <span className="font-mono font-semibold text-stone-700">ngandtk244111@st.uel.edu.vn</span>
