@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { Language, BookingCartItem, BookingSearchCriteria, ViewableItem } from '../types';
 import { DateField } from '@/components/ui';
-import { useToast } from '@/hooks';
+import { useToast, useUI } from '@/hooks';
 
 type ServiceDetailsItem = ViewableItem & {
   rating?: number;
@@ -92,6 +92,7 @@ export default function ServiceDetails({
 }: ServiceDetailsProps) {
   const isVi = language === 'vi';
   const { showToast } = useToast();
+  const { requireAuth } = useUI();
   const [quantity, setQuantity] = React.useState(1);
   const [successMsg, setSuccessMsg] = React.useState(false);
 
@@ -293,7 +294,7 @@ export default function ServiceDetails({
     }
   };
 
-  const handleAdd = () => {
+  const addSelectionToCart = () => {
     if (!isBookable) return;
 
     onAddToCart({
@@ -308,6 +309,12 @@ export default function ServiceDetails({
     });
     setSuccessMsg(true);
     setTimeout(() => setSuccessMsg(false), 3000);
+  };
+
+  // Adding to cart requires login.
+  const handleAdd = () => {
+    if (!isBookable) return;
+    requireAuth(addSelectionToCart, isVi ? 'Đăng nhập để thêm dịch vụ vào giỏ.' : 'Sign in to add services to your cart.');
   };
 
   const generatedHighlights = item.highlights || [
@@ -938,12 +945,12 @@ export default function ServiceDetails({
                   )}
 
                   <button
-                    onClick={() => {
-                      if (!inCart) {
-                        handleAdd();
-                      }
-                      onCheckout();
-                    }}
+                    onClick={() =>
+                      requireAuth(() => {
+                        if (!inCart) addSelectionToCart();
+                        onCheckout();
+                      }, isVi ? 'Đăng nhập để thanh toán.' : 'Sign in to checkout.')
+                    }
                     className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-text py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-lg cursor-pointer flex items-center justify-center gap-2"
                   >
                     <CreditCard className="w-4 h-4" />

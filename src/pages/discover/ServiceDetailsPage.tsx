@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import React from 'react';
 import { motion } from 'motion/react';
 import ServiceDetails from '@/components/ServiceDetails';
 import { useI18n, useCart, useUI } from '@/hooks';
@@ -12,6 +13,16 @@ export default function ServiceDetailsPage() {
   const { items: cartItems, addItem: handleAddToCart, removeItem: handleRemoveFromCart, openPayment, closePayment } = useCart();
   const { selectedItem, clearSelectedItem, bookingSearch, toggleFavorite, isFavorite } = useUI();
   const setShowPaymentModal = (open: boolean) => (open ? openPayment() : closePayment());
+  const lastSelectedItemRef = React.useRef(selectedItem);
+
+  if (selectedItem) {
+    lastSelectedItemRef.current = selectedItem;
+  }
+
+  const detailItem = selectedItem || lastSelectedItemRef.current;
+
+  if (!detailItem) return null;
+
   return (
           <motion.div
             key="service-details"
@@ -22,7 +33,7 @@ export default function ServiceDetailsPage() {
           >
             <ServiceDetails 
               language={language}
-              item={selectedItem}
+              item={detailItem}
               onBack={() => clearSelectedItem()}
               onAddToCart={handleAddToCart}
               onRemoveFromCart={handleRemoveFromCart}
@@ -31,7 +42,7 @@ export default function ServiceDetailsPage() {
               }}
               isItemInCart={(key) => cartItems.some((x) => (x.cartKey || x.id) === key)}
               bookingSearch={bookingSearch}
-              isFavorite={selectedItem ? isFavorite(selectedItem.id) : false}
+              isFavorite={isFavorite(detailItem.id)}
               onToggleFavorite={toggleFavorite}
             />
           </motion.div>

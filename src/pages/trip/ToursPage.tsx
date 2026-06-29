@@ -10,8 +10,9 @@ import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function ToursPage() {
   const { language } = useI18n();
+  const isVi = language === 'vi';
   const { addItem: handleAddToCart, openPayment, closePayment } = useCart();
-  const { setView, viewItem: handleViewItem, favorites, toggleFavorite: handleToggleFavorite } = useUI();
+  const { setView, requireAuth, viewItem: handleViewItem, favorites, toggleFavorite: handleToggleFavorite } = useUI();
   const setShowPaymentModal = (open: boolean) => (open ? openPayment() : closePayment());
   return (
           <motion.div
@@ -24,10 +25,12 @@ export default function ToursPage() {
             <Container>
               <TourCombos
                 language={language}
-                onAddToCart={(item) => {
-                  handleAddToCart(item);
-                  setShowPaymentModal(true);
-                }}
+                onAddToCart={(item) =>
+                  requireAuth(() => {
+                    handleAddToCart(item);
+                    setShowPaymentModal(true);
+                  }, isVi ? 'Đăng nhập để đặt combo và thanh toán.' : 'Sign in to book the combo and pay.')
+                }
                 onNavigateHome={() => setView('regions')}
                 onViewItem={handleViewItem}
                 favorites={favorites}

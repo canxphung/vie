@@ -12,6 +12,7 @@ import { clickableCardProps } from '@/lib/a11y';
 interface AllServicesViewProps {
   language: Language;
   initialTab: 'attractions' | 'hotels' | 'vehicles' | 'activities';
+  onTabChange?: (tab: 'attractions' | 'hotels' | 'vehicles' | 'activities') => void;
   onBack: () => void;
   onAddToCart: (item: BookingCartItem) => void;
   onRemoveFromCart: (id: string) => void;
@@ -27,6 +28,7 @@ type ActivityCategory = 'all' | 'heritage' | 'culinary' | 'nature' | 'adventure'
 export default function AllServicesView({
   language,
   initialTab,
+  onTabChange,
   onBack,
   onAddToCart,
   onRemoveFromCart,
@@ -40,6 +42,15 @@ export default function AllServicesView({
 
   // Selected tab state
   const [activeTab, setActiveTab] = React.useState<'attractions' | 'hotels' | 'vehicles' | 'activities'>(initialTab);
+
+  React.useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
+
+  const changeTab = (tab: 'attractions' | 'hotels' | 'vehicles' | 'activities') => {
+    setActiveTab(tab);
+    onTabChange?.(tab);
+  };
 
   // Filters state
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -217,7 +228,7 @@ export default function AllServicesView({
         {/* Category tabs */}
         <div className="flex flex-wrap gap-2.5 border-b border-natural-border pb-4">
           <button
-            onClick={() => setActiveTab('attractions')}
+            onClick={() => changeTab('attractions')}
             className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
               activeTab === 'attractions'
                 ? 'bg-natural-accent text-white shadow-md'
@@ -229,7 +240,7 @@ export default function AllServicesView({
           </button>
 
           <button
-            onClick={() => setActiveTab('hotels')}
+            onClick={() => changeTab('hotels')}
             className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
               activeTab === 'hotels'
                 ? 'bg-natural-accent text-white shadow-md'
@@ -241,7 +252,7 @@ export default function AllServicesView({
           </button>
 
           <button
-            onClick={() => setActiveTab('activities')}
+            onClick={() => changeTab('activities')}
             className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
               activeTab === 'activities'
                 ? 'bg-natural-accent text-white shadow-md'
@@ -253,7 +264,7 @@ export default function AllServicesView({
           </button>
 
           <button
-            onClick={() => setActiveTab('vehicles')}
+            onClick={() => changeTab('vehicles')}
             className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
               activeTab === 'vehicles'
                 ? 'bg-natural-accent text-white shadow-md'

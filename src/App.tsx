@@ -34,8 +34,8 @@ export default function App() {
   }, [view, selectedProvinceId, selectedItem]);
   const { currentUser, logout } = useAuth();
   const {
-    items: cartItems, cartCount, isPaymentOpen, paymentInitialStep, closePayment,
-    removeItem: handleRemoveFromCart, clearCart: handleClearCart,
+    cartCount, isPaymentOpen, paymentInitialStep, closePayment,
+    removeItem: handleRemoveFromCart, selectedItems, clearSelectedItems,
   } = useCart();
   const isAuthPage = view === 'login' || view === 'register' || view === 'forgot-password';
   const hideFloatingHelp = isAuthPage || view === 'cart';
@@ -78,9 +78,9 @@ export default function App() {
       {isPaymentOpen && (
         <PaymentModal
           language={language}
-          cartItems={cartItems}
+          cartItems={selectedItems}
           onRemoveItem={handleRemoveFromCart}
-          onClearCart={handleClearCart}
+          onClearCart={clearSelectedItems}
           initialStep={paymentInitialStep}
           onBackToCart={() => {
             closePayment();

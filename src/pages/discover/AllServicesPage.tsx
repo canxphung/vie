@@ -9,15 +9,23 @@ import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function AllServicesPage() {
   const { language } = useI18n();
+  const isVi = language === 'vi';
   const { items: cartItems, addItem: handleAddToCart, removeItem: handleRemoveFromCart } = useCart();
   const {
     allServicesTab,
     allServicesReturnView,
+    setAllServicesTab,
     setView,
+    requireAuth,
     viewItem: handleViewItem,
     favorites,
     toggleFavorite: handleToggleFavorite,
   } = useUI();
+  const guardedAddToCart = (item: Parameters<typeof handleAddToCart>[0]) =>
+    requireAuth(
+      () => handleAddToCart(item),
+      isVi ? 'Đăng nhập để thêm dịch vụ vào giỏ.' : 'Sign in to add services to your cart.',
+    );
   return (
           <motion.div
             key="all-services-view"
@@ -29,10 +37,11 @@ export default function AllServicesPage() {
             <AllServicesView 
               language={language}
               initialTab={allServicesTab}
+              onTabChange={setAllServicesTab}
               onBack={() => {
                 setView(allServicesReturnView || 'province');
               }}
-              onAddToCart={handleAddToCart}
+              onAddToCart={guardedAddToCart}
               onRemoveFromCart={handleRemoveFromCart}
               cartItems={cartItems}
               onViewItem={handleViewItem}

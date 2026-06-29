@@ -17,6 +17,17 @@ export interface CartValue {
   cartCount: number;
   isPaymentOpen: boolean;
   paymentInitialStep: PaymentInitialStep;
+  /** Items the user has ticked for checkout (defaults to every item). */
+  selectedItems: BookingCartItem[];
+  /** Total quantity across selected items. */
+  selectedCount: number;
+  /** True when every cart item is selected. */
+  allSelected: boolean;
+  isItemSelected: (key: string) => boolean;
+  toggleItemSelected: (key: string) => void;
+  setAllItemsSelected: (selected: boolean) => void;
+  /** Remove the currently selected items (used after paying for a partial selection). */
+  clearSelectedItems: () => void;
   openPayment: (step?: PaymentInitialStep) => void;
   closePayment: () => void;
   addItem: (item: BookingCartItem) => void;
@@ -33,14 +44,33 @@ export function CartProvider({ children }: { children?: React.ReactNode }) {
   const [items, setItems] = React.useState<BookingCartItem[]>([]);
   const [isPaymentOpen, setPaymentOpen] = React.useState(false);
   const [paymentInitialStep, setPaymentInitialStep] = React.useState<PaymentInitialStep>('checkout');
+  // Keys the user has un-ticked. Everything not listed here counts as selected,
+  // so newly added items default to selected without extra bookkeeping.
+  const [deselectedKeys, setDeselectedKeys] = React.useState<string[]>([]);
 
   const value = React.useMemo<CartValue>(() => {
     const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
+    const isDeselected = (key: string) => deselectedKeys.includes(key);
+    const selectedItems = items.filter((item) => !isDeselected(getCartKey(item)));
+    const selectedCount = selectedItems.reduce((acc, item) => acc + item.quantity, 0);
+
     return {
       items,
       cartCount,
       isPaymentOpen,
       paymentInitialStep,
+      selectedItems,
+      selectedCount,
+      allSelected: items.length > 0 && selectedItems.length === items.length,
+      isItemSelected: (key) => !isDeselected(key),
+      toggleItemSelected: (key) =>
+        setDeselectedKeys((prev) => (prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key])),
+      setAllItemsSelected: (selected) =>
+        setDeselectedKeys(selected ? [] : items.map((item) => getCartKey(item))),
+      clearSelectedItems: () => {
+        setItems((prev) => prev.filter((x) => deselectedKeys.includes(getCartKey(x))));
+        setDeselectedKeys([]);
+      },
       openPayment: (step = 'checkout') => {
         setPaymentInitialStep(step);
         setPaymentOpen(true);
@@ -60,11 +90,17 @@ export function CartProvider({ children }: { children?: React.ReactNode }) {
           const filtered = prev.filter((x) => !newItems.some((aiItem) => aiItem.id.startsWith('ai-')));
           return [...filtered, ...newItems];
         }),
-      removeItem: (id) => setItems((prev) => prev.filter((x) => getCartKey(x) !== id && x.id !== id)),
-      clearCart: () => setItems([]),
+      removeItem: (id) => {
+        setItems((prev) => prev.filter((x) => getCartKey(x) !== id && x.id !== id));
+        setDeselectedKeys((prev) => prev.filter((k) => k !== id));
+      },
+      clearCart: () => {
+        setItems([]);
+        setDeselectedKeys([]);
+      },
       isInCart: (id) => items.some((x) => getCartKey(x) === id || x.id === id),
     };
-  }, [items, isPaymentOpen, paymentInitialStep]);
+  }, [items, isPaymentOpen, paymentInitialStep, deselectedKeys]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

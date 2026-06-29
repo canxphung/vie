@@ -9,6 +9,7 @@ import {
   ArrowLeft,
   CalendarDays,
   Car,
+  CheckSquare,
   Clock3,
   CreditCard,
   Hotel,
@@ -17,6 +18,7 @@ import {
   Route,
   ShoppingBag,
   Sparkles,
+  Square,
   Trash2,
   UsersRound,
 } from 'lucide-react';
@@ -69,16 +71,32 @@ function getTripStepCopy(item: BookingCartItem, index: number, isVi: boolean) {
 export default function CartPage() {
   const { language } = useI18n();
   const isVi = language === 'vi';
-  const { items, cartCount, openPayment, removeItem, clearCart } = useCart();
-  const { setView, openAllServices } = useUI();
+  const {
+    items,
+    openPayment,
+    removeItem,
+    clearCart,
+    selectedItems,
+    selectedCount,
+    allSelected,
+    isItemSelected,
+    toggleItemSelected,
+    setAllItemsSelected,
+  } = useCart();
+  const { setView, openAllServices, requireAuth } = useUI();
   const [pendingRemoveKey, setPendingRemoveKey] = React.useState<string | null>(null);
   const [confirmClearOpen, setConfirmClearOpen] = React.useState(false);
 
-  const totalCost = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const serviceTypeCount = new Set(items.map((item) => item.type)).size;
-  const isBundleEligible = items.length >= 2 && serviceTypeCount >= 2;
+  // Pricing is based only on the services ticked for checkout.
+  const totalCost = selectedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const serviceTypeCount = new Set(selectedItems.map((item) => item.type)).size;
+  const isBundleEligible = selectedItems.length >= 2 && serviceTypeCount >= 2;
   const bundleDiscount = isBundleEligible ? Math.round(totalCost * 0.15) : 0;
   const payableAmount = Math.max(0, totalCost - bundleDiscount);
+  const hasSelection = selectedCount > 0;
+
+  const handleCheckout = () =>
+    requireAuth(() => openPayment('checkout'), isVi ? 'Đăng nhập để thanh toán.' : 'Sign in to checkout.');
 
   React.useEffect(() => {
     if (!pendingRemoveKey) return;
@@ -138,7 +156,7 @@ export default function CartPage() {
                 <p className="text-[10px] font-black uppercase tracking-wider text-stone-400">
                   {isVi ? 'Dịch vụ' : 'Items'}
                 </p>
-                <p className="mt-1 font-mono text-lg font-black text-natural-ink">{cartCount}</p>
+                <p className="mt-1 font-mono text-lg font-black text-natural-ink">{selectedCount}</p>
               </div>
               <div className="border-x border-natural-border px-4 py-3">
                 <p className="text-[10px] font-black uppercase tracking-wider text-stone-400">
@@ -246,7 +264,7 @@ export default function CartPage() {
                     <p className="text-[10px] font-black uppercase tracking-wider text-white/50">
                       {isVi ? 'Số dịch vụ' : 'Services'}
                     </p>
-                    <p className="mt-1 font-mono text-2xl font-black">{cartCount}</p>
+                    <p className="mt-1 font-mono text-2xl font-black">{selectedCount}</p>
                   </div>
                   <div className="rounded-2xl border border-white/12 bg-white/10 p-4">
                     <CreditCard className="mb-2 h-4 w-4 text-natural-gold" />
@@ -262,35 +280,69 @@ export default function CartPage() {
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
             <section className="space-y-3">
-              <div className="flex items-center justify-between rounded-2xl border border-natural-border bg-white px-4 py-3 shadow-xs">
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-natural-border bg-white px-4 py-3 shadow-xs">
                 <div>
                   <h2 className="text-sm font-black uppercase tracking-wider text-natural-ink">
                     {isVi ? 'Dịch vụ đã chọn' : 'Selected services'}
                   </h2>
                   <p className="mt-0.5 text-xs text-stone-500">
-                    {isVi ? 'Có thể xóa từng mục trước khi thanh toán.' : 'Remove individual items before checkout.'}
+                    {isVi
+                      ? `Tích chọn dịch vụ muốn thanh toán — đã chọn ${selectedItems.length}/${items.length}.`
+                      : `Tick the services to pay for — ${selectedItems.length}/${items.length} selected.`}
                   </p>
                 </div>
-                <Button type="button" variant="ghost" size="sm" onClick={continueShopping}>
-                  <PackageCheck className="h-4 w-4" />
-                  <span>{isVi ? 'Chọn thêm' : 'Add more'}</span>
-                </Button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setAllItemsSelected(!allSelected)}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-natural-border bg-natural-bg px-3 py-2 text-xs font-bold text-natural-accent transition hover:bg-natural-beige"
+                  >
+                    {allSelected ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
+                    <span>{allSelected ? (isVi ? 'Bỏ chọn tất cả' : 'Unselect all') : (isVi ? 'Chọn tất cả' : 'Select all')}</span>
+                  </button>
+                  <Button type="button" variant="ghost" size="sm" onClick={continueShopping}>
+                    <PackageCheck className="h-4 w-4" />
+                    <span>{isVi ? 'Chọn thêm' : 'Add more'}</span>
+                  </Button>
+                </div>
               </div>
 
               <ul className="space-y-3">
                 {items.map((item, index) => {
                   const key = item.cartKey || item.id;
                   const step = getTripStepCopy(item, index, isVi);
+                  const selected = isItemSelected(key);
                   return (
                     <li
                       key={key}
-                      className="grid gap-4 rounded-2xl border border-natural-border bg-white p-3 shadow-xs sm:grid-cols-[88px_minmax(0,1fr)_auto] sm:items-center"
+                      className={`grid gap-4 rounded-2xl border bg-white p-3 shadow-xs transition sm:grid-cols-[88px_minmax(0,1fr)_auto] sm:items-center ${
+                        selected ? 'border-natural-gold/50' : 'border-natural-border opacity-60'
+                      }`}
                     >
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="h-24 w-full rounded-xl border border-natural-border object-cover sm:h-20 sm:w-22"
-                      />
+                      <div className="relative">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="h-24 w-full rounded-xl border border-natural-border object-cover sm:h-20 sm:w-22"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => toggleItemSelected(key)}
+                          aria-pressed={selected}
+                          title={
+                            selected
+                              ? (isVi ? 'Bỏ chọn khỏi thanh toán' : 'Exclude from checkout')
+                              : (isVi ? 'Chọn để thanh toán' : 'Include in checkout')
+                          }
+                          className="absolute left-1.5 top-1.5 inline-flex h-6 w-6 items-center justify-center rounded-md bg-white/95 shadow-sm backdrop-blur-sm transition hover:scale-105"
+                        >
+                          {selected ? (
+                            <CheckSquare className="h-4 w-4 text-natural-accent" />
+                          ) : (
+                            <Square className="h-4 w-4 text-stone-400" />
+                          )}
+                        </button>
+                      </div>
                       <div className="min-w-0 space-y-2">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1F261F] px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white">
@@ -402,9 +454,13 @@ export default function CartPage() {
               </div>
 
               <div className="mt-5 space-y-3">
-                <Button type="button" className="w-full" size="lg" onClick={() => openPayment('checkout')}>
+                <Button type="button" className="w-full" size="lg" disabled={!hasSelection} onClick={handleCheckout}>
                   <CreditCard className="h-4 w-4" />
-                  <span>{isVi ? 'Thanh toán' : 'Checkout'}</span>
+                  <span>
+                    {hasSelection
+                      ? (isVi ? `Thanh toán (${selectedItems.length})` : `Checkout (${selectedItems.length})`)
+                      : (isVi ? 'Chọn dịch vụ để thanh toán' : 'Select items to checkout')}
+                  </span>
                 </Button>
                 <Button type="button" variant="secondary" className="w-full" onClick={continueShopping}>
                   <ShoppingBag className="h-4 w-4" />

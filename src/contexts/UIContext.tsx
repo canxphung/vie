@@ -9,6 +9,12 @@ import type { ViewId, SubView, ServiceTab } from '@/constants/views';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { routeToState, viewToPath } from '@/app/routes';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import { useI18n } from '@/contexts/I18nContext';
+
+/** Views that require a signed-in user; navigating to them while logged out redirects to login. */
+const AUTH_GATED_VIEWS: ReadonlySet<ViewId> = new Set(['trip-room', 'partnership-register']);
 
 export interface UIValue {
   view: ViewId;
@@ -26,6 +32,8 @@ export interface UIValue {
   /** Open a province detail page (sets province + resets sub-view + navigates). */
   selectProvince: (id: string) => void;
   navigateHome: () => void;
+  /** Run `action` if signed in; otherwise show a notice and redirect to login. */
+  requireAuth: (action: () => void, message?: string) => void;
   /** Navigate to province detail and smooth-scroll to a section once it mounts. */
   scrollToSection: (sectionId: string) => void;
   /** The Header menu mapping (sub-views, scroll targets, top-level views). */
@@ -70,11 +78,17 @@ function createDefaultBookingSearch(): BookingSearchCriteria {
 }
 
 export function UIProvider({ children }: { children?: React.ReactNode }) {
+  const { currentUser } = useAuth();
+  const { showToast } = useToast();
+  const { isVi } = useI18n();
+
   const initialRoute = React.useMemo(
     () => (typeof window === 'undefined' ? { view: 'regions' as ViewId } : routeToState(window.location.pathname)),
     [],
   );
-  const [view, setViewState] = React.useState<ViewId>(initialRoute.view);
+  const initialView =
+    AUTH_GATED_VIEWS.has(initialRoute.view) && !currentUser ? 'login' : initialRoute.view;
+  const [view, setViewState] = React.useState<ViewId>(initialView);
   const [activeSubView, setActiveSubView] = React.useState<SubView>('spots');
   const [allServicesTab, setAllServicesTab] = React.useState<ServiceTab>('attractions');
   const [allServicesReturnView, setAllServicesReturnView] = React.useState<ViewId | null>(null);
@@ -85,6 +99,7 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   const [favorites, setFavorites] = useLocalStorage<ViewableItem[]>(STORAGE_KEYS.favorites, []);
   const selectedProvinceIdRef = React.useRef(selectedProvinceId);
   const viewRef = React.useRef(view);
+  const currentUserRef = React.useRef(currentUser);
 
   React.useEffect(() => {
     selectedProvinceIdRef.current = selectedProvinceId;
@@ -93,6 +108,21 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   React.useEffect(() => {
     viewRef.current = view;
   }, [view]);
+
+  React.useEffect(() => {
+    currentUserRef.current = currentUser;
+  }, [currentUser]);
+
+  const notifyAuthRequired = React.useCallback(
+    (message?: string) => {
+      showToast({
+        type: 'info',
+        title: isVi ? 'Cần đăng nhập' : 'Sign in required',
+        message: message ?? (isVi ? 'Vui lòng đăng nhập để tiếp tục.' : 'Please sign in to continue.'),
+      });
+    },
+    [showToast, isVi],
+  );
 
   const syncUrl = React.useCallback((nextView: ViewId, provinceId = selectedProvinceIdRef.current, replace = false) => {
     if (typeof window === 'undefined') return;
@@ -109,13 +139,20 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
 
   const setView = React.useCallback(
     (nextView: ViewId) => {
+      let target = nextView;
+      if (AUTH_GATED_VIEWS.has(nextView) && !currentUserRef.current) {
+        notifyAuthRequired(
+          isVi ? 'Vui lòng đăng nhập để dùng tính năng này.' : 'Please sign in to use this feature.',
+        );
+        target = 'login';
+      }
       setSelectedItem(null);
-      if (nextView !== 'all-services') setAllServicesReturnView(null);
-      setViewState(nextView);
-      viewRef.current = nextView;
-      syncUrl(nextView, selectedProvinceIdRef.current);
+      if (target !== 'all-services') setAllServicesReturnView(null);
+      setViewState(target);
+      viewRef.current = target;
+      syncUrl(target, selectedProvinceIdRef.current);
     },
-    [syncUrl],
+    [syncUrl, notifyAuthRequired, isVi],
   );
 
   const setSelectedProvinceId = React.useCallback(
@@ -132,16 +169,18 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   React.useEffect(() => {
     const applyLocation = () => {
       const nextRoute = routeToState(window.location.pathname);
+      const nextView =
+        AUTH_GATED_VIEWS.has(nextRoute.view) && !currentUserRef.current ? 'login' : nextRoute.view;
       setSelectedItem(null);
-      setViewState(nextRoute.view);
-      viewRef.current = nextRoute.view;
+      setViewState(nextView);
+      viewRef.current = nextView;
 
       if (nextRoute.provinceId) {
         selectedProvinceIdRef.current = nextRoute.provinceId;
         setSelectedProvinceIdState(nextRoute.provinceId);
       }
 
-      if (nextRoute.view !== 'all-services') {
+      if (nextView !== 'all-services') {
         setAllServicesReturnView(null);
       }
     };
@@ -206,6 +245,18 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     }
   };
 
+  const requireAuth = React.useCallback(
+    (action: () => void, message?: string) => {
+      if (currentUserRef.current) {
+        action();
+        return;
+      }
+      notifyAuthRequired(message);
+      setView('login');
+    },
+    [notifyAuthRequired, setView],
+  );
+
   const value: UIValue = {
     view,
     setView,
@@ -230,6 +281,7 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
       syncUrl('province', id);
     },
     navigateHome: () => setView('regions'),
+    requireAuth,
     scrollToSection,
     changeHeaderView,
     selectedItem,

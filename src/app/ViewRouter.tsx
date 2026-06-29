@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import React from 'react';
 import { AnimatePresence } from 'motion/react';
 import { useUI } from '@/hooks';
 import ProfilePage from '@/pages/account/ProfilePage';
@@ -71,5 +72,15 @@ export default function ViewRouter() {
     page = <NotFoundPage />;
   }
 
-  return <AnimatePresence mode="wait">{page}</AnimatePresence>;
+  // AnimatePresence (mode="wait") tracks its direct child by `key`. The page
+  // components carry their own inner motion key, but AnimatePresence only sees
+  // this top-level element — so without a key here, transitions between views
+  // can stall and the new page never mounts. Key it by the active view/item.
+  const transitionKey = selectedItem ? `item-${selectedItem.id}` : view;
+
+  return (
+    <AnimatePresence mode="wait">
+      {page && React.cloneElement(page, { key: transitionKey })}
+    </AnimatePresence>
+  );
 }
