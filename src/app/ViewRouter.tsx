@@ -16,6 +16,7 @@ import ProvincesPage from '@/pages/discover/ProvincesPage';
 import RecentlyViewedPage from '@/pages/discover/RecentlyViewedPage';
 import RegionsPage from '@/pages/discover/RegionsPage';
 import ServiceDetailsPage from '@/pages/discover/ServiceDetailsPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 import PartnershipPage from '@/pages/partner/PartnershipPage';
 import BlindTravelPage from '@/pages/trip/BlindTravelPage';
 import HandbookPage from '@/pages/trip/HandbookPage';
@@ -66,6 +67,8 @@ export default function ViewRouter() {
     page = <AuthPage mode="register" />;
   } else if (view === 'forgot-password') {
     page = <AuthPage mode="forgot-password" />;
+  } else {
+    page = <NotFoundPage />;
   }
 
   return <AnimatePresence mode="wait">{page}</AnimatePresence>;

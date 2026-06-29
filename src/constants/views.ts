@@ -24,7 +24,8 @@ export type ViewId =
   | 'cart'
   | 'login'
   | 'register'
-  | 'forgot-password';
+  | 'forgot-password'
+  | 'not-found';
 
 /** Tabs for the "all services" catalog view. */
 export type ServiceTab = 'attractions' | 'hotels' | 'vehicles' | 'activities';

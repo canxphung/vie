@@ -30,6 +30,7 @@ const VIEW_PATHS: Record<Exclude<ViewId, 'province'>, string> = {
   login: '/login',
   register: '/register',
   'forgot-password': '/forgot-password',
+  'not-found': '/404',
 };
 
 const PATH_VIEWS = new Map<string, ViewId>(
@@ -66,7 +67,7 @@ export function routeToState(pathname: string): RouteState {
   }
 
   const directView = PATH_VIEWS.get(path) || PATH_ALIASES[path];
-  return { view: directView || 'regions' };
+  return { view: directView || 'not-found' };
 }
 
 export function viewToPath(view: ViewId, provinceId = 'quang-nam'): string {

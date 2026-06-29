@@ -10,7 +10,7 @@ import { useI18n, useCart, useUI } from '@/hooks';
 export default function ServiceDetailsPage() {
   const { language } = useI18n();
   const { items: cartItems, addItem: handleAddToCart, removeItem: handleRemoveFromCart, openPayment, closePayment } = useCart();
-  const { selectedItem, clearSelectedItem, bookingSearch } = useUI();
+  const { selectedItem, clearSelectedItem, bookingSearch, toggleFavorite, isFavorite } = useUI();
   const setShowPaymentModal = (open: boolean) => (open ? openPayment() : closePayment());
   return (
           <motion.div
@@ -31,6 +31,8 @@ export default function ServiceDetailsPage() {
               }}
               isItemInCart={(key) => cartItems.some((x) => (x.cartKey || x.id) === key)}
               bookingSearch={bookingSearch}
+              isFavorite={selectedItem ? isFavorite(selectedItem.id) : false}
+              onToggleFavorite={toggleFavorite}
             />
           </motion.div>
   );

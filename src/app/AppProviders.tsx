@@ -8,6 +8,7 @@ import { I18nProvider } from '@/contexts/I18nContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CatalogProvider } from '@/contexts/CatalogContext';
 import { CartProvider } from '@/contexts/CartContext';
+import { ToastProvider } from '@/contexts/ToastContext';
 import { UIProvider } from '@/contexts/UIContext';
 
 /**
@@ -20,7 +21,9 @@ export function AppProviders({ children }: { children?: ReactNode }) {
       <AuthProvider>
         <CatalogProvider>
           <CartProvider>
-            <UIProvider>{children}</UIProvider>
+            <ToastProvider>
+              <UIProvider>{children}</UIProvider>
+            </ToastProvider>
           </CartProvider>
         </CatalogProvider>
       </AuthProvider>

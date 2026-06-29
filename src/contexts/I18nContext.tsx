@@ -19,6 +19,10 @@ export const I18nContext = React.createContext<I18nValue | null>(null);
 export function I18nProvider({ children }: { children?: React.ReactNode }) {
   const [language, setLanguage] = React.useState<Language>('vi');
 
+  React.useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
   const value = React.useMemo<I18nValue>(
     () => ({ language, setLanguage, t: dictionaries[language], isVi: language === 'vi' }),
     [language],

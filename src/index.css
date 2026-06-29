@@ -33,3 +33,8 @@ body {
   background-color: var(--color-natural-bg);
   color: var(--color-natural-text);
 }
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-natural-gold) 80%, white);
+  outline-offset: 3px;
+}

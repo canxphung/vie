@@ -43,15 +43,28 @@ export default function PaymentModal({
   const [voucherDiscount, setVoucherDiscount] = React.useState(0);
   const [appliedVoucher, setAppliedVoucher] = React.useState<string | null>(null);
   const [voucherError, setVoucherError] = React.useState('');
+  const [pendingRemoveId, setPendingRemoveId] = React.useState<string | null>(null);
+  const [pendingClear, setPendingClear] = React.useState(false);
 
   const totalCost = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const discountAmount = Math.round(totalCost * 0.15); // VIP member bundle discount
+  const serviceTypeCount = new Set(cartItems.map((item) => item.type)).size;
+  const isBundleEligible = cartItems.length >= 2 && serviceTypeCount >= 2;
+  const discountAmount = isBundleEligible ? Math.round(totalCost * 0.15) : 0;
   const basePayableAmount = totalCost - discountAmount;
   const payableAmount = Math.max(0, basePayableAmount - voucherDiscount);
 
   React.useEffect(() => {
     setPaymentStep(initialStep);
   }, [initialStep]);
+
+  React.useEffect(() => {
+    if (!pendingRemoveId && !pendingClear) return;
+    const timer = window.setTimeout(() => {
+      setPendingRemoveId(null);
+      setPendingClear(false);
+    }, 3500);
+    return () => window.clearTimeout(timer);
+  }, [pendingRemoveId, pendingClear]);
 
   const handleClose = () => {
     if (paymentStep === 'success') {
@@ -96,6 +109,26 @@ export default function PaymentModal({
     }, 4500);
   };
 
+  const requestRemoveItem = (id: string) => {
+    if (pendingRemoveId === id) {
+      onRemoveItem(id);
+      setPendingRemoveId(null);
+      return;
+    }
+
+    setPendingRemoveId(id);
+  };
+
+  const requestClearCart = () => {
+    if (pendingClear) {
+      onClearCart();
+      setPendingClear(false);
+      return;
+    }
+
+    setPendingClear(true);
+  };
+
   return (
     <div className="fixed inset-0 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4 z-50 overflow-y-auto">
       <motion.div
@@ -127,7 +160,9 @@ export default function PaymentModal({
               <div>
                 <h3 className="text-xl md:text-2xl font-black text-stone-950 tracking-tight flex items-center gap-1.5 uppercase">
                   <span>{isVi ? 'Hành Trình Trọn Gói Chọn Lọc' : 'Selected Vacation Bundle'}</span>
-                  <span className="text-xs bg-amber-500 text-stone-900 px-2 py-0.5 rounded font-black font-mono">15% OFF</span>
+                  {isBundleEligible && (
+                    <span className="text-xs bg-amber-500 text-stone-900 px-2 py-0.5 rounded font-black font-mono">15% OFF</span>
+                  )}
                 </h3>
                 <p className="text-stone-500 text-xs mt-1">
                   {isVi ? 'Kiểm tra tóm tắt giỏ vé trước khi lướt sang bước giao dịch bảo mật trực tuyến.' : 'Verify your items list before passing to secure payment gate.'}
@@ -168,11 +203,19 @@ export default function PaymentModal({
                             {item.price.toLocaleString('vi-VN')} đ
                           </span>
                           <button 
-                            onClick={() => onRemoveItem(item.cartKey || item.id)}
-                            className="text-stone-300 hover:text-red-500"
+                            onClick={() => requestRemoveItem(item.cartKey || item.id)}
+                            className={`rounded-lg px-2 py-1 text-[10px] font-black uppercase transition ${
+                              pendingRemoveId === (item.cartKey || item.id)
+                                ? 'bg-red-600 text-white hover:bg-red-700'
+                                : 'text-stone-300 hover:bg-red-50 hover:text-red-500'
+                            }`}
                             title="Delete"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            {pendingRemoveId === (item.cartKey || item.id) ? (
+                              <span>{isVi ? 'Xóa' : 'Delete'}</span>
+                            ) : (
+                              <Trash2 className="w-4 h-4" />
+                            )}
                           </button>
                         </div>
                       </div>
@@ -254,8 +297,16 @@ export default function PaymentModal({
                   {/* Pricing summaries card info */}
                   <div className="bg-amber-500/5 border border-amber-200/50 p-4 rounded-2xl flex flex-wrap justify-between items-center gap-4 text-xs font-medium">
                     <div className="space-y-1">
-                      <p className="text-stone-500">{isVi ? 'Tổng tiền gốc:' : 'Initial cost:'} <span className="font-mono line-through font-bold">{totalCost.toLocaleString('vi-VN')} đ</span></p>
-                      <p className="text-emerald-600 font-bold">{isVi ? 'Tiết kiệm combo (15%):' : 'Bundle savings (15%):'} <span className="font-mono">-{discountAmount.toLocaleString('vi-VN')} đ</span></p>
+                      <p className="text-stone-500">
+                        {isVi ? 'Tổng tiền gốc:' : 'Initial cost:'}{' '}
+                        <span className={`font-mono font-bold ${isBundleEligible ? 'line-through' : ''}`}>
+                          {totalCost.toLocaleString('vi-VN')} đ
+                        </span>
+                      </p>
+                      <p className={`font-bold ${isBundleEligible ? 'text-emerald-600' : 'text-stone-400'}`}>
+                        {isBundleEligible ? (isVi ? 'Tiết kiệm combo (15%):' : 'Bundle savings (15%):') : (isVi ? 'Combo chưa đủ điều kiện:' : 'Bundle not eligible:')}{' '}
+                        <span className="font-mono">-{discountAmount.toLocaleString('vi-VN')} đ</span>
+                      </p>
                       {voucherDiscount > 0 && (
                         <p className="text-emerald-700 font-extrabold">{isVi ? `Mã voucher (${appliedVoucher}):` : `Voucher applied (${appliedVoucher}):`} <span className="font-mono">-{voucherDiscount.toLocaleString('vi-VN')} đ</span></p>
                       )}
@@ -268,10 +319,12 @@ export default function PaymentModal({
 
                   <div className="flex justify-between items-center pt-2">
                     <button 
-                      onClick={onClearCart}
-                      className="text-stone-400 hover:text-stone-700 text-xs font-semibold"
+                      onClick={requestClearCart}
+                      className={`text-xs font-semibold ${pendingClear ? 'text-red-600 hover:text-red-700' : 'text-stone-400 hover:text-stone-700'}`}
                     >
-                      {isVi ? 'Xóa giỏ hàng để đặt lại' : 'Clear selections'}
+                      {pendingClear
+                        ? (isVi ? 'Bấm lại để xóa giỏ hàng' : 'Click again to clear')
+                        : (isVi ? 'Xóa giỏ hàng để đặt lại' : 'Clear selections')}
                     </button>
                     <button 
                       onClick={() => setPaymentStep('checkout')}

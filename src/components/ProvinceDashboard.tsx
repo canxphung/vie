@@ -8,6 +8,7 @@ import { Province, Language } from '../types';
 import { provinces } from '../data';
 import { MapPin, Map, Navigation, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useToast } from '@/hooks';
 
 interface ProvinceDashboardProps {
   language: Language;
@@ -21,6 +22,7 @@ export default function ProvinceDashboard({
   onBackToHome,
 }: ProvinceDashboardProps) {
   const isVi = language === 'vi';
+  const { showToast } = useToast();
 
   return (
     <div className="w-full bg-natural-bg py-12 px-4 min-h-screen">
@@ -120,10 +122,13 @@ export default function ProvinceDashboard({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        alert(isVi 
-                          ? `Tỉnh ${prov.name} đang được số hóa dữ liệu đại lý lưu trú và lữ hành. Hiện tại chỉ có Quảng Nam - Hội An đang hoạt động đầy đủ.`
-                          : `${prov.name} is currently undergoing digital vendor integration. Currently, only Quang Nam - Hoi An is fully active for reservation and planning.`
-                        );
+                        showToast({
+                          type: 'info',
+                          title: isVi ? 'Tỉnh đang được số hóa' : 'Province is being digitized',
+                          message: isVi
+                            ? `Tỉnh ${prov.name} đang được tích hợp dữ liệu lưu trú và lữ hành. Hiện tại Quảng Nam - Hội An hoạt động đầy đủ.`
+                            : `${prov.name} is undergoing vendor integration. Quang Nam - Hoi An is currently fully active.`,
+                        });
                       }}
                       className="text-[10px] text-natural-accent hover:text-natural-olive underline font-bold transition-all cursor-pointer"
                     >

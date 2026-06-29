@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion } from 'motion/react';
+import React from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   ArrowLeft,
   CalendarDays,
@@ -42,10 +43,30 @@ export default function CartPage() {
   const isVi = language === 'vi';
   const { items, cartCount, openPayment, removeItem, clearCart } = useCart();
   const { setView, openAllServices } = useUI();
+  const [pendingRemoveKey, setPendingRemoveKey] = React.useState<string | null>(null);
+  const [confirmClearOpen, setConfirmClearOpen] = React.useState(false);
 
   const totalCost = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const bundleDiscount = Math.round(totalCost * 0.15);
+  const serviceTypeCount = new Set(items.map((item) => item.type)).size;
+  const isBundleEligible = items.length >= 2 && serviceTypeCount >= 2;
+  const bundleDiscount = isBundleEligible ? Math.round(totalCost * 0.15) : 0;
   const payableAmount = Math.max(0, totalCost - bundleDiscount);
+
+  React.useEffect(() => {
+    if (!pendingRemoveKey) return;
+    const timer = window.setTimeout(() => setPendingRemoveKey(null), 3500);
+    return () => window.clearTimeout(timer);
+  }, [pendingRemoveKey]);
+
+  const requestRemoveItem = (key: string) => {
+    if (pendingRemoveKey === key) {
+      removeItem(key);
+      setPendingRemoveKey(null);
+      return;
+    }
+
+    setPendingRemoveKey(key);
+  };
 
   const continueShopping = () => {
     openAllServices('hotels', 'cart');
@@ -95,7 +116,9 @@ export default function CartPage() {
                 <p className="text-[10px] font-black uppercase tracking-wider text-stone-400">
                   {isVi ? 'Ưu đãi' : 'Saving'}
                 </p>
-                <p className="mt-1 font-mono text-lg font-black text-emerald-700">15%</p>
+                <p className={`mt-1 font-mono text-lg font-black ${isBundleEligible ? 'text-emerald-700' : 'text-stone-400'}`}>
+                  {isBundleEligible ? '15%' : '0%'}
+                </p>
               </div>
               <div className="px-4 py-3">
                 <p className="text-[10px] font-black uppercase tracking-wider text-stone-400">
@@ -200,11 +223,19 @@ export default function CartPage() {
                         </div>
                         <button
                           type="button"
-                          onClick={() => removeItem(key)}
-                          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-red-100 bg-red-50 text-red-600 transition hover:bg-red-100"
+                          onClick={() => requestRemoveItem(key)}
+                          className={`inline-flex h-9 min-w-9 items-center justify-center rounded-full border px-2.5 text-[10px] font-black uppercase transition ${
+                            pendingRemoveKey === key
+                              ? 'border-red-300 bg-red-600 text-white hover:bg-red-700'
+                              : 'border-red-100 bg-red-50 text-red-600 hover:bg-red-100'
+                          }`}
                           title={isVi ? 'Xóa khỏi giỏ hàng' : 'Remove from cart'}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          {pendingRemoveKey === key ? (
+                            <span>{isVi ? 'Xác nhận' : 'Confirm'}</span>
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
                         </button>
                       </div>
                     </li>
@@ -221,7 +252,9 @@ export default function CartPage() {
                 <div>
                   <h2 className="font-black text-natural-ink">{isVi ? 'Tóm tắt thanh toán' : 'Payment summary'}</h2>
                   <p className="text-xs text-stone-500">
-                    {isVi ? 'Ưu đãi combo được tính tự động.' : 'Bundle discount is applied automatically.'}
+                    {isBundleEligible
+                      ? (isVi ? 'Ưu đãi combo được tính tự động.' : 'Bundle discount is applied automatically.')
+                      : (isVi ? 'Cần ít nhất 2 nhóm dịch vụ để nhận combo.' : 'Add at least 2 service types to unlock bundle savings.')}
                   </p>
                 </div>
               </div>
@@ -231,9 +264,15 @@ export default function CartPage() {
                   <span className="text-stone-500">{isVi ? 'Tạm tính' : 'Subtotal'}</span>
                   <span className="font-mono font-bold text-stone-900">{formatCurrency(totalCost)}</span>
                 </div>
-                <div className="flex justify-between gap-3 text-emerald-700">
-                  <span className="font-semibold">{isVi ? 'Giảm combo 15%' : 'Bundle discount 15%'}</span>
-                  <span className="font-mono font-bold">-{formatCurrency(bundleDiscount)}</span>
+                <div className={`flex justify-between gap-3 ${isBundleEligible ? 'text-emerald-700' : 'text-stone-400'}`}>
+                  <span className="font-semibold">
+                    {isBundleEligible
+                      ? (isVi ? 'Giảm combo 15%' : 'Bundle discount 15%')
+                      : (isVi ? 'Combo chưa đủ điều kiện' : 'Bundle not eligible')}
+                  </span>
+                  <span className="font-mono font-bold">
+                    {isBundleEligible ? `-${formatCurrency(bundleDiscount)}` : formatCurrency(0)}
+                  </span>
                 </div>
                 <div className="flex justify-between gap-3 border-t border-natural-border pt-4">
                   <span className="text-xs font-black uppercase tracking-wider text-natural-ink">
@@ -266,7 +305,7 @@ export default function CartPage() {
                   <ShoppingBag className="h-4 w-4" />
                   <span>{isVi ? 'Tiếp tục chọn dịch vụ' : 'Continue shopping'}</span>
                 </Button>
-                <Button type="button" variant="danger" className="w-full" onClick={clearCart}>
+                <Button type="button" variant="danger" className="w-full" onClick={() => setConfirmClearOpen(true)}>
                   <Trash2 className="h-4 w-4" />
                   <span>{isVi ? 'Xóa giỏ hàng' : 'Clear cart'}</span>
                 </Button>
@@ -275,6 +314,57 @@ export default function CartPage() {
           </div>
         )}
       </Container>
+
+      <AnimatePresence>
+        {confirmClearOpen && (
+          <motion.div
+            key="clear-cart-confirm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-black/45 px-4 backdrop-blur-xs"
+          >
+            <motion.div
+              initial={{ scale: 0.96, y: 12 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.96, y: 12 }}
+              className="w-full max-w-sm rounded-2xl border border-natural-border bg-white p-5 shadow-2xl"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
+                  <Trash2 className="h-5 w-5" />
+                </div>
+                <div>
+                  <h2 className="font-black text-natural-ink">
+                    {isVi ? 'Xóa toàn bộ giỏ hàng?' : 'Clear the whole cart?'}
+                  </h2>
+                  <p className="mt-1 text-sm leading-relaxed text-stone-500">
+                    {isVi
+                      ? 'Các dịch vụ và lịch trình đã chọn sẽ bị xóa khỏi giỏ.'
+                      : 'All selected services and schedule details will be removed.'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <Button type="button" variant="secondary" onClick={() => setConfirmClearOpen(false)}>
+                  {isVi ? 'Giữ lại' : 'Keep cart'}
+                </Button>
+                <Button
+                  type="button"
+                  variant="danger"
+                  onClick={() => {
+                    clearCart();
+                    setConfirmClearOpen(false);
+                  }}
+                >
+                  {isVi ? 'Xóa giỏ' : 'Clear'}
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.main>
   );
 }

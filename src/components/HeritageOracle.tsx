@@ -16,6 +16,7 @@ import {
   Music,
   Eye
 } from 'lucide-react';
+import { useToast } from '@/hooks';
 
 interface HeritageOracleProps {
   language: 'vi' | 'en';
@@ -104,6 +105,7 @@ const ORACLE_CARDS: TravelCard[] = [
 
 export const HeritageOracle: React.FC<HeritageOracleProps> = ({ language, onApplyVoucher }) => {
   const isVi = language === 'vi';
+  const { showToast } = useToast();
   const [selectedCard, setSelectedCard] = useState<TravelCard | null>(null);
   const [isFlipping, setIsFlipping] = useState(false);
   const [isPlayingSound, setIsPlayingSound] = useState(false);
@@ -410,7 +412,13 @@ export const HeritageOracle: React.FC<HeritageOracleProps> = ({ language, onAppl
                     <button
                       onClick={() => {
                         if (onApplyVoucher) onApplyVoucher(selectedCard.voucherCode, selectedCard.discount);
-                        alert(isVi ? `Đã lưu mã giảm giá ${selectedCard.discount}% vào giỏ combo của bạn!` : `Saved ${selectedCard.discount}% voucher to bundle!`);
+                        showToast({
+                          type: 'success',
+                          title: isVi ? 'Đã lưu mã giảm giá' : 'Voucher saved',
+                          message: isVi
+                            ? `Mã ${selectedCard.voucherCode} giảm ${selectedCard.discount}% đã sẵn sàng cho giỏ combo.`
+                            : `${selectedCard.voucherCode} gives ${selectedCard.discount}% off your bundle.`,
+                        });
                       }}
                       className="bg-natural-accent hover:bg-natural-olive text-white px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm cursor-pointer ml-auto"
                     >

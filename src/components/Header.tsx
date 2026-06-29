@@ -18,6 +18,7 @@ import {
   Landmark,
   LogOut,
   MapPin,
+  Menu,
   Phone,
   Route,
   Settings,
@@ -25,6 +26,7 @@ import {
   Sparkles,
   UserRound,
   UsersRound,
+  X,
 } from 'lucide-react';
 import type { Language, UserAccount } from '../types';
 import { dictionaries } from '../data';
@@ -114,6 +116,23 @@ function DropdownItem({ active, icon: Icon, label, onClick }: DropdownItemProps)
   );
 }
 
+function MobileDrawerButton({ active, icon: Icon, label, onClick }: DropdownItemProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex min-h-12 w-full items-center gap-3 rounded-xl border px-3 text-left text-sm font-black transition ${
+        active
+          ? 'border-natural-accent bg-natural-accent text-white'
+          : 'border-natural-border bg-white text-natural-ink hover:bg-natural-beige'
+      }`}
+    >
+      <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-natural-gold' : 'text-natural-accent'}`} />
+      <span>{label}</span>
+    </button>
+  );
+}
+
 export default function Header({
   language,
   setLanguage,
@@ -130,17 +149,198 @@ export default function Header({
   const t = dictionaries[language];
   const isVi = language === 'vi';
   const [showMoreMenu, setShowMoreMenu] = React.useState(false);
+  const [showMobileMenu, setShowMobileMenu] = React.useState(false);
+  const moreMenuRef = React.useRef<HTMLDivElement>(null);
 
   const isExploreActive = ['spots', 'regions', 'provinces', 'province'].includes(currentView);
-  const isMoreActive = ['handbook', 'nearby-places'].includes(currentView);
+  const isMoreActive = ['handbook', 'nearby-places', 'taxi'].includes(currentView);
+  const cartButtonLabel = isVi ? 'Giỏ hàng' : 'Cart';
+
+  React.useEffect(() => {
+    if (!showMoreMenu) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!moreMenuRef.current?.contains(event.target as Node)) {
+        setShowMoreMenu(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [showMoreMenu]);
+
+  React.useEffect(() => {
+    if (!showMobileMenu) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [showMobileMenu]);
+
+  const closeMenus = () => {
+    setShowMoreMenu(false);
+    setShowMobileMenu(false);
+  };
+
+  const navigateTo = (target: ViewId | 'spots' | 'hotels' | 'rentals' | 'experiences') => {
+    onChangeView(target);
+    closeMenus();
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#d8c8a7] bg-natural-bg text-natural-text shadow-sm">
-      <div className="bg-[#73551F] text-white">
+      <div className="bg-[#73551F] text-white lg:hidden">
+        <Container className="flex min-h-16 items-center gap-2 py-2">
+          <button
+            type="button"
+            onClick={() => {
+              onNavigateHome();
+              closeMenus();
+            }}
+            className="group flex min-w-0 flex-1 items-center gap-2.5 cursor-pointer"
+          >
+            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-white/30 text-natural-gold transition group-hover:bg-white/10">
+              <Landmark className="h-6 w-6" />
+            </span>
+            <span className="min-w-0 text-left">
+              <span className="block truncate font-serif text-lg font-black leading-none tracking-wide text-white">
+                VIET CHARM
+              </span>
+              <span className="mt-1 block truncate text-[9px] font-black uppercase tracking-[0.18em] text-natural-gold">
+                Heritage & Travel
+              </span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setLanguage(isVi ? 'en' : 'vi')}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[11px] font-black uppercase text-white/90 transition hover:bg-white/10 hover:text-white"
+            title={isVi ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
+          >
+            {isVi ? 'EN' : 'VI'}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              onOpenCart();
+              closeMenus();
+            }}
+            className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white/90 transition hover:bg-white/10 hover:text-white"
+            title={cartButtonLabel}
+          >
+            <ShoppingBag className="h-5 w-5" />
+            {cartCount > 0 && (
+              <span className="absolute right-0.5 top-0.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-natural-gold text-[9px] font-black text-white shadow-sm">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowMobileMenu((open) => !open)}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white transition hover:bg-white/10"
+            aria-expanded={showMobileMenu}
+            aria-label={showMobileMenu ? (isVi ? 'Đóng menu' : 'Close menu') : (isVi ? 'Mở menu' : 'Open menu')}
+          >
+            {showMobileMenu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </Container>
+
+        {showMobileMenu && (
+          <div className="fixed inset-x-0 bottom-0 top-16 overflow-y-auto border-t border-natural-border bg-natural-bg px-4 py-4 text-natural-text shadow-2xl">
+            <div className="mx-auto max-w-lg space-y-4">
+              <div className="rounded-2xl border border-natural-border bg-natural-beige p-3">
+                {currentUser ? (
+                  <div className="flex items-center gap-3">
+                    <img src={currentUser.avatar} alt={currentUser.fullName} className="h-10 w-10 rounded-full object-cover" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-black text-natural-ink">{currentUser.fullName}</p>
+                      <p className="truncate text-xs font-semibold text-stone-500">{currentUser.email}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onLogout();
+                        closeMenus();
+                      }}
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-natural-accent transition hover:bg-natural-bg"
+                      title={isVi ? 'Đăng xuất' : 'Log out'}
+                    >
+                      <LogOut className="h-4 w-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onOpenLogin();
+                        closeMenus();
+                      }}
+                      className="inline-flex min-h-11 items-center justify-center rounded-xl bg-white px-3 text-sm font-black text-natural-ink transition hover:bg-natural-bg"
+                    >
+                      {t.login}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onOpenRegister();
+                        closeMenus();
+                      }}
+                      className="inline-flex min-h-11 items-center justify-center rounded-xl bg-natural-gold px-3 text-sm font-black text-white transition hover:bg-natural-gold-dark"
+                    >
+                      {t.register}
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <nav className="grid gap-2">
+                <MobileDrawerButton active={currentView === 'tours'} icon={Gift} label={isVi ? 'Khuyến mãi' : 'Promotions'} onClick={() => navigateTo('tours')} />
+                <MobileDrawerButton active={currentView === 'partnership-register'} icon={Handshake} label={isVi ? 'Hợp tác với chúng tôi' : 'Partner with us'} onClick={() => navigateTo('partnership-register')} />
+                <MobileDrawerButton active={currentView === 'recently-viewed'} icon={Clock} label={isVi ? 'Xem gần đây' : 'Recent'} onClick={() => navigateTo('recently-viewed')} />
+                <MobileDrawerButton active={isExploreActive} icon={Compass} label={isVi ? 'Khám phá' : 'Explore'} onClick={() => navigateTo('spots')} />
+                <MobileDrawerButton active={currentView === 'hotels'} icon={Hotel} label={isVi ? 'Khách sạn' : 'Hotels'} onClick={() => navigateTo('hotels')} />
+                <MobileDrawerButton active={currentView === 'rentals'} icon={Key} label={isVi ? 'Thuê xe' : 'Rentals'} onClick={() => navigateTo('rentals')} />
+                <MobileDrawerButton active={currentView === 'experiences'} icon={Route} label={isVi ? 'Hoạt động & Vui chơi' : 'Activities'} onClick={() => navigateTo('experiences')} />
+                <MobileDrawerButton active={currentView === 'trip-room'} icon={UsersRound} label="Trip Room" onClick={() => navigateTo('trip-room')} />
+                <MobileDrawerButton active={currentView === 'blind-travel'} icon={Sparkles} label={isVi ? 'Hành trình ẩn số' : 'Blind Travel'} onClick={() => navigateTo('blind-travel')} />
+                <MobileDrawerButton active={currentView === 'handbook'} icon={BookOpen} label={isVi ? 'Cẩm nang du lịch' : 'Travel handbook'} onClick={() => navigateTo('handbook')} />
+                <MobileDrawerButton active={currentView === 'nearby-places'} icon={MapPin} label={isVi ? 'Địa điểm lân cận' : 'Nearby places'} onClick={() => navigateTo('nearby-places')} />
+                <MobileDrawerButton active={currentView === 'taxi'} icon={Car} label={isVi ? 'Đặt taxi' : 'Taxi booking'} onClick={() => navigateTo('taxi')} />
+                {currentUser && (
+                  <MobileDrawerButton active={currentView === 'profile'} icon={UserRound} label={isVi ? 'Hồ sơ cá nhân' : 'Profile'} onClick={() => navigateTo('profile')} />
+                )}
+                {currentUser?.role === 'admin' && (
+                  <MobileDrawerButton active={currentView === 'admin'} icon={Settings} label={isVi ? 'Quản trị' : 'Admin'} onClick={() => navigateTo('admin')} />
+                )}
+                <a
+                  href="tel:19005040"
+                  onClick={closeMenus}
+                  className="flex min-h-12 w-full items-center gap-3 rounded-xl border border-natural-border bg-white px-3 text-sm font-black text-natural-ink transition hover:bg-natural-beige"
+                >
+                  <Phone className="h-4 w-4 shrink-0 text-natural-accent" />
+                  <span>{isVi ? 'Hỗ trợ' : 'Support'}</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="hidden bg-[#73551F] text-white lg:block">
         <Container className="flex min-h-16 flex-wrap items-center gap-x-6 gap-y-2 py-2 lg:flex-nowrap lg:py-0">
           <button
             type="button"
-            onClick={onNavigateHome}
+            onClick={() => {
+              onNavigateHome();
+              closeMenus();
+            }}
             className="group flex shrink-0 items-center gap-2.5 cursor-pointer"
           >
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/30 text-natural-gold transition group-hover:bg-white/10">
@@ -157,13 +357,13 @@ export default function Header({
           </button>
 
           <nav className="order-3 flex w-full flex-wrap items-center gap-x-4 gap-y-1 lg:order-none lg:w-auto lg:flex-1 lg:justify-center">
-            <HeaderLink active={currentView === 'tours'} icon={Gift} onClick={() => onChangeView('tours')}>
+            <HeaderLink active={currentView === 'tours'} icon={Gift} onClick={() => navigateTo('tours')}>
               {isVi ? 'Khuyến mãi' : 'Promotions'}
             </HeaderLink>
             <HeaderLink
               active={currentView === 'partnership-register'}
               icon={Handshake}
-              onClick={() => onChangeView('partnership-register')}
+              onClick={() => navigateTo('partnership-register')}
             >
               {isVi ? 'Hợp tác với chúng tôi' : 'Partner with us'}
             </HeaderLink>
@@ -174,7 +374,7 @@ export default function Header({
               <Phone className="h-4 w-4 shrink-0 text-natural-gold" />
               <span>{isVi ? 'Hỗ trợ' : 'Support'}</span>
             </a>
-            <HeaderLink active={currentView === 'recently-viewed'} icon={Clock} onClick={() => onChangeView('recently-viewed')}>
+            <HeaderLink active={currentView === 'recently-viewed'} icon={Clock} onClick={() => navigateTo('recently-viewed')}>
               {isVi ? 'Xem gần đây' : 'Recent'}
             </HeaderLink>
           </nav>
@@ -194,7 +394,7 @@ export default function Header({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => onChangeView('profile')}
+                  onClick={() => navigateTo('profile')}
                   className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-3 text-[11px] font-black text-[#73551F] transition hover:bg-natural-beige cursor-pointer"
                   title={isVi ? 'Quản lý hồ sơ' : 'Manage profile'}
                 >
@@ -204,7 +404,7 @@ export default function Header({
                 {currentUser.role === 'admin' && (
                   <button
                     type="button"
-                    onClick={() => onChangeView('admin')}
+                    onClick={() => navigateTo('admin')}
                     className="inline-flex h-9 items-center gap-1 rounded-full bg-red-50 px-3 text-[10px] font-black uppercase text-red-700 transition hover:bg-red-100 cursor-pointer"
                     title={isVi ? 'Trang quản trị' : 'Admin panel'}
                   >
@@ -214,7 +414,10 @@ export default function Header({
                 )}
                 <button
                   type="button"
-                  onClick={onLogout}
+                  onClick={() => {
+                    onLogout();
+                    closeMenus();
+                  }}
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white/90 transition hover:bg-white/10 hover:text-white cursor-pointer"
                   title={isVi ? 'Đăng xuất' : 'Log out'}
                 >
@@ -225,14 +428,20 @@ export default function Header({
               <div className="flex items-center gap-4">
                 <button
                   type="button"
-                  onClick={onOpenLogin}
+                  onClick={() => {
+                    onOpenLogin();
+                    closeMenus();
+                  }}
                   className="inline-flex h-10 min-w-28 items-center justify-center rounded-full bg-white px-5 text-sm font-black text-stone-950 shadow-sm transition hover:bg-natural-beige cursor-pointer"
                 >
                   {t.login}
                 </button>
                 <button
                   type="button"
-                  onClick={onOpenRegister}
+                  onClick={() => {
+                    onOpenRegister();
+                    closeMenus();
+                  }}
                   className="inline-flex h-10 min-w-28 items-center justify-center rounded-full bg-natural-gold px-5 text-sm font-black text-white shadow-sm transition hover:bg-natural-gold-dark cursor-pointer"
                 >
                   {t.register}
@@ -243,36 +452,37 @@ export default function Header({
         </Container>
       </div>
 
-      <div className="border-t border-[#8A6A2D]/35 bg-[#FFF8E9]">
+      <div className="hidden border-t border-[#8A6A2D]/35 bg-[#FFF8E9] lg:block">
         <Container className="flex min-h-9 flex-wrap items-center justify-center gap-x-7 gap-y-1 py-1 lg:flex-nowrap">
           <nav className="flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
-            <NavItem active={isExploreActive} icon={Compass} onClick={() => onChangeView('spots')}>
+            <NavItem active={isExploreActive} icon={Compass} onClick={() => navigateTo('spots')}>
               {isVi ? 'Khám phá' : 'Explore'}
             </NavItem>
-            <NavItem active={currentView === 'hotels'} icon={Hotel} onClick={() => onChangeView('hotels')}>
+            <NavItem active={currentView === 'hotels'} icon={Hotel} onClick={() => navigateTo('hotels')}>
               {isVi ? 'Khách sạn' : 'Hotels'}
             </NavItem>
-            <NavItem active={currentView === 'rentals'} icon={Key} onClick={() => onChangeView('rentals')}>
+            <NavItem active={currentView === 'rentals'} icon={Key} onClick={() => navigateTo('rentals')}>
               {isVi ? 'Thuê xe' : 'Rentals'}
             </NavItem>
-            <NavItem active={currentView === 'experiences'} icon={Route} onClick={() => onChangeView('experiences')}>
+            <NavItem active={currentView === 'experiences'} icon={Route} onClick={() => navigateTo('experiences')}>
               {isVi ? 'Hoạt động & Vui chơi' : 'Activities'}
             </NavItem>
-            <NavItem active={currentView === 'trip-room'} icon={UsersRound} onClick={() => onChangeView('trip-room')}>
+            <NavItem active={currentView === 'trip-room'} icon={UsersRound} onClick={() => navigateTo('trip-room')}>
               Trip Room
             </NavItem>
-            <NavItem active={currentView === 'blind-travel'} icon={Sparkles} onClick={() => onChangeView('blind-travel')}>
+            <NavItem active={currentView === 'blind-travel'} icon={Sparkles} onClick={() => navigateTo('blind-travel')}>
               {isVi ? 'Hành trình ẩn số' : 'Blind Travel'}
             </NavItem>
 
             <div
+              ref={moreMenuRef}
               className="relative"
-              onMouseEnter={() => setShowMoreMenu(true)}
-              onMouseLeave={() => setShowMoreMenu(false)}
             >
               <button
                 type="button"
                 onClick={() => setShowMoreMenu((open) => !open)}
+                aria-expanded={showMoreMenu}
+                aria-haspopup="menu"
                 className={`relative inline-flex h-9 items-center justify-center gap-1.5 px-4 text-sm font-medium transition cursor-pointer ${
                   isMoreActive ? 'text-natural-accent' : 'text-natural-ink hover:text-natural-accent'
                 }`}
@@ -290,8 +500,7 @@ export default function Header({
                       icon={BookOpen}
                       label={isVi ? 'Cẩm nang du lịch' : 'Travel handbook'}
                       onClick={() => {
-                        onChangeView('handbook');
-                        setShowMoreMenu(false);
+                        navigateTo('handbook');
                       }}
                     />
                     <DropdownItem
@@ -299,8 +508,7 @@ export default function Header({
                       icon={MapPin}
                       label={isVi ? 'Địa điểm lân cận' : 'Nearby places'}
                       onClick={() => {
-                        onChangeView('nearby-places');
-                        setShowMoreMenu(false);
+                        navigateTo('nearby-places');
                       }}
                     />
                     <DropdownItem
@@ -308,8 +516,7 @@ export default function Header({
                       icon={Car}
                       label={isVi ? 'Đặt taxi' : 'Taxi booking'}
                       onClick={() => {
-                        onChangeView('taxi');
-                        setShowMoreMenu(false);
+                        navigateTo('taxi');
                       }}
                     />
                   </div>
@@ -320,11 +527,14 @@ export default function Header({
 
           <button
             type="button"
-            onClick={onOpenCart}
+            onClick={() => {
+              onOpenCart();
+              closeMenus();
+            }}
             className={`relative inline-flex h-9 w-10 items-center justify-center transition hover:text-natural-accent cursor-pointer ${
               currentView === 'cart' ? 'text-natural-accent' : 'text-natural-ink'
             }`}
-            title={isVi ? 'Giỏ hàng' : 'Cart'}
+            title={cartButtonLabel}
           >
             <ShoppingBag className="h-5 w-5" />
             {cartCount > 0 && (

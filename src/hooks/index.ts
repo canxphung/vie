@@ -8,4 +8,5 @@ export { useI18n } from '@/contexts/I18nContext';
 export { useAuth } from '@/contexts/AuthContext';
 export { useCatalog } from '@/contexts/CatalogContext';
 export { useCart } from '@/contexts/CartContext';
+export { useToast } from '@/contexts/ToastContext';
 export { useUI } from '@/contexts/UIContext';

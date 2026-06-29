@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { Language, BookingCartItem, BookingSearchCriteria, ViewableItem } from '../types';
 import { DateField } from '@/components/ui';
+import { useToast } from '@/hooks';
 
 type ServiceDetailsItem = ViewableItem & {
   rating?: number;
@@ -28,6 +29,8 @@ interface ServiceDetailsProps {
   onCheckout: () => void;
   isItemInCart: (id: string) => boolean;
   bookingSearch?: BookingSearchCriteria;
+  isFavorite?: boolean;
+  onToggleFavorite?: (item: ViewableItem) => void;
 }
 
 interface UserReview {
@@ -56,8 +59,11 @@ export default function ServiceDetails({
   onCheckout,
   isItemInCart,
   bookingSearch,
+  isFavorite = false,
+  onToggleFavorite,
 }: ServiceDetailsProps) {
   const isVi = language === 'vi';
+  const { showToast } = useToast();
   const [quantity, setQuantity] = React.useState(1);
   const [successMsg, setSuccessMsg] = React.useState(false);
 
@@ -213,6 +219,52 @@ export default function ServiceDetails({
   const { cartKey: currentCartKey, cartType: currentCartType, detailsStr: currentDetails } = buildSelection();
   const inCart = isItemInCart(currentCartKey);
 
+  const handleToggleFavorite = () => {
+    if (!onToggleFavorite) return;
+
+    onToggleFavorite(item);
+    showToast({
+      type: isFavorite ? 'info' : 'success',
+      title: isFavorite ? (isVi ? 'Đã bỏ yêu thích' : 'Removed from favorites') : (isVi ? 'Đã lưu yêu thích' : 'Saved to favorites'),
+      message: item.name,
+    });
+  };
+
+  const handleShare = async () => {
+    const shareUrl = window.location.href;
+    const shareData = {
+      title: item.name,
+      text: item.description || (isVi ? 'Dịch vụ du lịch trên VietCharm' : 'Travel service on VietCharm'),
+      url: shareUrl,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        showToast({
+          type: 'success',
+          title: isVi ? 'Đã mở chia sẻ' : 'Share sheet opened',
+          message: item.name,
+        });
+        return;
+      }
+
+      await navigator.clipboard.writeText(shareUrl);
+      showToast({
+        type: 'success',
+        title: isVi ? 'Đã sao chép liên kết' : 'Link copied',
+        message: item.name,
+      });
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+      showToast({
+        type: 'error',
+        title: isVi ? 'Chưa thể chia sẻ' : 'Could not share',
+        message: isVi ? 'Vui lòng thử lại sau.' : 'Please try again.',
+      });
+    }
+  };
+
   const handleAdd = () => {
     if (!isBookable) return;
 
@@ -249,10 +301,23 @@ export default function ServiceDetails({
           <span>{isVi ? 'Quay lại danh sách' : 'Back to Listings'}</span>
         </button>
         <div className="flex gap-2">
-          <button className="p-2.5 bg-white border border-natural-border rounded-full hover:bg-stone-50 transition cursor-pointer">
-            <Heart className="w-4 h-4 text-natural-accent" />
+          <button
+            type="button"
+            onClick={handleToggleFavorite}
+            className="p-2.5 bg-white border border-natural-border rounded-full hover:bg-stone-50 transition cursor-pointer"
+            title={isFavorite ? (isVi ? 'Bỏ yêu thích' : 'Remove favorite') : (isVi ? 'Thêm vào yêu thích' : 'Add favorite')}
+            aria-pressed={isFavorite}
+          >
+            <Heart className={`w-4 h-4 text-natural-accent ${isFavorite ? 'fill-natural-accent' : ''}`} />
           </button>
-          <button className="p-2.5 bg-white border border-natural-border rounded-full hover:bg-stone-50 transition cursor-pointer">
+          <button
+            type="button"
+            onClick={() => {
+              void handleShare();
+            }}
+            className="p-2.5 bg-white border border-natural-border rounded-full hover:bg-stone-50 transition cursor-pointer"
+            title={isVi ? 'Chia sẻ dịch vụ' : 'Share service'}
+          >
             <Share2 className="w-4 h-4 text-stone-500" />
           </button>
         </div>
