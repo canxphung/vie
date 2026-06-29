@@ -99,7 +99,7 @@ export default function CartPage() {
               <p className="mt-1 max-w-2xl text-sm leading-relaxed text-stone-500">
                 {isVi
                   ? 'Kiểm tra dịch vụ đã chọn, bỏ mục không cần và chuyển sang thanh toán khi lịch trình đã ổn.'
-                  : 'Review selected services, remove anything unnecessary, then continue to secure checkout.'}
+                  : 'Review selected services, remove anything unnecessary, then continue to checkout.'}
               </p>
             </div>
           </div>

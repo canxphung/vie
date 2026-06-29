@@ -4,7 +4,7 @@
  */
 
 import type { ReactNode } from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -23,12 +23,18 @@ interface RevealProps {
  * shared transition feel used across the app.
  */
 export function Reveal({ children, delay = 0, y = 28, className }: RevealProps) {
+  const shouldReduceMotion = useReducedMotion();
+
+  if (shouldReduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.18 }}
       transition={{ duration: 0.6, ease: EASE, delay }}
     >
       {children}

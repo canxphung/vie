@@ -21,7 +21,7 @@ export const reviews: Review[] = [
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80',
     rating: 5,
     date: '2026-06-12',
-    comment: 'The booking process was flawless! Recommended hotels and localized tours in Hoi An matched perfectly with Klook levels of detail. Highly secure credit card processing with instant digital receipt makes them stand out!',
+    comment: 'The booking process was flawless! Recommended hotels and localized tours in Hoi An matched perfectly with Klook levels of detail. Clear pricing and instant digital receipts made them stand out!',
     locale: 'en'
   },
   {
@@ -34,4 +34,3 @@ export const reviews: Review[] = [
     locale: 'vi'
   }
 ];
-

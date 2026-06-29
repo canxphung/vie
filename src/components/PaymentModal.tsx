@@ -79,18 +79,18 @@ export default function PaymentModal({
 
     const steps = isVi 
       ? [
-          'Kết nối cổng thanh toán 3D Secure v2...',
-          'Mã hóa thông tin tài khoản ngân hàng SSL 256-bit...',
-          'Xác nhận số dư thành công...',
-          'Phân bổ dòng tiền đến các hãng xe & khách sạn miền Trung...',
-          'Biên dịch và phát hành Thẻ Vé Điện Tử VietCharm QR...'
+          'Đang xác nhận phương thức thanh toán...',
+          'Kiểm tra thông tin đặt chỗ...',
+          'Xác nhận số tiền cần thanh toán...',
+          'Gửi yêu cầu giữ chỗ đến đối tác dịch vụ...',
+          'Tạo phiếu xác nhận VietCharm QR...'
         ]
       : [
-          'Contacting 3D Secure v2 gateway servers...',
-          'Encrypting billing parameters under SSL 256-bit algorithm...',
-          'Asserting account balances...',
-          'Disbursing balances to local Central agency partners...',
-          'Issuing verified E-Ticket & security bar receipts...'
+          'Confirming payment method...',
+          'Checking booking details...',
+          'Confirming payable amount...',
+          'Sending reservation request to service partners...',
+          'Issuing your VietCharm QR confirmation...'
         ];
 
     let stepIdx = 0;
@@ -165,7 +165,7 @@ export default function PaymentModal({
                   )}
                 </h3>
                 <p className="text-stone-500 text-xs mt-1">
-                  {isVi ? 'Kiểm tra tóm tắt giỏ vé trước khi lướt sang bước giao dịch bảo mật trực tuyến.' : 'Verify your items list before passing to secure payment gate.'}
+                  {isVi ? 'Kiểm tra tóm tắt giỏ vé trước khi chuyển sang bước thanh toán.' : 'Review your selected services before moving to payment.'}
                 </p>
               </div>
 
@@ -338,7 +338,7 @@ export default function PaymentModal({
             </motion.div>
           )}
 
-          {/* STEP 2: Secure Payment Form Gate (Chức năng thanh toán bảo mật) */}
+          {/* STEP 2: Payment Form */}
           {paymentStep === 'checkout' && (
             <motion.div
               key="checkout-step"
@@ -352,7 +352,7 @@ export default function PaymentModal({
                 <div className="absolute inset-0 bg-white/95 backdrop-blur-xs flex flex-col items-center justify-center text-center p-6 rounded-3xl z-40">
                   <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
                   <Lock className="w-4 h-4 text-emerald-500 absolute inset-0 m-auto animate-pulse" />
-                  <h4 className="text-sm font-black text-stone-900 mt-6">{isVi ? 'Đang xử lý thanh toán bảo mật...' : 'Encrypting payment details...'}</h4>
+                  <h4 className="text-sm font-black text-stone-900 mt-6">{isVi ? 'Đang xử lý thanh toán...' : 'Processing payment...'}</h4>
                   <p className="text-xs text-stone-500 mt-2 max-w-sm font-mono whitespace-pre-wrap leading-relaxed">
                     {loadingText}
                   </p>
@@ -365,7 +365,7 @@ export default function PaymentModal({
                   <span>{t.securePayment}</span>
                 </h3>
                 <p className="text-stone-500 text-xs mt-1">
-                  {isVi ? 'Hệ thống bảo mật đa lớp SSL 256-bit đạt tiêu chuẩn bảo vệ dữ liệu thẻ PCI-DSS.' : 'Secure, PCI-DSS compliant direct merchant account settlement.'}
+                  {isVi ? 'Kiểm tra thông tin và xác nhận để hoàn tất đặt chỗ.' : 'Review the details and confirm to complete your booking.'}
                 </p>
               </div>
 
@@ -463,19 +463,19 @@ export default function PaymentModal({
                     <h5 className="text-xs font-bold text-stone-900">{isVi ? 'Cổng quét QR chuyển khoá tức thì' : 'Instant Scan Code Dispatch'}</h5>
                     <p className="text-[11px] text-stone-500 max-w-sm mx-auto leading-relaxed">
                       {isVi 
-                        ? 'Hệ thống sẽ đồng khóa sinh mã giảm giá QR động. Vui lòng bấm Xác Nhận để mở giao diện quét QR hóa đơn bảo mật.' 
-                        : 'Dynamic QR receipt bill will instantly spawn. Click confirm checkout to assert scanner visual window.'}
+                        ? 'Sau khi xác nhận, VietCharm sẽ tạo mã QR để bạn tiếp tục thanh toán bằng ứng dụng đã chọn.'
+                        : 'After confirmation, VietCharm will generate a QR code for your selected payment app.'}
                     </p>
                   </div>
                 )}
 
-                {/* Secure certificate footnotes */}
+                {/* Booking confirmation note */}
                 <div className="p-3.5 bg-emerald-500/5 rounded-xl border border-emerald-500/20 text-[10px] text-stone-600 leading-relaxed space-y-1 block">
                   <p className="font-bold text-emerald-800 flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    {isVi ? 'VietCharm Verified Secure Transaction' : 'Verified Secure Escrow Assured'}
+                    {isVi ? 'Xác nhận đặt chỗ VietCharm' : 'VietCharm booking confirmation'}
                   </p>
-                  <p>{isVi ? 'Tiền nạp của bạn được giam ký quỹ qua 3 ngân hàng đối tác liên kết trước khi kết thúc kỳ dạo du lịch thành công.' : 'Your transactions are securely escrowed through official central treasury networks to ensure maximum buyer protection.'}</p>
+                  <p>{isVi ? 'Sau khi thanh toán thành công, mã đặt chỗ và chi tiết dịch vụ sẽ được lưu trong phiếu xác nhận.' : 'After successful payment, your booking code and service details will appear on the confirmation ticket.'}</p>
                 </div>
 
                 <div className="flex gap-4 pt-4 border-t border-stone-100">
@@ -496,7 +496,7 @@ export default function PaymentModal({
                     type="submit"
                     className="w-2/3 bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition text-xs shadow-md text-center flex items-center justify-center gap-2"
                   >
-                    <span>{isVi ? `XÁC NHẬN THANH TOÁN ${payableAmount.toLocaleString('vi-VN')} đ` : `CONFIRM SECURE CHECKOUT ${payableAmount.toLocaleString('vi-VN')} đ`}</span>
+                    <span>{isVi ? `XÁC NHẬN THANH TOÁN ${payableAmount.toLocaleString('vi-VN')} đ` : `CONFIRM PAYMENT ${payableAmount.toLocaleString('vi-VN')} đ`}</span>
                   </button>
                 </div>
               </form>
@@ -519,7 +519,7 @@ export default function PaymentModal({
                 <p className="text-[11px] text-stone-500 font-bold mt-1 uppercase tracking-widest">{isVi ? 'mã số đặt chỗ: VCHARM-84953' : 'Booking reference: VCHARM-84953'}</p>
               </div>
 
-              {/* Verified Digital E-Ticket display */}
+              {/* Digital confirmation ticket display */}
               <div className="bg-[#FAF9F5] border-2 border-dashed border-amber-300 p-6 rounded-2xl relative max-w-sm mx-auto text-left shadow-md">
                 {/* Visual side notches representing old school tickets */}
                 <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-dashed border-amber-300" />
@@ -548,10 +548,10 @@ export default function PaymentModal({
 
                   <div className="grid grid-cols-2 gap-4 border-t border-stone-200 pt-3 text-[11px]">
                     <div>
-                      <span className="text-[9px] text-stone-400 uppercase block font-bold">{isVi ? 'GIAO DỊCH' : 'ESCROW STATUS'}</span>
+                      <span className="text-[9px] text-stone-400 uppercase block font-bold">{isVi ? 'TRẠNG THÁI' : 'STATUS'}</span>
                       <span className="text-emerald-600 font-black flex items-center gap-0.5 mt-0.5">
                         <Lock className="w-3.5 h-3.5" />
-                        {isVi ? 'ĐÃ PHỦ SSL' : 'SSL LOCKED'}
+                        {isVi ? 'ĐÃ XÁC NHẬN' : 'CONFIRMED'}
                       </span>
                     </div>
                     <div>

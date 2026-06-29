@@ -438,7 +438,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                 </div>
                 <div className="space-y-2">
                   <h4 className="text-xs font-serif font-black uppercase text-natural-accent tracking-widest animate-pulse">
-                    {isVi ? 'Đang mã hóa dữ liệu & giữ chỗ khách sạn...' : 'Securing airline spots & boutique codes...'}
+                    {isVi ? 'Đang giữ chỗ và chuẩn bị gợi ý hành trình...' : 'Holding options and preparing your trip reveal...'}
                   </h4>
                   <p className="text-[11px] font-mono text-natural-text/90 bg-natural-sand px-4 py-2.5 rounded-xl border border-natural-border">
                     {loadingStep}

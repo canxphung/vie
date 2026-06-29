@@ -40,7 +40,7 @@ export default function ProvinceDashboard({
           </button>
           
           <div className="text-xs font-mono text-stone-500 flex items-center gap-1.5">
-            <Navigation className="w-3 h-3 text-natural-accent animate-spin" />
+            <Navigation className="w-3 h-3 text-natural-accent" />
             <span>{isVi ? 'Khu vực Miền Trung Việt Nam' : 'Central Vietnam Region Active'}</span>
           </div>
         </div>
@@ -150,28 +150,30 @@ export default function ProvinceDashboard({
       </div>
 
         {/* Travel safety statement */}
-        <div className="mt-14 bg-natural-beige border border-natural-border p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-natural-bg border border-natural-border rounded-full text-natural-accent shrink-0">
-              <ShieldCheck className="w-6.5 h-6.5" />
+        <Reveal className="mt-14">
+          <div className="bg-natural-beige border border-natural-border p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-natural-bg border border-natural-border rounded-full text-natural-accent shrink-0">
+                <ShieldCheck className="w-6.5 h-6.5" />
+              </div>
+              <div>
+                <h4 className="text-sm font-serif font-bold text-natural-text">{isVi ? 'Bảo chứng Lữ Hành Độc Quyền từ Ban Quản Lý' : 'Certified Safe Travel Assured'}</h4>
+                <p className="text-xs text-natural-text/75 mt-1 max-w-xl leading-relaxed">
+                  {isVi
+                    ? 'Mọi chuỗi đặt phòng khách sạn, đại lý cho thuê phương tiện xe máy đều đã được tích hợp liên kết trực tiếp, bảo đảm quyền lợi hoàn tiền 100% khi lộ trình thời tiết bị thay đổi đột ngột.'
+                    : 'We safeguard all bookings, vehicle rentals, and regional tours through our legal 100% weather refund warranty.'}
+                </p>
+              </div>
             </div>
-            <div>
-              <h4 className="text-sm font-serif font-bold text-natural-text">{isVi ? 'Bảo chứng Lữ Hành Độc Quyền từ Ban Quản Lý' : 'Certified Safe Travel Assured'}</h4>
-              <p className="text-xs text-natural-text/75 mt-1 max-w-xl leading-relaxed">
-                {isVi 
-                  ? 'Mọi chuỗi đặt phòng khách sạn, đại lý cho thuê phương tiện xe máy đều đã được tích hợp liên kết trực tiếp, bảo đảm quyền lợi hoàn tiền 100% khi lộ trình thời tiết bị thay đổi đột ngột.' 
-                  : 'We safeguard all bookings, vehicle rentals, and regional tours through our legal 100% weather refund warranty.'}
-              </p>
-            </div>
+            <Button
+              variant="primary"
+              onClick={() => onSelectProvince('quang-nam')}
+              className="shrink-0 text-xs uppercase tracking-wider"
+            >
+              {isVi ? 'Khám Phá Hội An Ngay' : 'Go to Hoi An First'}
+            </Button>
           </div>
-          <Button
-            variant="primary"
-            onClick={() => onSelectProvince('quang-nam')}
-            className="shrink-0 text-xs uppercase tracking-wider"
-          >
-            {isVi ? 'Khám Phá Hội An Ngay' : 'Go to Hoi An First'}
-          </Button>
-        </div>
+        </Reveal>
 
       </div>
     </div>

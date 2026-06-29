@@ -75,7 +75,7 @@ export function PartnershipForm({ language, onRegisterApplication, applications 
       {submittedCode && (
         <div className="bg-emerald-50 text-emerald-800 border-2 border-dashed border-emerald-300 p-5 rounded-2xl text-xs space-y-2 text-center animate-fade-in">
           <p className="font-bold text-sm">🎉 {isVi ? 'Đăng ký đề xuất hợp tác thành công!' : 'Partnership Submission Success!'}</p>
-          <p>{isVi ? 'Hồ sơ đã được mã hóa gửi đến Bộ phận Quản trị VietCharm.' : 'Your request has been securely dispatched to VietCharm vetting desk.'}</p>
+          <p>{isVi ? 'Hồ sơ đã được gửi đến Bộ phận Quản trị VietCharm.' : 'Your request has been sent to the VietCharm review team.'}</p>
           <p className="font-mono text-stone-800 font-black">{isVi ? 'Mã số hồ sơ theo dõi:' : 'Application Tracking Code:'} {submittedCode}</p>
           <p className="text-stone-500 italic text-[10px]">{isVi ? 'Bạn có thể xem trạng thái xét duyệt trực tiếp tại Hồ sơ cá nhân của mình hoặc liên hệ Hotline.' : 'Monitor application status live in your Profile.'}</p>
         </div>

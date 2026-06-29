@@ -850,12 +850,12 @@ export default function ServiceDetails({
             <Info className="w-5 h-5 text-natural-accent shrink-0" />
             <div className="space-y-1">
               <span className="text-[11px] font-bold text-natural-accent uppercase block">
-                {isVi ? 'Chính sách đặt chỗ an toàn' : 'Secure Booking Policy'}
+                {isVi ? 'Chính sách đặt chỗ rõ ràng' : 'Clear Booking Policy'}
               </span>
               <p className="text-[10px] text-stone-500 leading-relaxed">
                 {isVi 
-                  ? 'VietCharm liên kết trực tiếp với các hãng hàng không, resort chuẩn 5 sao và đội ngũ kiểm duyệt chất lượng cao để đảm bảo mọi chuyến đi diễn ra an toàn nhất.'
-                  : 'We work directly with luxury resorts, premium local guides, and secure transport carriers to provide seamless experiences.'}
+                  ? 'VietCharm liên kết trực tiếp với khách sạn, hướng dẫn viên và đơn vị vận chuyển địa phương để thông tin đặt chỗ luôn rõ ràng.'
+                  : 'We work directly with hotels, local guides, and transport partners so every booking stays easy to understand.'}
               </p>
             </div>
           </div>

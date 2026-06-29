@@ -216,7 +216,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
       fullName: platform === 'Google' ? `Google User #${randomSuffix}` : `Facebook User #${randomSuffix}`,
       email: `${platform.toLowerCase()}.${randomSuffix}@st.uel.edu.vn`,
       phone: `0987${randomSuffix}244`,
-      bio: isVi ? `Tài khoản đăng nhập qua ${platform}.` : `Linked and authenticated securely via ${platform}.`,
+      bio: isVi ? `Tài khoản đăng nhập qua ${platform}.` : `Linked via ${platform}.`,
       role: 'user',
       avatar:
         platform === 'Google'
@@ -311,7 +311,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
             <div className="mt-8 grid max-w-lg gap-3 sm:grid-cols-3">
               {[
                 { icon: Compass, label: isVi ? 'Lưu hành trình' : 'Saved trips' },
-                { icon: ShieldCheck, label: isVi ? 'Hồ sơ an toàn' : 'Secure profile' },
+                { icon: ShieldCheck, label: isVi ? 'Hồ sơ rõ ràng' : 'Profile details' },
                 { icon: Gift, label: isVi ? 'Ưu đãi riêng' : 'Member perks' },
               ].map(({ icon: Icon, label }) => (
                 <div key={label} className="rounded-2xl border border-white/18 bg-white/12 p-4 text-sm font-bold backdrop-blur">

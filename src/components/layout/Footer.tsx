@@ -298,14 +298,16 @@ export default function Footer() {
 
             {/* Trust assurances badging center */}
             <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
-              {/* Badge 1: SSL Security */}
+              {/* Badge 1: Booking assurance */}
               <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-natural-beige/5 border border-stone-800/60">
                 <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
                 <div className="text-left">
                   <span className="text-[10px] font-bold block text-stone-200 leading-none">
-                    {language === 'vi' ? 'Thanh toán bảo mật' : 'Secure Checkout'}
+                    {language === 'vi' ? 'Đặt chỗ an tâm' : 'Booking assurance'}
                   </span>
-                  <span className="text-[9px] text-natural-beige/40 block mt-0.5 leading-none">SSL 256-bit</span>
+                  <span className="text-[9px] text-natural-beige/40 block mt-0.5 leading-none">
+                    {language === 'vi' ? 'Xác nhận rõ ràng' : 'Clear confirmation'}
+                  </span>
                 </div>
               </div>
 

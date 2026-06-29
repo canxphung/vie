@@ -851,10 +851,10 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                       {isVi ? 'Quay lại Trang Chủ' : 'Back to Home'}
                     </button>
                     <button
-                      onClick={() => triggerAlert(isVi ? '✓ Đã kích hoạt cổng thanh toán hóa đơn nhóm VIP!' : '✓ Redirecting to secure group payment gateway!')}
+                      onClick={() => triggerAlert(isVi ? '✓ Đã mở bước thanh toán đặt cọc nhóm!' : '✓ Opening group deposit checkout!')}
                       className="bg-natural-accent hover:bg-natural-olive text-white text-xs font-serif font-bold py-3 px-6 rounded-xl transition cursor-pointer"
                     >
-                      {isVi ? 'Thanh toán đặt cọc trọn gói' : 'Secure Deposit Bundle'}
+                      {isVi ? 'Thanh toán đặt cọc trọn gói' : 'Pay Group Deposit'}
                     </button>
                   </div>
                 </div>

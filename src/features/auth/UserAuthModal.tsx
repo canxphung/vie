@@ -266,7 +266,7 @@ export function UserAuthModal({
       phone: `0987${randomSuffix}244`,
       bio: isVi
         ? `Đăng nhập liên kết thành công qua tài khoản ${platform}.`
-        : `Linked and authenticated securely via ${platform}.`,
+        : `Linked via ${platform}.`,
       role: 'user',
       avatar:
         platform === 'Google'
@@ -394,7 +394,7 @@ export function UserAuthModal({
                     },
                     {
                       icon: ShieldCheck,
-                      title: isVi ? 'Thông tin bảo mật' : 'Secure Profile',
+                      title: isVi ? 'Thông tin tài khoản' : 'Profile Details',
                       body: isVi ? 'Hồ sơ cá nhân được giữ trong tài khoản.' : 'Your profile stays in your account.',
                     },
                     {

@@ -61,7 +61,7 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
       : 'Couple backpacking for 3D2N, focus on ancient towns photo spots & motorbike rentals.',
     isVi 
       ? 'Du lịch gia đình nghỉ dưỡng 4 người, thích yên bình, an toàn, có trẻ nhỏ.' 
-      : 'Family wellness package for 4 with secure hotel lodging and private car driver.',
+      : 'Family wellness package for 4 with calm lodging and private car driver.',
     isVi 
       ? 'Tìm combo giá rẻ nhất ăn uống thả ga đậm vị ẩm thực Quảng Nam Đà Nẵng dưới 2Tr.' 
       : 'Cheapest local food combo covering Hoi An - Danang within $100 budget limit.'
@@ -82,14 +82,14 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
           'Thu lượm bảng giá của 12 khách sạn & đại lý thuê xe ở miền Trung...',
           'Tính toán định vị tối ưu hóa đường đi thời gian thực...',
           'Áp dụng chiến lược giảm giá 15% - 25% combo du lịch trọn gói...',
-          'Hoàn thiện phiếu hành trình lữ hành an toàn bảo mật...'
+          'Hoàn thiện phiếu hành trình gợi ý cho chuyến đi...'
         ]
       : [
           'Launching Gemini 3.5-Flash AI optimizer...',
           'Scanning local room tariffs and motor rentals...',
           'Running real-time spatial path-finding algorithm...',
           'Injecting 15% - 25% inclusive package discount incentives...',
-          'Constructing certified secure vacation itinerary...'
+          'Composing your suggested vacation itinerary...'
         ];
 
     let currentStage = 0;

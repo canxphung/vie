@@ -102,11 +102,11 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
               <span className="text-natural-gold text-xs font-bold uppercase">{language === 'vi' ? 'Hội An - Đà Nẵng - Huế' : 'Hoi An - Danang - Hue'}</span>
               <h3 className="text-3xl font-serif font-bold tracking-tight mt-1">{t.central}</h3>
               <p className="text-stone-200 text-xs mt-2 leading-relaxed">
-                {language === 'vi' ? 'Trác tuyệt di sản, thiên đường mua sắm lữ hành, ẩm thực tinh túy, bờ biển nguyên sơ rạng rỡ.' : 'UNESCO Heritage towns, pristine sand coasts, dynamic local events, and secure payment.'}
+                {language === 'vi' ? 'Trác tuyệt di sản, thiên đường mua sắm lữ hành, ẩm thực tinh túy, bờ biển nguyên sơ rạng rỡ.' : 'UNESCO Heritage towns, pristine sand coasts, dynamic local events, and easy booking.'}
               </p>
               <div className="mt-5 flex items-center gap-1.5 text-sm font-bold text-natural-gold group-hover:text-white">
                 <span>{language === 'vi' ? 'KHÁM PHÁ NGAY' : 'EXPLORE NOW'}</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition animate-bounce" />
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
               </div>
             </div>
           </motion.div>
@@ -203,7 +203,7 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
         <div className="mt-16 max-w-3xl mx-auto flex flex-wrap justify-center items-center gap-6 px-5 py-4 bg-natural-beige border border-natural-border rounded-2xl text-natural-text text-xs font-medium">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-5 h-5 text-natural-accent" />
-            <span>{language === 'vi' ? 'Thanh toán Bảo mật SSL 256-bit chuẩn PCI' : 'PCI standard SSL 256-bit Encrypted Checkout'}</span>
+            <span>{language === 'vi' ? 'Đặt chỗ rõ ràng, xác nhận nhanh' : 'Clear booking with quick confirmation'}</span>
           </div>
           <span className="hidden sm:inline text-natural-border">|</span>
           <div className="flex items-center gap-1.5">

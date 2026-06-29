@@ -85,7 +85,7 @@ export function TaxiBooking({ language, onAddToCart, onNavigateHome }: TaxiBooki
 
       {bookedMsg && (
         <div className="bg-emerald-50 text-emerald-800 border border-emerald-200 p-4 rounded-2xl text-xs font-bold text-center mb-6 animate-bounce">
-          ✓ {isVi ? 'Đã thêm dịch vụ đưa đón vào Giỏ hàng! Vui lòng mở giỏ hàng thanh toán thẻ vé.' : 'Taxi ride successfully added to Cart! Proceed to secure checkout.'}
+          ✓ {isVi ? 'Đã thêm dịch vụ đưa đón vào giỏ hàng! Vui lòng mở giỏ hàng để tiếp tục thanh toán.' : 'Taxi ride added to cart. Open your cart to continue checkout.'}
         </div>
       )}
 
