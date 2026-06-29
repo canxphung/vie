@@ -125,7 +125,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
   const copy = {
     login: {
       title: isVi ? 'Đăng nhập' : 'Sign In',
-      subtitle: isVi ? 'Chào mừng trở lại — hành trình khám phá miền Trung vẫn đang chờ bạn phía trước.' : 'Welcome back — your Central Vietnam adventure is waiting right where you left it.',
+      subtitle: isVi ? 'Chào mừng trở lại — hành trình VietCharm của bạn vẫn đang chờ phía trước.' : 'Welcome back — your VietCharm journey is waiting right where you left it.',
       button: isVi ? 'Đăng nhập' : 'Sign In',
     },
     register: {
@@ -300,7 +300,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
               VietCharm Portal
             </span>
             <h1 className="font-serif text-4xl font-black leading-tight sm:text-5xl">
-              {isVi ? 'Một tài khoản cho trọn vẹn hành trình miền Trung.' : 'One account for your whole Central Vietnam journey.'}
+              {isVi ? 'Một tài khoản cho những hành trình Việt Nam theo vùng.' : 'One account for Vietnam journeys by region.'}
             </h1>
             <p className="mt-5 max-w-lg text-sm leading-7 text-white/78">
               {isVi

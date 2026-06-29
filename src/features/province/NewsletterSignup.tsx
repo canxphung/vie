@@ -32,7 +32,7 @@ export function NewsletterSignup({ isVi, title, placeholder }: NewsletterSignupP
           <div className="space-y-2">
             <h3 className="text-2xl md:text-4xl font-serif font-bold tracking-tight text-natural-bg">{title}</h3>
             <p className="text-xs md:text-sm text-natural-beige/90 max-w-xl mx-auto leading-relaxed">
-              Đăng ký nhập email và dạo bước du lịch Hội An & miền Trung cùng chuỗi đối tác lữ hành VietCharm.
+              Đăng ký email để nhận gợi ý điểm đến, ưu đãi và lịch trình theo từng vùng cùng VietCharm.
             </p>
           </div>
 

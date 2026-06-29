@@ -41,22 +41,22 @@ export default function ProvinceDashboard({
           
           <div className="text-xs font-mono text-stone-500 flex items-center gap-1.5">
             <Navigation className="w-3 h-3 text-natural-accent" />
-            <span>{isVi ? 'Khu vực Miền Trung Việt Nam' : 'Central Vietnam Region Active'}</span>
+            <span>{isVi ? 'Dữ liệu điểm đến đang có' : 'Available destination data'}</span>
           </div>
         </div>
 
         {/* Section Title */}
         <div className="mb-12 text-center md:text-left">
           <span className="text-[11px] font-black uppercase tracking-[0.22em] text-gold-gradient">
-            {isVi ? 'Di sản Miền Trung' : 'Central Heritage'}
+            {isVi ? 'Điểm đến đang mở dữ liệu' : 'Destinations with data'}
           </span>
           <h2 className="mt-1 text-2xl md:text-4xl font-serif font-bold text-natural-text tracking-tight">
-            {isVi ? 'Hệ thống Quản lý Hành trình Miền Trung' : 'Central Provinces Heritage Council'}
+            {isVi ? 'Chọn điểm đến để xem dịch vụ' : 'Choose a destination to browse services'}
           </h2>
           <p className="text-natural-text/80 text-xs md:text-sm mt-3 max-w-2xl leading-relaxed">
             {isVi 
-              ? 'Tích hợp hệ thống đặt tour, thuê khách sạn, thuê ô tô xe máy kèm bản đồ đồng bộ thời gian thực cho Quảng Nam - Hội An và các tỉnh thành lân cận.' 
-              : 'Integrated reservation platform offering curated hotels, tour bookings, and vehicle rentals for Quang Nam - Hoi An & adjacent provinces.'}
+              ? 'Danh sách dưới đây là các điểm đến đang có dữ liệu dịch vụ mẫu để chạy thử flow đặt tour, khách sạn, thuê xe và lịch trình AI.'
+              : 'The destinations below currently include sample service data for testing tours, stays, rentals, and AI itineraries.'}
           </p>
           <MotifDivider className="mt-6 md:justify-start" />
         </div>

@@ -9,6 +9,8 @@ import { Language } from '../types';
 import { dictionaries } from '../data';
 import { motion } from 'motion/react';
 import { Button, MotifDivider, Reveal } from '@/components/ui';
+import HomeCinematicHero from '@/components/HomeCinematicHero';
+import JourneyMap from '@/components/JourneyMap';
 
 interface RegionSelectorProps {
   language: Language;
@@ -32,7 +34,17 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
   };
 
   return (
-    <div className="w-full bg-natural-bg py-16 px-4">
+    <>
+    <HomeCinematicHero
+      language={language}
+      onExploreCentral={onSelectCentral}
+      onOpenTripRoom={onSelectTripRoom}
+      onOpenBlindTravel={onSelectBlindTravel}
+    />
+
+    <JourneyMap language={language} onExplore={onSelectCentral} />
+
+    <div className="w-full bg-natural-bg px-4 pb-16 pt-4">
       <div className="max-w-7xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -40,12 +52,14 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <span className="text-xs uppercase tracking-widest font-bold text-natural-accent bg-natural-beige border border-natural-border px-3.5 py-1.5 rounded-full">{t.welcome} VietCharm</span>
-          <h1 className="text-3xl md:text-5xl font-serif font-bold text-natural-text mt-6 tracking-tight leading-tight max-w-4xl mx-auto">
-            {t.homeTitle}
-          </h1>
+          <span className="text-xs uppercase tracking-widest font-bold text-natural-accent bg-natural-beige border border-natural-border px-3.5 py-1.5 rounded-full">{t.selectRegion}</span>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-natural-text mt-6 tracking-tight leading-tight max-w-4xl mx-auto">
+            {language === 'vi' ? 'Chọn vùng, rồi để VietCharm gom lịch trình cho bạn.' : 'Pick a region, then let VietCharm shape the trip.'}
+          </h2>
           <p className="text-natural-text/80 max-w-2xl mx-auto mt-4 text-sm md:text-base">
-            {t.homeSub}
+            {language === 'vi'
+              ? 'Mỗi vùng có một nhịp đi riêng. VietCharm giữ cấu trúc Bắc, Trung, Nam ngang nhau; dữ liệu đặt dịch vụ sẽ được mở dần theo từng cụm điểm đến.'
+              : 'Every region has its own travel rhythm. VietCharm keeps North, Central, and South equally visible while service data opens destination by destination.'}
           </p>
           <MotifDivider className="mt-7" />
         </motion.div>
@@ -64,29 +78,29 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
             <img 
               src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80" 
               alt="Miền Bắc"
-              className="absolute inset-0 w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-105"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute top-4 left-4 z-20 bg-natural-olive/90 backdrop-blur-xs text-white border border-natural-border/20 text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full">
-              {language === 'vi' ? 'Phát triển' : 'In Dev'}
+              {language === 'vi' ? 'Đang bổ sung' : 'Adding data'}
             </div>
             <div className="absolute bottom-0 inset-x-0 p-6 z-20 text-left text-white flex flex-col justify-end">
               <span className="text-natural-accent-light text-xs font-semibold uppercase">{language === 'vi' ? 'Hà Nội - Hạ Long - Sa Pa' : 'Hanoi - Halong - Sapa'}</span>
               <h3 className="text-2xl font-serif font-bold tracking-tight mt-1">{t.north}</h3>
               <p className="text-stone-200 text-xs mt-2 line-clamp-2 leading-relaxed">
-                {language === 'vi' ? 'Nôi văn hiến nghìn năm vương tộc, sơn thủy lãng mạn lẫy lừng kỳ vĩ vịnh Hạ Long.' : 'Thousands-year culture cradle with magnificent landscapes of Halong Bay and Terrace steps.'}
+                {language === 'vi' ? 'Văn hiến nghìn năm, núi rừng Tây Bắc và vịnh biển phía Bắc trong cùng một khung lập lịch trình.' : 'Ancient capitals, northern mountains, and bay routes in the same itinerary framework.'}
               </p>
               <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-natural-gold group-hover:text-white">
-                <span>{language === 'vi' ? 'Hệ thống đang cấu trúc' : 'Coming soon'}</span>
+                <span>{language === 'vi' ? 'Xem trước vùng' : 'Preview region'}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
               </div>
             </div>
           </motion.div>
 
-          {/* Central Region (ACTIVE) */}
+          {/* Central Region */}
           <motion.div 
-            whileHover={{ scale: 1.04 }}
+            whileHover={{ scale: 1.03 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="group relative h-[400px] -translate-y-2 md:-translate-y-4 rounded-3xl overflow-hidden shadow-2xl border-4 border-natural-accent cursor-pointer"
+            className="group relative h-[360px] rounded-2xl overflow-hidden shadow-xl border border-natural-gold cursor-pointer"
             onClick={() => handleRegionClick('central')}
           >
             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/45 to-black/10 group-hover:bg-black/35 transition-all duration-300 z-10" />
@@ -95,18 +109,18 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
               alt="Miền Trung"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
-            <div className="absolute top-4 left-4 z-20 bg-natural-gold text-natural-text border border-white/20 text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-lg">
-              {language === 'vi' ? 'ĐANG KÍCH HOẠT' : 'READY TO BOOK'}
+            <div className="absolute top-4 left-4 z-20 bg-natural-gold text-natural-text border border-white/20 text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full">
+              {language === 'vi' ? 'Có dữ liệu demo' : 'Demo data'}
             </div>
-            <div className="absolute bottom-0 inset-x-0 p-8 z-20 text-left text-white flex flex-col justify-end">
+            <div className="absolute bottom-0 inset-x-0 p-6 z-20 text-left text-white flex flex-col justify-end">
               <span className="text-natural-gold text-xs font-bold uppercase">{language === 'vi' ? 'Hội An - Đà Nẵng - Huế' : 'Hoi An - Danang - Hue'}</span>
-              <h3 className="text-3xl font-serif font-bold tracking-tight mt-1">{t.central}</h3>
-              <p className="text-stone-200 text-xs mt-2 leading-relaxed">
-                {language === 'vi' ? 'Trác tuyệt di sản, thiên đường mua sắm lữ hành, ẩm thực tinh túy, bờ biển nguyên sơ rạng rỡ.' : 'UNESCO Heritage towns, pristine sand coasts, dynamic local events, and easy booking.'}
+              <h3 className="text-2xl font-serif font-bold tracking-tight mt-1">{t.central}</h3>
+              <p className="text-stone-200 text-xs mt-2 line-clamp-2 leading-relaxed">
+                {language === 'vi' ? 'Phố cổ, biển và cố đô đang có một phần dữ liệu mẫu để chạy thử flow đặt dịch vụ.' : 'Ancient towns, beaches, and imperial sites currently include sample data for the booking flow.'}
               </p>
-              <div className="mt-5 flex items-center gap-1.5 text-sm font-bold text-natural-gold group-hover:text-white">
-                <span>{language === 'vi' ? 'KHÁM PHÁ NGAY' : 'EXPLORE NOW'}</span>
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-natural-gold group-hover:text-white">
+                <span>{language === 'vi' ? 'Xem dịch vụ đang có' : 'View available services'}</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
           </motion.div>
@@ -122,19 +136,19 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
             <img 
               src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80" 
               alt="Miền Nam"
-              className="absolute inset-0 w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-105"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute top-4 left-4 z-20 bg-natural-olive/90 backdrop-blur-xs text-white border border-natural-border/20 text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full">
-              {language === 'vi' ? 'Phát triển' : 'In Dev'}
+              {language === 'vi' ? 'Đang bổ sung' : 'Adding data'}
             </div>
             <div className="absolute bottom-0 inset-x-0 p-6 z-20 text-left text-white flex flex-col justify-end">
               <span className="text-natural-accent-light text-xs font-semibold uppercase">{language === 'vi' ? 'Sài Gòn - Miền Tây - Phú Quốc' : 'Saigon - Mekong - Phu Quoc'}</span>
               <h3 className="text-2xl font-serif font-bold tracking-tight mt-1">{t.south}</h3>
               <p className="text-stone-200 text-xs mt-2 line-clamp-2 leading-relaxed">
-                {language === 'vi' ? 'Năng động phồn hoa Sài Thành lấp lánh, mộc mạc đò chèo sông nước miệt vườn Miền Tây.' : 'Vibrant bustling metropolitan energy paired with serene floating Mekong delta markets.'}
+                {language === 'vi' ? 'Sài Gòn năng động, sông nước miền Tây và đảo biển phía Nam cho những chuyến đi nhiều sắc thái.' : 'Saigon energy, Mekong waterways, and southern island resets for varied trip styles.'}
               </p>
               <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-natural-gold group-hover:text-white">
-                <span>{language === 'vi' ? 'Hệ thống đang cấu trúc' : 'Coming soon'}</span>
+                <span>{language === 'vi' ? 'Xem trước vùng' : 'Preview region'}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
               </div>
             </div>
@@ -247,5 +261,6 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
         </div>
       )}
     </div>
+    </>
   );
 }

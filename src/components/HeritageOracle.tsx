@@ -238,7 +238,7 @@ export const HeritageOracle: React.FC<HeritageOracleProps> = ({ language, onAppl
           
           <p className="text-xs md:text-sm text-natural-text/80 leading-relaxed max-w-2xl mx-auto font-sans">
             {isVi 
-              ? 'Không chỉ là đặt phòng, hãy để tâm hồn bạn chạm vào tần số miền Trung trước chuyến đi. Bốc một thẻ quẻ để nhận thông điệp lữ hành kèm bí kíp ẩm thực chữa lành và mã ưu đãi riêng tư.'
+              ? 'Không chỉ là đặt phòng, hãy để tâm hồn bạn chạm vào nhịp riêng của từng vùng trước chuyến đi. Bốc một thẻ quẻ để nhận thông điệp lữ hành kèm bí kíp ẩm thực chữa lành và mã ưu đãi riêng tư.'
               : 'Immerse your senses before traveling. Draw a mystic heritage card to reveal your trip element, healing culinary secret, and members-only discount codes.'}
           </p>
         </div>

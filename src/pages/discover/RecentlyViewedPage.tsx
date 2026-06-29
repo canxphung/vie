@@ -52,8 +52,8 @@ export default function RecentlyViewedPage() {
                 </h3>
                 <p className="text-stone-500 text-xs max-w-sm mx-auto">
                   {isVi 
-                    ? 'Hãy khám phá các tỉnh miền Trung, click xem chi tiết các khách sạn di sản và hoạt động vui chơi để lưu trữ tại đây.' 
-                    : 'Explore beautiful Central provinces, interact with historical stays and private cars to populate your logs here.'}
+                    ? 'Hãy khám phá các vùng và điểm đến đang có dữ liệu, xem chi tiết khách sạn, xe và hoạt động để lưu lại lịch sử tại đây.'
+                    : 'Explore regions and destinations with available data, then open hotels, rides, and experiences to populate your history here.'}
                 </p>
                 <button 
                   onClick={() => setView('provinces')} 

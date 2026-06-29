@@ -50,6 +50,34 @@ const MOCK_REVIEWS_POOL: Record<string, UserReview[]> = {
   ]
 };
 
+const GALLERY_FALLBACKS: Record<string, string[]> = {
+  hotel: [
+    'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80',
+  ],
+  vehicle: [
+    'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=900&q=80',
+  ],
+  activity: [
+    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=900&q=80',
+  ],
+  tour: [
+    'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1559592443-7f87a79f6f82?auto=format&fit=crop&w=900&q=80',
+  ],
+  'nearby-place': [
+    'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=900&q=80',
+  ],
+};
+
 export default function ServiceDetails({
   language,
   item,
@@ -289,6 +317,64 @@ export default function ServiceDetails({
     isVi ? 'Cam kết chất lượng dịch vụ chính hãng VietCharm uy tín hàng đầu.' : 'VietCharm certified genuine high-quality service guaranteed.'
   ];
 
+  const galleryImages = React.useMemo(() => {
+    const fallbackImages = GALLERY_FALLBACKS[item.type] || GALLERY_FALLBACKS.activity;
+    const labels = isVi
+      ? ['Góc nhìn chính', 'Không gian trải nghiệm', 'Chi tiết đáng chú ý', 'Khoảnh khắc nên thử']
+      : ['Main view', 'Experience space', 'Notable detail', 'Worth-trying moment'];
+
+    return [item.image, ...fallbackImages].slice(0, 4).map((src, index) => ({
+      src,
+      label: labels[index],
+    }));
+  }, [isVi, item.image, item.type]);
+
+  const quickFacts = [
+    {
+      icon: Clock,
+      label: isVi ? 'Thời lượng' : 'Duration',
+      value: item.type === 'hotel'
+        ? (isVi ? `${hotelNights} đêm lưu trú` : `${hotelNights} night stay`)
+        : item.duration || (isVi ? 'Linh hoạt theo lịch' : 'Flexible timing'),
+    },
+    {
+      icon: MapPin,
+      label: isVi ? 'Di chuyển' : 'Getting there',
+      value: item.distance
+        ? (isVi ? `Cách trung tâm ${item.distance}` : `${item.distance} from center`)
+        : (isVi ? 'Dễ ghép vào tuyến đang chọn' : 'Easy to add to the selected route'),
+    },
+    {
+      icon: ShieldCheck,
+      label: isVi ? 'Đặt chỗ' : 'Booking',
+      value: isVi ? 'Xác nhận nhanh, thông tin rõ ràng' : 'Fast confirmation, clear details',
+    },
+    {
+      icon: Sparkles,
+      label: isVi ? 'Phù hợp' : 'Best for',
+      value: item.type === 'vehicle'
+        ? (isVi ? 'Tự do đổi điểm dừng' : 'Flexible stopovers')
+        : item.type === 'hotel'
+          ? (isVi ? 'Nghỉ ngơi sau hành trình' : 'Reset between route days')
+          : (isVi ? 'Thêm điểm nhớ cho chuyến đi' : 'A memorable route highlight'),
+    },
+  ];
+
+  const pairedSuggestions = item.type === 'hotel'
+    ? [
+        isVi ? 'Thêm xe đưa đón sân bay để ngày đầu nhẹ hơn.' : 'Add an airport transfer to make day one easier.',
+        isVi ? 'Ghép một hoạt động buổi chiều gần khách sạn.' : 'Pair it with a nearby afternoon experience.',
+      ]
+    : item.type === 'vehicle'
+      ? [
+          isVi ? 'Chọn khách sạn cùng khu để tối ưu giờ nhận xe.' : 'Choose a stay in the same area to simplify pickup.',
+          isVi ? 'Thêm điểm dừng ăn uống địa phương trên tuyến.' : 'Add a local food stop along the route.',
+        ]
+      : [
+          isVi ? 'Ghép khách sạn gần điểm khởi hành để không vội buổi sáng.' : 'Pair with a stay near the pickup point.',
+          isVi ? 'Thêm xe riêng nếu đi gia đình hoặc nhóm đông.' : 'Add private transport for families or larger groups.',
+        ];
+
   return (
     <div id="service-details-root" className="w-full bg-natural-cream text-natural-text min-h-screen py-10 px-4 md:px-8">
       {/* Back & Share Navigation */}
@@ -359,15 +445,46 @@ export default function ServiceDetails({
                 {item.distance && (
                   <span className="flex items-center gap-1 text-white/90">
                     <MapPin className="w-4 h-4" />
-                    <span>Cách trung tâm {item.distance}</span>
+                    <span>{isVi ? `Cách trung tâm ${item.distance}` : `${item.distance} from center`}</span>
                   </span>
                 )}
               </div>
             </div>
           </div>
 
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            {galleryImages.map((image, index) => (
+              <button
+                key={`${image.src}-${index}`}
+                type="button"
+                className="group relative h-28 overflow-hidden rounded-2xl border border-natural-border bg-stone-900 text-left shadow-xs"
+              >
+                <img
+                  src={image.src}
+                  alt={`${item.name} - ${image.label}`}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <span className="absolute bottom-3 left-3 right-3 text-[10px] font-black uppercase tracking-wider text-white">
+                  {image.label}
+                </span>
+              </button>
+            ))}
+          </div>
+
           {/* Core Information Section */}
           <div className="bg-white border border-natural-border rounded-3xl p-6 md:p-8 space-y-6">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+              {quickFacts.map(({ icon: Icon, label, value }) => (
+                <div key={label} className="rounded-2xl border border-natural-border bg-natural-cream p-3">
+                  <Icon className="mb-2 h-4 w-4 text-natural-accent" />
+                  <p className="text-[9px] font-black uppercase tracking-wider text-stone-400">{label}</p>
+                  <p className="mt-1 text-xs font-bold leading-snug text-natural-ink">{value}</p>
+                </div>
+              ))}
+            </div>
+
             <div className="space-y-3">
               <h3 className="text-base font-bold uppercase text-stone-800 border-b border-natural-border pb-2">
                 {isVi ? 'Mô tả chi tiết' : 'Detailed Description'}
@@ -842,6 +959,30 @@ export default function ServiceDetails({
                   {isVi ? 'Xem dịch vụ có thể đặt' : 'Browse Bookable Services'}
                 </button>
               )}
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-3xl border border-natural-border bg-white shadow-xs">
+            <div className="border-b border-natural-border bg-natural-cream px-5 py-4">
+              <div className="flex items-center gap-2 text-natural-accent">
+                <Landmark className="h-4 w-4" />
+                <h3 className="text-xs font-black uppercase tracking-wider">
+                  {isVi ? 'Thường được ghép cùng' : 'Usually paired with'}
+                </h3>
+              </div>
+            </div>
+            <div className="divide-y divide-natural-border">
+              {pairedSuggestions.map((suggestion) => (
+                <button
+                  key={suggestion}
+                  type="button"
+                  className="flex w-full items-center justify-between gap-3 px-5 py-3 text-left text-xs font-semibold leading-relaxed text-stone-600 transition hover:bg-natural-cream hover:text-natural-accent"
+                  onClick={onBack}
+                >
+                  <span>{suggestion}</span>
+                  <ChevronRight className="h-4 w-4 shrink-0" />
+                </button>
+              ))}
             </div>
           </div>
 

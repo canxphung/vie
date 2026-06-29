@@ -35,8 +35,8 @@ export default function HelpPromoCenter({
       icon: MapPin,
       title: isVi ? '1. Khám phá Điểm đến' : '1. Select Province',
       desc: isVi 
-        ? 'Chọn một trong 5 tỉnh thành miền Trung (Quảng Nam, Đà Nẵng, Huế, Bình Định, Khánh Hòa) để bắt đầu hành trình.'
-        : 'Choose from 5 beautiful Central provinces to browse tailored hotels, tours, and vehicle rentals.',
+        ? 'Chọn một vùng hoặc điểm đến đang có dữ liệu dịch vụ để xem khách sạn, tour và phương tiện phù hợp.'
+        : 'Choose a region or destination with available service data to browse hotels, tours, and rentals.',
     },
     {
       icon: Hotel,
@@ -206,8 +206,8 @@ export default function HelpPromoCenter({
                         </h4>
                         <p className="text-natural-text/85 leading-relaxed mt-1">
                           {isVi 
-                            ? 'VietCharm là nền tảng số hóa di sản và quản lý hành trình miền Trung tiên phong. Chỉ với vài thao tác nhỏ dưới đây, bạn đã có thể sở hữu lịch trình tiết kiệm mộc mạc nhất:'
-                            : 'VietCharm is an all-in-one portal designed to elevate your heritage explorations. Follow these step-by-step instructions to navigate perfectly:'}
+                            ? 'VietCharm là nền tảng du lịch theo vùng, giúp gom điểm đến, dịch vụ và lịch trình vào một flow dễ theo dõi. Chỉ với vài thao tác nhỏ dưới đây, bạn đã có thể sở hữu lịch trình tiết kiệm mộc mạc nhất:'
+                            : 'VietCharm is a region-based travel platform that brings destinations, services, and itineraries into one clear flow. Follow these step-by-step instructions to navigate perfectly:'}
                         </p>
                       </div>
                     </div>

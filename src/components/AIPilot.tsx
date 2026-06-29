@@ -4,7 +4,21 @@
  */
 
 import React from 'react';
-import { Sparkles, Brain, DollarSign, Clock, HelpCircle, ArrowRight, ShieldAlert, CheckCircle } from 'lucide-react';
+import {
+  ArrowRight,
+  Baby,
+  Brain,
+  Camera,
+  CheckCircle,
+  Clock,
+  Coffee,
+  Heart,
+  HelpCircle,
+  Leaf,
+  Sparkles,
+  UsersRound,
+  Waves,
+} from 'lucide-react';
 import { BookingCartItem, Language } from '../types';
 
 interface ItineraryActivity {
@@ -43,6 +57,10 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
   const isVi = language === 'vi';
   const [budget, setBudget] = React.useState(3500000);
   const [province, setProvince] = React.useState(currentProvinceId || 'quang-nam');
+  const [travelers, setTravelers] = React.useState<'couple' | 'family' | 'friends'>('couple');
+  const [daysCount, setDaysCount] = React.useState(3);
+  const [travelMood, setTravelMood] = React.useState<'heritage' | 'beach' | 'food' | 'slow'>('heritage');
+  const [pace, setPace] = React.useState<'easy' | 'balanced' | 'packed'>('balanced');
   const [customPrompt, setCustomPrompt] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [loadingStep, setLoadingStep] = React.useState('');
@@ -71,25 +89,51 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
     setCustomPrompt(suggestion);
   };
 
+  const travelerOptions = [
+    { id: 'couple', icon: Heart, vi: 'Cặp đôi', en: 'Couple' },
+    { id: 'family', icon: Baby, vi: 'Gia đình', en: 'Family' },
+    { id: 'friends', icon: UsersRound, vi: 'Nhóm bạn', en: 'Friends' },
+  ] as const;
+
+  const moodOptions = [
+    { id: 'heritage', icon: Camera, vi: 'Di sản & chụp ảnh', en: 'Heritage & photos' },
+    { id: 'beach', icon: Waves, vi: 'Biển & nghỉ dưỡng', en: 'Beach & stay' },
+    { id: 'food', icon: Coffee, vi: 'Ẩm thực địa phương', en: 'Local food' },
+    { id: 'slow', icon: Leaf, vi: 'Chậm, ít di chuyển', en: 'Slow travel' },
+  ] as const;
+
+  const paceOptions = [
+    { id: 'easy', vi: 'Rảnh rang', en: 'Easy' },
+    { id: 'balanced', vi: 'Vừa đủ', en: 'Balanced' },
+    { id: 'packed', vi: 'Đi nhiều', en: 'Packed' },
+  ] as const;
+
   const runAIOptimizer = async () => {
     setLoading(true);
     setSuccessMsg(false);
+    const quizPrompt = [
+      isVi ? `Số ngày: ${daysCount}` : `Days: ${daysCount}`,
+      isVi ? `Người đi: ${travelerOptions.find((x) => x.id === travelers)?.vi}` : `Travelers: ${travelerOptions.find((x) => x.id === travelers)?.en}`,
+      isVi ? `Gu du lịch: ${moodOptions.find((x) => x.id === travelMood)?.vi}` : `Travel mood: ${moodOptions.find((x) => x.id === travelMood)?.en}`,
+      isVi ? `Nhịp chuyến đi: ${paceOptions.find((x) => x.id === pace)?.vi}` : `Trip pace: ${paceOptions.find((x) => x.id === pace)?.en}`,
+      customPrompt.trim(),
+    ].filter(Boolean).join('. ');
     
     // Simulate interactive progress stages to keep the user engaged
     const stages = isVi 
       ? [
-          'Khởi động động cơ Gemini 3.5-Flash...',
-          'Thu lượm bảng giá của 12 khách sạn & đại lý thuê xe ở miền Trung...',
-          'Tính toán định vị tối ưu hóa đường đi thời gian thực...',
-          'Áp dụng chiến lược giảm giá 15% - 25% combo du lịch trọn gói...',
-          'Hoàn thiện phiếu hành trình gợi ý cho chuyến đi...'
+          'Đang đọc gu chuyến đi của bạn...',
+          'Ghép khách sạn, xe và hoạt động theo ngân sách...',
+          'Sắp xếp tuyến đi để ít vòng lại nhất...',
+          'Tính các combo có thể tiết kiệm hơn...',
+          'Hoàn thiện timeline từng ngày...'
         ]
       : [
-          'Launching Gemini 3.5-Flash AI optimizer...',
-          'Scanning local room tariffs and motor rentals...',
-          'Running real-time spatial path-finding algorithm...',
-          'Injecting 15% - 25% inclusive package discount incentives...',
-          'Composing your suggested vacation itinerary...'
+          'Reading your travel style...',
+          'Matching stays, rides, and experiences to budget...',
+          'Arranging the route to avoid backtracking...',
+          'Checking bundle savings...',
+          'Composing the day-by-day timeline...'
         ];
 
     let currentStage = 0;
@@ -106,7 +150,7 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          prompt: customPrompt,
+          prompt: quizPrompt,
           province: province,
           budget: budget,
           language: language
@@ -199,8 +243,22 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
   };
 
   return (
-    <div className="w-full bg-natural-beige text-natural-text py-16 px-4 shadow-inner border-y border-natural-border">
+    <div className="w-full bg-[#1F261F] text-natural-text py-16 px-4 shadow-inner border-y border-natural-border">
       <div className="max-w-7xl mx-auto">
+        <div className="mb-8 max-w-3xl text-white">
+          <span className="text-[11px] font-black uppercase tracking-[0.24em] text-natural-gold">
+            {isVi ? 'AI Trip Studio' : 'AI Trip Studio'}
+          </span>
+          <h2 className="mt-2 font-serif text-3xl font-black tracking-tight md:text-5xl">
+            {isVi ? 'Trả lời vài câu, nhận lịch trình có thể đặt ngay.' : 'Answer a few prompts, get a bookable trip plan.'}
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-white/70">
+            {isVi
+              ? 'Studio này ghép ngày đi, gu du lịch, ngân sách và dịch vụ có sẵn thành một timeline dễ hiểu.'
+              : 'This studio turns dates, mood, budget, and available services into a clear day-by-day timeline.'}
+          </p>
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-10 items-stretch">
           
           {/* Inputs Section */}
@@ -212,11 +270,11 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
                 </div>
                 <div>
                   <h3 className="text-xl font-serif font-bold tracking-tight text-natural-text flex items-center gap-1.5">
-                    AI Trip Co-Pilot 
+                    {isVi ? 'Bảng gu chuyến đi' : 'Trip brief'}
                     <span className="text-[10px] font-sans font-bold tracking-widest bg-natural-gold text-white px-1.5 py-0.5 rounded uppercase">Lite</span>
                   </h3>
                   <p className="text-[11px] text-natural-text/70 font-medium">
-                    {isVi ? 'Động cơ lập kế hoạch tối ưu chi phí & đường đi' : 'Itinerary compiler & budget optimizer'}
+                    {isVi ? 'Chọn vài thông tin chính, phần còn lại để VietCharm gợi ý.' : 'Pick the key details and let VietCharm shape the rest.'}
                   </p>
                 </div>
               </div>
@@ -261,9 +319,106 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
                 </select>
               </div>
 
+              <div className="mb-5 space-y-4 rounded-2xl border border-natural-border bg-natural-cream p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs font-black uppercase tracking-wider text-natural-text">
+                    {isVi ? 'Số ngày đi' : 'Trip length'}
+                  </span>
+                  <div className="flex items-center gap-2 rounded-xl border border-natural-border bg-white p-1">
+                    <button
+                      type="button"
+                      onClick={() => setDaysCount((value) => Math.max(2, value - 1))}
+                      className="h-8 w-8 rounded-lg text-sm font-black text-stone-500 transition hover:bg-natural-beige"
+                    >
+                      -
+                    </button>
+                    <span className="w-14 text-center font-mono text-sm font-black text-natural-accent">
+                      {daysCount} {isVi ? 'ngày' : 'days'}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setDaysCount((value) => Math.min(7, value + 1))}
+                      className="h-8 w-8 rounded-lg text-sm font-black text-stone-500 transition hover:bg-natural-beige"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-stone-500">
+                    {isVi ? 'Bạn đi với ai?' : 'Who is going?'}
+                  </span>
+                  <div className="grid grid-cols-3 gap-2">
+                    {travelerOptions.map((option) => {
+                      const Icon = option.icon;
+                      const active = travelers === option.id;
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => setTravelers(option.id)}
+                          className={`rounded-xl border px-2 py-2.5 text-[10px] font-black transition ${
+                            active ? 'border-natural-accent bg-natural-accent text-white' : 'border-natural-border bg-white text-natural-text hover:bg-natural-beige'
+                          }`}
+                        >
+                          <Icon className="mx-auto mb-1 h-4 w-4" />
+                          {isVi ? option.vi : option.en}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-stone-500">
+                    {isVi ? 'Gu chuyến đi' : 'Travel mood'}
+                  </span>
+                  <div className="grid grid-cols-2 gap-2">
+                    {moodOptions.map((option) => {
+                      const Icon = option.icon;
+                      const active = travelMood === option.id;
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => setTravelMood(option.id)}
+                          className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-[10px] font-black transition ${
+                            active ? 'border-natural-accent bg-natural-accent text-white' : 'border-natural-border bg-white text-natural-text hover:bg-natural-beige'
+                          }`}
+                        >
+                          <Icon className="h-4 w-4 shrink-0" />
+                          {isVi ? option.vi : option.en}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-stone-500">
+                    {isVi ? 'Nhịp chuyến đi' : 'Pace'}
+                  </span>
+                  <div className="grid grid-cols-3 gap-2">
+                    {paceOptions.map((option) => (
+                      <button
+                        key={option.id}
+                        type="button"
+                        onClick={() => setPace(option.id)}
+                        className={`rounded-xl border px-2 py-2 text-[10px] font-black transition ${
+                          pace === option.id ? 'border-natural-accent bg-natural-accent text-white' : 'border-natural-border bg-white text-natural-text hover:bg-natural-beige'
+                        }`}
+                      >
+                        {isVi ? option.vi : option.en}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               {/* Text Area prompt input */}
               <div className="mb-5">
-                <label className="block text-xs font-bold text-natural-text mb-1">{isVi ? 'Sở thích & Yêu cầu đặc biệt' : 'Special Preferences'}</label>
+                <label className="block text-xs font-bold text-natural-text mb-1">{isVi ? 'Ghi chú thêm' : 'Extra notes'}</label>
                 <textarea
                   value={customPrompt}
                   onChange={(e) => setCustomPrompt(e.target.value)}
@@ -275,7 +430,7 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
 
               {/* Preset suggestion chips */}
               <div className="mb-6">
-                <p className="text-[10px] text-natural-accent font-bold uppercase mb-2">{isVi ? 'Gợi ý nhanh cho bạn' : 'Quick Prompt Presets'}</p>
+                  <p className="text-[10px] text-natural-accent font-bold uppercase mb-2">{isVi ? 'Gợi ý nhanh cho bạn' : 'Quick Prompt Presets'}</p>
                 <div className="flex flex-col gap-2">
                   {presetSuggestions.map((s, idx) => (
                     <button
@@ -283,7 +438,8 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
                       onClick={() => handleSuggestClick(s)}
                       className="text-left text-[11px] bg-natural-beige-light hover:bg-natural-beige transition border border-natural-border px-3 py-2.5 rounded-xl text-natural-text hover:text-natural-accent line-clamp-1"
                     >
-                      💡 {s}
+                      <span className="mr-1 text-natural-gold">•</span>
+                      {s}
                     </button>
                   ))}
                 </div>
@@ -292,11 +448,11 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
 
             <button
               onClick={runAIOptimizer}
-              className="w-full bg-natural-accent hover:bg-natural-olive text-white font-serif font-bold py-3.5 rounded-2xl transition shadow-lg text-xs md:text-sm tracking-wide flex items-center justify-center gap-2 mt-4 cursor-pointer"
+              className="w-full bg-natural-gold hover:bg-natural-gold-dark text-natural-ink font-serif font-black py-3.5 rounded-2xl transition shadow-lg text-xs md:text-sm tracking-wide flex items-center justify-center gap-2 mt-4 cursor-pointer"
               disabled={loading}
             >
-              <Sparkles className="w-4 h-4 text-white" />
-              <span>{isVi ? 'TỐI ƯU HÓA LỘ TRÌNH VỚI AI' : 'AI COMPILE & BUNDLE MINIMIZER'}</span>
+              <Sparkles className="w-4 h-4" />
+              <span>{isVi ? 'TẠO LỊCH TRÌNH CỦA TÔI' : 'CREATE MY TRIP PLAN'}</span>
             </button>
           </div>
 
@@ -308,7 +464,7 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
                   <div className="w-16 h-16 border-4 border-natural-accent border-t-transparent rounded-full animate-spin"></div>
                   <Brain className="w-6 h-6 text-natural-accent absolute inset-0 m-auto animate-pulse" />
                 </div>
-                <h4 className="text-base font-serif font-bold text-natural-text mt-6 animate-pulse">{isVi ? 'Gemini AI đang suy nghĩ...' : 'Gemini AI reasoning...'}</h4>
+                <h4 className="text-base font-serif font-bold text-natural-text mt-6 animate-pulse">{isVi ? 'Đang dựng lịch trình...' : 'Building your route...'}</h4>
                 <p className="text-xs text-natural-text/80 mt-3 max-w-sm px-4 whitespace-pre-wrap leading-relaxed font-mono">
                   {loadingStep}
                 </p>
@@ -403,11 +559,11 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
             ) : (
               <div className="flex flex-col items-center justify-center text-center h-full max-w-sm mx-auto">
                 <Brain className="w-12 h-12 text-natural-accent/40 animate-pulse mb-4" />
-                <h4 className="text-base font-serif font-bold text-natural-text">{isVi ? 'Tìm kiếm Giải pháp Itinerary Tối ưu của bạn' : 'Unlock Your Heritage Solution'}</h4>
+                <h4 className="text-base font-serif font-bold text-natural-text">{isVi ? 'Trả lời bảng gu để nhận lịch trình mẫu' : 'Start with the trip brief'}</h4>
                 <p className="text-xs text-natural-text/70 mt-2 leading-relaxed">
                   {isVi 
-                    ? 'Hãy chọn hoặc điền thông tin chi phí và đề xuất sở thích ở bảng điều khiển bên trái, VietCharm AI Co-Pilot sẽ lập tức phản hồi bảng combo phòng, lặn nắp san hô và xe máy giảm sâu siêu tiết kiệm.' 
-                    : 'Configure your budget limit and click Compile to let Gemini compile highly tailored activities, rentals and hotels immediately.'}
+                    ? 'Chọn ngân sách, số ngày, người đi và gu trải nghiệm. VietCharm sẽ gợi ý timeline theo ngày cùng combo có thể đặt ngay.'
+                    : 'Choose budget, days, travelers, and mood. VietCharm will suggest a day-by-day route with a bookable bundle.'}
                 </p>
               </div>
             )}

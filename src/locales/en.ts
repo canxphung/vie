@@ -7,7 +7,7 @@ import type { Dictionary } from './index';
 
 export const en: Dictionary = {
     welcome: 'Welcome to',
-    title: 'VietCharm - Central Vietnam Travel & Tour Booking Portal',
+    title: 'VietCharm - Vietnam Travel by Region',
     promo: 'Promotions',
     partner: 'Partner with us',
     support: 'Support',
@@ -21,7 +21,7 @@ export const en: Dictionary = {
     central: 'Central Region',
     south: 'Southern Region',
     devStatus: 'Under Active Development',
-    devBody: 'Apologies! Active booking setups for this region are undergoing deep database indexing and local vendor integrations. Try Central region right now!',
+    devBody: 'Apologies! Active booking for this region is still getting partner data and service inventory. You can preview the region idea or choose a destination with sample services.',
     backToHome: 'Back to Home',
     exploreHoiAn: 'Explore Hoi An',
     hotelsName: 'Hotels',

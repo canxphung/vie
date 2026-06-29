@@ -5,6 +5,7 @@
 
 import { motion } from 'motion/react';
 import { Navigation2 } from 'lucide-react';
+import AIPilot from '@/components/AIPilot';
 import BookingDetails from '@/components/BookingDetails';
 import { Container } from '@/components/ui';
 import { attractionsByProvince } from '@/data';
@@ -17,7 +18,7 @@ import { useI18n, useCart, useUI } from '@/hooks';
 
 export default function ProvinceDetailPage() {
   const { language, t, isVi } = useI18n();
-  const { items: cartItems, removeItem: handleRemoveFromCart } = useCart();
+  const { items: cartItems, removeItem: handleRemoveFromCart, addCombo: handleAddComboToCart } = useCart();
   const {
     selectedProvinceId,
     setView,
@@ -71,6 +72,12 @@ export default function ProvinceDetailPage() {
         ]}
       />
 
+      <AIPilot
+        language={language}
+        currentProvinceId={selectedProvinceId}
+        onAddComboToCart={handleAddComboToCart}
+      />
+
       <div className="bg-natural-beige border-y border-natural-border py-10 text-natural-text">
         <Container className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div>
@@ -88,7 +95,7 @@ export default function ProvinceDetailPage() {
             onClick={() => setView('provinces')}
             className="bg-natural-bg hover:bg-natural-beige text-natural-accent font-bold border border-natural-border shadow-xs px-5 py-2.5 rounded-xl text-xs transition uppercase tracking-wider font-sans"
           >
-            {language === 'vi' ? 'Xem các tỉnh miền Trung khác' : 'Explore central provinces'}
+            {language === 'vi' ? 'Xem điểm đến khác' : 'Explore other destinations'}
           </button>
         </Container>
       </div>

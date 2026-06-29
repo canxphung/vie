@@ -528,7 +528,7 @@ export default function PaymentModal({
                 <div className="border-b border-stone-200 pb-3 mb-4 flex justify-between items-center text-xs">
                   <div>
                     <h4 className="text-stone-900 font-black tracking-tight">{t.eTicket}</h4>
-                    <span className="text-[9px] uppercase text-natural-bronze font-black">{isVi ? 'Liên kết đối tác miền Trung' : 'Central Vietnam Vendor Network'}</span>
+                    <span className="text-[9px] uppercase text-natural-bronze font-black">{isVi ? 'Mạng đối tác VietCharm' : 'VietCharm partner network'}</span>
                   </div>
                   <Ticket className="w-5 h-5 text-amber-500" />
                 </div>
