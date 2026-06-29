@@ -38,3 +38,96 @@ body {
   outline: 3px solid color-mix(in srgb, var(--color-natural-gold) 80%, white);
   outline-offset: 3px;
 }
+
+/* ============================================================
+   Luxe heritage polish — reusable visual primitives
+   (keep on-brand: cream / gold / bronze / olive earth tones)
+   ============================================================ */
+
+/* Slow cinematic zoom + drift for hero imagery */
+@keyframes kenburns {
+  0%   { transform: scale(1) translate3d(0, 0, 0); }
+  100% { transform: scale(1.12) translate3d(-1.5%, -1.5%, 0); }
+}
+
+/* Light sweep that glides across gold buttons on hover */
+@keyframes sheen-sweep {
+  0%   { transform: translateX(-120%) skewX(-18deg); }
+  100% { transform: translateX(220%) skewX(-18deg); }
+}
+
+/* Gentle shimmer for the gold gradient text */
+@keyframes gold-pan {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+.animate-kenburns {
+  animation: kenburns 22s ease-out forwards;
+  will-change: transform;
+}
+
+/* Luminous gold gradient text (use on display headings / eyebrows) */
+.text-gold-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-natural-gold-dark) 0%,
+    var(--color-natural-gold) 35%,
+    #f4d98a 50%,
+    var(--color-natural-gold) 65%,
+    var(--color-natural-bronze) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gold-pan 6s ease-in-out infinite;
+}
+
+/* Frosted-glass surface — translucent panel over imagery */
+.glass-panel {
+  background-color: color-mix(in srgb, white 78%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in srgb, white 60%, var(--color-natural-gold) 22%);
+}
+
+/* Warm, brand-tinted elevation — softer & more premium than plain black shadow */
+.shadow-luxe {
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--color-natural-bronze) 12%, transparent),
+    0 18px 40px -18px color-mix(in srgb, var(--color-natural-bronze) 45%, transparent);
+}
+.shadow-luxe-lg {
+  box-shadow:
+    0 2px 6px color-mix(in srgb, var(--color-natural-bronze) 14%, transparent),
+    0 30px 60px -22px color-mix(in srgb, var(--color-natural-bronze) 55%, transparent);
+}
+
+/* Gold sheen overlay for buttons. Add `.btn-sheen` to a relative, overflow-hidden el. */
+.btn-sheen { position: relative; overflow: hidden; }
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, white 65%, transparent),
+    transparent
+  );
+  transform: translateX(-120%) skewX(-18deg);
+  pointer-events: none;
+}
+.btn-sheen:hover::after {
+  animation: sheen-sweep 0.85s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns,
+  .text-gold-gradient { animation: none; }
+  .btn-sheen:hover::after { animation: none; }
+}

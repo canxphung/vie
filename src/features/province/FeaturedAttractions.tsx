@@ -4,7 +4,7 @@
  */
 
 import { ArrowRight, Heart, Star } from 'lucide-react';
-import { Container } from '@/components/ui';
+import { Container, Reveal } from '@/components/ui';
 import type { Attraction, Language, ViewableItem } from '@/types';
 
 interface FeaturedAttractionsProps {
@@ -32,23 +32,28 @@ export function FeaturedAttractions({
 }: FeaturedAttractionsProps) {
   return (
     <Container id="featured-attractions-section" className="py-16">
-      <div className="flex justify-between items-end border-b border-amber-200/50 pb-4 mb-8">
-        <div>
-          <h3 className="text-xl md:text-2xl font-black text-stone-900 tracking-tight uppercase">{title}</h3>
-          <p className="text-stone-500 text-xs mt-1">{subtitle}</p>
+      <Reveal>
+        <div className="flex justify-between items-end border-b border-amber-200/50 pb-4 mb-8">
+          <div>
+            <span className="text-[11px] font-black uppercase tracking-[0.22em] text-gold-gradient">
+              {language === 'vi' ? 'Tuyển chọn nổi bật' : 'Handpicked'}
+            </span>
+            <h3 className="text-xl md:text-3xl font-serif font-black text-stone-900 tracking-tight uppercase mt-1">{title}</h3>
+            <p className="text-stone-500 text-xs mt-1">{subtitle}</p>
+          </div>
+          <button
+            type="button"
+            onClick={onViewAll}
+            className="group text-xs font-bold text-amber-700 hover:text-stone-900 transition flex items-center gap-1 cursor-pointer shrink-0"
+          >
+            {viewAllLabel}
+            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={onViewAll}
-          className="text-xs font-bold text-amber-700 hover:text-stone-900 transition flex items-center gap-1 cursor-pointer"
-        >
-          {viewAllLabel}
-          <ArrowRight className="w-3.5 h-3.5" />
-        </button>
-      </div>
+      </Reveal>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {attractions.map((spot) => {
+        {attractions.map((spot, index) => {
           const item: ViewableItem = {
             id: spot.id,
             type: 'nearby-place',
@@ -59,13 +64,14 @@ export function FeaturedAttractions({
           };
 
           return (
+            <Reveal key={spot.id} delay={Math.min(index, 4) * 0.08}>
             <div
-              key={spot.id}
               onClick={() => onViewItem(item)}
-              className="bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-150 transition duration-300 transform hover:-translate-y-1 cursor-pointer"
+              className="group h-full bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-luxe-lg border border-stone-150 hover:border-natural-gold/45 transition duration-300 ease-out transform hover:-translate-y-1.5 cursor-pointer"
             >
               <div className="h-44 overflow-hidden relative">
-                <img src={spot.image} alt={spot.name} className="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                <img src={spot.image} alt={spot.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -88,10 +94,11 @@ export function FeaturedAttractions({
                 </div>
               </div>
               <div className="p-4">
-                <h4 className="font-bold text-stone-900 text-sm tracking-tight leading-snug line-clamp-1">{spot.name}</h4>
+                <h4 className="font-serif font-bold text-stone-900 text-sm tracking-tight leading-snug line-clamp-1 transition-colors group-hover:text-natural-accent">{spot.name}</h4>
                 <p className="text-[11px] text-stone-500 line-clamp-2 mt-1 leading-relaxed">{spot.description}</p>
               </div>
             </div>
+            </Reveal>
           );
         })}
       </div>

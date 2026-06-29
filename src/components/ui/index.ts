@@ -10,4 +10,5 @@ export { Button } from './Button';
 export { IconButton } from './IconButton';
 export { Badge } from './Badge';
 export { DateField } from './DateField';
+export { Reveal } from './Reveal';
 export * from './motion-presets';

@@ -85,7 +85,7 @@ export function ProvinceSearchBar({ isVi, labels, value, onSearch }: ProvinceSea
 
   return (
     <Container className="-translate-y-10 sm:-translate-y-14 relative z-30">
-      <div className="bg-white p-4 md:p-6 rounded-3xl shadow-2xl border border-amber-200 flex flex-col md:flex-row gap-4 items-stretch justify-between">
+      <div className="glass-panel p-4 md:p-6 rounded-3xl shadow-luxe-lg flex flex-col md:flex-row gap-4 items-stretch justify-between">
         <div className="flex-1 space-y-1 border-b md:border-b-0 md:border-r border-stone-150 pb-3 md:pb-0 md:pr-4">
           <span className="text-[10px] uppercase font-black text-stone-400 block tracking-wider">{labels.heroSearchTitle}</span>
           <div className="relative">
@@ -177,7 +177,7 @@ export function ProvinceSearchBar({ isVi, labels, value, onSearch }: ProvinceSea
         <button
           type="button"
           onClick={handleSearch}
-          className="bg-natural-gold-deep hover:bg-natural-gold-dark text-stone-950 font-black px-6 py-3 rounded-2xl transition shadow-md md:w-fit uppercase text-xs md:text-sm tracking-wide self-center shrink-0"
+          className="btn-sheen bg-gradient-to-br from-natural-gold via-amber-300 to-natural-gold-deep text-stone-950 font-black px-6 py-3 rounded-2xl transition duration-200 shadow-luxe hover:shadow-luxe-lg hover:-translate-y-0.5 active:scale-95 md:w-fit uppercase text-xs md:text-sm tracking-wide self-center shrink-0"
         >
           {labels.searchBtn}
         </button>

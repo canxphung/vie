@@ -387,10 +387,10 @@ export default function AllServicesView({
                         description: spot.description,
                       })
                     )}
-                    className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
+                    className="group bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-luxe-lg border border-stone-200 hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1.5 flex flex-col justify-between cursor-pointer"
                   >
                     <div className="relative h-48 overflow-hidden">
-                      <img src={spot.image} alt={spot.name} className="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                      <img src={spot.image} alt={spot.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
                       {onToggleFavorite && (
                         <button
                           onClick={(e) => {
@@ -472,10 +472,10 @@ export default function AllServicesView({
                           description: hotel.description,
                         })
                       )}
-                      className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
+                      className="group bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-luxe-lg border border-stone-200 hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1.5 flex flex-col justify-between cursor-pointer"
                     >
                       <div className="relative h-48 overflow-hidden">
-                        <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover hover:scale-105 transition" />
+                        <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
                         {onToggleFavorite && (
                           <button
                             onClick={(e) => {
@@ -594,10 +594,10 @@ export default function AllServicesView({
                           description: act.description,
                         })
                       )}
-                      className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-stone-200 hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
+                      className="group bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-luxe-lg border border-stone-200 hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1.5 flex flex-col justify-between cursor-pointer"
                     >
                       <div className="relative h-44 overflow-hidden">
-                        <img src={act.image} alt={act.name} className="w-full h-full object-cover hover:scale-105 transition" />
+                        <img src={act.image} alt={act.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
                         {onToggleFavorite && (
                           <button
                             onClick={(e) => {
@@ -715,10 +715,10 @@ export default function AllServicesView({
                           description: veh.specs,
                         })
                       )}
-                      className="bg-white rounded-3xl overflow-hidden shadow-xs border border-natural-border p-4 hover:shadow-lg hover:border-natural-accent transition flex gap-4 items-center cursor-pointer"
+                      className="group bg-white rounded-3xl overflow-hidden shadow-xs border border-natural-border p-4 hover:shadow-luxe-lg hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1 flex gap-4 items-center cursor-pointer"
                     >
                       <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-natural-beige relative">
-                        <img src={veh.image} alt={veh.name} className="w-full h-full object-cover" />
+                        <img src={veh.image} alt={veh.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
                         {onToggleFavorite && (
                           <button
                             onClick={(e) => {

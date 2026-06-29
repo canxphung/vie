@@ -31,7 +31,8 @@ export function Card({ radius = '3xl', hover = false, padded = false, className,
         'bg-white border border-natural-border overflow-hidden',
         RADIUS[radius],
         padded && 'p-6',
-        hover && 'transition hover:shadow-xl hover:-translate-y-1',
+        hover &&
+          'group transition duration-300 ease-out hover:-translate-y-1.5 hover:border-natural-gold/45 hover:shadow-luxe-lg',
         className,
       )}
       {...rest}
