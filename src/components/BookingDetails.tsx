@@ -274,13 +274,6 @@ export default function BookingDetails({
             })}
           </div>
           )}
-          {filteredHotels.length > HOTELS_PREVIEW && (
-            <SectionMoreLink
-              isVi={isVi}
-              remaining={filteredHotels.length - HOTELS_PREVIEW}
-              onClick={() => onViewAllServices?.('hotels')}
-            />
-          )}
         </section>
 
         {/* Section: RENTALS (Cho thuê ô tô, xe máy) - requested feature */}
@@ -410,13 +403,6 @@ export default function BookingDetails({
               );
             })}
           </div>
-          )}
-          {filteredVehicles.length > VEHICLES_PREVIEW && (
-            <SectionMoreLink
-              isVi={isVi}
-              remaining={filteredVehicles.length - VEHICLES_PREVIEW}
-              onClick={() => onViewAllServices?.('vehicles')}
-            />
           )}
         </section>
 
@@ -604,13 +590,6 @@ export default function BookingDetails({
               })}
             </div>
           )}
-          {filteredActivities.length > ACTIVITIES_PREVIEW && (
-            <SectionMoreLink
-              isVi={isVi}
-              remaining={filteredActivities.length - ACTIVITIES_PREVIEW}
-              onClick={() => onViewAllServices?.('activities')}
-            />
-          )}
         </section>
 
         {/* Section: CUSTOMER REVIEWS & FEEDBACK (Đánh giá từ khách hàng) */}
@@ -728,28 +707,6 @@ export default function BookingDetails({
         </section>
 
       </div>
-    </div>
-  );
-}
-
-// Per-section link to the dedicated full listing page.
-function SectionMoreLink({
-  isVi,
-  remaining,
-  onClick,
-}: {
-  isVi: boolean;
-  remaining: number;
-  onClick: () => void;
-}) {
-  return (
-    <div className="flex justify-center pt-8">
-      <button
-        onClick={onClick}
-        className="bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-xs transition cursor-pointer"
-      >
-        {isVi ? `Xem tất cả (${remaining} mục nữa)` : `View all (${remaining} more)`}
-      </button>
     </div>
   );
 }
