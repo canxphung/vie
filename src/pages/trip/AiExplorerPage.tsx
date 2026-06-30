@@ -11,7 +11,7 @@ import { useCart, useI18n, useUI } from '@/hooks';
 export default function AiExplorerPage() {
   const { language } = useI18n();
   const { addCombo } = useCart();
-  const { selectedProvinceId } = useUI();
+  const { selectedProvinceId, setView } = useUI();
   const isVi = language === 'vi';
 
   return (
@@ -38,7 +38,12 @@ export default function AiExplorerPage() {
           </p>
         </div>
 
-        <AIPilot language={language} currentProvinceId={selectedProvinceId} onAddComboToCart={addCombo} />
+        <AIPilot
+          language={language}
+          currentProvinceId={selectedProvinceId}
+          onAddComboToCart={addCombo}
+          onNavigateToBlindTravel={() => setView('blind-travel')}
+        />
       </Container>
     </motion.main>
   );

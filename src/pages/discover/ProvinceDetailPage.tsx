@@ -96,6 +96,7 @@ export default function ProvinceDetailPage() {
         language={language}
         currentProvinceId={selectedProvinceId}
         onAddComboToCart={handleAddComboToCart}
+        onNavigateToBlindTravel={() => setView('blind-travel')}
       />
 
       <div className="bg-natural-beige border-y border-natural-border py-10 text-natural-text">

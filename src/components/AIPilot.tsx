@@ -51,9 +51,15 @@ interface AIPilotProps {
   language: Language;
   currentProvinceId: string;
   onAddComboToCart: (items: BookingCartItem[]) => void;
+  onNavigateToBlindTravel?: () => void;
 }
 
-export default function AIPilot({ language, currentProvinceId, onAddComboToCart }: AIPilotProps) {
+export default function AIPilot({
+  language,
+  currentProvinceId,
+  onAddComboToCart,
+  onNavigateToBlindTravel,
+}: AIPilotProps) {
   const isVi = language === 'vi';
   const [budget, setBudget] = React.useState(3500000);
   const [province, setProvince] = React.useState(currentProvinceId || 'quang-nam');
@@ -241,6 +247,37 @@ export default function AIPilot({ language, currentProvinceId, onAddComboToCart 
       setSuccessMsg(false);
     }, 4000);
   };
+
+  if (onNavigateToBlindTravel) {
+    return (
+      <section className="w-full border-y border-natural-border bg-[#1F261F] px-4 py-12 text-white shadow-inner">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="max-w-2xl">
+            <span className="text-[11px] font-black uppercase tracking-[0.24em] text-natural-gold">
+              {isVi ? 'Hành trình ẩn số' : 'Blind Travel'}
+            </span>
+            <h2 className="mt-2 font-serif text-3xl font-black tracking-tight md:text-5xl">
+              {isVi ? 'Đi thẳng tới chuyến đi bất ngờ.' : 'Go straight to a surprise trip.'}
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
+              {isVi
+                ? 'Khám phá một chuyến đi bất ngờ với điểm đến và combo phù hợp được VietCharm gợi ý sẵn.'
+                : 'Skip the long brief. VietCharm will open a mystery journey with a ready-made suggested bundle.'}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onNavigateToBlindTravel}
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-natural-gold px-5 text-xs font-black uppercase tracking-wide text-natural-ink shadow-lg transition hover:bg-natural-gold-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-natural-gold focus-visible:ring-offset-4 focus-visible:ring-offset-[#1F261F] md:self-center"
+          >
+            <Sparkles className="h-4 w-4" />
+            <span>{isVi ? 'Mở hành trình ẩn số' : 'Open Blind Travel'}</span>
+            <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <div className="w-full bg-[#1F261F] text-natural-text py-16 px-4 shadow-inner border-y border-natural-border">
