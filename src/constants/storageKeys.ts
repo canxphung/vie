@@ -12,4 +12,5 @@ export const STORAGE_KEYS = {
   currentUser: 'vc_current_user',
   recentlyViewed: 'vc_recently_viewed',
   favorites: 'vc_favorites',
+  returnTarget: 'vc_return_target',
 } as const;

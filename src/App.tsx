@@ -10,10 +10,39 @@ import HelpPromoCenter from './components/HelpPromoCenter';
 import PaymentModal from './components/PaymentModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import ViewRouter from '@/app/ViewRouter';
+import { STORAGE_KEYS } from '@/constants/storageKeys';
 import { UserAuthModal } from '@/features/auth/UserAuthModal';
 import { useI18n, useAuth, useCart, useUI } from '@/hooks';
 
 type AuthModalView = 'login' | 'register';
+
+function readSavedReturnScroll(): number | null {
+  try {
+    const raw = window.sessionStorage.getItem(STORAGE_KEYS.returnTarget);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { scrollY?: number };
+    return typeof parsed.scrollY === 'number' ? parsed.scrollY : null;
+  } catch {
+    return null;
+  }
+}
+
+function restoreScrollAfterRemount(top: number) {
+  let attempts = 0;
+  const restore = () => {
+    window.scrollTo({ top });
+    attempts += 1;
+    if (attempts < 6) {
+      window.setTimeout(restore, attempts < 3 ? 80 : 180);
+      return;
+    }
+    window.sessionStorage.removeItem(STORAGE_KEYS.returnTarget);
+  };
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(restore);
+  });
+}
 
 export default function App() {
   const { language, setLanguage } = useI18n();
@@ -60,8 +89,10 @@ export default function App() {
     } else if (itemOpened) {
       returnScrollRef.current = window.scrollY;
       window.scrollTo({ top: 0 });
-    } else if (itemClosed && returnScrollRef.current !== null) {
-      window.scrollTo({ top: returnScrollRef.current });
+    } else if (itemClosed) {
+      const savedTop = readSavedReturnScroll();
+      const top = savedTop ?? returnScrollRef.current;
+      if (top !== null) restoreScrollAfterRemount(top);
       returnScrollRef.current = null;
     } else if (itemSwapped) {
       window.scrollTo({ top: 0 });

@@ -291,11 +291,23 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     requireAuth,
     scrollToSection,
     changeHeaderView,
-    selectedItem,
-    viewItem: (item) => {
-      setRecentlyViewed((prev) => {
-        const filtered = prev.filter((x) => x.id !== item.id);
-        return [{ ...item, timestamp: Date.now() }, ...filtered].slice(0, 24);
+	    selectedItem,
+	    viewItem: (item) => {
+	      if (typeof window !== 'undefined') {
+	        window.sessionStorage.setItem(
+	          STORAGE_KEYS.returnTarget,
+	          JSON.stringify({
+	            view: viewRef.current,
+	            provinceId: selectedProvinceIdRef.current,
+	            tab: allServicesTab,
+	            itemId: item.id,
+	            scrollY: window.scrollY,
+	          }),
+	        );
+	      }
+	      setRecentlyViewed((prev) => {
+	        const filtered = prev.filter((x) => x.id !== item.id);
+	        return [{ ...item, timestamp: Date.now() }, ...filtered].slice(0, 24);
       });
       setSelectedItem(item);
     },

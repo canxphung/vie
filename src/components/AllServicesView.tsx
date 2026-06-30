@@ -7,6 +7,7 @@ import React from 'react';
 import { Star, Search, SlidersHorizontal, ArrowUpDown, MapPin, Bike, Car, Compass, ArrowLeft, CheckCircle2, Heart } from 'lucide-react';
 import { Province, Attraction, Hotel as HotelType, Activity, Vehicle, BookingCartItem, Language, ViewableItem } from '../types';
 import { provinces, attractionsByProvince, hotelsByProvince, activitiesByProvince, vehicles, dictionaries } from '../data';
+import { STORAGE_KEYS } from '@/constants/storageKeys';
 import { clickableCardProps } from '@/lib/a11y';
 
 interface AllServicesViewProps {
@@ -195,6 +196,31 @@ export default function AllServicesView({
     return list;
   }, [selectedProvince, selectedActivityCategory, searchQuery, sortBy]);
 
+  React.useEffect(() => {
+    try {
+      const raw = window.sessionStorage.getItem(STORAGE_KEYS.returnTarget);
+      if (!raw) return;
+
+      const target = JSON.parse(raw) as { view?: string; tab?: string; itemId?: string };
+      if (target.view !== 'all-services' || target.tab !== activeTab || !target.itemId) return;
+
+      const currentList: Array<{ id: string }> =
+        activeTab === 'attractions'
+          ? filteredAttractions
+          : activeTab === 'hotels'
+            ? filteredHotels
+            : activeTab === 'activities'
+              ? filteredActivities
+              : filteredVehicles;
+      const index = currentList.findIndex((item) => item.id === target.itemId);
+      if (index >= visibleCount) {
+        setVisibleCount(Math.ceil((index + 1) / PAGE_SIZE) * PAGE_SIZE);
+      }
+    } catch {
+      window.sessionStorage.removeItem(STORAGE_KEYS.returnTarget);
+    }
+  }, [activeTab, filteredAttractions, filteredHotels, filteredActivities, filteredVehicles, visibleCount]);
+
   return (
     <div id="all-services-view" className="w-full min-h-screen bg-natural-bg py-8 px-4">
       <div className="max-w-7xl mx-auto space-y-8">
@@ -202,10 +228,11 @@ export default function AllServicesView({
         <div>
           <button
             onClick={onBack}
-            className="p-2.5 rounded-full bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive transition shadow-xs cursor-pointer flex items-center justify-center"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-natural-border bg-white px-4 py-2.5 text-xs font-black uppercase tracking-wide text-natural-accent shadow-xs transition hover:bg-natural-beige hover:text-natural-olive cursor-pointer"
             id="back-to-home-btn"
           >
             <ArrowLeft className="w-4 h-4" />
+            <span>{isVi ? 'Quay lại' : 'Back'}</span>
           </button>
         </div>
 
