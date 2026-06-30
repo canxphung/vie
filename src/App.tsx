@@ -131,14 +131,8 @@ export default function App() {
         currentView={currentHeaderView}
         onChangeView={changeHeaderView}
         currentUser={currentUser}
-        onOpenLogin={() => {
-          setAuthModalView('login');
-          setAuthModalOpen(true);
-        }}
-        onOpenRegister={() => {
-          setAuthModalView('register');
-          setAuthModalOpen(true);
-        }}
+        onOpenLogin={() => setView('login')}
+        onOpenRegister={() => setView('register')}
         onLogout={() => {
           logout();
           navigateHome();
