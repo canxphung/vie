@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { Star, Search, SlidersHorizontal, ArrowUpDown, MapPin, Bike, Car, Compass, ArrowLeft, CheckCircle2, Heart, ChevronDown } from 'lucide-react';
 import { Province, Attraction, Hotel as HotelType, Activity, Vehicle, BookingCartItem, Language, ViewableItem } from '../types';
 import { provinces, attractionsByProvince, hotelsByProvince, activitiesByProvince, vehicles, dictionaries } from '../data';
@@ -45,9 +46,11 @@ export default function AllServicesView({
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedProvince, setSelectedProvince] = React.useState<string>('all');
   const [isProvinceMenuOpen, setIsProvinceMenuOpen] = React.useState(false);
+  const [provinceMenuPosition, setProvinceMenuPosition] = React.useState({ top: 0, left: 0, width: 0 });
   const [sortBy, setSortBy] = React.useState<SortBy>('default');
   const [selectedActivityCategory, setSelectedActivityCategory] = React.useState<ActivityCategory>('all');
   const provinceMenuRef = React.useRef<HTMLDivElement>(null);
+  const provinceButtonRef = React.useRef<HTMLButtonElement>(null);
 
   // How many cards to show before the "Show more" button (avoids dumping the whole list).
   const PAGE_SIZE = 8;
@@ -65,14 +68,44 @@ export default function AllServicesView({
   React.useEffect(() => {
     if (!isProvinceMenuOpen) return;
 
+    const syncProvinceMenuPosition = () => {
+      if (!provinceButtonRef.current) return;
+      const rect = provinceButtonRef.current.getBoundingClientRect();
+      setProvinceMenuPosition({
+        top: rect.bottom + 8 + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+      });
+    };
+
+    syncProvinceMenuPosition();
+
     const handlePointerDown = (event: PointerEvent) => {
-      if (!provinceMenuRef.current?.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        !provinceMenuRef.current?.contains(target)
+        && !provinceButtonRef.current?.contains(target)
+      ) {
+        setIsProvinceMenuOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
         setIsProvinceMenuOpen(false);
       }
     };
 
     document.addEventListener('pointerdown', handlePointerDown);
-    return () => document.removeEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', syncProvinceMenuPosition);
+    window.addEventListener('scroll', syncProvinceMenuPosition, true);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', syncProvinceMenuPosition);
+      window.removeEventListener('scroll', syncProvinceMenuPosition, true);
+    };
   }, [isProvinceMenuOpen]);
 
   // Collapse back to the first page whenever the tab or any filter changes.
@@ -315,6 +348,7 @@ export default function AllServicesView({
                   </label>
                   <div ref={provinceMenuRef} className="relative">
                     <button
+                      ref={provinceButtonRef}
                       type="button"
                       onClick={() => setIsProvinceMenuOpen((open) => !open)}
                       className="flex w-full items-center justify-between rounded-xl border border-stone-200 bg-white px-3 py-2.5 text-left text-sm text-natural-text transition hover:border-natural-accent focus:outline-none focus:border-natural-accent cursor-pointer"
@@ -325,34 +359,6 @@ export default function AllServicesView({
                         className={`h-4 w-4 shrink-0 text-stone-400 transition-transform ${isProvinceMenuOpen ? 'rotate-180' : ''}`}
                       />
                     </button>
-
-                    {isProvinceMenuOpen && (
-                      <div className="mt-2 w-full overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-luxe-lg">
-                        <div className="max-h-60 overflow-y-auto p-1.5">
-                          {[{ id: 'all', name: isVi ? 'Tất cả các tỉnh thành' : 'All Provinces' }, ...provinces].map((prov) => {
-                            const isActive = selectedProvince === prov.id;
-                            return (
-                              <button
-                                key={prov.id}
-                                type="button"
-                                onClick={() => {
-                                  setSelectedProvince(prov.id);
-                                  setIsProvinceMenuOpen(false);
-                                }}
-                                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition cursor-pointer ${
-                                  isActive
-                                    ? 'bg-natural-accent text-white'
-                                    : 'text-natural-text hover:bg-natural-beige'
-                                }`}
-                              >
-                                <span className="truncate">{prov.name}</span>
-                                {isActive && <CheckCircle2 className="h-4 w-4" />}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
@@ -868,6 +874,43 @@ export default function AllServicesView({
           </div>{/* /Results column */}
         </div>{/* /Layout grid */}
       </div>
+
+      {isProvinceMenuOpen && typeof document !== 'undefined' && createPortal(
+        <div
+          ref={provinceMenuRef}
+          style={{
+            top: provinceMenuPosition.top,
+            left: provinceMenuPosition.left,
+            width: provinceMenuPosition.width,
+          }}
+          className="absolute z-[80] overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-luxe-lg"
+        >
+          <div className="max-h-60 overflow-y-auto p-1.5">
+            {[{ id: 'all', name: isVi ? 'Tất cả các tỉnh thành' : 'All Provinces' }, ...provinces].map((prov) => {
+              const isActive = selectedProvince === prov.id;
+              return (
+                <button
+                  key={prov.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedProvince(prov.id);
+                    setIsProvinceMenuOpen(false);
+                  }}
+                  className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition cursor-pointer ${
+                    isActive
+                      ? 'bg-natural-accent text-white'
+                      : 'text-natural-text hover:bg-natural-beige'
+                  }`}
+                >
+                  <span className="truncate">{prov.name}</span>
+                  {isActive && <CheckCircle2 className="h-4 w-4" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
