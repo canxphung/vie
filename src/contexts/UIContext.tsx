@@ -24,6 +24,9 @@ export interface UIValue {
   setActiveSubView: (s: SubView) => void;
   allServicesTab: ServiceTab;
   setAllServicesTab: (t: ServiceTab) => void;
+  /** Sub-mode of the unified "Phương tiện di chuyển" view: rent a vehicle vs. book a taxi. */
+  allServicesVehicleMode: 'rent' | 'taxi';
+  setAllServicesVehicleMode: (m: 'rent' | 'taxi') => void;
   allServicesReturnView: ViewId | null;
   openAllServices: (tab: ServiceTab, returnView?: ViewId) => void;
   bookingSearch: BookingSearchCriteria;
@@ -97,6 +100,7 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   const [view, setViewState] = React.useState<ViewId>(initialView);
   const [activeSubView, setActiveSubView] = React.useState<SubView>('spots');
   const [allServicesTab, setAllServicesTab] = React.useState<ServiceTab>('attractions');
+  const [allServicesVehicleMode, setAllServicesVehicleMode] = React.useState<'rent' | 'taxi'>('rent');
   const [allServicesReturnView, setAllServicesReturnView] = React.useState<ViewId | null>(null);
   const [bookingSearch, setBookingSearch] = React.useState<BookingSearchCriteria>(() => createDefaultBookingSearch());
   const [selectedProvinceId, setSelectedProvinceIdState] = React.useState(initialRoute.provinceId || 'quang-nam');
@@ -235,7 +239,7 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     } else if (target === 'trip-room' || target === 'group-blind-travel') {
       setView('trip-room');
     } else if (
-      target === 'profile' || target === 'taxi' || target === 'tours' || target === 'handbook' ||
+      target === 'profile' || target === 'tours' || target === 'handbook' ||
       target === 'partnership-register' || target === 'admin' || target === 'recently-viewed' ||
       target === 'nearby-places' || target === 'cart'
     ) {
@@ -244,7 +248,14 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
       setActiveSubView('hotels');
       openAllServices('hotels');
     } else if (target === 'rentals') {
+      // "Phương tiện di chuyển" → vehicle rentals
       setActiveSubView('rentals');
+      setAllServicesVehicleMode('rent');
+      openAllServices('vehicles');
+    } else if (target === 'taxi') {
+      // "Phương tiện di chuyển" → taxi booking (same unified view, taxi mode)
+      setActiveSubView('rentals');
+      setAllServicesVehicleMode('taxi');
       openAllServices('vehicles');
     } else if (target === 'experiences') {
       setActiveSubView('experiences');
@@ -271,6 +282,8 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     setActiveSubView,
     allServicesTab,
     setAllServicesTab,
+    allServicesVehicleMode,
+    setAllServicesVehicleMode,
     allServicesReturnView,
     openAllServices,
     bookingSearch,

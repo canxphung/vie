@@ -5,6 +5,7 @@
 
 import React from 'react';
 import {
+  Bike,
   BookOpen,
   Car,
   ChevronDown,
@@ -14,7 +15,6 @@ import {
   Globe,
   Handshake,
   Hotel,
-  Key,
   Landmark,
   LogOut,
   MapPin,
@@ -83,7 +83,7 @@ function NavItem({ active, icon: Icon, children, onClick }: NavItemProps) {
     <button
       type="button"
       onClick={onClick}
-      className={`relative inline-flex h-9 items-center justify-center gap-1.5 px-4 text-sm font-medium transition cursor-pointer ${
+      className={`relative inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap px-4 text-sm font-medium transition cursor-pointer ${
         active ? 'text-natural-accent' : 'text-natural-ink hover:text-natural-accent'
       }`}
     >
@@ -149,11 +149,13 @@ export default function Header({
   const t = dictionaries[language];
   const isVi = language === 'vi';
   const [showMoreMenu, setShowMoreMenu] = React.useState(false);
+  const [showTransportMenu, setShowTransportMenu] = React.useState(false);
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
   const moreMenuRef = React.useRef<HTMLDivElement>(null);
+  const transportMenuRef = React.useRef<HTMLDivElement>(null);
 
   const isExploreActive = ['spots', 'regions', 'provinces', 'province'].includes(currentView);
-  const isMoreActive = ['handbook', 'nearby-places', 'taxi'].includes(currentView);
+  const isMoreActive = ['handbook', 'nearby-places'].includes(currentView);
   const cartButtonLabel = isVi ? 'Giỏ hàng' : 'Cart';
 
   React.useEffect(() => {
@@ -170,6 +172,19 @@ export default function Header({
   }, [showMoreMenu]);
 
   React.useEffect(() => {
+    if (!showTransportMenu) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!transportMenuRef.current?.contains(event.target as Node)) {
+        setShowTransportMenu(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [showTransportMenu]);
+
+  React.useEffect(() => {
     if (!showMobileMenu) return;
 
     const previousOverflow = document.body.style.overflow;
@@ -181,6 +196,7 @@ export default function Header({
 
   const closeMenus = () => {
     setShowMoreMenu(false);
+    setShowTransportMenu(false);
     setShowMobileMenu(false);
   };
 
@@ -306,13 +322,12 @@ export default function Header({
                 <MobileDrawerButton active={currentView === 'recently-viewed'} icon={Clock} label={isVi ? 'Xem gần đây' : 'Recent'} onClick={() => navigateTo('recently-viewed')} />
                 <MobileDrawerButton active={isExploreActive} icon={Compass} label={isVi ? 'Khám phá' : 'Explore'} onClick={() => navigateTo('spots')} />
                 <MobileDrawerButton active={currentView === 'hotels'} icon={Hotel} label={isVi ? 'Khách sạn' : 'Hotels'} onClick={() => navigateTo('hotels')} />
-                <MobileDrawerButton active={currentView === 'rentals'} icon={Key} label={isVi ? 'Thuê xe' : 'Rentals'} onClick={() => navigateTo('rentals')} />
+                <MobileDrawerButton active={currentView === 'rentals'} icon={Car} label={isVi ? 'Phương tiện di chuyển' : 'Transport'} onClick={() => navigateTo('rentals')} />
                 <MobileDrawerButton active={currentView === 'experiences'} icon={Route} label={isVi ? 'Hoạt động & Vui chơi' : 'Activities'} onClick={() => navigateTo('experiences')} />
                 <MobileDrawerButton active={currentView === 'trip-room'} icon={UsersRound} label="Trip Room" onClick={() => navigateTo('trip-room')} />
                 <MobileDrawerButton active={currentView === 'blind-travel'} icon={Sparkles} label={isVi ? 'Hành trình ẩn số' : 'Blind Travel'} onClick={() => navigateTo('blind-travel')} />
                 <MobileDrawerButton active={currentView === 'handbook'} icon={BookOpen} label={isVi ? 'Cẩm nang du lịch' : 'Travel handbook'} onClick={() => navigateTo('handbook')} />
                 <MobileDrawerButton active={currentView === 'nearby-places'} icon={MapPin} label={isVi ? 'Địa điểm lân cận' : 'Nearby places'} onClick={() => navigateTo('nearby-places')} />
-                <MobileDrawerButton active={currentView === 'taxi'} icon={Car} label={isVi ? 'Đặt taxi' : 'Taxi booking'} onClick={() => navigateTo('taxi')} />
                 {currentUser && (
                   <MobileDrawerButton active={currentView === 'profile'} icon={UserRound} label={isVi ? 'Hồ sơ cá nhân' : 'Profile'} onClick={() => navigateTo('profile')} />
                 )}
@@ -453,17 +468,51 @@ export default function Header({
       </div>
 
       <div className="hidden border-t border-[#8A6A2D]/35 bg-[#FFF8E9] lg:block">
-        <Container className="flex min-h-9 flex-wrap items-center justify-center gap-x-7 gap-y-1 py-1 lg:flex-nowrap">
-          <nav className="flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
+        <Container className="flex min-h-9 flex-nowrap items-center justify-center gap-x-3 py-1">
+          <nav className="flex flex-nowrap items-center justify-center gap-x-3">
             <NavItem active={isExploreActive} icon={Compass} onClick={() => navigateTo('spots')}>
               {isVi ? 'Khám phá' : 'Explore'}
             </NavItem>
             <NavItem active={currentView === 'hotels'} icon={Hotel} onClick={() => navigateTo('hotels')}>
               {isVi ? 'Khách sạn' : 'Hotels'}
             </NavItem>
-            <NavItem active={currentView === 'rentals'} icon={Key} onClick={() => navigateTo('rentals')}>
-              {isVi ? 'Thuê xe' : 'Rentals'}
-            </NavItem>
+
+            <div ref={transportMenuRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setShowTransportMenu((open) => !open)}
+                aria-expanded={showTransportMenu}
+                aria-haspopup="menu"
+                className={`relative inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap px-4 text-sm font-medium transition cursor-pointer ${
+                  currentView === 'rentals' ? 'text-natural-accent' : 'text-natural-ink hover:text-natural-accent'
+                }`}
+              >
+                <Car className="h-4 w-4 shrink-0 text-natural-accent" />
+                <span>{isVi ? 'Phương tiện di chuyển' : 'Transport'}</span>
+                <ChevronDown className={`h-4 w-4 transition-transform ${showTransportMenu ? 'rotate-180' : ''}`} />
+                {currentView === 'rentals' && <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-natural-accent" />}
+              </button>
+
+              {showTransportMenu && (
+                <div className="absolute left-0 top-full z-50 w-52 pt-2">
+                  <div className="overflow-hidden rounded-xl border border-natural-border bg-natural-bg py-2 shadow-xl">
+                    <DropdownItem
+                      active={false}
+                      icon={Bike}
+                      label={isVi ? 'Thuê xe' : 'Rent a vehicle'}
+                      onClick={() => navigateTo('rentals')}
+                    />
+                    <DropdownItem
+                      active={false}
+                      icon={Car}
+                      label={isVi ? 'Đặt taxi' : 'Book a taxi'}
+                      onClick={() => navigateTo('taxi')}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
             <NavItem active={currentView === 'experiences'} icon={Route} onClick={() => navigateTo('experiences')}>
               {isVi ? 'Hoạt động & Vui chơi' : 'Activities'}
             </NavItem>
@@ -509,14 +558,6 @@ export default function Header({
                       label={isVi ? 'Địa điểm lân cận' : 'Nearby places'}
                       onClick={() => {
                         navigateTo('nearby-places');
-                      }}
-                    />
-                    <DropdownItem
-                      active={currentView === 'taxi'}
-                      icon={Car}
-                      label={isVi ? 'Đặt taxi' : 'Taxi booking'}
-                      onClick={() => {
-                        navigateTo('taxi');
                       }}
                     />
                   </div>

@@ -10,10 +10,12 @@ import { useI18n, useCart, useUI } from '@/hooks';
 export default function AllServicesPage() {
   const { language } = useI18n();
   const isVi = language === 'vi';
-  const { items: cartItems, addItem: handleAddToCart, removeItem: handleRemoveFromCart } = useCart();
+  const { items: cartItems, addItem: handleAddToCart, removeItem: handleRemoveFromCart, openPayment } = useCart();
   const {
     allServicesTab,
     allServicesReturnView,
+    allServicesVehicleMode,
+    setAllServicesVehicleMode,
     setView,
     requireAuth,
     viewItem: handleViewItem,
@@ -25,6 +27,11 @@ export default function AllServicesPage() {
       () => handleAddToCart(item),
       isVi ? 'Đăng nhập để thêm dịch vụ vào giỏ.' : 'Sign in to add services to your cart.',
     );
+  const handleBookTaxi = (item: Parameters<typeof handleAddToCart>[0]) =>
+    requireAuth(() => {
+      handleAddToCart(item);
+      openPayment();
+    }, isVi ? 'Đăng nhập để đặt và thanh toán.' : 'Sign in to book and pay.');
   return (
           <motion.div
             key="all-services-view"
@@ -45,6 +52,10 @@ export default function AllServicesPage() {
               onViewItem={handleViewItem}
               favorites={favorites}
               onToggleFavorite={handleToggleFavorite}
+              vehicleMode={allServicesVehicleMode}
+              onVehicleModeChange={setAllServicesVehicleMode}
+              onBookTaxi={handleBookTaxi}
+              onNavigateHome={() => setView('regions')}
             />
           </motion.div>
   );

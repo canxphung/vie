@@ -10,6 +10,7 @@ import { Province, Attraction, Hotel as HotelType, Activity, Vehicle, BookingCar
 import { provinces, attractionsByProvince, hotelsByProvince, activitiesByProvince, vehicles, dictionaries } from '../data';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
 import { clickableCardProps } from '@/lib/a11y';
+import { TaxiBooking } from '@/features/transport/TaxiBooking';
 
 interface AllServicesViewProps {
   language: Language;
@@ -21,6 +22,12 @@ interface AllServicesViewProps {
   onViewItem?: (item: ViewableItem) => void;
   favorites?: ViewableItem[];
   onToggleFavorite?: (item: ViewableItem) => void;
+  /** Vehicles tab sub-mode: rent a vehicle vs. book a taxi (lifted to UIContext). */
+  vehicleMode?: 'rent' | 'taxi';
+  onVehicleModeChange?: (m: 'rent' | 'taxi') => void;
+  /** Book a taxi from the "Phương tiện di chuyển" view (vehicles tab → taxi mode). */
+  onBookTaxi?: (item: BookingCartItem) => void;
+  onNavigateHome?: () => void;
 }
 
 type SortBy = 'default' | 'price-asc' | 'price-desc' | 'rating-desc';
@@ -36,6 +43,10 @@ export default function AllServicesView({
   onViewItem,
   favorites = [],
   onToggleFavorite,
+  vehicleMode = 'rent',
+  onVehicleModeChange,
+  onBookTaxi,
+  onNavigateHome,
 }: AllServicesViewProps) {
   const isVi = language === 'vi';
   const t = dictionaries[language];
@@ -304,7 +315,37 @@ export default function AllServicesView({
           </button>
         </div>
 
-        {/* Layout: filter sidebar (left) + results column (right) */}
+        {/* Vehicles tab is a unified "Phương tiện di chuyển" hub: rent a vehicle or book a taxi. */}
+        {activeTab === 'vehicles' && (
+          <div className="inline-flex rounded-2xl border border-natural-border bg-natural-cream p-1">
+            {([
+              { id: 'rent', label: isVi ? 'Thuê xe' : 'Rent a vehicle', icon: Bike },
+              { id: 'taxi', label: isVi ? 'Đặt taxi' : 'Book a taxi', icon: Car },
+            ] as const).map((m) => (
+              <button
+                key={m.id}
+                onClick={() => onVehicleModeChange?.(m.id)}
+                className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition cursor-pointer ${
+                  vehicleMode === m.id
+                    ? 'bg-white text-natural-accent shadow-sm'
+                    : 'text-stone-500 hover:text-natural-text'
+                }`}
+              >
+                <m.icon className="w-4 h-4" />
+                {m.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'vehicles' && vehicleMode === 'taxi' ? (
+          <TaxiBooking
+            language={language}
+            onAddToCart={(item) => onBookTaxi?.(item)}
+            onNavigateHome={() => onNavigateHome?.()}
+          />
+        ) : (
+        /* Layout: filter sidebar (left) + results column (right) */
         <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-6 items-start">
 
           {/* Filter Sidebar */}
@@ -872,7 +913,8 @@ export default function AllServicesView({
         )}
 
           </div>{/* /Results column */}
-        </div>{/* /Layout grid */}
+        </div>
+        )}
       </div>
 
       {isProvinceMenuOpen && typeof document !== 'undefined' && createPortal(
