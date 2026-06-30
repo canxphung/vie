@@ -253,7 +253,7 @@ export default function AllServicesView({
         <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-6 items-start">
 
           {/* Filter Sidebar */}
-          <aside className="rounded-3xl border border-natural-border bg-natural-cream p-5 lg:sticky lg:top-24">
+          <aside className="self-start rounded-3xl border border-natural-border bg-natural-cream p-5 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
             <div className="flex items-center justify-between">
               <h3 className="flex items-center gap-2 font-serif text-base font-black text-natural-text">
                 <SlidersHorizontal className="w-4 h-4 text-natural-accent" />
