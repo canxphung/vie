@@ -27,8 +27,11 @@ export interface UIValue {
   /** Sub-mode of the unified "Phương tiện di chuyển" view: rent a vehicle vs. book a taxi. */
   allServicesVehicleMode: 'rent' | 'taxi';
   setAllServicesVehicleMode: (m: 'rent' | 'taxi') => void;
+  /** Which service tab the province picker is acting on (hotels | activities | …). */
+  allServicesServicePicker: ServiceTab;
   allServicesReturnView: ViewId | null;
-  openAllServices: (tab: ServiceTab, returnView?: ViewId) => void;
+  allServicesProvinceFilter: string;
+  openAllServices: (tab: ServiceTab, returnView?: ViewId, provinceFilter?: string) => void;
   bookingSearch: BookingSearchCriteria;
   setBookingSearch: (criteria: BookingSearchCriteria) => void;
   selectedProvinceId: string;
@@ -101,7 +104,9 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   const [activeSubView, setActiveSubView] = React.useState<SubView>('spots');
   const [allServicesTab, setAllServicesTab] = React.useState<ServiceTab>('attractions');
   const [allServicesVehicleMode, setAllServicesVehicleMode] = React.useState<'rent' | 'taxi'>('rent');
+  const [allServicesServicePicker, setAllServicesServicePicker] = React.useState<ServiceTab>('hotels');
   const [allServicesReturnView, setAllServicesReturnView] = React.useState<ViewId | null>(null);
+  const [allServicesProvinceFilter, setAllServicesProvinceFilter] = React.useState('all');
   const [bookingSearch, setBookingSearch] = React.useState<BookingSearchCriteria>(() => createDefaultBookingSearch());
   const [selectedProvinceId, setSelectedProvinceIdState] = React.useState(initialRoute.provinceId || 'quang-nam');
   const [selectedItem, setSelectedItem] = React.useState<ViewableItem | null>(null);
@@ -158,7 +163,10 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
         return;
       }
       setSelectedItem(null);
-      if (target !== 'all-services') setAllServicesReturnView(null);
+      if (target !== 'all-services') {
+        setAllServicesReturnView(null);
+        setAllServicesProvinceFilter('all');
+      }
       setViewState(target);
       viewRef.current = target;
       syncUrl(target, selectedProvinceIdRef.current);
@@ -193,6 +201,7 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
 
       if (nextView !== 'all-services') {
         setAllServicesReturnView(null);
+        setAllServicesProvinceFilter('all');
       }
     };
 
@@ -218,10 +227,11 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
   };
 
   const openAllServices = React.useCallback(
-    (tab: ServiceTab, returnView: ViewId = viewRef.current) => {
+    (tab: ServiceTab, returnView: ViewId = viewRef.current, provinceFilter = 'all') => {
       const normalizedReturnView = returnView === 'all-services' ? 'province' : returnView;
       setAllServicesTab(tab);
       setAllServicesReturnView(normalizedReturnView);
+      setAllServicesProvinceFilter(provinceFilter);
       setSelectedItem(null);
       setViewState('all-services');
       viewRef.current = 'all-services';
@@ -246,20 +256,24 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
       setView(target as ViewId);
     } else if (target === 'hotels') {
       setActiveSubView('hotels');
-      openAllServices('hotels');
+      setAllServicesServicePicker('hotels');
+      setView('service-provinces');
     } else if (target === 'rentals') {
-      // "Phương tiện di chuyển" → vehicle rentals
+      // "Phương tiện di chuyển" → pick destination first, then rent a vehicle
       setActiveSubView('rentals');
       setAllServicesVehicleMode('rent');
-      openAllServices('vehicles');
+      setAllServicesServicePicker('vehicles');
+      setView('service-provinces');
     } else if (target === 'taxi') {
-      // "Phương tiện di chuyển" → taxi booking (same unified view, taxi mode)
+      // "Phương tiện di chuyển" → pick destination first, then book a taxi
       setActiveSubView('rentals');
       setAllServicesVehicleMode('taxi');
-      openAllServices('vehicles');
+      setAllServicesServicePicker('vehicles');
+      setView('service-provinces');
     } else if (target === 'experiences') {
       setActiveSubView('experiences');
-      openAllServices('activities');
+      setAllServicesServicePicker('activities');
+      setView('service-provinces');
     }
   };
 
@@ -284,7 +298,9 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
     setAllServicesTab,
     allServicesVehicleMode,
     setAllServicesVehicleMode,
+    allServicesServicePicker,
     allServicesReturnView,
+    allServicesProvinceFilter,
     openAllServices,
     bookingSearch,
     setBookingSearch,

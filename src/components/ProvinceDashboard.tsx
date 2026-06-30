@@ -111,7 +111,7 @@ export default function ProvinceDashboard({
                 {/* Status label banner */}
                 <div className="absolute top-4 right-4 bg-natural-olive/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] text-white border border-natural-border/20 font-semibold uppercase tracking-wider">
                   {isClickable ? (
-                    <span className="text-natural-gold font-bold">● {isVi ? 'KÍCH HOẠT' : 'READY'}</span>
+                    <span className="text-natural-gold font-bold">● {isVi ? 'HOẠT ĐỘNG' : 'READY'}</span>
                   ) : (
                     <span className="text-stone-300">⚡ {isVi ? 'SẮP RA MẮT' : 'COMING SOON'}</span>
                   )}

@@ -4,7 +4,8 @@
  */
 
 import { useI18n, useUI } from '@/hooks';
-import { Facebook, Instagram, Youtube, Phone, Mail, MapPin, ShieldCheck, Headphones, Award, Landmark, Clock } from 'lucide-react';
+import { Facebook, Instagram, Youtube, Phone, Mail, MapPin, ShieldCheck, Headphones, Award, Clock } from 'lucide-react';
+import { VietCharmLogo } from '@/components/brand/VietCharmLogo';
 
 export default function Footer() {
   const { language } = useI18n();
@@ -16,16 +17,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-natural-beige/10">
             {/* Brand block (takes 3/12 cols) */}
             <div className="lg:col-span-3 space-y-5">
-              {/* Logo */}
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-natural-gold/10 rounded-xl border border-natural-gold/30">
-                  <Landmark className="w-8 h-8 text-natural-gold" />
-                </div>
-                <div>
-                  <h4 className="font-serif font-black text-xl text-natural-bg tracking-wider leading-none">VIET CHARM</h4>
-                  <span className="text-[9px] uppercase font-bold text-natural-gold tracking-widest block mt-1">HERITAGE & TRAVEL</span>
-                </div>
-              </div>
+              <VietCharmLogo size="md" />
 
               {/* Slogan */}
               <p className="text-xs text-natural-beige/70 leading-relaxed">

@@ -15,7 +15,6 @@ import {
   Globe,
   Handshake,
   Hotel,
-  Landmark,
   LogOut,
   MapPin,
   Menu,
@@ -30,6 +29,7 @@ import {
 } from 'lucide-react';
 import type { Language, UserAccount } from '../types';
 import { dictionaries } from '../data';
+import { VietCharmLogo } from '@/components/brand/VietCharmLogo';
 import { Container } from '@/components/ui';
 import type { ViewId } from '@/constants/views';
 
@@ -217,17 +217,7 @@ export default function Header({
             }}
             className="group flex min-w-0 flex-1 items-center gap-2.5 cursor-pointer"
           >
-            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-white/30 text-natural-gold transition group-hover:bg-white/10">
-              <Landmark className="h-6 w-6" />
-            </span>
-            <span className="min-w-0 text-left">
-              <span className="block truncate font-serif text-lg font-black leading-none tracking-wide text-white">
-                VIET CHARM
-              </span>
-              <span className="mt-1 block truncate text-[9px] font-black uppercase tracking-[0.18em] text-natural-gold">
-                Heritage & Travel
-              </span>
-            </span>
+            <VietCharmLogo size="sm" className="transition group-hover:opacity-90" />
           </button>
 
           <button
@@ -358,17 +348,7 @@ export default function Header({
             }}
             className="group flex shrink-0 items-center gap-2.5 cursor-pointer"
           >
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/30 text-natural-gold transition group-hover:bg-white/10">
-              <Landmark className="h-6 w-6" />
-            </span>
-            <span className="text-left">
-              <span className="block font-serif text-xl font-black leading-none tracking-wide text-white">
-                VIET CHARM
-              </span>
-              <span className="mt-1 block text-[9px] font-black uppercase tracking-[0.24em] text-natural-gold">
-                Heritage & Travel
-              </span>
-            </span>
+            <VietCharmLogo size="sm" className="transition group-hover:opacity-90" />
           </button>
 
           <nav className="order-3 flex w-full flex-wrap items-center gap-x-4 gap-y-1 lg:order-none lg:w-auto lg:flex-1 lg:justify-center">

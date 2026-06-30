@@ -26,6 +26,7 @@ const VIEW_PATHS: Record<Exclude<ViewId, 'province'>, string> = {
   'recently-viewed': '/recently-viewed',
   'nearby-places': '/nearby-places',
   'all-services': '/services',
+  'service-provinces': '/services/provinces',
   cart: '/cart',
   login: '/login',
   register: '/register',

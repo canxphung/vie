@@ -13,6 +13,7 @@ import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
 import CartPage from '@/pages/cart/CartPage';
 import AiExplorerPage from '@/pages/trip/AiExplorerPage';
 import AllServicesPage from '@/pages/discover/AllServicesPage';
+import ServiceProvincesPage from '@/pages/discover/ServiceProvincesPage';
 import NearbyPlacesPage from '@/pages/discover/NearbyPlacesPage';
 import ProvinceDetailPage from '@/pages/discover/ProvinceDetailPage';
 import ProvincesPage from '@/pages/discover/ProvincesPage';
@@ -66,6 +67,8 @@ export default function ViewRouter() {
     page = <AdminPage />;
   } else if (view === 'all-services') {
     page = <AllServicesPage />;
+  } else if (view === 'service-provinces') {
+    page = <ServiceProvincesPage />;
   } else if (view === 'cart') {
     page = <CartPage />;
   } else if (view === 'login') {

@@ -15,6 +15,7 @@ export default function AllServicesPage() {
     allServicesTab,
     allServicesReturnView,
     allServicesVehicleMode,
+    allServicesProvinceFilter,
     setAllServicesVehicleMode,
     setView,
     requireAuth,
@@ -43,6 +44,7 @@ export default function AllServicesPage() {
             <AllServicesView 
               language={language}
               initialTab={allServicesTab}
+              initialProvinceFilter={allServicesProvinceFilter}
               onBack={() => {
                 setView(allServicesReturnView || 'province');
               }}

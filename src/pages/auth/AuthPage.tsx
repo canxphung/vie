@@ -13,7 +13,6 @@ import {
   Compass,
   Gift,
   KeyRound,
-  Landmark,
   LockKeyhole,
   Mail,
   Phone,
@@ -22,6 +21,7 @@ import {
   User,
   UserPlus,
 } from 'lucide-react';
+import { VietCharmLogo } from '@/components/brand/VietCharmLogo';
 import { Container } from '@/components/ui';
 import { useAuth, useI18n, useUI } from '@/hooks';
 import type { UserAccount } from '@/types';
@@ -295,9 +295,8 @@ export default function AuthPage({ mode }: AuthPageProps) {
 
         <Container className="relative grid min-h-[calc(100vh-7rem)] items-center gap-8 py-10 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="max-w-xl text-white">
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1.5 text-xs font-bold uppercase backdrop-blur">
-              <Landmark className="h-4 w-4 text-natural-gold" />
-              VietCharm Portal
+            <span className="mb-5 inline-flex rounded-2xl border border-white/25 bg-white/15 px-3 py-2 backdrop-blur">
+              <VietCharmLogo size="sm" />
             </span>
             <h1 className="font-serif text-4xl font-black leading-tight sm:text-5xl">
               {isVi ? 'Một tài khoản cho những hành trình Việt Nam theo vùng.' : 'One account for Vietnam journeys by region.'}

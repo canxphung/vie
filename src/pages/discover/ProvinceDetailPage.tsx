@@ -128,7 +128,7 @@ export default function ProvinceDetailPage() {
         viewAllLabel={language === 'vi' ? 'Xem tất cả' : 'View all'}
         attractions={selectedAttractions}
         favorites={favorites}
-        onViewAll={() => openAllServices('attractions', 'province')}
+        onViewAll={() => openAllServices('attractions', 'province', selectedProvinceId)}
         onViewItem={handleViewItem}
         onToggleFavorite={handleToggleFavorite}
       />
@@ -140,7 +140,7 @@ export default function ProvinceDetailPage() {
         onRemoveFromCart={handleRemoveFromCart}
         onViewItem={handleViewItem}
         searchCriteria={bookingSearch}
-        onViewAllServices={(tab) => openAllServices(tab, 'province')}
+        onViewAllServices={(tab) => openAllServices(tab, 'province', selectedProvinceId)}
         favorites={favorites}
         onToggleFavorite={handleToggleFavorite}
       />

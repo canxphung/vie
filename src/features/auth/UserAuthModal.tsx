@@ -13,7 +13,6 @@ import {
   Compass,
   Gift,
   KeyRound,
-  Landmark,
   LockKeyhole,
   Mail,
   Phone,
@@ -23,6 +22,7 @@ import {
   UserPlus,
   X,
 } from 'lucide-react';
+import { VietCharmLogo } from '@/components/brand/VietCharmLogo';
 import type { Language, UserAccount } from '@/types';
 
 interface UserAuthModalProps {
@@ -398,9 +398,8 @@ export function UserAuthModal({
               <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(18,27,25,0.92),rgba(31,40,34,0.62),rgba(158,118,58,0.4))]" />
               <div className="relative flex h-full flex-col justify-between p-9">
                 <div>
-                  <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/12 px-3 py-1.5 text-xs font-bold backdrop-blur">
-                    <Landmark className="h-4 w-4 text-natural-gold" />
-                    <span>VIETCHARM</span>
+                  <div className="mb-8 inline-flex rounded-2xl border border-white/20 bg-white/12 px-3 py-2 backdrop-blur">
+                    <VietCharmLogo size="sm" />
                   </div>
 
                   <h2 className="max-w-sm font-serif text-4xl font-black leading-tight">

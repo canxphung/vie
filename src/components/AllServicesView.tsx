@@ -15,6 +15,7 @@ import { TaxiBooking } from '@/features/transport/TaxiBooking';
 interface AllServicesViewProps {
   language: Language;
   initialTab: 'attractions' | 'hotels' | 'vehicles' | 'activities';
+  initialProvinceFilter?: string;
   onBack: () => void;
   onAddToCart: (item: BookingCartItem) => void;
   onRemoveFromCart: (id: string) => void;
@@ -36,6 +37,7 @@ type ActivityCategory = 'all' | 'heritage' | 'culinary' | 'nature' | 'adventure'
 export default function AllServicesView({
   language,
   initialTab,
+  initialProvinceFilter = 'all',
   onBack,
   onAddToCart,
   onRemoveFromCart,
@@ -52,10 +54,11 @@ export default function AllServicesView({
   const t = dictionaries[language];
 
   const activeTab = initialTab;
+  const normalizedInitialProvinceFilter = initialProvinceFilter || 'all';
 
   // Filters state
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [selectedProvince, setSelectedProvince] = React.useState<string>('all');
+  const [selectedProvince, setSelectedProvince] = React.useState<string>(normalizedInitialProvinceFilter);
   const [isProvinceMenuOpen, setIsProvinceMenuOpen] = React.useState(false);
   const [provinceMenuPosition, setProvinceMenuPosition] = React.useState({ top: 0, left: 0, width: 0 });
   const [sortBy, setSortBy] = React.useState<SortBy>('default');
@@ -70,11 +73,11 @@ export default function AllServicesView({
   // Reset filters when switching tabs
   React.useEffect(() => {
     setSearchQuery('');
-    setSelectedProvince('all');
+    setSelectedProvince(normalizedInitialProvinceFilter);
     setIsProvinceMenuOpen(false);
     setSortBy('default');
     setSelectedActivityCategory('all');
-  }, [activeTab]);
+  }, [activeTab, normalizedInitialProvinceFilter]);
 
   React.useEffect(() => {
     if (!isProvinceMenuOpen) return;
@@ -126,11 +129,46 @@ export default function AllServicesView({
 
   const resetFilters = () => {
     setSearchQuery('');
-    setSelectedProvince('all');
+    setSelectedProvince(normalizedInitialProvinceFilter);
     setIsProvinceMenuOpen(false);
     setSortBy('default');
     setSelectedActivityCategory('all');
   };
+
+  const initialProvinceName =
+    normalizedInitialProvinceFilter === 'all'
+      ? ''
+      : provinces.find((prov) => prov.id === normalizedInitialProvinceFilter)?.name || normalizedInitialProvinceFilter;
+  const isProvinceScoped = activeTab !== 'vehicles' && normalizedInitialProvinceFilter !== 'all';
+  const isVehicleScoped = activeTab === 'vehicles' && normalizedInitialProvinceFilter !== 'all';
+  const headingText =
+    activeTab === 'hotels'
+      ? isProvinceScoped
+        ? (isVi ? `Khách sạn tại ${initialProvinceName}` : `Hotels in ${initialProvinceName}`)
+        : (isVi ? 'Tất cả khách sạn' : 'All hotels')
+      : activeTab === 'activities'
+        ? isProvinceScoped
+          ? (isVi ? `Hoạt động tại ${initialProvinceName}` : `Activities in ${initialProvinceName}`)
+          : (isVi ? 'Tất cả hoạt động' : 'All activities')
+        : activeTab === 'attractions'
+          ? isProvinceScoped
+            ? (isVi ? `Điểm đến tại ${initialProvinceName}` : `Places in ${initialProvinceName}`)
+            : (isVi ? 'Tất cả điểm đến' : 'All places')
+          : isVehicleScoped
+            ? (isVi ? `Phương tiện tại ${initialProvinceName}` : `Transport in ${initialProvinceName}`)
+            : (isVi ? 'Phương tiện di chuyển' : 'Transport');
+  const scopeDescription =
+    isVehicleScoped
+      ? (isVi
+        ? 'Thuê xe máy hoặc đặt taxi cho hành trình tại điểm đến bạn chọn.'
+        : 'Rent a motorbike or book a taxi for your trip at the chosen destination.')
+      : isProvinceScoped
+      ? (isVi
+        ? 'Đang hiển thị theo điểm đến bạn vừa xem. Bạn vẫn có thể đổi tỉnh trong bộ lọc.'
+        : 'This list is filtered by the destination you were viewing. You can still change province in the filters.')
+      : (isVi
+        ? 'Danh sách toàn hệ thống, gồm khách sạn và dịch vụ ở nhiều điểm đến.'
+        : 'System-wide list, not locked to Hoi An or any single province.');
 
   const selectedProvinceLabel =
     selectedProvince === 'all'
@@ -313,6 +351,18 @@ export default function AllServicesView({
             <ArrowLeft className="w-4 h-4" />
             <span>{isVi ? 'Quay lại' : 'Back'}</span>
           </button>
+        </div>
+
+        <div className="max-w-3xl">
+          <span className="text-[11px] font-black uppercase tracking-[0.22em] text-natural-accent">
+            {isVi ? 'Danh mục dịch vụ' : 'Service catalog'}
+          </span>
+          <h1 className="mt-2 font-serif text-3xl font-black tracking-tight text-natural-ink md:text-4xl">
+            {headingText}
+          </h1>
+          <p className="mt-2 text-sm leading-relaxed text-stone-600">
+            {scopeDescription}
+          </p>
         </div>
 
         {/* Vehicles tab is a unified "Phương tiện di chuyển" hub: rent a vehicle or book a taxi. */}

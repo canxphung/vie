@@ -52,6 +52,7 @@ export default function App() {
     view,
     activeSubView,
     allServicesTab,
+    allServicesServicePicker,
     selectedProvinceId,
     selectedItem,
     setView,
@@ -118,7 +119,15 @@ export default function App() {
           : allServicesTab === 'activities'
             ? 'experiences'
             : allServicesTab
-        : view;
+        : view === 'service-provinces'
+          ? allServicesServicePicker === 'attractions'
+            ? 'spots'
+            : allServicesServicePicker === 'vehicles'
+              ? 'rentals'
+              : allServicesServicePicker === 'activities'
+                ? 'experiences'
+                : allServicesServicePicker
+          : view;
 
   return (
     <div className="min-h-screen bg-natural-bg text-natural-text transition-colors duration-300 font-sans antialiased selection:bg-natural-gold selection:text-white">
