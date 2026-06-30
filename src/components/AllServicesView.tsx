@@ -64,6 +64,13 @@ export default function AllServicesView({
     setVisibleCount(PAGE_SIZE);
   }, [activeTab, searchQuery, selectedProvince, sortBy, selectedActivityCategory]);
 
+  const resetFilters = () => {
+    setSearchQuery('');
+    setSelectedProvince('all');
+    setSortBy('default');
+    setSelectedActivityCategory('all');
+  };
+
   const isItemInCart = (id: string) => {
     return cartItems.some((item) => item.id === id);
   };
@@ -196,6 +203,12 @@ export default function AllServicesView({
     return list;
   }, [selectedProvince, selectedActivityCategory, searchQuery, sortBy]);
 
+  const resultCount =
+    activeTab === 'attractions' ? filteredAttractions.length
+    : activeTab === 'hotels' ? filteredHotels.length
+    : activeTab === 'activities' ? filteredActivities.length
+    : filteredVehicles.length;
+
   React.useEffect(() => {
     try {
       const raw = window.sessionStorage.getItem(STORAGE_KEYS.returnTarget);
@@ -236,105 +249,127 @@ export default function AllServicesView({
           </button>
         </div>
 
-        {/* Dynamic Filters Bar */}
-        <div className="bg-natural-cream border border-natural-border p-4 rounded-3xl grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-          {/* Search Input */}
-          <div className="space-y-1.5 col-span-1 md:col-span-2">
-            <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
-              {isVi ? 'Tìm kiếm' : 'Search'}
-            </label>
-            <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={isVi ? 'Nhập tên, mô tả...' : 'Type name, location...'}
-                className="w-full bg-white border border-stone-200 rounded-xl py-2 px-9 text-xs focus:outline-none focus:border-natural-accent"
-              />
-            </div>
-          </div>
+        {/* Layout: filter sidebar (left) + results column (right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-6 items-start">
 
-          {/* Province Filter (not applicable for vehicles, which are not province-bound) */}
-          {activeTab !== 'vehicles' && (
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
-                {isVi ? 'Tỉnh thành' : 'Province'}
-              </label>
-              <select
-                value={selectedProvince}
-                onChange={(e) => setSelectedProvince(e.target.value)}
-                className="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-natural-accent"
-              >
-                <option value="all">{isVi ? 'Tất cả các tỉnh thành' : 'All Provinces'}</option>
-                {provinces.map((prov) => (
-                  <option key={prov.id} value={prov.id}>
-                    {prov.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          {/* Sort option */}
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
-              {isVi ? 'Sắp xếp' : 'Sort'}
-            </label>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortBy)}
-              className="w-full bg-white border border-stone-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-natural-accent"
-            >
-              <option value="default">{isVi ? 'Mặc định phổ biến' : 'Popularity / Default'}</option>
-              {activeTab !== 'attractions' && (
-                <>
-                  <option value="price-asc">{isVi ? 'Giá tiền: Thấp đến Cao' : 'Price: Low to High'}</option>
-                  <option value="price-desc">{isVi ? 'Giá tiền: Cao đến Thấp' : 'Price: High to Low'}</option>
-                </>
-              )}
-              <option value="rating-desc">{isVi ? 'Đánh giá: Cao nhất' : 'Rating: Top Rated'}</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Specialized Activities Categories filter (Horizontal bars) */}
-        {activeTab === 'activities' && (
-          <div className="bg-white border border-stone-200 p-3 rounded-2xl flex flex-wrap gap-2 items-center text-xs">
-            <span className="font-bold text-stone-500 uppercase mr-2">{isVi ? 'Chủ đề trải nghiệm:' : 'Experience Theme:'}</span>
-            {[
-              { id: 'all', label: isVi ? 'Tất cả' : 'All' },
-              { id: 'heritage', label: isVi ? 'Di sản & Văn hóa' : 'Heritage' },
-              { id: 'culinary', label: isVi ? 'Lớp học Ẩm thực' : 'Culinary' },
-              { id: 'nature', label: isVi ? 'Sinh thái & Làng quê' : 'Eco-Nature' },
-              { id: 'adventure', label: isVi ? 'Phiêu lưu & Lặn biển' : 'Adventure' },
-            ].map((cat) => (
+          {/* Filter Sidebar */}
+          <aside className="rounded-3xl border border-natural-border bg-natural-cream p-5 lg:sticky lg:top-24">
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 font-serif text-base font-black text-natural-text">
+                <SlidersHorizontal className="w-4 h-4 text-natural-accent" />
+                {isVi ? 'Bộ lọc' : 'Filters'}
+              </h3>
               <button
-                key={cat.id}
-                onClick={() => setSelectedActivityCategory(cat.id as ActivityCategory)}
-                className={`px-3 py-1.5 rounded-xl font-bold transition ${
-                  selectedActivityCategory === cat.id
-                    ? 'bg-natural-accent text-white'
-                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
-                }`}
+                onClick={resetFilters}
+                className="text-[11px] font-bold uppercase tracking-wide text-stone-400 transition hover:text-natural-accent cursor-pointer"
               >
-                {cat.label}
+                {isVi ? 'Đặt lại' : 'Reset'}
               </button>
-            ))}
-          </div>
-        )}
+            </div>
 
-        {/* Result count */}
-        <p className="text-xs text-stone-500">
-          {(() => {
-            const count =
-              activeTab === 'attractions' ? filteredAttractions.length
-              : activeTab === 'hotels' ? filteredHotels.length
-              : activeTab === 'activities' ? filteredActivities.length
-              : filteredVehicles.length;
-            return isVi ? `${count} kết quả` : `${count} results`;
-          })()}
-        </p>
+            <div className="mt-5 space-y-5">
+              {/* Search Input */}
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
+                  {isVi ? 'Tìm kiếm' : 'Search'}
+                </label>
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={isVi ? 'Nhập tên, mô tả...' : 'Type name, location...'}
+                    className="w-full bg-white border border-stone-200 rounded-xl py-2.5 px-9 text-sm focus:outline-none focus:border-natural-accent"
+                  />
+                </div>
+              </div>
+
+              {/* Province Filter (not applicable for vehicles, which are not province-bound) */}
+              {activeTab !== 'vehicles' && (
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
+                    {isVi ? 'Tỉnh thành' : 'Province'}
+                  </label>
+                  <select
+                    value={selectedProvince}
+                    onChange={(e) => setSelectedProvince(e.target.value)}
+                    className="w-full bg-white border border-stone-200 rounded-xl py-2.5 px-3 text-sm focus:outline-none focus:border-natural-accent cursor-pointer"
+                  >
+                    <option value="all">{isVi ? 'Tất cả các tỉnh thành' : 'All Provinces'}</option>
+                    {provinces.map((prov) => (
+                      <option key={prov.id} value={prov.id}>
+                        {prov.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Specialized Activities theme filter */}
+              {activeTab === 'activities' && (
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
+                    {isVi ? 'Chủ đề trải nghiệm' : 'Experience Theme'}
+                  </label>
+                  <div className="flex flex-col gap-1.5">
+                    {[
+                      { id: 'all', label: isVi ? 'Tất cả' : 'All' },
+                      { id: 'heritage', label: isVi ? 'Di sản & Văn hóa' : 'Heritage' },
+                      { id: 'culinary', label: isVi ? 'Lớp học Ẩm thực' : 'Culinary' },
+                      { id: 'nature', label: isVi ? 'Sinh thái & Làng quê' : 'Eco-Nature' },
+                      { id: 'adventure', label: isVi ? 'Phiêu lưu & Lặn biển' : 'Adventure' },
+                    ].map((cat) => (
+                      <button
+                        key={cat.id}
+                        onClick={() => setSelectedActivityCategory(cat.id as ActivityCategory)}
+                        className={`w-full rounded-xl px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
+                          selectedActivityCategory === cat.id
+                            ? 'bg-natural-accent text-white'
+                            : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-100'
+                        }`}
+                      >
+                        {cat.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </aside>
+
+          {/* Results column */}
+          <div className="min-w-0 space-y-6">
+
+            {/* Top bar: result count + sort */}
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-natural-border bg-white px-4 py-3 shadow-xs">
+              <p className="text-sm text-stone-500">
+                {isVi ? 'Kết quả: ' : 'Results: '}
+                <span className="font-black text-natural-accent">{resultCount}</span>
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="hidden text-[11px] font-bold uppercase tracking-wide text-stone-400 sm:inline">
+                  {isVi ? 'Sắp xếp theo' : 'Sort by'}
+                </span>
+                <div className="relative">
+                  <ArrowUpDown className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as SortBy)}
+                    className="bg-white border border-stone-200 rounded-xl py-2 pl-8 pr-3 text-xs font-semibold focus:outline-none focus:border-natural-accent cursor-pointer"
+                  >
+                    <option value="default">{isVi ? 'Mặc định phổ biến' : 'Popularity / Default'}</option>
+                    {activeTab !== 'attractions' && (
+                      <>
+                        <option value="price-asc">{isVi ? 'Giá tiền: Thấp đến Cao' : 'Price: Low to High'}</option>
+                        <option value="price-desc">{isVi ? 'Giá tiền: Cao đến Thấp' : 'Price: High to Low'}</option>
+                      </>
+                    )}
+                    <option value="rating-desc">{isVi ? 'Đánh giá: Cao nhất' : 'Rating: Top Rated'}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
         {/* Display grids according to selected tab */}
 
@@ -344,7 +379,7 @@ export default function AllServicesView({
             {filteredAttractions.length === 0 ? (
               <NoResults isVi={isVi} />
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredAttractions.slice(0, visibleCount).map((spot) => (
                   <div
                     key={spot.id}
@@ -427,7 +462,7 @@ export default function AllServicesView({
             {filteredHotels.length === 0 ? (
               <NoResults isVi={isVi} />
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredHotels.slice(0, visibleCount).map((hotel) => {
                   const inCart = isItemInCart(hotel.id);
                   return (
@@ -549,7 +584,7 @@ export default function AllServicesView({
             {filteredActivities.length === 0 ? (
               <NoResults isVi={isVi} />
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredActivities.slice(0, visibleCount).map((act) => {
                   const inCart = isItemInCart(act.id);
                   return (
@@ -670,7 +705,7 @@ export default function AllServicesView({
             {filteredVehicles.length === 0 ? (
               <NoResults isVi={isVi} />
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredVehicles.slice(0, visibleCount).map((veh) => {
                   const inCart = isItemInCart(veh.id);
                   return (
@@ -779,6 +814,8 @@ export default function AllServicesView({
           </div>
         )}
 
+          </div>{/* /Results column */}
+        </div>{/* /Layout grid */}
       </div>
     </div>
   );
