@@ -4,6 +4,8 @@
  */
 
 import React from 'react';
+import { useI18n } from '@/contexts/I18nContext';
+import { useToast } from '@/contexts/ToastContext';
 import type { BookingCartItem } from '@/types';
 
 export type PaymentInitialStep = 'cart' | 'checkout';
@@ -41,6 +43,8 @@ export interface CartValue {
 export const CartContext = React.createContext<CartValue | null>(null);
 
 export function CartProvider({ children }: { children?: React.ReactNode }) {
+  const { isVi } = useI18n();
+  const { showToast } = useToast();
   const [items, setItems] = React.useState<BookingCartItem[]>([]);
   const [isPaymentOpen, setPaymentOpen] = React.useState(false);
   const [paymentInitialStep, setPaymentInitialStep] = React.useState<PaymentInitialStep>('checkout');
@@ -91,16 +95,76 @@ export function CartProvider({ children }: { children?: React.ReactNode }) {
           return [...filtered, ...newItems];
         }),
       removeItem: (id) => {
+        const removed = items
+          .map((item, index) => ({ item, index }))
+          .filter(({ item }) => getCartKey(item) === id || item.id === id);
+
+        if (removed.length === 0) return;
+
+        const removedKeys = new Set(removed.map(({ item }) => getCartKey(item)));
+        const deselectedSnapshot = deselectedKeys;
+
         setItems((prev) => prev.filter((x) => getCartKey(x) !== id && x.id !== id));
-        setDeselectedKeys((prev) => prev.filter((k) => k !== id));
+        setDeselectedKeys((prev) => prev.filter((k) => !removedKeys.has(k) && k !== id));
+        showToast({
+          type: 'info',
+          title: isVi ? 'Đã xóa khỏi giỏ hàng' : 'Removed from cart',
+          message: removed[0]?.item.name,
+          durationMs: 7000,
+          action: {
+            label: isVi ? 'Hoàn tác' : 'Undo',
+            onClick: () => {
+              setItems((prev) => {
+                const next = [...prev];
+                removed
+                  .slice()
+                  .sort((a, b) => a.index - b.index)
+                  .forEach(({ item, index }) => {
+                    if (next.some((existing) => getCartKey(existing) === getCartKey(item))) return;
+                    next.splice(Math.min(index, next.length), 0, item);
+                  });
+                return next;
+              });
+              setDeselectedKeys((prev) => {
+                const restored = deselectedSnapshot.filter((key) => removedKeys.has(key));
+                return [...prev.filter((key) => !removedKeys.has(key)), ...restored];
+              });
+            },
+          },
+        });
       },
       clearCart: () => {
+        if (items.length === 0) return;
+        const itemsSnapshot = items;
+        const deselectedSnapshot = deselectedKeys;
+
         setItems([]);
         setDeselectedKeys([]);
+        showToast({
+          type: 'info',
+          title: isVi ? 'Đã xóa giỏ hàng' : 'Cart cleared',
+          message: isVi ? 'Các dịch vụ đã chọn vừa được gỡ khỏi giỏ.' : 'Your selected services were removed.',
+          durationMs: 8000,
+          action: {
+            label: isVi ? 'Hoàn tác' : 'Undo',
+            onClick: () => {
+              setItems((prev) => {
+                const restored = [...itemsSnapshot];
+                prev.forEach((item) => {
+                  if (!restored.some((x) => getCartKey(x) === getCartKey(item))) {
+                    restored.push(item);
+                  }
+                });
+                return restored;
+              });
+              setDeselectedKeys(deselectedSnapshot);
+            },
+          },
+        });
       },
       isInCart: (id) => items.some((x) => getCartKey(x) === id || x.id === id),
     };
-  }, [items, isPaymentOpen, paymentInitialStep, deselectedKeys]);
+  }, [items, isPaymentOpen, paymentInitialStep, deselectedKeys, showToast, isVi]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

@@ -426,6 +426,8 @@ export default function ServiceDetails({
             <img 
               src={item.image} 
               alt={item.name} 
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
@@ -469,6 +471,8 @@ export default function ServiceDetails({
                 <img
                   src={image.src}
                   alt={`${item.name} - ${image.label}`}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
@@ -581,7 +585,7 @@ export default function ServiceDetails({
                 <div key={r.id} className="bg-natural-cream border border-stone-100 p-4 rounded-2xl space-y-2">
                   <div className="flex justify-between items-center text-xs">
                     <div className="flex items-center gap-2">
-                      <img src={r.avatar} alt={r.author} className="w-6 h-6 rounded-full object-cover" />
+                      <img src={r.avatar} alt={r.author} loading="lazy" decoding="async" className="w-6 h-6 rounded-full object-cover" />
                       <span className="font-bold text-stone-700">{r.author}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-stone-400">

@@ -10,10 +10,15 @@ import HelpPromoCenter from './components/HelpPromoCenter';
 import PaymentModal from './components/PaymentModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import ViewRouter from '@/app/ViewRouter';
+import { UserAuthModal } from '@/features/auth/UserAuthModal';
 import { useI18n, useAuth, useCart, useUI } from '@/hooks';
+
+type AuthModalView = 'login' | 'register';
 
 export default function App() {
   const { language, setLanguage } = useI18n();
+  const [authModalView, setAuthModalView] = React.useState<AuthModalView>('login');
+  const [authModalOpen, setAuthModalOpen] = React.useState(false);
   const {
     view,
     activeSubView,
@@ -26,13 +31,45 @@ export default function App() {
     openAllServices,
   } = useUI();
 
-  // Reset scroll to the top whenever the page, province, or opened item changes, so a
-  // new view/detail never opens mid-page (or clamped to the bottom of a shorter page).
-  // In-page section scrolls keep view/item unchanged, so they don't trigger this.
   React.useEffect(() => {
-    window.scrollTo({ top: 0 });
+    const openAuthModal = (event: Event) => {
+      const detail = (event as CustomEvent<{ view?: AuthModalView }>).detail;
+      setAuthModalView(detail?.view === 'register' ? 'register' : 'login');
+      setAuthModalOpen(true);
+    };
+
+    window.addEventListener('vietcharm:open-auth-modal', openAuthModal);
+    return () => window.removeEventListener('vietcharm:open-auth-modal', openAuthModal);
+  }, []);
+
+  // Scroll new pages/details to the top, but restore the list position when a detail closes.
+  const previousLocationRef = React.useRef({ view, selectedProvinceId, selectedItemId: selectedItem?.id || null });
+  const returnScrollRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    const previous = previousLocationRef.current;
+    const nextItemId = selectedItem?.id || null;
+    const baseChanged = previous.view !== view || previous.selectedProvinceId !== selectedProvinceId;
+    const itemOpened = !previous.selectedItemId && !!nextItemId;
+    const itemClosed = !!previous.selectedItemId && !nextItemId;
+    const itemSwapped = !!previous.selectedItemId && !!nextItemId && previous.selectedItemId !== nextItemId;
+
+    if (baseChanged) {
+      returnScrollRef.current = null;
+      window.scrollTo({ top: 0 });
+    } else if (itemOpened) {
+      returnScrollRef.current = window.scrollY;
+      window.scrollTo({ top: 0 });
+    } else if (itemClosed && returnScrollRef.current !== null) {
+      window.scrollTo({ top: returnScrollRef.current });
+      returnScrollRef.current = null;
+    } else if (itemSwapped) {
+      window.scrollTo({ top: 0 });
+    }
+
+    previousLocationRef.current = { view, selectedProvinceId, selectedItemId: nextItemId };
   }, [view, selectedProvinceId, selectedItem]);
-  const { currentUser, logout } = useAuth();
+  const { currentUser, users, login, register, logout, updatePasswordByEmail } = useAuth();
   const {
     cartCount, isPaymentOpen, paymentInitialStep, closePayment,
     removeItem: handleRemoveFromCart, selectedItems, clearSelectedItems,
@@ -63,8 +100,14 @@ export default function App() {
         currentView={currentHeaderView}
         onChangeView={changeHeaderView}
         currentUser={currentUser}
-        onOpenLogin={() => setView('login')}
-        onOpenRegister={() => setView('register')}
+        onOpenLogin={() => {
+          setAuthModalView('login');
+          setAuthModalOpen(true);
+        }}
+        onOpenRegister={() => {
+          setAuthModalView('register');
+          setAuthModalOpen(true);
+        }}
         onLogout={() => {
           logout();
           navigateHome();
@@ -89,6 +132,17 @@ export default function App() {
           onClose={() => closePayment()}
         />
       )}
+
+      <UserAuthModal
+        language={language}
+        isOpen={authModalOpen}
+        initialView={authModalView}
+        users={users}
+        onClose={() => setAuthModalOpen(false)}
+        onLoginSuccess={login}
+        onRegisterNew={register}
+        onUpdatePasswordByEmail={updatePasswordByEmail}
+      />
 
       {!hideFloatingHelp && (
         <HelpPromoCenter

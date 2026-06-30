@@ -84,7 +84,6 @@ export default function CartPage() {
     setAllItemsSelected,
   } = useCart();
   const { setView, openAllServices, requireAuth } = useUI();
-  const [pendingRemoveKey, setPendingRemoveKey] = React.useState<string | null>(null);
   const [confirmClearOpen, setConfirmClearOpen] = React.useState(false);
 
   // Pricing is based only on the services ticked for checkout.
@@ -97,22 +96,6 @@ export default function CartPage() {
 
   const handleCheckout = () =>
     requireAuth(() => openPayment('checkout'), isVi ? 'Đăng nhập để thanh toán.' : 'Sign in to checkout.');
-
-  React.useEffect(() => {
-    if (!pendingRemoveKey) return;
-    const timer = window.setTimeout(() => setPendingRemoveKey(null), 3500);
-    return () => window.clearTimeout(timer);
-  }, [pendingRemoveKey]);
-
-  const requestRemoveItem = (key: string) => {
-    if (pendingRemoveKey === key) {
-      removeItem(key);
-      setPendingRemoveKey(null);
-      return;
-    }
-
-    setPendingRemoveKey(key);
-  };
 
   const continueShopping = () => {
     openAllServices('hotels', 'cart');
@@ -323,6 +306,8 @@ export default function CartPage() {
                         <img
                           src={item.image}
                           alt={item.name}
+                          loading="lazy"
+                          decoding="async"
                           className="h-24 w-full rounded-xl border border-natural-border object-cover sm:h-20 sm:w-22"
                         />
                         <button
@@ -380,19 +365,11 @@ export default function CartPage() {
                         </div>
                         <button
                           type="button"
-                          onClick={() => requestRemoveItem(key)}
-                          className={`inline-flex h-9 min-w-9 items-center justify-center rounded-full border px-2.5 text-[10px] font-black uppercase transition ${
-                            pendingRemoveKey === key
-                              ? 'border-red-300 bg-red-600 text-white hover:bg-red-700'
-                              : 'border-red-100 bg-red-50 text-red-600 hover:bg-red-100'
-                          }`}
+                          onClick={() => removeItem(key)}
+                          className="inline-flex h-9 min-w-9 items-center justify-center rounded-full border border-red-100 bg-red-50 px-2.5 text-xs font-black uppercase text-red-600 transition hover:bg-red-100"
                           title={isVi ? 'Xóa khỏi giỏ hàng' : 'Remove from cart'}
                         >
-                          {pendingRemoveKey === key ? (
-                            <span>{isVi ? 'Xác nhận' : 'Confirm'}</span>
-                          ) : (
-                            <Trash2 className="h-4 w-4" />
-                          )}
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
                     </li>

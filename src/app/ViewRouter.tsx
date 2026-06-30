@@ -10,6 +10,7 @@ import ProfilePage from '@/pages/account/ProfilePage';
 import AdminPage from '@/pages/admin/AdminPage';
 import AuthPage from '@/pages/auth/AuthPage';
 import CartPage from '@/pages/cart/CartPage';
+import AiExplorerPage from '@/pages/trip/AiExplorerPage';
 import AllServicesPage from '@/pages/discover/AllServicesPage';
 import NearbyPlacesPage from '@/pages/discover/NearbyPlacesPage';
 import ProvinceDetailPage from '@/pages/discover/ProvinceDetailPage';
@@ -42,6 +43,10 @@ export default function ViewRouter() {
     page = <TripRoomPage />;
   } else if (view === 'blind-travel') {
     page = <BlindTravelPage />;
+  } else if (view === 'ai-explorer') {
+    page = <AiExplorerPage />;
+  } else if (view === 'group-blind-travel') {
+    page = <TripRoomPage />;
   } else if (view === 'profile') {
     page = <ProfilePage />;
   } else if (view === 'taxi') {
@@ -72,14 +77,12 @@ export default function ViewRouter() {
     page = <NotFoundPage />;
   }
 
-  // AnimatePresence (mode="wait") tracks its direct child by `key`. The page
-  // components carry their own inner motion key, but AnimatePresence only sees
-  // this top-level element — so without a key here, transitions between views
-  // can stall and the new page never mounts. Key it by the active view/item.
+  // AnimatePresence tracks its direct child by `key`; key it by the active
+  // view/item so page transitions stay predictable without delaying the mount.
   const transitionKey = selectedItem ? `item-${selectedItem.id}` : view;
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence initial={false}>
       {page && React.cloneElement(page, { key: transitionKey })}
     </AnimatePresence>
   );

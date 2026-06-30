@@ -361,6 +361,8 @@ export default function NearbyPlaces({
                       <img 
                         src={place.images[0]} 
                         alt={isVi ? place.nameVi : place.nameEn}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
@@ -469,6 +471,8 @@ export default function NearbyPlaces({
                 <img 
                   src={activePlace.images[activeImageIdx]} 
                   alt={isVi ? activePlace.nameVi : activePlace.nameEn}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover opacity-95"
                   referrerPolicy="no-referrer"
                 />
@@ -662,7 +666,7 @@ export default function NearbyPlaces({
                       <div key={review.id} className="bg-stone-50 p-3 rounded-2xl space-y-1.5">
                         <div className="flex justify-between items-center text-[10px]">
                           <div className="flex items-center gap-2">
-                            <img src={review.avatar} alt={review.author} className="w-5 h-5 rounded-full object-cover" />
+                            <img src={review.avatar} alt={review.author} loading="lazy" decoding="async" className="w-5 h-5 rounded-full object-cover" />
                             <span className="font-bold text-stone-700">{review.author}</span>
                           </div>
                           <div className="flex items-center gap-1 text-stone-400">

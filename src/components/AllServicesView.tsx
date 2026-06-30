@@ -401,7 +401,7 @@ export default function AllServicesView({
                     className="group bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-luxe-lg border border-stone-200 hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1.5 flex flex-col justify-between cursor-pointer"
                   >
                     <div className="relative h-48 overflow-hidden">
-                      <img src={spot.image} alt={spot.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
+                      <img src={spot.image} alt={spot.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
                       {onToggleFavorite && (
                         <button
                           onClick={(e) => {
@@ -486,7 +486,7 @@ export default function AllServicesView({
                       className="group bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-luxe-lg border border-stone-200 hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1.5 flex flex-col justify-between cursor-pointer"
                     >
                       <div className="relative h-48 overflow-hidden">
-                        <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
+                        <img src={hotel.image} alt={hotel.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
                         {onToggleFavorite && (
                           <button
                             onClick={(e) => {
@@ -608,7 +608,7 @@ export default function AllServicesView({
                       className="group bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-luxe-lg border border-stone-200 hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1.5 flex flex-col justify-between cursor-pointer"
                     >
                       <div className="relative h-44 overflow-hidden">
-                        <img src={act.image} alt={act.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
+                        <img src={act.image} alt={act.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
                         {onToggleFavorite && (
                           <button
                             onClick={(e) => {
@@ -729,7 +729,7 @@ export default function AllServicesView({
                       className="group bg-white rounded-3xl overflow-hidden shadow-xs border border-natural-border p-4 hover:shadow-luxe-lg hover:border-natural-gold/45 transition duration-300 ease-out hover:-translate-y-1 flex gap-4 items-center cursor-pointer"
                     >
                       <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-natural-beige relative">
-                        <img src={veh.image} alt={veh.name} className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
+                        <img src={veh.image} alt={veh.name} loading="lazy" decoding="async" className="w-full h-full object-cover transition duration-[600ms] ease-out group-hover:scale-110" />
                         {onToggleFavorite && (
                           <button
                             onClick={(e) => {

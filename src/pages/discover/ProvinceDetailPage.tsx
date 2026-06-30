@@ -8,7 +8,7 @@ import { Navigation2 } from 'lucide-react';
 import AIPilot from '@/components/AIPilot';
 import BookingDetails from '@/components/BookingDetails';
 import { Container } from '@/components/ui';
-import { attractionsByProvince } from '@/data';
+import { attractionsByProvince, provinces } from '@/data';
 import { FeaturedAttractions } from '@/features/province/FeaturedAttractions';
 import { NewsletterSignup } from '@/features/province/NewsletterSignup';
 import { ProvinceHero } from '@/features/province/ProvinceHero';
@@ -31,6 +31,7 @@ export default function ProvinceDetailPage() {
     toggleFavorite: handleToggleFavorite,
   } = useUI();
   const selectedAttractions = attractionsByProvince[selectedProvinceId] || [];
+  const selectedProvince = provinces.find((province) => province.id === selectedProvinceId);
 
   return (
     <motion.div
@@ -62,6 +63,25 @@ export default function ProvinceDetailPage() {
           handleScrollToSection('hotels-section');
         }}
       />
+
+      <Container className="-mt-6 pb-6">
+        <nav
+          aria-label={isVi ? 'Điều hướng phân cấp' : 'Breadcrumb'}
+          className="flex flex-wrap items-center gap-2 text-xs font-bold text-stone-500"
+        >
+          <button type="button" onClick={() => setView('regions')} className="transition hover:text-natural-accent">
+            {isVi ? 'Trang chủ' : 'Home'}
+          </button>
+          <span aria-hidden>/</span>
+          <button type="button" onClick={() => setView('provinces')} className="transition hover:text-natural-accent">
+            {isVi ? 'Miền Trung' : 'Central Vietnam'}
+          </button>
+          <span aria-hidden>/</span>
+          <span className="text-natural-text" aria-current="page">
+            {selectedProvince?.name || selectedProvinceId}
+          </span>
+        </nav>
+      </Container>
 
       <ProvinceUsps
         items={[

@@ -15,6 +15,7 @@ import { useI18n } from '@/contexts/I18nContext';
 
 /** Views that require a signed-in user; navigating to them while logged out redirects to login. */
 const AUTH_GATED_VIEWS: ReadonlySet<ViewId> = new Set(['trip-room', 'partnership-register']);
+const AUTH_MODAL_EVENT = 'vietcharm:open-auth-modal';
 
 export interface UIValue {
   view: ViewId;
@@ -75,6 +76,11 @@ function createDefaultBookingSearch(): BookingSearchCriteria {
     guestsCount: 1,
     roomsCount: 1,
   };
+}
+
+function requestAuthModal() {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(AUTH_MODAL_EVENT, { detail: { view: 'login' } }));
 }
 
 export function UIProvider({ children }: { children?: React.ReactNode }) {
@@ -144,7 +150,8 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
         notifyAuthRequired(
           isVi ? 'Vui lòng đăng nhập để dùng tính năng này.' : 'Please sign in to use this feature.',
         );
-        target = 'login';
+        requestAuthModal();
+        return;
       }
       setSelectedItem(null);
       if (target !== 'all-services') setAllServicesReturnView(null);
@@ -252,7 +259,7 @@ export function UIProvider({ children }: { children?: React.ReactNode }) {
         return;
       }
       notifyAuthRequired(message);
-      setView('login');
+      requestAuthModal();
     },
     [notifyAuthRequired, setView],
   );

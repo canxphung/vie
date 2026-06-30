@@ -29,8 +29,7 @@ export default function ProvinceDashboard({
     <div className="w-full bg-natural-bg py-12 px-4 min-h-screen">
       <div className="max-w-7xl mx-auto">
         
-        {/* Breadcrumb / Back button */}
-        <div className="mb-8 flex justify-between items-center">
+        <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <button 
             onClick={onBackToHome}
             className="flex items-center gap-2 text-xs font-serif font-bold text-natural-accent hover:text-natural-olive transition bg-natural-beige border border-natural-border shadow-xs px-4 py-2 rounded-full"
@@ -38,6 +37,23 @@ export default function ProvinceDashboard({
             <ArrowLeft className="w-3.5 h-3.5 text-natural-accent" />
             <span>{isVi ? 'Quay lại chọn Vùng Miền' : 'Back to Regions'}</span>
           </button>
+
+          <nav
+            aria-label={isVi ? 'Điều hướng phân cấp' : 'Breadcrumb'}
+            className="flex flex-wrap items-center gap-2 text-xs font-bold text-stone-500"
+          >
+            <button type="button" onClick={onBackToHome} className="transition hover:text-natural-accent">
+              {isVi ? 'Trang chủ' : 'Home'}
+            </button>
+            <span aria-hidden>/</span>
+            <span className="text-natural-accent">
+              {isVi ? 'Miền Trung' : 'Central Vietnam'}
+            </span>
+            <span aria-hidden>/</span>
+            <span className="text-natural-text" aria-current="page">
+              {isVi ? 'Điểm đến' : 'Destinations'}
+            </span>
+          </nav>
           
           <div className="text-xs font-mono text-stone-500 flex items-center gap-1.5">
             <Navigation className="w-3 h-3 text-natural-accent" />

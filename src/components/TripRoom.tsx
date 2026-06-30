@@ -179,7 +179,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
 
   const triggerAlert = (msg: string) => {
     setAlertMsg(msg);
-    setTimeout(() => setAlertMsg(null), 3000);
+    setTimeout(() => setAlertMsg(null), 6000);
   };
 
   const copyRoomLink = () => {
@@ -321,10 +321,10 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
       <AnimatePresence>
         {alertMsg && (
           <motion.div 
-            initial={{ opacity: 0, y: -20, x: '-50%' }}
+            initial={{ opacity: 0, y: 20, x: '-50%' }}
             animate={{ opacity: 1, y: 0, x: '-50%' }}
-            exit={{ opacity: 0, y: -20, x: '-50%' }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 bg-natural-text text-natural-sand px-6 py-3 rounded-full text-xs font-bold shadow-2xl z-50 border border-natural-border/20 flex items-center gap-2"
+            exit={{ opacity: 0, y: 20, x: '-50%' }}
+            className="fixed bottom-6 left-1/2 z-50 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 rounded-2xl border border-natural-border/20 bg-natural-text px-5 py-3 text-sm font-bold text-natural-sand shadow-2xl"
           >
             <Sparkles className="w-4 h-4 text-natural-gold" />
             <span>{alertMsg}</span>
@@ -403,7 +403,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                       key={member.id} 
                       className="group/item flex items-start gap-3 p-3 rounded-2xl hover:bg-natural-sand transition border border-transparent hover:border-natural-border"
                     >
-                      <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full object-cover shrink-0 border border-natural-border shadow-xs" />
+                      <img src={member.avatar} alt={member.name} loading="lazy" decoding="async" className="w-10 h-10 rounded-full object-cover shrink-0 border border-natural-border shadow-xs" />
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start gap-1">
                           <span className="text-xs font-black text-natural-text truncate">{member.name}</span>
@@ -692,7 +692,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                                 }`}
                               >
                                 <div className="relative h-28 overflow-hidden">
-                                  <img src={item.image} alt={item.nameVi} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                                  <img src={item.image} alt={item.nameVi} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                                   {isConsensus && (
                                     <div className="absolute top-2 right-2 bg-emerald-600 text-white text-[8px] font-black tracking-widest px-2 py-0.5 rounded-full uppercase flex items-center gap-0.5 shadow">
                                       <CheckCircle className="w-2.5 h-2.5" />
@@ -741,6 +741,8 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                                             src={mb.avatar} 
                                             alt={mb.name} 
                                             title={mb.name}
+                                            loading="lazy"
+                                            decoding="async"
                                             className="inline-block h-4 w-4 rounded-full ring-1 ring-white object-cover" 
                                           />
                                         ) : null;
@@ -803,7 +805,7 @@ export default function TripRoom({ language, onAddComboToCart, onNavigateHome }:
                       {members.map(member => (
                         <div key={member.id} className="flex justify-between items-center py-2 border-b border-natural-border/40">
                           <div className="flex items-center gap-2">
-                            <img src={member.avatar} alt={member.name} className="w-5 h-5 rounded-full object-cover" />
+                            <img src={member.avatar} alt={member.name} loading="lazy" decoding="async" className="w-5 h-5 rounded-full object-cover" />
                             <span className="font-bold text-natural-text">{member.name}</span>
                           </div>
                           <div className="flex items-center gap-3">

@@ -12,19 +12,19 @@ import { ToastProvider } from '@/contexts/ToastContext';
 import { UIProvider } from '@/contexts/UIContext';
 
 /**
- * Composes the global providers. Order: I18n → Auth → Catalog → Cart → UI
- * (inner providers may read outer hooks; e.g. Admin actions read useAuth()).
+ * Composes the global providers. Inner providers may read outer hooks
+ * (Cart uses toast/i18n; UI uses auth/toast/cart).
  */
 export function AppProviders({ children }: { children?: ReactNode }) {
   return (
     <I18nProvider>
       <AuthProvider>
         <CatalogProvider>
-          <CartProvider>
-            <ToastProvider>
+          <ToastProvider>
+            <CartProvider>
               <UIProvider>{children}</UIProvider>
-            </ToastProvider>
-          </CartProvider>
+            </CartProvider>
+          </ToastProvider>
         </CatalogProvider>
       </AuthProvider>
     </I18nProvider>

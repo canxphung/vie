@@ -12,6 +12,11 @@ export interface ToastInput {
   title: string;
   message?: string;
   type?: ToastType;
+  durationMs?: number;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
 }
 
 interface ToastItem extends ToastInput {
@@ -51,10 +56,14 @@ export function ToastProvider({ children }: { children?: React.ReactNode }) {
       type: toast.type || 'info',
       title: toast.title,
       message: toast.message,
+      durationMs: toast.durationMs,
+      action: toast.action,
     };
 
     setToasts((prev) => [nextToast, ...prev].slice(0, 4));
-    window.setTimeout(() => dismissToast(id), 3800);
+    const copyLength = `${toast.title} ${toast.message || ''}`.trim().length;
+    const durationMs = toast.durationMs ?? Math.min(9000, Math.max(5000, 2800 + copyLength * 45));
+    window.setTimeout(() => dismissToast(id), durationMs);
   }, [dismissToast]);
 
   const value = React.useMemo<ToastValue>(() => ({ showToast }), [showToast]);
@@ -62,7 +71,7 @@ export function ToastProvider({ children }: { children?: React.ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <div className="fixed right-4 top-24 z-[80] flex w-[calc(100vw-2rem)] max-w-sm flex-col gap-3 md:right-6">
+      <div className="fixed bottom-6 right-4 z-[80] flex w-[calc(100vw-2rem)] max-w-sm flex-col gap-3 md:right-6">
         {toasts.map((toast) => {
           const Icon = TOAST_ICONS[toast.type];
           return (
@@ -76,6 +85,18 @@ export function ToastProvider({ children }: { children?: React.ReactNode }) {
                 <p className="text-sm font-black leading-snug">{toast.title}</p>
                 {toast.message && (
                   <p className="mt-1 text-xs font-medium leading-relaxed text-current/75">{toast.message}</p>
+                )}
+                {toast.action && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      toast.action?.onClick();
+                      dismissToast(toast.id);
+                    }}
+                    className="mt-3 inline-flex min-h-8 items-center rounded-lg border border-current/20 px-3 text-xs font-black uppercase tracking-wide transition hover:bg-current/10"
+                  >
+                    {toast.action.label}
+                  </button>
                 )}
               </div>
               <button

@@ -144,6 +144,8 @@ export function TravelHandbook({ language }: { language: Language }) {
           <img 
             src={content[activeTab].img} 
             alt={content[activeTab].title} 
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
           />
         </div>

@@ -28,15 +28,18 @@ import type { Language, UserAccount } from '@/types';
 interface UserAuthModalProps {
   language: Language;
   isOpen: boolean;
+  initialView?: AuthView;
   onClose: () => void;
   onLoginSuccess: (user: UserAccount) => void;
   users: UserAccount[];
   onRegisterNew: (user: UserAccount) => void;
+  onUpdatePasswordByEmail?: (email: string, password: string) => boolean;
 }
 
 type AuthView = 'login' | 'register' | 'forgot';
 type IconComponent = React.ComponentType<{ className?: string }>;
 
+const FALLBACK_DEMO_PASSWORD = '123456';
 const AUTH_HERO_IMAGE =
   'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=80';
 
@@ -129,10 +132,12 @@ function SocialButton({ platform, onClick }: SocialButtonProps) {
 export function UserAuthModal({
   language,
   isOpen,
+  initialView = 'login',
   onClose,
   onLoginSuccess,
   users,
   onRegisterNew,
+  onUpdatePasswordByEmail,
 }: UserAuthModalProps) {
   const isVi = language === 'vi';
   const [authView, setAuthView] = React.useState<AuthView>('login');
@@ -150,6 +155,14 @@ export function UserAuthModal({
   const [verificationCode, setVerificationCode] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
   const [forgotStep, setForgotStep] = React.useState<'input-email' | 'verify-code' | 'new-pass'>('input-email');
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    setAuthView(initialView);
+    setErrorMsg('');
+    setSuccessMsg('');
+    setForgotStep('input-email');
+  }, [isOpen, initialView]);
 
   const content = {
     login: {
@@ -194,22 +207,23 @@ export function UserAuthModal({
         u.phone === loginCredential,
     );
 
-    if (matched) {
-      setSuccessMsg(isVi ? `Đăng nhập thành công! Chào mừng ${matched.fullName}.` : `Welcome back, ${matched.fullName}!`);
-      setTimeout(() => {
-        onLoginSuccess(matched);
-        onClose();
-        setSuccessMsg('');
-        setUsername('');
-        setPassword('');
-      }, 1000);
-    } else {
+    if (!matched || (matched.password || FALLBACK_DEMO_PASSWORD) !== password) {
       setErrorMsg(
         isVi
-          ? 'Số điện thoại/Gmail hoặc mật khẩu không chính xác! Hãy đăng ký tài khoản mới nếu chưa có.'
-          : 'Incorrect Phone number/Gmail/Username or Password!',
+          ? 'Số điện thoại/Gmail hoặc mật khẩu không chính xác.'
+          : 'Incorrect Phone number/Gmail/Username or password.',
       );
+      return;
     }
+
+    setSuccessMsg(isVi ? `Đăng nhập thành công! Chào mừng ${matched.fullName}.` : `Welcome back, ${matched.fullName}!`);
+    setTimeout(() => {
+      onLoginSuccess(matched);
+      onClose();
+      setSuccessMsg('');
+      setUsername('');
+      setPassword('');
+    }, 700);
   };
 
   const handleRegister = (e: React.FormEvent) => {
@@ -224,10 +238,15 @@ export function UserAuthModal({
       setErrorMsg(isVi ? 'Địa chỉ Gmail này đã được sử dụng!' : 'Gmail address is already registered!');
       return;
     }
+    if (password.trim().length < 6) {
+      setErrorMsg(isVi ? 'Mật khẩu phải từ 6 ký tự trở lên.' : 'Password must be at least 6 characters.');
+      return;
+    }
 
     const newUser: UserAccount = {
       id: `u-${Date.now()}`,
       username: username.trim(),
+      password: password.trim(),
       fullName: fullName.trim() || username.trim(),
       email: email.trim(),
       phone: phone.trim(),
@@ -252,6 +271,7 @@ export function UserAuthModal({
       setFullName('');
       setEmail('');
       setPhone('');
+      setPassword('');
     }, 1200);
   };
 
@@ -316,11 +336,17 @@ export function UserAuthModal({
       return;
     }
 
-    const matched = users.find((u) => u.email.toLowerCase() === forgotEmail.trim().toLowerCase());
-    if (matched) {
-      setSuccessMsg(isVi ? `Khôi phục thành công mật khẩu cho tài khoản ${matched.fullName}! Vui lòng đăng nhập.` : 'Password successfully reset! Please login.');
+    const updated = onUpdatePasswordByEmail?.(forgotEmail, newPassword.trim()) ?? false;
+    if (updated) {
+      const matched = users.find((u) => u.email.toLowerCase() === forgotEmail.trim().toLowerCase());
+      setSuccessMsg(
+        isVi
+          ? `Khôi phục thành công mật khẩu cho tài khoản ${matched?.fullName || forgotEmail}! Vui lòng đăng nhập.`
+          : 'Password successfully reset! Please login.',
+      );
     } else {
-      setSuccessMsg(isVi ? 'Đặt mật khẩu mới thành công! Đang quay lại màn hình đăng nhập.' : 'New password saved successfully!');
+      setErrorMsg(isVi ? 'Không tìm thấy tài khoản để cập nhật mật khẩu.' : 'No account found to update.');
+      return;
     }
 
     setTimeout(() => {
@@ -365,6 +391,8 @@ export function UserAuthModal({
               <img
                 src={AUTH_HERO_IMAGE}
                 alt="Hoi An heritage travel"
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(18,27,25,0.92),rgba(31,40,34,0.62),rgba(158,118,58,0.4))]" />
@@ -420,7 +448,7 @@ export function UserAuthModal({
             <section className="max-h-[calc(100vh-1.5rem)] overflow-y-auto p-5 sm:p-7 md:p-9">
               <div className="mb-6 overflow-hidden rounded-2xl bg-natural-ink md:hidden">
                 <div className="relative min-h-32">
-                  <img src={AUTH_HERO_IMAGE} alt="VietCharm" className="absolute inset-0 h-full w-full object-cover" />
+                  <img src={AUTH_HERO_IMAGE} alt="VietCharm" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-natural-ink/58" />
                   <div className="relative flex h-full min-h-32 flex-col justify-end p-5 text-white">
                     <span className="mb-1 text-[11px] font-bold uppercase tracking-[0.28em] text-natural-gold">
@@ -557,6 +585,10 @@ export function UserAuthModal({
                           required
                         />
                       </span>
+                      <p className="mt-1.5 text-[11px] leading-relaxed text-stone-500">
+                        {isVi ? 'Mật khẩu tài khoản dùng thử: ' : 'Demo password: '}
+                        <span className="font-mono font-semibold text-stone-700">{FALLBACK_DEMO_PASSWORD}</span>
+                      </p>
                     </div>
 
                     <button
@@ -643,6 +675,17 @@ export function UserAuthModal({
                         <option value="admin">{isVi ? 'Quản trị hệ thống' : 'Administrator'}</option>
                       </AuthSelect>
                     </div>
+
+                    <AuthField
+                      icon={LockKeyhole}
+                      label={isVi ? 'Mật khẩu' : 'Password'}
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      hint={isVi ? 'Tối thiểu 6 ký tự.' : 'At least 6 characters.'}
+                      required
+                    />
 
                     <button
                       type="submit"

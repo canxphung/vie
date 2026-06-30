@@ -22,16 +22,32 @@ interface RegionSelectorProps {
 export default function RegionSelector({ language, onSelectCentral, onSelectTripRoom, onSelectBlindTravel }: RegionSelectorProps) {
   const t = dictionaries[language];
   const [showModal, setShowModal] = React.useState(false);
-  const [selectedRegion, setSelectedRegion] = React.useState('');
+  const [selectedRegion, setSelectedRegion] = React.useState<'north' | 'south'>('north');
 
   const handleRegionClick = (region: string) => {
     if (region === 'central') {
       onSelectCentral();
     } else {
-      setSelectedRegion(region === 'north' ? t.north : t.south);
+      setSelectedRegion(region === 'north' ? 'north' : 'south');
       setShowModal(true);
     }
   };
+
+  const regionPreview = selectedRegion === 'north'
+    ? {
+        title: language === 'vi' ? 'Miền Bắc đang được mở dữ liệu' : 'Northern Vietnam is being mapped',
+        body: language === 'vi'
+          ? 'Hà Nội, Hạ Long và Sa Pa sẽ có lịch trình riêng cho đô thị cổ, vịnh biển và cung núi. Hiện tại VietCharm đang ưu tiên hoàn thiện kho lưu trú và tour đối tác trước khi mở đặt chỗ.'
+          : 'Hanoi, Halong and Sapa will get dedicated city, bay and mountain planning flows. VietCharm is finishing partner inventory before opening booking.',
+        note: language === 'vi' ? 'Gợi ý sắp tới: Hà Nội 2N1Đ, Hạ Long du thuyền, Sa Pa trekking nhẹ.' : 'Coming next: Hanoi 2D1N, Halong cruise, soft Sapa trekking.',
+      }
+    : {
+        title: language === 'vi' ? 'Miền Nam đang được mở dữ liệu' : 'Southern Vietnam is being mapped',
+        body: language === 'vi'
+          ? 'Sài Gòn, Miền Tây và Phú Quốc sẽ được tách theo nhịp đô thị, sông nước và nghỉ dưỡng đảo. Dữ liệu nhà cung cấp đang được kiểm tra để tránh mở dịch vụ rỗng.'
+          : 'Saigon, Mekong and Phu Quoc will be split into city, river and island-rest flows. Vendor data is being verified before booking opens.',
+        note: language === 'vi' ? 'Gợi ý sắp tới: city tour Sài Gòn, chợ nổi, resort Phú Quốc.' : 'Coming next: Saigon city tours, floating markets, Phu Quoc resorts.',
+      };
 
   return (
     <>
@@ -78,6 +94,8 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
             <img 
               src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80" 
               alt="Miền Bắc"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute top-4 left-4 z-20 bg-natural-olive/90 backdrop-blur-xs text-white border border-natural-border/20 text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full">
@@ -107,6 +125,8 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
             <img
               src="https://images.unsplash.com/photo-1676019556644-25abbce12a58?auto=format&fit=crop&w=800&q=80"
               alt="Miền Trung"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <div className="absolute top-4 left-4 z-20 bg-natural-gold text-natural-text border border-white/20 text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full">
@@ -136,6 +156,8 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
             <img 
               src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80" 
               alt="Miền Nam"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute top-4 left-4 z-20 bg-natural-olive/90 backdrop-blur-xs text-white border border-natural-border/20 text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full">
@@ -243,11 +265,23 @@ export default function RegionSelector({ language, onSelectCentral, onSelectTrip
                 <AlertCircle className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-lg font-serif font-bold text-natural-text">{t.devStatus}</h3>
+                <h3 className="text-lg font-serif font-bold text-natural-text">{regionPreview.title}</h3>
                 <p className="text-natural-text/80 text-xs mt-3 leading-relaxed">
-                  {t.devBody}
+                  {regionPreview.body}
                 </p>
-                <div className="mt-6 flex justify-end">
+                <p className="mt-3 rounded-xl border border-natural-border bg-natural-beige px-3 py-2 text-xs font-bold leading-relaxed text-natural-accent">
+                  {regionPreview.note}
+                </p>
+                <div className="mt-6 flex flex-col justify-end gap-2 sm:flex-row">
+                  <button
+                    onClick={() => {
+                      setShowModal(false);
+                      onSelectCentral();
+                    }}
+                    className="bg-natural-gold hover:bg-natural-gold-dark text-natural-ink px-5 py-2 rounded-xl text-xs font-bold transition shadow-md uppercase tracking-wider"
+                  >
+                    {language === 'vi' ? 'Xem miền Trung' : 'View Central'}
+                  </button>
                   <button
                     onClick={() => setShowModal(false)}
                     className="bg-natural-accent hover:bg-natural-olive text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow-md uppercase tracking-wider"

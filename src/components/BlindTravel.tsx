@@ -60,7 +60,7 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
 
   const triggerAlert = (msg: string) => {
     setAlertMsg(msg);
-    setTimeout(() => setAlertMsg(null), 3000);
+    setTimeout(() => setAlertMsg(null), 6000);
   };
 
   const handleRunMysteryAI = (e: React.FormEvent) => {
@@ -190,6 +190,24 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
     triggerAlert(isVi ? '✓ Đã đóng gói chuyến đi bất ngờ vào giỏ hành lý!' : '✓ Loaded surprise getaway pack into your travel bundle!');
   };
 
+  const vibeOptions = [
+    { value: 'chill', icon: '🌾', label: isVi ? 'Chill di sản' : 'Chill Heritage' },
+    { value: 'sea', icon: '🌊', label: isVi ? 'Biển hoang sơ' : 'Secret Beaches' },
+    { value: 'culture', icon: '🏺', label: isVi ? 'Làng nghề' : 'Artisanal Villages' },
+    { value: 'adventure', icon: '⛰️', label: isVi ? 'Phiêu lưu' : 'Adventure' },
+    { value: 'foodie', icon: '🍲', label: isVi ? 'Ẩm thực' : 'Food Safari' },
+    { value: 'healing', icon: '🧘', label: isVi ? 'Chữa lành' : 'Wellness' },
+    { value: 'photography', icon: '📸', label: isVi ? 'Chụp ảnh' : 'Photo Hunt' },
+    { value: 'nature', icon: '🚲', label: isVi ? 'Sinh thái' : 'Eco Cycling' },
+    { value: 'glamping', icon: '⛺', label: isVi ? 'Glamping' : 'Glamping' },
+    { value: 'luxury', icon: '🛥️', label: isVi ? 'Sang trọng' : 'Luxury' },
+    { value: 'art', icon: '🎨', label: isVi ? 'Nghệ thuật' : 'Art Walk' },
+    { value: 'cozy', icon: '☕', label: isVi ? 'Cà phê sách' : 'Cozy Cafes' },
+    { value: 'fisherman', icon: '🎣', label: isVi ? 'Ngư dân' : 'Fishing' },
+    { value: 'heritage', icon: '👘', label: isVi ? 'Việt phục' : 'Heritage Dress' },
+    { value: 'nightlife', icon: '🏮', label: isVi ? 'Chợ đêm' : 'Night Markets' },
+  ];
+
   return (
     <div className="w-full bg-natural-sand text-natural-text py-12 px-4 md:px-8 border-y border-natural-border relative overflow-hidden">
       
@@ -197,10 +215,10 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
       <AnimatePresence>
         {alertMsg && (
           <motion.div 
-            initial={{ opacity: 0, y: -20, x: '-50%' }}
+            initial={{ opacity: 0, y: 20, x: '-50%' }}
             animate={{ opacity: 1, y: 0, x: '-50%' }}
-            exit={{ opacity: 0, y: -20, x: '-50%' }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 bg-natural-text text-natural-sand px-6 py-3 rounded-full text-xs font-bold shadow-2xl z-50 border border-natural-border/20 flex items-center gap-2"
+            exit={{ opacity: 0, y: 20, x: '-50%' }}
+            className="fixed bottom-6 left-1/2 z-50 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 rounded-2xl border border-natural-border/20 bg-natural-text px-5 py-3 text-sm font-bold text-natural-sand shadow-2xl"
           >
             <Sparkles className="w-4 h-4 text-natural-gold" />
             <span>{alertMsg}</span>
@@ -332,27 +350,27 @@ export default function BlindTravel({ language, onAddComboToCart, onNavigateHome
                   <label className="block text-[11px] font-bold text-natural-accent uppercase mb-1">
                     {isVi ? 'Gu du lịch ưa thích (Vibe)' : 'Your Travel Vibe'}
                   </label>
-                  <select
-                    value={vibe}
-                    onChange={(e) => setVibe(e.target.value)}
-                    className="w-full text-xs font-bold bg-natural-sand text-natural-text border border-natural-border rounded-xl p-2.5 outline-none"
-                  >
-                    <option value="chill">🌾 {isVi ? 'Thảnh thơi & Chill di sản' : 'Chill & Heritage Oasis'}</option>
-                    <option value="sea">🌊 {isVi ? 'Biển xanh hoang sơ ít người biết' : 'Wild Beach & Secret Shorelines'}</option>
-                    <option value="culture">🏺 {isVi ? 'Văn hóa cổ truyền & Làng nghề di sản' : 'Heritage & Artisanal Villages'}</option>
-                    <option value="adventure">🧗‍♂️ {isVi ? 'Phiêu lưu mạo hiểm, khám phá tự nhiên' : 'Adventure, Hiking & Exploration'}</option>
-                    <option value="foodie">🍲 {isVi ? 'Thiên đường ẩm thực đường phố bản địa' : 'Authentic Street Food Safaris'}</option>
-                    <option value="healing">🧘‍♀️ {isVi ? 'Chữa lành, Yoga & Thiền tịnh tâm' : 'Mindfulness, Wellness & Yoga'}</option>
-                    <option value="photography">📸 {isVi ? 'Chụp ảnh sống ảo nghệ thuật góc độc bản' : 'Insta-Worthy Architecture Hunt'}</option>
-                    <option value="nature">🚲 {isVi ? 'Sinh thái xanh thẳm, chèo thuyền đạp xe' : 'Eco-Green Cycle & Countryside Country'}</option>
-                    <option value="glamping">⛺ {isVi ? 'Glamping cắm trại ngủ dưới trời sao' : 'Starlit Luxury Glamping'}</option>
-                    <option value="luxury">🛥️ {isVi ? 'Sang chảnh du thuyền & Tiệc tối hoàng gia' : 'Bespoke Yacht Cruise & Royal Dining'}</option>
-                    <option value="art">🎨 {isVi ? 'Lịch sử, Kiến trúc cổ kính & Bảo tàng xưa' : 'Classic Museum, Gallery & Art Walk'}</option>
-                    <option value="cozy">☕ {isVi ? 'Săn quán cà phê mộc mạc và sách cổ' : 'Hidden Coffee Shops & Antique Bookshops'}</option>
-                    <option value="fisherman">🎣 {isVi ? 'Trải nghiệm làm ngư dân, chèo thuyền thúng' : 'Local Fishing & Bamboo Basket Row'}</option>
-                    <option value="heritage">👘 {isVi ? 'Cổ phục Việt phục, nhập vai ngược dòng cổ xưa' : 'Traditional Attire Heritage Dress-up'}</option>
-                    <option value="nightlife">🏮 {isVi ? 'Phố cổ rực rỡ đèn lồng, chợ đêm lãng mạn' : 'Lantern Street & Romantic Night Markets'}</option>
-                  </select>
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {vibeOptions.map((option) => {
+                      const active = vibe === option.value;
+                      return (
+                        <button
+                          key={option.value}
+                          type="button"
+                          onClick={() => setVibe(option.value)}
+                          aria-pressed={active}
+                          className={`flex min-h-11 items-center gap-2 rounded-xl border px-3 text-left text-xs font-black transition ${
+                            active
+                              ? 'border-natural-accent bg-natural-accent text-white shadow-sm'
+                              : 'border-natural-border bg-natural-sand text-natural-text hover:bg-natural-beige'
+                          }`}
+                        >
+                          <span aria-hidden>{option.icon}</span>
+                          <span>{option.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div>

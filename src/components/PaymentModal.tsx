@@ -43,8 +43,7 @@ export default function PaymentModal({
   const [voucherDiscount, setVoucherDiscount] = React.useState(0);
   const [appliedVoucher, setAppliedVoucher] = React.useState<string | null>(null);
   const [voucherError, setVoucherError] = React.useState('');
-  const [pendingRemoveId, setPendingRemoveId] = React.useState<string | null>(null);
-  const [pendingClear, setPendingClear] = React.useState(false);
+  const [confirmClearOpen, setConfirmClearOpen] = React.useState(false);
 
   const totalCost = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const serviceTypeCount = new Set(cartItems.map((item) => item.type)).size;
@@ -56,15 +55,6 @@ export default function PaymentModal({
   React.useEffect(() => {
     setPaymentStep(initialStep);
   }, [initialStep]);
-
-  React.useEffect(() => {
-    if (!pendingRemoveId && !pendingClear) return;
-    const timer = window.setTimeout(() => {
-      setPendingRemoveId(null);
-      setPendingClear(false);
-    }, 3500);
-    return () => window.clearTimeout(timer);
-  }, [pendingRemoveId, pendingClear]);
 
   const handleClose = () => {
     if (paymentStep === 'success') {
@@ -109,24 +99,8 @@ export default function PaymentModal({
     }, 4500);
   };
 
-  const requestRemoveItem = (id: string) => {
-    if (pendingRemoveId === id) {
-      onRemoveItem(id);
-      setPendingRemoveId(null);
-      return;
-    }
-
-    setPendingRemoveId(id);
-  };
-
   const requestClearCart = () => {
-    if (pendingClear) {
-      onClearCart();
-      setPendingClear(false);
-      return;
-    }
-
-    setPendingClear(true);
+    setConfirmClearOpen(true);
   };
 
   return (
@@ -187,7 +161,7 @@ export default function PaymentModal({
                     {cartItems.map((item) => (
                       <div key={item.cartKey || item.id} className="flex justify-between items-center bg-stone-50 p-3 rounded-xl border border-stone-150">
                         <div className="flex gap-3 items-center">
-                          <img src={item.image} alt={item.name} className="w-10 h-10 object-cover rounded-md shrink-0 border border-stone-200" />
+                          <img src={item.image} alt={item.name} loading="lazy" decoding="async" className="w-10 h-10 object-cover rounded-md shrink-0 border border-stone-200" />
                           <div className="min-w-0">
                             <h5 className="text-xs font-bold text-stone-900 line-clamp-1">{item.name}</h5>
                             <span className="text-[10px] font-mono uppercase bg-amber-100/50 text-natural-bronze px-1.5 py-0.5 rounded font-bold">
@@ -203,19 +177,11 @@ export default function PaymentModal({
                             {item.price.toLocaleString('vi-VN')} đ
                           </span>
                           <button 
-                            onClick={() => requestRemoveItem(item.cartKey || item.id)}
-                            className={`rounded-lg px-2 py-1 text-[10px] font-black uppercase transition ${
-                              pendingRemoveId === (item.cartKey || item.id)
-                                ? 'bg-red-600 text-white hover:bg-red-700'
-                                : 'text-stone-300 hover:bg-red-50 hover:text-red-500'
-                            }`}
+                            onClick={() => onRemoveItem(item.cartKey || item.id)}
+                            className="rounded-lg px-2 py-1 text-xs font-black uppercase text-stone-300 transition hover:bg-red-50 hover:text-red-500"
                             title="Delete"
                           >
-                            {pendingRemoveId === (item.cartKey || item.id) ? (
-                              <span>{isVi ? 'Xóa' : 'Delete'}</span>
-                            ) : (
-                              <Trash2 className="w-4 h-4" />
-                            )}
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
@@ -320,11 +286,9 @@ export default function PaymentModal({
                   <div className="flex justify-between items-center pt-2">
                     <button 
                       onClick={requestClearCart}
-                      className={`text-xs font-semibold ${pendingClear ? 'text-red-600 hover:text-red-700' : 'text-stone-400 hover:text-stone-700'}`}
+                      className="text-xs font-semibold text-stone-400 hover:text-stone-700"
                     >
-                      {pendingClear
-                        ? (isVi ? 'Bấm lại để xóa giỏ hàng' : 'Click again to clear')
-                        : (isVi ? 'Xóa giỏ hàng để đặt lại' : 'Clear selections')}
+                      {isVi ? 'Xóa giỏ hàng để đặt lại' : 'Clear selections'}
                     </button>
                     <button 
                       onClick={() => setPaymentStep('checkout')}
@@ -621,6 +585,60 @@ export default function PaymentModal({
             </motion.div>
           )}
 
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {confirmClearOpen && (
+            <motion.div
+              key="payment-clear-confirm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 z-50 flex items-center justify-center rounded-3xl bg-white/88 p-5 backdrop-blur-xs"
+            >
+              <motion.div
+                initial={{ scale: 0.96, y: 10 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.96, y: 10 }}
+                className="w-full max-w-sm rounded-2xl border border-red-100 bg-white p-5 text-left shadow-2xl"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
+                    <Trash2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-stone-950">
+                      {isVi ? 'Xóa các dịch vụ đang chọn?' : 'Clear selected services?'}
+                    </h4>
+                    <p className="mt-1 text-sm leading-relaxed text-stone-500">
+                      {isVi
+                        ? 'Bạn sẽ cần chọn lại dịch vụ nếu muốn thanh toán sau.'
+                        : 'You will need to choose the services again before checkout.'}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setConfirmClearOpen(false)}
+                    className="rounded-xl border border-stone-200 px-4 py-2.5 text-xs font-black text-stone-600 transition hover:bg-stone-50"
+                  >
+                    {isVi ? 'Giữ lại' : 'Keep'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClearCart();
+                      setConfirmClearOpen(false);
+                    }}
+                    className="rounded-xl bg-red-600 px-4 py-2.5 text-xs font-black text-white transition hover:bg-red-700"
+                  >
+                    {isVi ? 'Xóa' : 'Clear'}
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </motion.div>
     </div>

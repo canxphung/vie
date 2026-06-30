@@ -187,7 +187,7 @@ export default function BookingDetails({
                   className="bg-natural-beige-light rounded-3xl overflow-hidden shadow-xs hover:shadow-xl border border-natural-border hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                 >
                   <div className="relative h-48 overflow-hidden">
-                    <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover hover:scale-105 transition" />
+                    <img src={hotel.image} alt={hotel.name} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition" />
                     {onToggleFavorite && (
                       <button
                         onClick={(e) => {
@@ -327,7 +327,7 @@ export default function BookingDetails({
                   className="bg-natural-beige-light rounded-3xl overflow-hidden shadow-xs border border-natural-border p-4 hover:shadow-lg hover:border-natural-accent transition flex gap-4 items-center cursor-pointer"
                 >
                   <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-natural-beige relative">
-                    <img src={veh.image} alt={veh.name} className="w-full h-full object-cover" />
+                    <img src={veh.image} alt={veh.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     {onToggleFavorite && (
                       <button
                         onClick={(e) => {
@@ -524,7 +524,7 @@ export default function BookingDetails({
                     className="bg-natural-beige-light rounded-3xl overflow-hidden shadow-xs hover:shadow-lg border border-natural-border hover:border-natural-accent transition duration-300 flex flex-col justify-between cursor-pointer"
                   >
                     <div className="relative h-36 overflow-hidden">
-                      <img src={act.image} alt={act.name} className="w-full h-full object-cover hover:scale-105 transition" />
+                      <img src={act.image} alt={act.name} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition" />
                       {onToggleFavorite && (
                         <button
                           onClick={(e) => {
@@ -639,7 +639,7 @@ export default function BookingDetails({
                       exit={{ opacity: 0, scale: 0.95 }}
                       className="bg-natural-bg p-5 rounded-3xl border border-natural-border shadow-xs flex gap-4"
                     >
-                      <img src={rev.avatar} alt="User Avatar" className="w-10 h-10 rounded-full shrink-0 object-cover border border-natural-border" />
+                      <img src={rev.avatar} alt="User Avatar" loading="lazy" decoding="async" className="w-10 h-10 rounded-full shrink-0 object-cover border border-natural-border" />
                       <div className="flex-1">
                         <div className="flex justify-between items-start">
                           <div>

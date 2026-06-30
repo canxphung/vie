@@ -75,7 +75,7 @@ export default function RecentlyViewedPage() {
                       className="bg-natural-beige-light rounded-3xl overflow-hidden shadow-xs hover:shadow-lg border border-natural-border hover:border-natural-accent transition duration-300 flex flex-col justify-between"
                     >
                       <div className="relative h-44 overflow-hidden shrink-0 bg-stone-100">
-                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        <img src={item.image} alt={item.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         <span className="absolute top-3 left-3 bg-natural-gold text-white px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider">
                           {item.type === 'hotel' ? (isVi ? 'Khách sạn' : 'Hotel') : 
                            item.type === 'activity' ? (isVi ? 'Trải nghiệm' : 'Activity') : 

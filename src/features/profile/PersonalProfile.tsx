@@ -446,7 +446,7 @@ export function PersonalProfile({
                         className="bg-natural-cream border border-natural-border rounded-2xl overflow-hidden shadow-xs hover:border-natural-accent transition flex flex-col justify-between"
                       >
                         <div className="relative h-32 overflow-hidden shrink-0">
-                          <img src={fav.image} alt={fav.name} className="w-full h-full object-cover" />
+                          <img src={fav.image} alt={fav.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -512,7 +512,7 @@ export function PersonalProfile({
                         onClick={() => onViewItem?.(item)}
                         className="bg-natural-cream hover:bg-natural-beige border border-natural-border rounded-xl p-3 flex gap-3 cursor-pointer transition"
                       >
-                        <img src={item.image} alt={item.name} className="w-16 h-16 rounded-lg object-cover shrink-0" />
+                        <img src={item.image} alt={item.name} loading="lazy" decoding="async" className="w-16 h-16 rounded-lg object-cover shrink-0" />
                         <div className="flex-1 min-w-0 flex flex-col justify-between">
                           <div>
                             <h4 className="text-xs font-bold text-stone-800 truncate">{item.name}</h4>

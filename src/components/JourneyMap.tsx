@@ -128,6 +128,8 @@ export default function JourneyMap({ language, onExplore }: JourneyMapProps) {
               <img
                 src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80"
                 alt={isVi ? 'Bản đồ ý tưởng du lịch Việt Nam' : 'Vietnam regional travel ideas'}
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover opacity-30"
               />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_80%,rgba(255,255,255,0.58),transparent_28%),radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.52),transparent_24%)]" />
@@ -178,7 +180,7 @@ export default function JourneyMap({ language, onExplore }: JourneyMapProps) {
           <Reveal delay={0.08}>
             <aside className="h-full overflow-hidden rounded-3xl border border-natural-border bg-white shadow-luxe">
               <div className="relative h-48">
-                <img src={activeRoute.image} alt={copy.name} className="h-full w-full object-cover" />
+                <img src={activeRoute.image} alt={copy.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 text-white">
                   <p className="text-[10px] font-black uppercase tracking-[0.22em] text-natural-gold">{copy.eyebrow}</p>
