@@ -50,6 +50,8 @@ const PATH_ALIASES: Record<string, ViewId> = {
   '/signin': 'login',
   '/auth/login': 'login',
   '/auth/register': 'register',
+  '/auth/forgot-password': 'forgot-password',
+  '/forgot': 'forgot-password',
 };
 
 function normalizePath(pathname: string): string {

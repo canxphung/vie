@@ -9,6 +9,7 @@ import { useUI } from '@/hooks';
 import ProfilePage from '@/pages/account/ProfilePage';
 import AdminPage from '@/pages/admin/AdminPage';
 import AuthPage from '@/pages/auth/AuthPage';
+import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
 import CartPage from '@/pages/cart/CartPage';
 import AiExplorerPage from '@/pages/trip/AiExplorerPage';
 import AllServicesPage from '@/pages/discover/AllServicesPage';
@@ -72,7 +73,7 @@ export default function ViewRouter() {
   } else if (view === 'register') {
     page = <AuthPage mode="register" />;
   } else if (view === 'forgot-password') {
-    page = <AuthPage mode="forgot-password" />;
+    page = <ForgotPasswordPage />;
   } else {
     page = <NotFoundPage />;
   }
