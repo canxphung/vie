@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Landmark, Star, Search, SlidersHorizontal, ArrowUpDown, MapPin, Bike, Car, Hotel, Compass, ArrowLeft, CheckCircle2, Heart } from 'lucide-react';
+import { Star, Search, SlidersHorizontal, ArrowUpDown, MapPin, Bike, Car, Compass, ArrowLeft, CheckCircle2, Heart } from 'lucide-react';
 import { Province, Attraction, Hotel as HotelType, Activity, Vehicle, BookingCartItem, Language, ViewableItem } from '../types';
 import { provinces, attractionsByProvince, hotelsByProvince, activitiesByProvince, vehicles, dictionaries } from '../data';
 import { clickableCardProps } from '@/lib/a11y';
@@ -12,7 +12,6 @@ import { clickableCardProps } from '@/lib/a11y';
 interface AllServicesViewProps {
   language: Language;
   initialTab: 'attractions' | 'hotels' | 'vehicles' | 'activities';
-  onTabChange?: (tab: 'attractions' | 'hotels' | 'vehicles' | 'activities') => void;
   onBack: () => void;
   onAddToCart: (item: BookingCartItem) => void;
   onRemoveFromCart: (id: string) => void;
@@ -28,7 +27,6 @@ type ActivityCategory = 'all' | 'heritage' | 'culinary' | 'nature' | 'adventure'
 export default function AllServicesView({
   language,
   initialTab,
-  onTabChange,
   onBack,
   onAddToCart,
   onRemoveFromCart,
@@ -40,17 +38,7 @@ export default function AllServicesView({
   const isVi = language === 'vi';
   const t = dictionaries[language];
 
-  // Selected tab state
-  const [activeTab, setActiveTab] = React.useState<'attractions' | 'hotels' | 'vehicles' | 'activities'>(initialTab);
-
-  React.useEffect(() => {
-    setActiveTab(initialTab);
-  }, [initialTab]);
-
-  const changeTab = (tab: 'attractions' | 'hotels' | 'vehicles' | 'activities') => {
-    setActiveTab(tab);
-    onTabChange?.(tab);
-  };
+  const activeTab = initialTab;
 
   // Filters state
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -211,68 +199,13 @@ export default function AllServicesView({
     <div id="all-services-view" className="w-full min-h-screen bg-natural-bg py-8 px-4">
       <div className="max-w-7xl mx-auto space-y-8">
         
-        {/* Navigation back and page title */}
-        <div className="flex items-center gap-3">
+        <div>
           <button
             onClick={onBack}
             className="p-2.5 rounded-full bg-white border border-natural-border text-natural-accent hover:bg-natural-beige hover:text-natural-olive transition shadow-xs cursor-pointer flex items-center justify-center"
             id="back-to-home-btn"
           >
             <ArrowLeft className="w-4 h-4" />
-          </button>
-          <h1 className="text-xl md:text-2xl font-serif font-bold text-natural-text">
-            {isVi ? 'Tất cả dịch vụ' : 'All services'}
-          </h1>
-        </div>
-
-        {/* Category tabs */}
-        <div className="flex flex-wrap gap-2.5 border-b border-natural-border pb-4">
-          <button
-            onClick={() => changeTab('attractions')}
-            className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
-              activeTab === 'attractions'
-                ? 'bg-natural-accent text-white shadow-md'
-                : 'bg-white text-stone-600 border border-stone-200 hover:bg-natural-cream'
-            }`}
-          >
-            <Compass className="w-4 h-4" />
-            <span>{isVi ? 'Điểm đến' : 'Attractions'}</span>
-          </button>
-
-          <button
-            onClick={() => changeTab('hotels')}
-            className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
-              activeTab === 'hotels'
-                ? 'bg-natural-accent text-white shadow-md'
-                : 'bg-white text-stone-600 border border-stone-200 hover:bg-natural-cream'
-            }`}
-          >
-            <Hotel className="w-4 h-4" />
-            <span>{isVi ? 'Khách sạn' : 'Hotels'}</span>
-          </button>
-
-          <button
-            onClick={() => changeTab('activities')}
-            className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
-              activeTab === 'activities'
-                ? 'bg-natural-accent text-white shadow-md'
-                : 'bg-white text-stone-600 border border-stone-200 hover:bg-natural-cream'
-            }`}
-          >
-            <Landmark className="w-4 h-4" />
-            <span>{isVi ? 'Trải nghiệm' : 'Experiences'}</span>
-          </button>
-
-          <button
-            onClick={() => changeTab('vehicles')}
-            className={`px-5 py-3 rounded-2xl text-xs font-bold tracking-wider uppercase transition flex items-center gap-2 cursor-pointer ${
-              activeTab === 'vehicles'
-                ? 'bg-natural-accent text-white shadow-md'
-                : 'bg-white text-stone-600 border border-stone-200 hover:bg-natural-cream'
-            }`}
-          >
-            <Car className="w-4 h-4" />
-            <span>{isVi ? 'Thuê xe' : 'Rentals'}</span>
           </button>
         </div>
 

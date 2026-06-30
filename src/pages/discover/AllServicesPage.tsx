@@ -14,7 +14,6 @@ export default function AllServicesPage() {
   const {
     allServicesTab,
     allServicesReturnView,
-    setAllServicesTab,
     setView,
     requireAuth,
     viewItem: handleViewItem,
@@ -37,7 +36,6 @@ export default function AllServicesPage() {
             <AllServicesView 
               language={language}
               initialTab={allServicesTab}
-              onTabChange={setAllServicesTab}
               onBack={() => {
                 setView(allServicesReturnView || 'province');
               }}
