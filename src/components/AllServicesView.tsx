@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Star, Search, SlidersHorizontal, ArrowUpDown, MapPin, Bike, Car, Compass, ArrowLeft, CheckCircle2, Heart } from 'lucide-react';
+import { Star, Search, SlidersHorizontal, ArrowUpDown, MapPin, Bike, Car, Compass, ArrowLeft, CheckCircle2, Heart, ChevronDown } from 'lucide-react';
 import { Province, Attraction, Hotel as HotelType, Activity, Vehicle, BookingCartItem, Language, ViewableItem } from '../types';
 import { provinces, attractionsByProvince, hotelsByProvince, activitiesByProvince, vehicles, dictionaries } from '../data';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
@@ -44,8 +44,10 @@ export default function AllServicesView({
   // Filters state
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedProvince, setSelectedProvince] = React.useState<string>('all');
+  const [isProvinceMenuOpen, setIsProvinceMenuOpen] = React.useState(false);
   const [sortBy, setSortBy] = React.useState<SortBy>('default');
   const [selectedActivityCategory, setSelectedActivityCategory] = React.useState<ActivityCategory>('all');
+  const provinceMenuRef = React.useRef<HTMLDivElement>(null);
 
   // How many cards to show before the "Show more" button (avoids dumping the whole list).
   const PAGE_SIZE = 8;
@@ -55,9 +57,23 @@ export default function AllServicesView({
   React.useEffect(() => {
     setSearchQuery('');
     setSelectedProvince('all');
+    setIsProvinceMenuOpen(false);
     setSortBy('default');
     setSelectedActivityCategory('all');
   }, [activeTab]);
+
+  React.useEffect(() => {
+    if (!isProvinceMenuOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!provinceMenuRef.current?.contains(event.target as Node)) {
+        setIsProvinceMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [isProvinceMenuOpen]);
 
   // Collapse back to the first page whenever the tab or any filter changes.
   React.useEffect(() => {
@@ -67,9 +83,15 @@ export default function AllServicesView({
   const resetFilters = () => {
     setSearchQuery('');
     setSelectedProvince('all');
+    setIsProvinceMenuOpen(false);
     setSortBy('default');
     setSelectedActivityCategory('all');
   };
+
+  const selectedProvinceLabel =
+    selectedProvince === 'all'
+      ? (isVi ? 'Tất cả các tỉnh thành' : 'All Provinces')
+      : provinces.find((prov) => prov.id === selectedProvince)?.name || selectedProvince;
 
   const isItemInCart = (id: string) => {
     return cartItems.some((item) => item.id === id);
@@ -291,18 +313,47 @@ export default function AllServicesView({
                   <label className="text-[10px] font-bold text-natural-accent uppercase tracking-wider block">
                     {isVi ? 'Tỉnh thành' : 'Province'}
                   </label>
-                  <select
-                    value={selectedProvince}
-                    onChange={(e) => setSelectedProvince(e.target.value)}
-                    className="w-full bg-white border border-stone-200 rounded-xl py-2.5 px-3 text-sm focus:outline-none focus:border-natural-accent cursor-pointer"
-                  >
-                    <option value="all">{isVi ? 'Tất cả các tỉnh thành' : 'All Provinces'}</option>
-                    {provinces.map((prov) => (
-                      <option key={prov.id} value={prov.id}>
-                        {prov.name}
-                      </option>
-                    ))}
-                  </select>
+                  <div ref={provinceMenuRef} className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setIsProvinceMenuOpen((open) => !open)}
+                      className="flex w-full items-center justify-between rounded-xl border border-stone-200 bg-white px-3 py-2.5 text-left text-sm text-natural-text transition hover:border-natural-accent focus:outline-none focus:border-natural-accent cursor-pointer"
+                      aria-expanded={isProvinceMenuOpen}
+                    >
+                      <span className="truncate">{selectedProvinceLabel}</span>
+                      <ChevronDown
+                        className={`h-4 w-4 shrink-0 text-stone-400 transition-transform ${isProvinceMenuOpen ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+
+                    {isProvinceMenuOpen && (
+                      <div className="mt-2 w-full overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-luxe-lg">
+                        <div className="max-h-60 overflow-y-auto p-1.5">
+                          {[{ id: 'all', name: isVi ? 'Tất cả các tỉnh thành' : 'All Provinces' }, ...provinces].map((prov) => {
+                            const isActive = selectedProvince === prov.id;
+                            return (
+                              <button
+                                key={prov.id}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedProvince(prov.id);
+                                  setIsProvinceMenuOpen(false);
+                                }}
+                                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition cursor-pointer ${
+                                  isActive
+                                    ? 'bg-natural-accent text-white'
+                                    : 'text-natural-text hover:bg-natural-beige'
+                                }`}
+                              >
+                                <span className="truncate">{prov.name}</span>
+                                {isActive && <CheckCircle2 className="h-4 w-4" />}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
